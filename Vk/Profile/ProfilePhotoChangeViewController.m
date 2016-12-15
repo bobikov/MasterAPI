@@ -171,11 +171,9 @@
         NSString *filename = [self createRandomName];
 
         NSData *contents;
-        if([file containsString:@"http"]){
-            contents=[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:file]];
-        }else{
-            contents = [[NSData alloc]initWithContentsOfFile:file];
-        }
+     
+        contents=[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:file]];
+
 //        NSImage *image = [[NSImage alloc] initWithData:contents];
         if(contents){
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverUrl]];
@@ -227,55 +225,22 @@
 
 -(void)selectedPhoto{
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-  
-    // Enable the selection of files in the dialog.
     [openDlg setCanChooseFiles:YES];
-    
-    // Enable the selection of directories in the dialog.
     [openDlg setCanChooseDirectories:YES];
     [openDlg setAllowedFileTypes:[NSArray arrayWithObjects:@"jpg", @"png",@"jpeg",@"gif", nil]];
-    // Change "Open" dialog button to "Select"
-// c
-    NSString* fileName;
-//    [openDlg setAllowsMultipleSelection:NO];
-    
-    // Display the dialog.  If the OK button was pressed,
-    // process the files.
-    if ( [openDlg runModal] == NSFileHandlingPanelOKButton)
-    {
-        // Get an array containing the full filenames of all
-        // files and directories selected.
+    if ( [openDlg runModal] == NSFileHandlingPanelOKButton){
         NSArray* files = [openDlg URLs];
-        
-        // Loop through all the files and process them.
-//        for( int i = 0; i < [files count]; i++ )
-//        {
-            fileName = files[0];
-//            filePathLabel.hidden=NO;
-            filePath = fileName;
-//            NSLog(@"file: %@", fileName);
-            // Do something with the filename.
-//
-          
-//        }
-       
+        filePath = [files[0] absoluteString] ;
     }else{
         filePath=nil;
     }
-  
-//        filePathLabel.stringValue = [fileName stringByRemovingPercentEncoding];
-        
-//
-
-//    return fileName;
-  
 }
 -(void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
     NSData *contents;
     if(uploadByURLCheck.state){
         contents =  [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:fieldWithURL.stringValue ]];
     }else{
-        contents = [[NSData alloc]initWithContentsOfFile:filePath];
+        contents = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filePath]];
     }
     NSImage *image = [[NSImage alloc] initWithData:contents];
     NSImageRep *rep = [[image representations] objectAtIndex:0];
