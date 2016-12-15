@@ -782,14 +782,6 @@
 			path = AppsStartSettings;
 			sourceTree = "<group>";
 		};
-		2B41F9DA1E02D3F50013AC86 /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				2B41F9DB1E02D3F50013AC86 /* Main.storyboard */,
-			);
-			path = Base.lproj;
-			sourceTree = "<group>";
-		};
 		2B41F9DD1E02D3F50013AC86 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1002,6 +994,7 @@
 		2B41FA5B1E02D3F50013AC86 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				2B41F9DB1E02D3F50013AC86 /* Main.storyboard */,
 				2B41FA5D1E02D3F50013AC86 /* Second.storyboard */,
 				2B41FA5E1E02D3F50013AC86 /* Third.storyboard */,
 				2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */,
@@ -1606,7 +1599,6 @@
 				2B41F9DD1E02D3F50013AC86 /* CoreDataModels */,
 				2B41F9C81E02D3F50013AC86 /* AppsPreferences  */,
 				2B41F9D51E02D3F50013AC86 /* AppsStartSettings */,
-				2B41F9DA1E02D3F50013AC86 /* Base.lproj */,
 				2B41F9EF1E02D3F50013AC86 /* CustomStyles */,
 				2B41FA181E02D3F50013AC86 /* Layout */,
 				2B41FA251E02D3F50013AC86 /* Libs */,

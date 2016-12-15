@@ -64,14 +64,16 @@
 //    NSLog(@"%@", subscriptionsData[row][@"id"]);
     channel =subscriptionsData[row][@"id"];
     [_youtubeClient APIRequest:@"playlists" query:@{@"part":@"snippet", @"channelId":channel} handler:^(NSData *data) {
-        NSDictionary *playResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//        NSLog(@"%@", playResp);
-        for(NSDictionary *i in playResp[@"items"]){
-            [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":i[@"snippet"][@"thumbnails"][@"default"][@"url"], @"playlist_id":i[@"id"]}];
+        if(data){
+            NSDictionary *playResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", playResp);
+                    for(NSDictionary *i in playResp[@"items"]){
+                        [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":i[@"snippet"][@"thumbnails"][@"default"][@"url"], @"playlist_id":i[@"id"]}];
+                    }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                            [loadedItemsList reloadData];
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [loadedItemsList reloadData];
-        });
     }];
     
 }
@@ -567,9 +569,9 @@
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.vtitle.stringValue = loadedItemsData[row][@"title"];
         cell.publishedDate.stringValue = loadedItemsData[row][@"publishedAt"];
-        cell.desc.stringValue=loadedItemsData[row][@"desc"];
+//        cell.desc.stringValue=loadedItemsData[row][@"desc"];
 //        cell.duration.stringValue=loadedItemsData[row][@"duration"];
-        if([loadedItemsData[row][@"live"] isEqual:@"live"]){
+        if(loadedItemsData[row][@"live"] && [loadedItemsData[row][@"live"] isEqual:@"live"]){
             cell.onAir.hidden=NO;
             
         }else{
