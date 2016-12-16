@@ -15,7 +15,7 @@
     NSViewController *tumblrCurrentcontroller;
     NSViewController *vkCurrentController;
     NSViewController *instaCurrentController;
-    
+     
     
 }
 @property (nonatomic, retain) NSViewController *friendsView;
@@ -51,5 +51,6 @@
 @property(nonatomic) NSTabViewController *TwitterProfile;
 @property(nonatomic)NSViewController *InstagramFollowsView;
 @property(nonatomic)NSViewController *InstagramMediaPosts;
+@property(nonatomic)NSViewController *TasksView;
 //-(id)showCurrentController;
 @end

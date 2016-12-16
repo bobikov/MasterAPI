@@ -36,6 +36,9 @@
       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeControl:) name:@"audioVolume" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"PlayPause" object:nil];
 }
+- (IBAction)showTaskManager:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ShowTasksManager" object:nil];
+}
 
 -(void)volumeControl:(NSNotification *)notification{
     double vol = [notification.userInfo[@"volume"] doubleValue];

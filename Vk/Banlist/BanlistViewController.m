@@ -845,21 +845,21 @@
         cell.userPhoto.wantsLayer=YES;
         cell.userPhoto.layer.masksToBounds=YES;
         cell.userPhoto.layer.cornerRadius=80/2;
-        if([cachedImage count]>0 && cachedImage[banlistData[row]]){
-            cell.userPhoto.image=cachedImage[banlistData[row]];
-        }else{
+//        if([cachedImage count]>0 && cachedImage[banlistData[row]]){
+//            cell.userPhoto.image=cachedImage[banlistData[row]];
+//        }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", banlistData[row][@"user_photo"]]]];
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
                 
-                cachedImage[banlistData[row]]=image;
+//                cachedImage[banlistData[row]]=image;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [cell.userPhoto setImage:image];
                 });
             });
-        }
+//        }
         if([banlistData[row][@"online"] intValue] == 1){
             [cell.onlineStatus setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

@@ -13,7 +13,7 @@
 @end
 
 @implementation MainViewController
-@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts;
+@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView;
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveMainController:) name:@"RemoveMainController" object:nil];
@@ -22,7 +22,8 @@
     NSStoryboard *story2 =[NSStoryboard storyboardWithName:@"Second" bundle:nil];
     NSStoryboard *story3 =[NSStoryboard storyboardWithName:@"Third" bundle:nil];
     NSStoryboard *story4 =[NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
-
+    NSStoryboard *story5 =[NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    
     friendsView = [story instantiateControllerWithIdentifier:@"Friends"];
     photoCopyView = [story instantiateControllerWithIdentifier:@"PhotoCopy"];
     welcomeView = [story instantiateControllerWithIdentifier:@"Welcome"];
@@ -56,11 +57,16 @@
     TwitterProfile = [story2 instantiateControllerWithIdentifier:@"TwitterProfile"];
     InstagramFollowsView = [story4 instantiateControllerWithIdentifier:@"InstagramFollows"];
     InstagramMediaPosts = [story4 instantiateControllerWithIdentifier:@"InstagramMediaPosts"];
+    TasksView = [story5 instantiateControllerWithIdentifier:@"TasksView"];
 //    secCon = [story instantiateControllerWithIdentifier:@"secondController"];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
 
     
     [self displayContentController:welcomeView];
     currentController = welcomeView;
+}
+-(void)showTasksManager:(NSNotification*)notification{
+   [self switchControllers:TasksView];
 }
 -(void)viewDidAppear{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show friends" object:nil];
