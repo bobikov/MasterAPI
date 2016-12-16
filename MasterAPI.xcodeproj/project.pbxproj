@@ -267,6 +267,8 @@
 		2B41FCD01E02D3F70013AC86 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FBCD1E02D3F60013AC86 /* ViewController.m */; };
 		2B41FCD31E03E59E0013AC86 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD21E03E59E0013AC86 /* TasksViewController.m */; };
 		2B41FCD51E03E61E0013AC86 /* Fifth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD41E03E61E0013AC86 /* Fifth.storyboard */; };
+		2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD61E0428CB0013AC86 /* Header.xib */; };
+		2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -739,6 +741,9 @@
 		2B41FCD11E03E59E0013AC86 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
 		2B41FCD21E03E59E0013AC86 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
 		2B41FCD41E03E61E0013AC86 /* Fifth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Fifth.storyboard; sourceTree = "<group>"; };
+		2B41FCD61E0428CB0013AC86 /* Header.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Header.xib; sourceTree = "<group>"; };
+		2B41FCD81E0429D50013AC86 /* SmilesHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmilesHeaderView.h; sourceTree = "<group>"; };
+		2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesHeaderView.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -992,6 +997,9 @@
 				2B41FA581E02D3F50013AC86 /* SmilesCollectionViewItem.xib */,
 				2B41FA591E02D3F50013AC86 /* SmilesViewController.h */,
 				2B41FA5A1E02D3F50013AC86 /* SmilesViewController.m */,
+				2B41FCD61E0428CB0013AC86 /* Header.xib */,
+				2B41FCD81E0429D50013AC86 /* SmilesHeaderView.h */,
+				2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */,
 			);
 			path = SmileBox;
 			sourceTree = "<group>";
@@ -1769,6 +1777,7 @@
 				2B41FC3A1E02D3F60013AC86 /* verified_2.png in Resources */,
 				2B41FC0D1E02D3F60013AC86 /* banned.png in Resources */,
 				2B41FC341E02D3F60013AC86 /* smiles_min1.png in Resources */,
+				2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */,
 				2B41FC211E02D3F60013AC86 /* link1_15px.png in Resources */,
 				2B41FC2C1E02D3F60013AC86 /* prefs15px.png in Resources */,
 			);
@@ -1947,6 +1956,7 @@
 				2B41FBF21E02D3F60013AC86 /* HTMLElement.m in Sources */,
 				2B41FC541E02D3F60013AC86 /* TwitterRWData.m in Sources */,
 				2B41FC841E02D3F70013AC86 /* OutRequestsCustomCell.m in Sources */,
+				2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */,
 				2B41FC5D1E02D3F70013AC86 /* AudioAlbumRemoveViewController.m in Sources */,
 				2B41FC491E02D3F60013AC86 /* followersCustomCell.m in Sources */,
 				2B41FC581E02D3F70013AC86 /* TwitterPerms.m in Sources */,

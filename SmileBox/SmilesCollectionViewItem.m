@@ -18,10 +18,10 @@
     [super viewDidLoad];
     // Do view setup here.
      [self createTrackingArea];
-   self.view.wantsLayer=YES;
-    self.view.layer.masksToBounds=YES;
-      self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
-   
+//   self.view.wantsLayer=YES;
+//    self.view.layer.masksToBounds=YES;
+//      self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
+//   
     
 //    _smileItem.layer.masksToBounds=YES;
 //    _smileItem.layer.cornerRadius=2;
@@ -54,16 +54,16 @@
 }
 -(void)mouseEntered:(NSEvent *)theEvent{
    [[NSCursor pointingHandCursor]set];
-    _smileItem.wantsLayer=YES;
-    _smileItem.layer.masksToBounds=YES;
-    _smileItem.layer.cornerRadius=3;
+//    _smileItem.wantsLayer=YES;
+//    _smileItem.layer.masksToBounds=YES;
+//    _smileItem.layer.cornerRadius=3;
 //    _smileItem.layer.backgroundColor=[[NSColor grayColor]CGColor];
-    _smileItem.backgroundColor=[NSColor colorWithRed:0.20 green:0.50 blue:0.70 alpha:0.6];
+//    _smileItem.backgroundColor=[NSColor colorWithRed:0.20 green:0.50 blue:0.70 alpha:0.6];
 }
 -(void)mouseExited:(NSEvent *)theEvent{
       [[NSCursor arrowCursor]set];
-    _smileItem.wantsLayer=NO;
-    _smileItem.layer.masksToBounds=NO;
-    _smileItem.backgroundColor=[NSColor whiteColor];
+//    _smileItem.wantsLayer=NO;
+//    _smileItem.layer.masksToBounds=NO;
+//    _smileItem.backgroundColor=[NSColor whiteColor];
 }
 @end

@@ -25,13 +25,12 @@
     [dateComponents setMinute:11];
     NSCalendar *calendar = [[NSCalendar alloc]  initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
-    NSDate *specDate = [[NSDate alloc]init];
     NSTimeInterval interval = [configuredDate timeIntervalSinceNow];
 //    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:configuredDate];
 //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openURL:) name:nil object:calendar];
 //    NSNotification *not = [[NSNotification alloc]init];
-    NSLog(@"%f", interval);
-    [self performSelector:@selector(openURL) withObject:nil afterDelay:interval];
+//    [self performSelector:@selector(openURL) withObject:nil afterDelay:interval ];
+//    NSTimer *timer = [NSTimer time]
 
 }
 -(void)openURL{

@@ -12,6 +12,7 @@
     
     __weak IBOutlet NSCollectionView *SmilesCollectionView;
     NSMutableArray *smilesData;
+    NSArray *sections;
 }
 @property(nonatomic,readwrite)NSString *source;
 @end
