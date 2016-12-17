@@ -24,18 +24,24 @@
     BOOL stopFlag;
     BOOL next;
     NSMutableArray *videoIdsInAlbum;
+     NSMutableArray *photoIdsInAlbum;
         NSInteger offsetCounter;
     __weak IBOutlet NSProgressIndicator *progressBar;
+   
 }
-typedef void (^OnComplete) (NSMutableArray *data);
--(void)getVideoInAlbum:(OnComplete)completion;
+
+
+
+
 @property(nonatomic)appInfo *app;
 @property(nonatomic,readwrite) NSString *videoId;
+@property(nonatomic,readwrite) NSString *photoId;
 @property(nonatomic,readwrite) NSString *ownerId;
 @property(nonatomic, readwrite) NSString *countInAlbum;
 @property(nonatomic,readwrite) NSString *albumIdToGetVideos;
 @property(nonatomic,readwrite) NSString *type;
 @property(nonatomic,readwrite) NSString *publicOrOwnerOfAlbums;
 @property(nonatomic,readwrite) VKCaptchaHandler *captchaHandle;
-@property(nonatomic,readwrite) NSMutableArray *selectedVideos;
+@property(nonatomic,readwrite) NSMutableArray *selectedItems;
+@property(nonatomic,readwrite) NSString *mediaType;
 @end

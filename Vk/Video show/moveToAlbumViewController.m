@@ -9,7 +9,9 @@
 #import "moveToAlbumViewController.h"
 
 @interface moveToAlbumViewController () <NSTableViewDelegate, NSTableViewDataSource>
+typedef void(^OnComplete) (NSMutableArray *data);
 
+-(void)getVideoInAlbum:(OnComplete)completion;
 @end
 
 @implementation moveToAlbumViewController
@@ -28,15 +30,20 @@
     [[albumsListScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     videoIdsInAlbum = [[NSMutableArray alloc]init];
+    photoIdsInAlbum = [[NSMutableArray alloc]init];
     NSLog(@"ID %@", _videoId);
     NSLog(@"ownerId %@", _ownerId);
-    [self loadAlbums:NO];
+    if([_mediaType isEqual:@"video"]){
+        [self loadAlbums:NO];
+    }else{
+        [self loadPhotoAlbums];
+    }
     [self loadGroupsByAdminPopup];
     offsetAlbums=0;
     targetId = targetId == nil ? _app.person : targetId;
     _captchaHandle = [[VKCaptchaHandler alloc]init];
     offsetCounter=0;
-    progressBar.maxValue=[_countInAlbum intValue];
+ 
 }
 -(void)viewDidScroll:(NSNotification*)notification{
     
@@ -73,14 +80,17 @@
 }
 - (IBAction)groupsByAdminPopupSelect:(id)sender {
     targetId = [groupsByAdminPopupData objectAtIndex:[groupsByAdminPopup indexOfSelectedItem]];
-    [self loadAlbums:0];
+    if([_mediaType isEqual:@"video"]){
+        [self loadAlbums:0];
+    }else{
+        [self loadPhotoAlbums];
+    }
     
     
     
 }
 - (IBAction)moveToAlbum:(id)sender {
     targetAlbum = [albumsData objectAtIndex:[moveToAlbumTableView selectedRow]][@"id"];
-//
     NSLog(@"Add to %@", targetAlbum);
     targetId = targetId == nil ? _app.person : targetId;
 //    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.removeFromAlbum?target_id=%@&album_id=%@&owner_id=%@&video_id=%@&access_token=%@&v=%@", targetId, albumAdded, _ownerId, _videoId, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -88,14 +98,24 @@
 //        NSLog(@"Video added successfully %@", videoAddToAlbumResposne);
 //         NSLog(@"Remove from %@", albumAdded);
 //    }]resume];
-    if([_type isEqual:@"video"]){
-        [self addToAlbumSelectedVideo];
+    if([_mediaType isEqual:@"video"]){
+        
+        if([_type isEqual:@"video"]){
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self addMultipleVideos];
+            });
+        }else{
+            NSLog(@"album type action there will be");
+            [self addToAlbumVideosInSelectedAlbum];
+            
+        }
     }else{
-        NSLog(@"album type action there will be");
-        [self addToAlbumVideosInSelectedAlbum];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self moveMutiplePhotos];
+        });
     }
 }
--(void)addToAlbumVideosInSelectedAlbum{
+-(void)addToAlbumVideosInSelectedAlbum{ 
 
       [self getVideoInAlbum:^(NSMutableArray *data) {
           if(data){
@@ -110,12 +130,14 @@
     
 }
 -(void)addMultipleVideos{
+    videoIdsInAlbum = _selectedItems;
+    progressBar.maxValue=[videoIdsInAlbum count];
     __block void (^addToAlbumVideos)( BOOL, NSInteger, NSString *, NSString *);
     addToAlbumVideos = ^void(BOOL captcha, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
         stopFlag=NO;
         next=NO;
         offsetCounter = offset ? offset : offsetCounter;
-        while(offsetCounter < [videoIdsInAlbum count]){
+        for(NSDictionary *i in videoIdsInAlbum){
             if(next){
                 next=NO;
                 continue;
@@ -126,7 +148,7 @@
             NSLog(@"targetID %@", targetId );
             NSLog(@"targetAlbum %@", targetAlbum );
             
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.addToAlbum?target_id=%@&album_id=%@&owner_id=%@&video_id=%@&access_token=%@&v=%@%@", targetId, targetAlbum, videoIdsInAlbum[offsetCounter][@"owner_id"], videoIdsInAlbum[offsetCounter][@"id"], _app.token, _app.version, captcha ? [NSString stringWithFormat:@"&captcha_sid=%@&captcha_key=%@", captcha_sid, captcha_key ] : @""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.addToAlbum?target_id=%@&album_id=%@&owner_id=%@&video_id=%@&access_token=%@&v=%@%@", targetId, targetAlbum, i[@"owner_id"], i[@"id"], _app.token, _app.version, captcha ? [NSString stringWithFormat:@"&captcha_sid=%@&captcha_key=%@", captcha_sid, captcha_key ] : @""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *videoAddToAlbumResposne = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSLog(@"%@", videoAddToAlbumResposne);
                 if(videoAddToAlbumResposne[@"error"]){
@@ -203,20 +225,7 @@
         }]resume];
     }
 }
--(void)addToAlbumSelectedVideo{
-    if([_selectedVideos count]>0){
-        videoIdsInAlbum = _selectedVideos;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-             [self addMultipleVideos];
-        });
-       
-    }else{
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.addToAlbum?target_id=%@&album_id=%@&owner_id=%@&video_id=%@&access_token=%@&v=%@", targetId, targetAlbum, _ownerId, _videoId, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *videoAddToAlbumResposne = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"Video added successfully %@", videoAddToAlbumResposne);
-        }]resume];
-    }
-}
+
 -(void)loadAlbums:(BOOL)makeOffset{
     if(makeOffset){
         offsetAlbums=offsetAlbums+100;
@@ -237,6 +246,83 @@
             [moveToAlbumTableView reloadData];
         });
     }]resume];
+}
+-(void)loadPhotoAlbums{
+     targetId = targetId == nil ? _app.person : targetId;
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.getAlbums?owner_id=%@&access_token=%@&v=%@", targetId, _app.token, _app.version] ]  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *getAlbumsResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        albumsData = [[NSMutableArray alloc]initWithArray:getAlbumsResp[@"response"][@"items"]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [moveToAlbumTableView reloadData];
+        });
+    }]resume];
+}
+
+-(void)moveMutiplePhotos{
+    
+    targetAlbum = [albumsData objectAtIndex:[moveToAlbumTableView selectedRow]][@"id"];
+    __block void (^movePhotosToAlbumBlock)( BOOL, NSInteger, NSString *, NSString *);
+    photoIdsInAlbum = _selectedItems;
+    progressBar.maxValue=[photoIdsInAlbum count];
+    NSLog(@"%@",photoIdsInAlbum);
+    movePhotosToAlbumBlock = ^void(BOOL captcha, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
+        stopFlag=NO;
+        next=NO;
+        offsetCounter = offset ? offset : offsetCounter;
+        for(NSDictionary *i in photoIdsInAlbum){
+            if(next){
+                next=NO;
+                continue;
+                
+            }
+            NSLog(@"Offset %li", offsetCounter);
+            NSLog(@"data count %li", [videoIdsInAlbum count]);
+            NSLog(@"targetID %@", targetId );
+            NSLog(@"targetAlbum %@", targetAlbum );
+            
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.move?target_album_id=%@&owner_id=%@&photo_id=%@&access_token=%@&v=%@%@",  targetAlbum, i[@"owner_id"], i[@"items"][@"id"], _app.token, _app.version, captcha ? [NSString stringWithFormat:@"&captcha_sid=%@&captcha_key=%@", captcha_sid, captcha_key ] : @""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *movePhotoToAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", movePhotoToAlbumResponse);
+                if(movePhotoToAlbumResponse[@"error"]){
+                    if([movePhotoToAlbumResponse[@"error"][@"error_code"] intValue] == 14){
+                        if(!stopFlag){
+                            stopFlag=YES;
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                NSInteger result = [[_captchaHandle handleCaptcha:movePhotoToAlbumResponse[@"error"][@"captcha_img"]]runModal];
+                                if(result == NSAlertFirstButtonReturn){
+                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                        movePhotosToAlbumBlock(YES, offsetCounter, movePhotoToAlbumResponse[@"error"][@"captcha_sid"],_captchaHandle.enterCode.stringValue);
+                                        
+                                    });
+                                    
+                                    
+                                }
+                            });
+                        }
+                        
+                    }
+                    else if([movePhotoToAlbumResponse[@"error"][@"error_code"] intValue] == 800){
+                        NSLog(@"%@:%@", movePhotoToAlbumResponse[@"error"][@"error_msg"], movePhotoToAlbumResponse[@"error"][@"error_code"]);
+                        next=YES;
+                        offsetCounter+=1;
+                        
+                    }
+                    //                    NSLog(@"%@", videoAddToAlbumResposne[@"error"]);
+                }else{
+                    offsetCounter+=1;
+                    NSLog(@"Photo %@ moved successfully to album %@",i[@"items"][@"id"], targetAlbum);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        progressBar.doubleValue=offsetCounter;
+                    });
+                }
+            }]resume];
+            sleep(1);
+            if(stopFlag){
+                break;
+            }
+        }
+    };
+    movePhotosToAlbumBlock(NO, 0, @"", @"");
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if([albumsData count]>0){

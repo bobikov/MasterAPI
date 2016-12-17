@@ -269,6 +269,7 @@
 		2B41FCD51E03E61E0013AC86 /* Fifth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD41E03E61E0013AC86 /* Fifth.storyboard */; };
 		2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD61E0428CB0013AC86 /* Header.xib */; };
 		2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */; };
+		2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -744,6 +745,8 @@
 		2B41FCD61E0428CB0013AC86 /* Header.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Header.xib; sourceTree = "<group>"; };
 		2B41FCD81E0429D50013AC86 /* SmilesHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmilesHeaderView.h; sourceTree = "<group>"; };
 		2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesHeaderView.m; sourceTree = "<group>"; };
+		2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramSearchByTagController.h; sourceTree = "<group>"; };
+		2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramSearchByTagController.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -849,6 +852,8 @@
 				2B41FA151E02D3F50013AC86 /* MediaPostsCustomCell.m */,
 				2B41FA161E02D3F50013AC86 /* ShowMediaPosts.h */,
 				2B41FA171E02D3F50013AC86 /* ShowMediaPosts.m */,
+				2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */,
+				2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -1916,6 +1921,7 @@
 				2B41FC621E02D3F70013AC86 /* CreateAlbumPopup.m in Sources */,
 				2B41FC561E02D3F60013AC86 /* TwitterFriendsCustomCell.m in Sources */,
 				2B41FCBE1E02D3F70013AC86 /* YoutubeRWData.m in Sources */,
+				2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */,
 				2B41FC941E02D3F70013AC86 /* CreateNewAlbumController.m in Sources */,
 				2B41FC4D1E02D3F60013AC86 /* TumblrFollowing.m in Sources */,
 				2B41FBF61E02D3F60013AC86 /* HTMLOrderedDictionary.m in Sources */,

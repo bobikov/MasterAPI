@@ -37,6 +37,7 @@
     double progress;
     double expectedBytes;
     BOOL proccessGoing;
+  
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;

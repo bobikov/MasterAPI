@@ -7,7 +7,7 @@
 //
 
 #import "customViewCollectionItem.h"
-
+#import "moveToAlbumViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -48,6 +48,22 @@
 
 //     [[NSNotificationCenter defaultCenter]removeObserver:@"haha"];
 //   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"haha" object:nil];
+}
+- (IBAction)moveToAlbum:(id)sender {
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+    moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
+    controller.mediaType=@"photo";
+    controller.photoId=self.representedObject[@"items"][@"id"];
+    controller.selectedItems = [[NSMutableArray alloc] initWithArray:[[self.collectionView selectionIndexes] count]>0 ? [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]] : @[self.representedObject]];
+    controller.ownerId=self.representedObject[@"owner_id"];
+    //    controller.publicOrOwnerOfAlbums =
+    
+    controller.albumIdToGetVideos = !self.representedObject[@"photo2"] ? self.representedObject[@"id"] : nil;
+    controller.type =self.representedObject[@"photo2"] ? @"item" : @"album";
+//    controller.countInAlbum = [selectedItems count];
+    NSLog(@"%@", self.representedObject);
+    
+    [self presentViewControllerAsSheet:controller];
 }
 
 -(void)getStringWithURLs:(NSNotification*)notification{

@@ -69,7 +69,7 @@
     [postsData removeAllObjects];
     [self loadMediaPosts:searchField.stringValue];
     [self loadProfileInfo:searchField.stringValue];
-    
+//    [self loadMediaPostsByTag:searchField.stringValue];
 }
 -(void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
@@ -152,6 +152,16 @@
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [postsData count];
+}
+-(void)loadMediaPostsByTag:(NSString*)tag{
+    NSString *pageHTML = [[NSString alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@", tag]] encoding:NSUTF8StringEncoding error:nil];
+//    NSLog(@"%@",pageHTML);
+    HTMLDocument *doc=[HTMLDocument documentWithString:pageHTML];
+    NSArray *cursorLinkTag = [doc nodesMatchingSelector:@"#react-root"];
+    HTMLElement *cursorHref = cursorLinkTag[0];
+    NSLog(@"%@",cursorHref);
+//    _oidfu
+
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     MediaPostsCustomCell *cell = (MediaPostsCustomCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];

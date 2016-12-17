@@ -242,13 +242,13 @@
         }
     }
     else{
-        if(!loadForAttachments){
+        if(!loadForAttachments && !([currentEvent modifierFlags] & NSCommandKeyMask) && [[collectionViewListAlbums selectionIndexes]count]==1){
             myWindowContr = [self.storyboard instantiateControllerWithIdentifier:@"PhotoController"];
             
             [myWindowContr showWindow:self];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"ShowPhotoSlider" object:nil userInfo:@{@"data":albumsData, @"current":[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"items"][@"index"]}];
             [collectionView deselectItemsAtIndexPaths:indexPaths];
-        }else{
+        }else {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"photo", @"data":[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]}];
         }
     }

@@ -179,12 +179,12 @@
 }
 - (IBAction)moveToAlbum:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
-    moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveVideoPopup"];
+    moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
 //    controller.videoId=self.representedObject[@"id"];
-    controller.selectedVideos = [[NSMutableArray alloc] initWithArray:[[self.collectionView selectionIndexes] count]>0 ? [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]] : @[self.representedObject]];
+    controller.selectedItems = [[NSMutableArray alloc] initWithArray:[[self.collectionView selectionIndexes] count]>0 ? [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]] : @[self.representedObject]];
     controller.ownerId=self.representedObject[@"owner_id"];
 //    controller.publicOrOwnerOfAlbums =
-  
+    controller.mediaType=@"video";
     controller.albumIdToGetVideos = !self.representedObject[@"photo2"] ? self.representedObject[@"id"] : nil;
     controller.type =self.representedObject[@"photo2"] ? @"video" : @"album";
     controller.countInAlbum = self.representedObject[@"count"];
