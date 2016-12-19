@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TasksViewController : NSViewController
+@interface TasksViewController : NSViewController{
+     NSInteger seconds;
+    __weak IBOutlet NSTableView *tasksList;
+    NSMutableArray *tasksData;
+}
 
 @end

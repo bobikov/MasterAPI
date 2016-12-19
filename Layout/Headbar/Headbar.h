@@ -29,6 +29,7 @@
     NSTimer *playTimer;
     NSString *nameOfCurrentPlaying;
     NSMutableDictionary *playlist;
+   
 }
 @property(nonatomic)appInfo *app;
 @property (strong, nonatomic) AVPlayer *player;
