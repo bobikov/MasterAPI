@@ -39,13 +39,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="seA-hj-g8O">
-                    <rect key="frame" x="138" y="32" width="15" height="15"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="plus15px" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="d8u-qf-sRs">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                </button>
                 <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Tl-06-eAt">
                     <rect key="frame" x="143" y="4" width="15" height="15"/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="prefs15px" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="pkq-hf-zc5">
@@ -74,11 +67,29 @@
                         <action selector="attachAlbum:" target="sWq-d7-Den" id="UuK-Qx-RlY"/>
                     </connections>
                 </button>
+                <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fXW-6o-tMy">
+                    <rect key="frame" x="143" y="23" width="15" height="15"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="link1_15px" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Fhv-yr-4Ib">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="addURL:" target="sWq-d7-Den" id="h0A-lR-8z2"/>
+                    </connections>
+                </button>
+                <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="seA-hj-g8O">
+                    <rect key="frame" x="143" y="40" width="15" height="15"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="plus15px" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="d8u-qf-sRs">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
             </subviews>
             <point key="canvasLocation" x="696" y="65"/>
         </customView>
         <customObject id="sWq-d7-Den" customClass="CustomVideoCollectionItem">
             <connections>
+                <outlet property="addURL" destination="fXW-6o-tMy" id="QYj-ku-CKh"/>
                 <outlet property="albumCover" destination="b7V-iL-V39" id="Te7-p1-8bE"/>
                 <outlet property="attachAlbum" destination="ItK-Gt-ELG" id="q3a-2B-3mQ"/>
                 <outlet property="countLabel" destination="jQB-wv-dJd" id="Xbj-Td-aPh"/>
@@ -92,6 +103,7 @@
     </objects>
     <resources>
         <image name="add_plus40" width="180" height="180"/>
+        <image name="link1_15px" width="15" height="15"/>
         <image name="plus15px" width="15" height="15"/>
         <image name="prefs15px" width="15" height="15"/>
         <image name="remove_transp_25" width="25" height="25"/>

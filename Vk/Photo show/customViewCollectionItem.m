@@ -8,6 +8,7 @@
 
 #import "customViewCollectionItem.h"
 #import "moveToAlbumViewController.h"
+#import "URLsViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -142,7 +143,8 @@
     albumToUploadTo = self.representedObject[@"id"];
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
-    NSViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
+    URLsViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
+    contr.mediaType=@"photo";
     [self presentViewControllerAsModalWindow:contr];
     [self setProgress];
 

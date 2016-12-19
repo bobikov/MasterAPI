@@ -20,9 +20,9 @@
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     [dateComponents setYear:2016];
     [dateComponents setMonth:12];
-    [dateComponents setDay:16];
-    [dateComponents setHour:16];
-    [dateComponents setMinute:11];
+    [dateComponents setDay:19];
+    [dateComponents setHour:13];
+    [dateComponents setMinute:48];
     NSCalendar *calendar = [[NSCalendar alloc]  initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
     NSTimeInterval interval = [configuredDate timeIntervalSinceNow];
@@ -31,9 +31,13 @@
 //    NSNotification *not = [[NSNotification alloc]init];
 //    [self performSelector:@selector(openURL) withObject:nil afterDelay:interval ];
 //    NSTimer *timer = [NSTimer time]
+    
+    NSUserNotification *oo=[[NSUserNotification alloc]init];
+    [oo setDeliveryDate:configuredDate];
+    [oo performSelector:@selector(openURL:)];
 
 }
--(void)openURL{
-    [[NSWorkspace sharedWorkspace]openURL:[NSURL URLWithString:@"https://google.com"]];
+-(void)openURL:(NSNotification*)notification{
+   [[NSWorkspace sharedWorkspace]openURL:[NSURL URLWithString:@"https://google.com"]];
 }
 @end

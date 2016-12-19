@@ -13,5 +13,5 @@
     __weak IBOutlet NSTextField *fieldWithURLsString;
     __weak IBOutlet NSButton *acceptURLs;
 }
-
+@property(nonatomic,readwrite)NSString  *mediaType;
 @end

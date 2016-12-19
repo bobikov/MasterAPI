@@ -9,7 +9,7 @@
 #import "CustomVideoCollectionItem.h"
 #import "moveToAlbumViewController.h"
 #import "CustomAnimator.h"
-
+#import "URLsViewController.h"
 @interface CustomVideoCollectionItem ()
 
 @end
@@ -177,6 +177,79 @@
 
     }
 }
+- (IBAction)addURL:(id)sender {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"uploadVideoURLs" object:nil];
+    selectedObject = [[NSMutableDictionary alloc]init];
+    selectedObject = self.representedObject;
+    albumToUploadTo = self.representedObject[@"id"];
+    ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner_id"] ];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
+    URLsViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
+    contr.mediaType=@"video";
+    [self presentViewControllerAsModalWindow:contr];
+    
+}
+-(void)getStringWithURLs:(NSNotification*)notification{
+    
+    [self prepareURLsForUpload:notification.userInfo[@"urls_string"]];
+//        NSLog(@"%@",notification.userInfo[@"urls_string"]);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"uploadVideoURLs" object:nil];
+}
+-(void)prepareURLsForUpload:(NSString*)urlString{
+    filesForUpload = [self urlsFromString:urlString];
+    [self uploadByURLs];
+}
+-(NSMutableArray*)urlsFromString:(NSString*)fullString{
+    NSMutableArray *urls = [[NSMutableArray alloc]init];
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?i)\\b((?:https?|ftp:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[\\w0-9.\\-]+[.][\\w]{2,4}/)(?:[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|\\(([^|\\s()<>]+|(\\([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+\\)))*\\))+(?:\\(([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|(\\([^|\\s()<>]+\\)))*\\)|[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))" options:NSRegularExpressionCaseInsensitive error:nil];
+    //    NSUInteger numberOfMatches = [regex numberOfMatchesInString:fullString options:0 range:NSMakeRange(0, [_receivedData[@"site"] length])];
+    NSArray *matches = [regex matchesInString:fullString options:0 range:NSMakeRange(0, [fullString length])];
+    //            NSLog(@"%li", [matches count]);
+    //        NSLog(@"Found %li",numberOfMatches);
+    //    NSRange foundRange = [string.mutableString rangeOfString:[fullString substringWithRange:match.range]  options:NSCaseInsensitiveSearch];
+    //    if (foundRange.location != NSNotFound) {
+    for (NSTextCheckingResult *match in matches){
+        [urls addObject:[fullString substringWithRange:match.range]];
+        
+    }
+    //    }
+    return urls;
+}
+-(void)uploadByURLs{
+//    NSLog(@"%@", ownerId);
+//    NSLog(@"%@", albumToUploadTo);
+//    NSLog(@"%@", filesForUpload);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        
+        for(NSString *videoURL in filesForUpload){
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%@&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], videoURL, albumToUploadTo, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", uploadResp);
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSDictionary *saveResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", saveResp);
+                    if([saveResp[@"response"] intValue] == 1){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            NSInteger index = [filesForUpload indexOfObject:videoURL];
+//                            i[@"success"]=@1;
+                            
+//                            [selectedVideosList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                            dispatch_semaphore_signal(semaphore);
+                            //                       selectedVideosList rowat
+                        });
+                    }
+                }]resume];
+                sleep(1);
+            }]resume];
+            sleep(1);
+            
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_signal(semaphore);
+        }
+    });
+}
 - (IBAction)moveToAlbum:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
@@ -206,6 +279,9 @@
 //        _countLabel.attributedStringValue=countAttrString;
 //        _countLabel.hidden=NO;
 //    }
+    if(self.representedObject[@"cover"]){
+        _addURL.hidden=NO;
+    }
 }
 
 - (void)mouseExited:(NSEvent *)theEvent{
@@ -215,6 +291,7 @@
     _removeItem.hidden=YES;
     _moveToAlbum.hidden=YES;
 //    _countLabel.hidden=YES;
+    _addURL.hidden=YES;
  
 }
 -(void)rightMouseDown:(NSEvent *)theEvent

@@ -40,8 +40,11 @@
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
 }
 - (IBAction)acceptURLs:(id)sender {
- 
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"uploadPhotoURLs" object:nil userInfo:@{@"urls_string":fieldWithURLsString.stringValue}];
+    if([_mediaType isEqual:@"photo"]){
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"uploadPhotoURLs" object:nil userInfo:@{@"urls_string":fieldWithURLsString.stringValue}];
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"uploadVideoURLs" object:nil userInfo:@{@"urls_string":fieldWithURLsString.stringValue}];
+    }
     [self dismissController:self];
 //    NSLog(@"%@", fieldWithURLsString.stringValue);
 }

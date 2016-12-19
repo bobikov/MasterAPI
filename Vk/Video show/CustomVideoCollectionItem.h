@@ -11,9 +11,10 @@
 #import "ShowNamesController.h"
 @interface CustomVideoCollectionItem : NSCollectionViewItem{
     
-    
-    
-    
+    NSDictionary *selectedObject;
+    NSString *albumToUploadTo;
+    NSArray *filesForUpload;
+    NSString *ownerId;
 }
 @property (weak) IBOutlet NSButton *moveToAlbum;
 
@@ -24,6 +25,7 @@
 @property (weak) IBOutlet NSTextField *countLabel;
 @property (nonatomic)appInfo *app;
 @property (weak) IBOutlet NSButton *attachAlbum;
+@property (weak) IBOutlet NSButton *addURL;
 
 
 @end
