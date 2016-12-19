@@ -11,5 +11,6 @@
 @interface TasksCellView : NSTableCellView
 @property (weak) IBOutlet NSTextField *taskName;
 @property (weak) IBOutlet NSProgressIndicator *taskProgress;
+@property (weak) IBOutlet NSButton *StopResume;
 
 @end

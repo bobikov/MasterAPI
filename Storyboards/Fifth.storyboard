@@ -52,10 +52,21 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ace-Qv-dcC">
-                                                                    <rect key="frame" x="3" y="5" width="530" height="20"/>
+                                                                    <rect key="frame" x="3" y="2" width="530" height="20"/>
                                                                 </progressIndicator>
+                                                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBV-eF-Eht">
+                                                                    <rect key="frame" x="566" y="10" width="23" height="23"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Ndf-8H-eyW">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="stopResume:" target="FF0-yc-SNw" id="Cam-Vo-q1y"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <connections>
+                                                                <outlet property="StopResume" destination="bBV-eF-Eht" id="M2G-RB-BFE"/>
                                                                 <outlet property="taskName" destination="uRx-vO-4h4" id="ocq-f0-C75"/>
                                                                 <outlet property="taskProgress" destination="ace-Qv-dcC" id="kfa-aC-Qi2"/>
                                                                 <outlet property="textField" destination="uRx-vO-4h4" id="vxK-6d-vKR"/>
@@ -98,4 +109,7 @@
             <point key="canvasLocation" x="243" y="224"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>

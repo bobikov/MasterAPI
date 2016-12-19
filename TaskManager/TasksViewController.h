@@ -12,6 +12,7 @@
      NSInteger seconds;
     __weak IBOutlet NSTableView *tasksList;
     NSMutableArray *tasksData;
+    NSRunLoop *runLoop;
 }
 
 @end

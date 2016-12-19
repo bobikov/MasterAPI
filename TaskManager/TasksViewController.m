@@ -20,28 +20,52 @@
     tasksData = [[NSMutableArray alloc]init];
     tasksList.delegate=self;
     tasksList.dataSource=self;
- 
+    runLoop = [[NSRunLoop alloc]init];
 //    NSLog(@"dddd %@", [runLoop currentMode]);
     
     
 
 }
--(void)updateTaskProgress:(NSTimer*)timer{
-    
-    if([timer.userInfo[@"seconds"] intValue] == 5){
-         NSLog(@"%@",timer.userInfo[@"seconds"]);
-        [timer invalidate];
-        NSLog(@"Timer invalidated");
-       
-    }else{
-         timer.userInfo[@"seconds"] = [NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]+1];
-        NSLog(@"%@",timer.userInfo[@"seconds"]);
-        tasksData[[timer.userInfo[@"index"] intValue]][@"currentPost"] =[NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]];
-        [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-//        TasksCellView *cell = (TasksCellView*)[tasksList relo
+- (IBAction)stopResume:(id)sender {
+    NSView *view=[sender superview];
+    NSInteger index = [tasksList rowForView:view];
+    if([tasksData[index][@"state"] isEqual:@"stopped"]){
+        tasksData[index][@"state"] =@"inprogress";
+        tasksData[index][@"stopped"]=@0;
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgress:) userInfo:[[NSMutableDictionary alloc] initWithDictionary:@{@"index":[NSNumber numberWithInteger:index] , @"seconds":[NSNumber numberWithInteger:[tasksData[index][@"currentPost"]intValue]]}] repeats:YES];
+        NSLog(@"%@", tasksData[index]);
+        [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
         
+    }else{
+        tasksData[index][@"state"]=@"stopped";
+        tasksData[index][@"stopped"]=@1;
         
     }
+    [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+}
+-(void)updateTaskProgress:(NSTimer*)timer{
+    if(timer){
+        if([timer.userInfo[@"seconds"] intValue] == 5){
+            NSLog(@"%@",timer.userInfo[@"seconds"]);
+            [timer invalidate];
+            NSLog(@"Timer invalidated");
+            
+        }else{
+            if([tasksData[[timer.userInfo[@"index"] intValue]][@"stopped"] intValue]){
+                NSLog(@"%@", tasksData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
+                [timer invalidate];
+            }else{
+                timer.userInfo[@"seconds"] = [NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]+1];
+                NSLog(@"%@",timer.userInfo[@"seconds"]);
+                tasksData[[timer.userInfo[@"index"] intValue]][@"currentPost"] =[NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]];
+                [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            }
+            //        TasksCellView *cell = (TasksCellView*)[tasksList relo
+//             NSLog(@"%@", tasksData[[timer.userInfo[@"index"] intValue]][@"stop"]);
+            
+        }
+    }
+  
    
 //   [[NSWorkspace sharedWorkspace]openURL:[NSURL URLWithString:@"https://google.com"]];
     
@@ -50,9 +74,9 @@
     [self addTask];
 }
 -(void)addTask{
-    NSInteger taskIndex=[tasksData count]+1;
+    NSInteger taskIndex=[tasksData count];
     NSInteger totalPosts = 5;
-    NSMutableDictionary *taskObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", taskIndex], @"totalPosts":[NSNumber numberWithInteger:totalPosts], @"currentPost":@0}];
+    NSMutableDictionary *taskObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", taskIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalPosts], @"currentPost":@0, @"state":@"inprogress"}];
     [tasksData addObject:taskObject];
     [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[tasksData count]-1] withAnimation:NSTableViewAnimationSlideDown];
     
@@ -65,7 +89,7 @@
 //    NSCalendar *calendar = [[NSCalendar alloc]  initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 //    NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
-    NSRunLoop *runLoop = [[NSRunLoop alloc]init];
+  
     [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
     
 }
@@ -78,6 +102,12 @@
     cell.taskName.stringValue=tasksData[row][@"name"];
     cell.taskProgress.maxValue=[tasksData[row][@"totalPosts"] intValue];
     cell.taskProgress.doubleValue=[tasksData[row][@"currentPost"] intValue];
+    if([tasksData[row][@"state"] isEqual:@"inprogress"]){
+        cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
+        
+    }else{
+        cell.StopResume.image=[NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
+    }
     return cell;
 }
 @end
