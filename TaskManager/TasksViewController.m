@@ -88,6 +88,8 @@
 //    [dateComponents setMinute:20];
 //    NSCalendar *calendar = [[NSCalendar alloc]  initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 //    NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
+    
+    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
   
     [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
