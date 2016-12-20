@@ -12,6 +12,7 @@
 #import "ShowPhotoViewController.h"
 #import "DocsPersonalViewcontroller.h"
 #import "SmilesViewController.h"
+#import "TasksViewController.h"
 #import <EventKit/EventKit.h>
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate>
 
@@ -106,22 +107,29 @@
     startedSessionCloseBut.hidden=YES;
     publishingDateForPost.hidden=YES;
     startedSessionCloseBut.enabled=YES;
-      newSessionStartBut.enabled=YES;
+    newSessionStartBut.enabled=YES;
+    savePostsSessionBut.hidden=YES;
 }
 - (IBAction)startSession:(id)sender {
     publishingDateForPost.hidden=NO;
     addPostToQueueBut.hidden=NO;
     startedSessionStatusLabel.hidden=NO;
     startedSessionCloseBut.hidden=NO;
+   
     currentPostsSessionName = newSessionNameField.stringValue;
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
     newSessionStartBut.enabled=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag;
     [publishingDateForPost setDateValue: [NSDate date]];
+  
  
 }
 - (IBAction)saveSession:(id)sender {
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    
+    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
+    [contr loadView];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"sessionQueue":queuePostsInSession}];
 }
 - (IBAction)addPostToQueue:(id)sender {
@@ -130,6 +138,9 @@
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
 //    NSLog(@"%@", queuePostsInSession);
 //    NSLog(@"%@ %@", message, attachmentsPostVKString );
+    if([queuePostsInSession count]>0){
+        savePostsSessionBut.hidden=NO;
+    }
 }
 
 -(void)insertSmile:(NSNotification*)notification{

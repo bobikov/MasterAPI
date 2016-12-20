@@ -3762,7 +3762,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             </datePickerCell>
                                         </datePicker>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SeK-nL-mwH">
+                                        <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SeK-nL-mwH">
                                             <rect key="frame" x="495" y="320" width="70" height="32"/>
                                             <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1cf-x2-ZaN">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3804,6 +3804,7 @@ Gw
                         <outlet property="publishingDateForPost" destination="EEK-lI-LIs" id="Zbc-vS-ots"/>
                         <outlet property="recentGroups" destination="cIc-th-Ipq" id="F0k-Wz-9r6"/>
                         <outlet property="repeat" destination="vVV-a5-DhC" id="B7C-w3-QJ5"/>
+                        <outlet property="savePostsSessionBut" destination="SeK-nL-mwH" id="DM5-Wj-IPm"/>
                         <outlet property="startedSessionCloseBut" destination="A4A-uv-dGM" id="tMi-MI-n4t"/>
                         <outlet property="startedSessionStatusLabel" destination="l4f-ny-qbH" id="3Rk-26-sn9"/>
                         <outlet property="stop" destination="26Q-sx-ZRV" id="PsU-MU-b1c"/>
