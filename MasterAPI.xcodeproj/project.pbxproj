@@ -273,6 +273,7 @@
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 		2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE662D1E07F2F500364A80 /* TasksCellView.m */; };
+		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -753,6 +754,7 @@
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCE662C1E07F2F500364A80 /* TasksCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksCellView.h; sourceTree = "<group>"; };
 		2BCE662D1E07F2F500364A80 /* TasksCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksCellView.m; sourceTree = "<group>"; };
+		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1054,6 +1056,7 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2BCE662F1E095B7600364A80 /* queue1_30.png */,
 				2B41FA661E02D3F50013AC86 /* add_plus40.png */,
 				2B41FA671E02D3F50013AC86 /* audio.png */,
 				2B41FA681E02D3F50013AC86 /* audio_min.png */,
@@ -1785,6 +1788,7 @@
 				2B41FC361E02D3F60013AC86 /* tumblr_icon.png in Resources */,
 				2B41FC3E1E02D3F60013AC86 /* vkontakte.png in Resources */,
 				2B41FC3A1E02D3F60013AC86 /* verified_2.png in Resources */,
+				2BCE66301E095B7600364A80 /* queue1_30.png in Resources */,
 				2B41FC0D1E02D3F60013AC86 /* banned.png in Resources */,
 				2B41FC341E02D3F60013AC86 /* smiles_min1.png in Resources */,
 				2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */,

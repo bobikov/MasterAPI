@@ -29,11 +29,11 @@
     welcomeView = [story instantiateControllerWithIdentifier:@"Welcome"];
     videoCopyView = [story instantiateControllerWithIdentifier:@"VideoCopy"];
     wallPostView = [story instantiateControllerWithIdentifier:@"WallPost"];
-    privacyPhotoAlbumsView = [story instantiateControllerWithIdentifier:@"PrivacyPhotoAlbums"];
+    privacyPhotoAlbumsView = [story5 instantiateControllerWithIdentifier:@"PrivacyPhotoAlbums"];
     changeStatusView = [story instantiateControllerWithIdentifier:@"StatusChange"];
     dialogsView = [story instantiateControllerWithIdentifier:@"DialogsView"];
     subscribersView = [story instantiateControllerWithIdentifier:@"SubscribersView"];
-    videoPrivacyView = [ story instantiateControllerWithIdentifier:@"VideoPrivacy"];
+    videoPrivacyView = [ story5 instantiateControllerWithIdentifier:@"VideoPrivacy"];
     audioCopyView = [ story3 instantiateControllerWithIdentifier:@"AudioCopy"];
     audioMoveView = [ story3 instantiateControllerWithIdentifier:@"AudioMove"];
   
@@ -45,7 +45,7 @@
     GroupsView = [story instantiateControllerWithIdentifier:@"SuperGroupsController"];
     GroupInvitesView = [story instantiateControllerWithIdentifier:@"GroupInvitesController"];
     OutRequestsView = [story instantiateControllerWithIdentifier:@"OutRequests"];
-    WallRemovePostsView = [story instantiateControllerWithIdentifier:@"WallPostRemoveController"];
+    WallRemovePostsView = [story5 instantiateControllerWithIdentifier:@"WallPostRemoveController"];
     FavesTabView = [story2 instantiateControllerWithIdentifier:@"FavoritesTabController"];
     TumblrAvatar = [story2 instantiateControllerWithIdentifier:@"TumblrAvatar"];
     TumblrFollowing = [story2 instantiateControllerWithIdentifier:@"TumblrFollowing"];

@@ -52,7 +52,10 @@
     groupsToPost = [[NSMutableArray alloc]initWithArray:[self ReadGroups]];
     [recentGroups reloadData];
 
-
+    startedSessionStatusLabel.wantsLayer=YES;
+    startedSessionStatusLabel.layer.masksToBounds=YES;
+    startedSessionStatusLabel.layer.cornerRadius=5;
+    
     [self loadGroups];
     _twitterClient = [[TwitterClient alloc]initWithTokensFromCoreData];
     _tumblrClient = [[TumblrClient alloc]initWithTokensFromCoreData];
@@ -94,6 +97,36 @@
 //                                      constant:0];
 //    [self.view.superview addConstraint:c];
     [self setSelectorsButtonsState];
+    
+}
+- (IBAction)closeStartedSessionAction:(id)sender {
+    addPostToQueueBut.hidden=YES;
+    startedSessionStatusLabel.hidden=YES;
+    startedSessionCloseBut.hidden=YES;
+    publishingDateForPost.hidden=YES;
+    startedSessionCloseBut.enabled=YES;
+      newSessionStartBut.enabled=YES;
+}
+- (IBAction)startSession:(id)sender {
+    publishingDateForPost.hidden=NO;
+    addPostToQueueBut.hidden=NO;
+    startedSessionStatusLabel.hidden=NO;
+    startedSessionCloseBut.hidden=NO;
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", newSessionNameField.stringValue, @0];
+    newSessionNameField.stringValue=@"";
+    newSessionStartBut.enabled=NO;
+       NSDateFormatter *formater = [[NSDateFormatter alloc]init];
+    [formater setDateFormat:@"dd.MM.yyyy HH:mm"];
+//    [formater setDefaultDate:[NSDate date]];
+//    publishingDateForPost.datePickerStyle = NSDateFormatterLongStyle;
+//    publishingDateForPost.datePickerMode=NSHourMinuteDatePickerElementFlag;
+    publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag;
+    NSDate *currentDate = [NSDate date];
+//    publishingDateForPost.formatter=formater;
+    [publishingDateForPost setDateValue:currentDate];
+ 
+}
+- (IBAction)addPostToQueue:(id)sender {
     
 }
 
