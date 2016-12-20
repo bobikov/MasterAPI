@@ -2251,7 +2251,7 @@
         <scene sceneID="1LQ-TT-tvY">
             <objects>
                 <viewController title="Wall" id="f46-96-xBR" customClass="DocsWallViewController" sceneMemberID="viewController">
-                    <view key="view" id="Jpf-Dk-Z04" customClass="ShowDocsWall">
+                    <view key="view" id="Jpf-Dk-Z04">
                         <rect key="frame" x="0.0" y="0.0" width="753" height="650"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -2440,7 +2440,7 @@
         <!--Docs Tab Controller-->
         <scene sceneID="Ope-ee-vkG">
             <objects>
-                <tabViewController storyboardIdentifier="DocsTabController" selectedTabViewItemIndex="1" id="0TS-6Q-0p6" customClass="DocsTabController" sceneMemberID="viewController">
+                <tabViewController storyboardIdentifier="DocsTabController" selectedTabViewItemIndex="0" id="0TS-6Q-0p6" customClass="DocsTabController" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="H2p-Sc-GZK"/>
                         <tabViewItem id="Xx4-G4-83U"/>
