@@ -65,6 +65,8 @@
     __weak IBOutlet NSTextField *newSessionNameField;
     __weak IBOutlet NSButton *addPostToQueueBut;
     __weak IBOutlet NSDatePicker *publishingDateForPost;
+    NSMutableArray *queuePostsInSession;
+    NSString *currentPostsSessionName;
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;

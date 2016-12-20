@@ -34,6 +34,7 @@
     attachmentsCollectionView.delegate=self;
     attachmentsCollectionView.dataSource=self;
     indexPaths = [[NSMutableArray alloc]init];
+    queuePostsInSession = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
 //    attachmentsCollectionView.wantsLayer=YES;
@@ -112,22 +113,23 @@
     addPostToQueueBut.hidden=NO;
     startedSessionStatusLabel.hidden=NO;
     startedSessionCloseBut.hidden=NO;
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", newSessionNameField.stringValue, @0];
+    currentPostsSessionName = newSessionNameField.stringValue;
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
     newSessionStartBut.enabled=NO;
-       NSDateFormatter *formater = [[NSDateFormatter alloc]init];
-    [formater setDateFormat:@"dd.MM.yyyy HH:mm"];
-//    [formater setDefaultDate:[NSDate date]];
-//    publishingDateForPost.datePickerStyle = NSDateFormatterLongStyle;
-//    publishingDateForPost.datePickerMode=NSHourMinuteDatePickerElementFlag;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag;
-    NSDate *currentDate = [NSDate date];
-//    publishingDateForPost.formatter=formater;
-    [publishingDateForPost setDateValue:currentDate];
+    [publishingDateForPost setDateValue: [NSDate date]];
  
 }
+- (IBAction)saveSession:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"sessionQueue":queuePostsInSession}];
+}
 - (IBAction)addPostToQueue:(id)sender {
-    
+    message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+    [queuePostsInSession addObject:@{@"message":message, @"attachments":attachmentsPostVKString, @"date":publishingDateForPost.dateValue}];
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
+//    NSLog(@"%@", queuePostsInSession);
+//    NSLog(@"%@ %@", message, attachmentsPostVKString );
 }
 
 -(void)insertSmile:(NSNotification*)notification{

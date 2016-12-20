@@ -1548,9 +1548,9 @@
 		2B41FB941E02D3F60013AC86 /* Wall */ = {
 			isa = PBXGroup;
 			children = (
-				2B41FB951E02D3F60013AC86 /* AddRepostGroupController.h */,
 				2B41FB961E02D3F60013AC86 /* AddRepostGroupController.m */,
 				2B41FB971E02D3F60013AC86 /* PostAttachmentsCustomItem.h */,
+				2B41FB951E02D3F60013AC86 /* AddRepostGroupController.h */,
 				2B41FB981E02D3F60013AC86 /* PostAttachmentsCustomItem.m */,
 				2B41FB991E02D3F60013AC86 /* PostAttachmentsCustomItem.xib */,
 				2B41FB9A1E02D3F60013AC86 /* removePostsViewController.h */,

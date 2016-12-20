@@ -22,9 +22,13 @@
     tasksList.dataSource=self;
     runLoop = [[NSRunLoop alloc]init];
 //    NSLog(@"dddd %@", [runLoop currentMode]);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
     
     
 
+}
+-(void)observeAddNewSessionTask:(NSNotification*)notification{
+    NSLog(@"%@", notification.userInfo);
 }
 - (IBAction)stopResume:(id)sender {
     NSView *view=[sender superview];
@@ -70,6 +74,9 @@
 //   [[NSWorkspace sharedWorkspace]openURL:[NSURL URLWithString:@"https://google.com"]];
     
 }
+-(void)startTask{
+    
+}
 - (IBAction)newTask:(id)sender {
     [self addTask];
 }
@@ -95,6 +102,8 @@
     [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
     
 }
+
+
 
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [tasksData count];
