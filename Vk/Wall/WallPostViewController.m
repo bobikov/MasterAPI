@@ -129,7 +129,7 @@
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     
     TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
-    [contr loadView];
+//    [contr loadView];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_name":currentPostsSessionName, @"session_data": queuePostsInSession}];
 }

@@ -12,8 +12,8 @@
      NSInteger seconds;
     __weak IBOutlet NSTableView *tasksList;
     NSMutableArray *sessionsData;
-    NSRunLoop *runLoop;
-    NSInteger sessionIndex;
+//    NSRunLoop *runLoop;
+    NSInteger newSessionIndex;
     NSInteger totalTasksInSession;
     NSMutableArray *sessionsCurrentTaskIndexes;
     

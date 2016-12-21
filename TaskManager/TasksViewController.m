@@ -20,7 +20,7 @@
     sessionsData = [[NSMutableArray alloc]init];
     tasksList.delegate=self;
     tasksList.dataSource=self;
-    runLoop = [[NSRunLoop alloc]init];
+//    runLoop = [[NSRunLoop alloc]init];
 //    sessionscurrent_task_indexes = [[NSMutableArray alloc]init];
 //    NSLog(@"dddd %@", [runLoop currentMode]);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
@@ -31,7 +31,7 @@
 -(void)viewDidAppear{
  
     NSLog(@"%@", sessionsData);
-    [tasksList reloadData];
+//    [tasksList reloadData];
 }
 -(void)observeAddNewSessionTask:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo);
@@ -59,28 +59,31 @@
 }
 -(void)updateTaskProgressInSession:(NSTimer*)timer{
     if(timer){
-//        if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"session_data"] count]-1){
-//            NSLog(@"%@",timer.userInfo[@"task_index"]);
-//            [timer invalidate];
-//            NSLog(@"Timer invalidated");
-//            
-//        }else{
-//            if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"stopped"] intValue]){
-//                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
-//                [timer invalidate];
-//            }else{
-//                timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
-//                NSLog(@"%@",timer.userInfo[@"seconds"]);
-//                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
-//                NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][@"session_data"][@"date"];
-//                NSString *nextDateString = [self getStringDate:nextDate];
-//                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"next_task_date"] = nextDateString;
-//                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][[sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][@"current_task_index"] intValue]][@"date"];
-//                NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
-//                [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-//                
-//            }
-//        }
+        NSLog(@"FIRE");
+        if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
+            NSLog(@"%@",timer.userInfo[@"task_index"]);
+             sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
+             [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            [timer invalidate];
+            NSLog(@"Timer invalidated");
+            
+        }else{
+            if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
+                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"info"][@"stopped"]);
+                [timer invalidate];
+            }else{
+                timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
+                NSLog(@"%@",timer.userInfo[@"task_index"]);
+                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
+                NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][[timer.userInfo[@"task_index"] intValue]][@"data"][@"date"];
+                NSString *nextDateString = [self getStringDate:nextDate];
+                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
+                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"task_index"]intValue]][@"data"][[sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][@"current_task_index"] intValue]][@"date"];
+                NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
+                [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                
+            }
+        }
     }
   
    
@@ -88,17 +91,18 @@
     
 }
 -(void)startSession{
-//    NSDate *startSessionTaskDate = sessionsData[0][@"session_data"];
-    NSLog(@"%@", sessionsData[0][@"session_data"][0][@"date"]);
-//    NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:sessionIndex], @"task_index":@0}] repeats:NO];
+    NSDate *startSessionTaskDate = sessionsData[newSessionIndex][@"data"][0][@"date"];
+//    NSLog(@"%@", sessionsData[newSessionIndex][@"data"][0][@"date"]);
+    NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:newSessionIndex], @"task_index":@0}] repeats:NO];
 ////    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
 //    [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 -(void)nextTaskInSession{
     
 }
 - (IBAction)newSession:(id)sender {
-    [self addSession:nil];
+//    [self addSession:nil];
 }
 -(NSString*)getStringDate:(NSDate*)date{
     NSString *dateString;
@@ -111,22 +115,20 @@
     
     NSDate *nextDate;
     NSString *nextDateString;
-    
-    
     totalTasksInSession = [data[@"session_data"] count];
-//    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", sessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
-    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:data];
+//    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", newSessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
+    NSMutableDictionary *sessionObject;
     nextDate = data[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
     
-    NSLog(@"%@", nextDateString);
-    [sessionObject addEntriesFromDictionary:@{@"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
-   
+//    NSLog(@"%@", nextDateString);
+   NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_name":data[@"session_name"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+    sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
     [sessionsData addObject:sessionObject];
-    sessionIndex=[sessionsData count];
+    newSessionIndex=[sessionsData count]-1;
     NSLog(@"%@", sessionsData);
     NSLog(@"%li", totalTasksInSession);
-    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[sessionsData count]-1] withAnimation:NSTableViewAnimationSlideDown];
+    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newSessionIndex] withAnimation:NSTableViewAnimationSlideDown];
     
 //    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 //    [dateComponents setYear:2016];
@@ -154,11 +156,11 @@
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     TasksCellView *cell = (TasksCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
-    cell.taskName.stringValue=sessionsData[row][@"session_name"];
-    cell.taskProgress.maxValue=[sessionsData[row][@"totalTasks"] intValue];
-    cell.taskProgress.doubleValue=[sessionsData[row][@"current_task_index"] intValue];
-    cell.nextEventDate.stringValue=sessionsData[row][@"next_task_date"];
-    if([sessionsData[row][@"state"] isEqual:@"inprogress"]){
+    cell.taskName.stringValue=sessionsData[row][@"info"][@"session_name"];
+    cell.taskProgress.maxValue=[sessionsData[row][@"info"][@"totalTasks"] intValue];
+    cell.taskProgress.doubleValue=[sessionsData[row][@"info"][@"current_task_index"] intValue];
+    cell.nextEventDate.stringValue=sessionsData[row][@"info"][@"next_task_date"];
+    if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){
         cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
         
     }else{
