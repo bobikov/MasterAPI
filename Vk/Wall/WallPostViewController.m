@@ -109,6 +109,7 @@
     startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
     savePostsSessionBut.hidden=YES;
+    [queuePostsInSession removeAllObjects];
 }
 - (IBAction)startSession:(id)sender {
     publishingDateForPost.hidden=NO;

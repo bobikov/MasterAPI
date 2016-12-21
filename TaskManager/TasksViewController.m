@@ -62,7 +62,7 @@
         NSLog(@"FIRE");
         if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
             NSLog(@"%@",timer.userInfo[@"task_index"]);
-             sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
+             sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
              [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             [timer invalidate];
             NSLog(@"Timer invalidated");
@@ -78,7 +78,7 @@
                 NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][[timer.userInfo[@"task_index"] intValue]][@"data"][@"date"];
                 NSString *nextDateString = [self getStringDate:nextDate];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
-                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"task_index"]intValue]][@"data"][[sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][@"current_task_index"] intValue]][@"date"];
+                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"date"];
                 NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
                 
