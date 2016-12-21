@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    tasksData = [[NSMutableArray alloc]init];
+    sessionsData = [[NSMutableArray alloc]init];
     tasksList.delegate=self;
     tasksList.dataSource=self;
     runLoop = [[NSRunLoop alloc]init];
@@ -28,26 +28,27 @@
 
 }
 -(void)observeAddNewSessionTask:(NSNotification*)notification{
-    NSLog(@"%@", notification.userInfo);
+//    NSLog(@"%@", notification.userInfo);
+    [self addSession:notification.userInfo];
 }
 - (IBAction)stopResume:(id)sender {
     NSView *view=[sender superview];
     NSInteger index = [tasksList rowForView:view];
-    if([tasksData[index][@"state"] isEqual:@"stopped"]){
-        tasksData[index][@"state"] =@"inprogress";
-        tasksData[index][@"stopped"]=@0;
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgress:) userInfo:[[NSMutableDictionary alloc] initWithDictionary:@{@"index":[NSNumber numberWithInteger:index] , @"seconds":[NSNumber numberWithInteger:[tasksData[index][@"currentPost"]intValue]]}] repeats:YES];
-        NSLog(@"%@", tasksData[index]);
+    if([sessionsData[index][@"state"] isEqual:@"stopped"]){
+        sessionsData[index][@"state"] =@"inprogress";
+        sessionsData[index][@"stopped"]=@0;
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc] initWithDictionary:@{@"index":[NSNumber numberWithInteger:index] , @"seconds":[NSNumber numberWithInteger:[sessionsData[index][@"currentPost"]intValue]]}] repeats:YES];
+        NSLog(@"%@", sessionsData[index]);
         [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
         
     }else{
-        tasksData[index][@"state"]=@"stopped";
-        tasksData[index][@"stopped"]=@1;
+        sessionsData[index][@"state"]=@"stopped";
+        sessionsData[index][@"stopped"]=@1;
         
     }
     [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
--(void)updateTaskProgress:(NSTimer*)timer{
+-(void)updateTaskProgressInSession:(NSTimer*)timer{
     if(timer){
         if([timer.userInfo[@"seconds"] intValue] == 5){
             NSLog(@"%@",timer.userInfo[@"seconds"]);
@@ -55,17 +56,17 @@
             NSLog(@"Timer invalidated");
             
         }else{
-            if([tasksData[[timer.userInfo[@"index"] intValue]][@"stopped"] intValue]){
-                NSLog(@"%@", tasksData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
+            if([sessionsData[[timer.userInfo[@"index"] intValue]][@"stopped"] intValue]){
+                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
                 [timer invalidate];
             }else{
                 timer.userInfo[@"seconds"] = [NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]+1];
                 NSLog(@"%@",timer.userInfo[@"seconds"]);
-                tasksData[[timer.userInfo[@"index"] intValue]][@"currentPost"] =[NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]];
+                sessionsData[[timer.userInfo[@"index"] intValue]][@"currentPost"] =[NSNumber numberWithInteger:[timer.userInfo[@"seconds"]intValue]];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             }
             //        TasksCellView *cell = (TasksCellView*)[tasksList relo
-//             NSLog(@"%@", tasksData[[timer.userInfo[@"index"] intValue]][@"stop"]);
+//             NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stop"]);
             
         }
     }
@@ -74,18 +75,28 @@
 //   [[NSWorkspace sharedWorkspace]openURL:[NSURL URLWithString:@"https://google.com"]];
     
 }
--(void)startTask{
+-(void)startSession{
+//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
+    
+//    [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
+}
+-(void)nextTaskInSession{
     
 }
-- (IBAction)newTask:(id)sender {
-    [self addTask];
+- (IBAction)newSession:(id)sender {
+    [self addSession:nil];
 }
--(void)addTask{
-    NSInteger taskIndex=[tasksData count];
-    NSInteger totalPosts = 5;
-    NSMutableDictionary *taskObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", taskIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalPosts], @"currentPost":@0, @"state":@"inprogress"}];
-    [tasksData addObject:taskObject];
-    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[tasksData count]-1] withAnimation:NSTableViewAnimationSlideDown];
+-(void)addSession:(id)data{
+    sessionIndex=[sessionsData count];
+    totalTasksInSession = [data[@"session_data"] count];
+//    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", sessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
+    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:data];
+    
+    [sessionObject addEntriesFromDictionary:@{@"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"currentTaskIndex":@0, @"state":@"inprogress"}];
+    
+    [sessionsData addObject:sessionObject];
+    NSLog(@"%@", sessionsData);
+//    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[sessionsData count]-1] withAnimation:NSTableViewAnimationSlideDown];
     
 //    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 //    [dateComponents setYear:2016];
@@ -97,23 +108,26 @@
 //    NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
     
     
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
   
-    [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
     
 }
 
 
 
+
+
+
+
+
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [tasksData count];
+    return [sessionsData count];
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     TasksCellView *cell = (TasksCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
-    cell.taskName.stringValue=tasksData[row][@"name"];
-    cell.taskProgress.maxValue=[tasksData[row][@"totalPosts"] intValue];
-    cell.taskProgress.doubleValue=[tasksData[row][@"currentPost"] intValue];
-    if([tasksData[row][@"state"] isEqual:@"inprogress"]){
+    cell.taskName.stringValue=sessionsData[row][@"name"];
+    cell.taskProgress.maxValue=[sessionsData[row][@"totalPosts"] intValue];
+    cell.taskProgress.doubleValue=[sessionsData[row][@"currentPost"] intValue];
+    if([sessionsData[row][@"state"] isEqual:@"inprogress"]){
         cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
         
     }else{

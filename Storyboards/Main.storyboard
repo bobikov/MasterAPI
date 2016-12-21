@@ -3370,7 +3370,6 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <collectionView ambiguous="YES" selectable="YES" allowsEmptySelection="NO" id="Yre-yT-c9g">
-                                                        <rect key="frame" x="0.0" y="0.0" width="370" height="74"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="1" minimumLineSpacing="1" scrollDirection="horizontal" id="rEV-Hz-WfI">
                                                             <size key="itemSize" width="70" height="70"/>
@@ -3715,16 +3714,16 @@ Gw
                                         <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4f-ny-qbH">
                                             <rect key="frame" x="387" y="361" width="156" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" placeholderString="" drawsBackground="YES" id="ttz-65-cy6">
-                                                <font key="font" metaFont="system" size="12"/>
+                                                <font key="font" metaFont="cellTitle"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCg-Rb-Mic">
-                                            <rect key="frame" x="311" y="590" width="51" height="20"/>
+                                            <rect key="frame" x="311" y="590" width="51" height="19"/>
                                             <buttonCell key="cell" type="roundRect" title="Reset" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zLB-gw-m24">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="12"/>
+                                                <font key="font" metaFont="cellTitle"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="newPost:" target="Hxb-ne-Y3h" id="oWS-h1-a0V"/>
@@ -3744,7 +3743,7 @@ Gw
                                             <rect key="frame" x="343" y="400" width="29" height="20"/>
                                             <buttonCell key="cell" type="bevel" title="Add" bezelStyle="rounded" image="queue1_30" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="ZqH-nJ-ou4">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="12"/>
+                                                <font key="font" metaFont="cellTitle"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="addPostToQueue:" target="Hxb-ne-Y3h" id="TUF-mu-aJZ"/>

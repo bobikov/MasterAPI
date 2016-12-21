@@ -11,8 +11,10 @@
 @interface TasksViewController : NSViewController{
      NSInteger seconds;
     __weak IBOutlet NSTableView *tasksList;
-    NSMutableArray *tasksData;
+    NSMutableArray *sessionsData;
     NSRunLoop *runLoop;
+    NSInteger sessionIndex;
+    NSInteger totalTasksInSession;
 }
 
 @end
