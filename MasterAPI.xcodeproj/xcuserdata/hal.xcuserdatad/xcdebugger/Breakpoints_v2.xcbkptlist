@@ -595,11 +595,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManager/TasksViewController.m"
-            timestampString = "504011378.819331"
+            timestampString = "504023470.880096"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "-updateTaskProgressInSession:"
             landmarkType = "5">
          </BreakpointContent>

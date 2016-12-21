@@ -130,11 +130,13 @@
     
     TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
     [contr loadView];
+    
     [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_name":currentPostsSessionName, @"session_data": queuePostsInSession}];
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message, @"attachments":attachmentsPostVKString, @"date":publishingDateForPost.dateValue}];
+    NSDate *selectedDate = publishingDateForPost.dateValue;
+    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message, @"attachments":attachmentsPostVKString, @"date":selectedDate}];
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
 //    NSLog(@"%@", queuePostsInSession);
 //    NSLog(@"%@ %@", message, attachmentsPostVKString );

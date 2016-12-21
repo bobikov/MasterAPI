@@ -65,9 +65,18 @@
                                                                         <action selector="stopResume:" target="FF0-yc-SNw" id="Cam-Vo-q1y"/>
                                                                     </connections>
                                                                 </button>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3EN-3y-bKu">
+                                                                    <rect key="frame" x="411" y="29" width="98" height="17"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zio-Kb-J4G">
+                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="StopResume" destination="bBV-eF-Eht" id="M2G-RB-BFE"/>
+                                                                <outlet property="nextEventDate" destination="3EN-3y-bKu" id="2Gj-A4-F8s"/>
                                                                 <outlet property="taskName" destination="uRx-vO-4h4" id="ocq-f0-C75"/>
                                                                 <outlet property="taskProgress" destination="ace-Qv-dcC" id="kfa-aC-Qi2"/>
                                                                 <outlet property="textField" destination="uRx-vO-4h4" id="vxK-6d-vKR"/>

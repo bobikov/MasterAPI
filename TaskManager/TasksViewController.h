@@ -15,6 +15,8 @@
     NSRunLoop *runLoop;
     NSInteger sessionIndex;
     NSInteger totalTasksInSession;
+    NSMutableArray *sessionsCurrentTaskIndexes;
+    
 }
 
 @end
