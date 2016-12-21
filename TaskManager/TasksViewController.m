@@ -59,28 +59,28 @@
 }
 -(void)updateTaskProgressInSession:(NSTimer*)timer{
     if(timer){
-        if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"session_data"] count]-1){
-            NSLog(@"%@",timer.userInfo[@"task_index"]);
-            [timer invalidate];
-            NSLog(@"Timer invalidated");
-            
-        }else{
-            if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"stopped"] intValue]){
-                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
-                [timer invalidate];
-            }else{
-                timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
-                NSLog(@"%@",timer.userInfo[@"seconds"]);
-                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
-                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][[sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][@"current_task_index"] intValue]][@"date"];
-                NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
-                [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                
-            }
-            //        TasksCellView *cell = (TasksCellView*)[tasksList relo
-//             NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stop"]);
-            
-        }
+//        if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"session_data"] count]-1){
+//            NSLog(@"%@",timer.userInfo[@"task_index"]);
+//            [timer invalidate];
+//            NSLog(@"Timer invalidated");
+//            
+//        }else{
+//            if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"stopped"] intValue]){
+//                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"stopped"]);
+//                [timer invalidate];
+//            }else{
+//                timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
+//                NSLog(@"%@",timer.userInfo[@"seconds"]);
+//                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
+//                NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][@"session_data"][@"date"];
+//                NSString *nextDateString = [self getStringDate:nextDate];
+//                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"next_task_date"] = nextDateString;
+//                NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][[sessionsData[[timer.userInfo[@"task_index"]intValue]][@"session_data"][@"current_task_index"] intValue]][@"date"];
+//                NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
+//                [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+//                
+//            }
+//        }
     }
   
    
@@ -88,15 +88,11 @@
     
 }
 -(void)startSession{
-    
-    NSDate *currentSessionTaskDate = sessionsData[0][@"session_data"][@"date"];
-    
-    NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:sessionIndex], @"task_index":@0}] repeats:NO];
-    
-    
-//    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
-    
-//    [runLoop addTimer:timer forMode:NSRunLoopCommonModes];
+//    NSDate *startSessionTaskDate = sessionsData[0][@"session_data"];
+    NSLog(@"%@", sessionsData[0][@"session_data"][0][@"date"]);
+//    NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:sessionIndex], @"task_index":@0}] repeats:NO];
+////    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
+//    [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 -(void)nextTaskInSession{
     
@@ -104,28 +100,30 @@
 - (IBAction)newSession:(id)sender {
     [self addSession:nil];
 }
+-(NSString*)getStringDate:(NSDate*)date{
+    NSString *dateString;
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:date];
+    dateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
+    return dateString;
+}
 -(void)addSession:(id)data{
     
     NSDate *nextDate;
     NSString *nextDateString;
-    sessionIndex=[sessionsData count];
+    
     
     totalTasksInSession = [data[@"session_data"] count];
 //    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", sessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
     NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:data];
-    if(totalTasksInSession>1){
-        nextDate = data[1][@"session_data"][@"date"];
-        NSCalendar*calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        NSDateComponents* components = [calendar components:NSCalendarUnitDay fromDate:nextDate];
-         nextDateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
-    }else{
-         nextDateString =  @"no next date";
-    }
-
-   
-    [sessionObject addEntriesFromDictionary:@{@"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+    nextDate = data[@"session_data"][0][@"date"];
+    nextDateString = [self getStringDate:nextDate];
     
+    NSLog(@"%@", nextDateString);
+    [sessionObject addEntriesFromDictionary:@{@"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+   
     [sessionsData addObject:sessionObject];
+    sessionIndex=[sessionsData count];
     NSLog(@"%@", sessionsData);
     NSLog(@"%li", totalTasksInSession);
     [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[sessionsData count]-1] withAnimation:NSTableViewAnimationSlideDown];
@@ -140,7 +138,7 @@
 //    NSDate *configuredDate = [calendar dateFromComponents:dateComponents];
     
     
-//    [self startSession];
+    [self startSession];
     
 }
 
