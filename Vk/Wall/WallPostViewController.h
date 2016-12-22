@@ -68,6 +68,11 @@
     NSMutableArray *queuePostsInSession;
     NSString *currentPostsSessionName;
     __weak IBOutlet NSButton *savePostsSessionBut;
+    NSString *owner;
+    NSInteger postAfter;
+    NSInteger repeatState;
+    NSMutableString *guId;
+    NSString *alphabet;
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;

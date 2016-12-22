@@ -38,6 +38,7 @@
     queuePostsInSession = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeScheduledPost:) name:@"DoScheduledPost" object:nil];
 //    attachmentsCollectionView.wantsLayer=YES;
     attachmentsData = [[NSMutableArray alloc]init];
 //   attachmentsCollectionView.layer.backgroundColor = [NSColor clearColor];
@@ -101,6 +102,10 @@
     [self setSelectorsButtonsState];
     
 }
+-(void)observeScheduledPost:(NSNotification*)object{
+    NSLog(@"%@", object.userInfo);
+    [self prepareForPost:object.userInfo[@"target_owner"] attachs:object.userInfo[@"attachments"] msg:object.userInfo[@"message"]];
+}
 - (IBAction)closeStartedSessionAction:(id)sender {
     addPostToQueueBut.hidden=YES;
     startedSessionStatusLabel.hidden=YES;
@@ -132,7 +137,7 @@
     TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
 //    [contr loadView];  
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": queuePostsInSession}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
@@ -604,351 +609,40 @@
         }];
     }];
 }
-
-- (IBAction)makePostAction:(id)sender {
+-(void)prepareForPost:(id)ownerID attachs:(id)attachs msg:(id)msg{
 //    NSString *message=[[textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-   message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
-//    NSLog(@"%@", [textView.string isEqualToString:@""] ? @"NO STRING" : @"STRING HERE") ;
-    NSInteger postAfter =  [afterPost.stringValue intValue]-1;
-    NSInteger repeatState = repeat.state;
-    NSString *public = publicId.stringValue;
-//    if([self HandlerGroupsFileToPostRead:@"listOfGroups"]){
-//        [self HandlerGroupsFileToPostWrite:@"listOfGroups" :nil];
-//    }else{
-//
-//        [self HandlerGroupsFileToPostWrite:@"listOfGroups" :nil];
-//    }
-//    if([self HandlerGroupsFileToPostRead:@"listOfMessages"]){
-//        [self HandlerGroupsFileToPostWrite:@"listOfMessages" :nil];
-//    }
+    
+    //    NSLog(@"%@", [textView.string isEqualToString:@""] ? @"NO STRING" : @"STRING HERE") ;
+    postAfter =  [afterPost.stringValue intValue]-1;
+    repeatState = repeat.state;
+    if(ownerID && attachs && msg){
+        owner = ownerID;
+        attachmentsData = attachs;
+        message = [attachs stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }else{
+        owner = publicId.stringValue;
+        message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+    }
+    //    if([self HandlerGroupsFileToPostRead:@"listOfGroups"]){
+    //        [self HandlerGroupsFileToPostWrite:@"listOfGroups" :nil];
+    //    }else{
+    //
+    //        [self HandlerGroupsFileToPostWrite:@"listOfGroups" :nil];
+    //    }
+    //    if([self HandlerGroupsFileToPostRead:@"listOfMessages"]){
+    //        [self HandlerGroupsFileToPostWrite:@"listOfMessages" :nil];
+    //    }
     //    [GroupsToPostTableView reloadData];
     if(message){
         [self writeGroup];
         [self writeMessage];
-//        NSLog(@"%@", textView.string);
+        //        NSLog(@"%@", textView.string);
         dispatch_async(dispatch_get_main_queue(), ^{
             [progressSpin startAnimation:self];
         });
     }
-    __block NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
-    __block NSMutableString *guId = [NSMutableString stringWithCapacity:20];
-
-    void (^makepost)() = ^(){
-        
-        __block NSString *post_id;
-        stopFlag = NO;
-        if(postRadio.state==1){
-            while(1){
-                if(!stopFlag){
-                    
-                    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-                    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@", public, message, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                        NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                        
-                        if (postResponse[@"error"]){
-                            if([postResponse[@"error"][@"error_code"] intValue] == 14){
-                                NSLog(@"%@:%@", postResponse[@"error"][@"error_code"], postResponse[@"error"][@"error_msg"]);
-                                
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    NSInteger result = [[_captchaHandler handleCaptcha:postResponse[@"error"][@"captcha_img"]] runModal];
-                                    if (result == NSAlertFirstButtonReturn){
-                                        //                                        NSLog(@"%@", enterCode.stringValue);
-                                        //                                        NSLog(@"%@", postResponse[@"error"][@"captcha_sid"]);
-                                        NSURLSessionDataTask *addComment2 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&v=%@&access_token=%@&message=%@&captcha_sid=%@&captcha_key=%@", public, _app.version, _app.token, message, postResponse[@"error"][@"captcha_sid"], [_captchaHandler readCode]]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                            if(data){
-                                                NSDictionary *jsonData2 = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                NSLog(@"%@", jsonData2);
-                                            }
-                                            dispatch_semaphore_signal(semaphore);
-                                            
-                                        }];
-                                        [addComment2 resume];
-                                        
-                                    }
-                                    if (result == NSAlertSecondButtonReturn){
-                                        stopFlag = YES;
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [progressSpin stopAnimation:self];
-                                        });
-                                        //                                                dispatch_semaphore_signal(semaphore);
-                                    }
-                                });
-                            }
-                            else{
-                                NSLog(@"%@:%@", postResponse[@"error"][@"error_code"], postResponse[@"error"][@"error_msg"]);
-                                
-                                
-                            }
-                        }else{
-                            dispatch_semaphore_signal(semaphore);
-                            NSLog(@"%@", postResponse);
-                        }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [progressSpin stopAnimation:self];
-                        });
-                        
-                        
-                    }]resume];
-                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                    dispatch_semaphore_signal(semaphore);
-                    sleep(1);
-                }else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressSpin stopAnimation:self];
-                    });
-                    break;
-                }
-                
-            }
-        }else{
-            NSString *afterPostFieldString = afterPostIdField.stringValue;
-            if(![afterPostFieldString isEqualToString:@""]){
-                post_id = afterPostFieldString;
-                NSLog(@"POST ID %@", post_id);
-            }else{
-                NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", public, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    if(data){
-                        NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                        for (NSDictionary *i in jsonData[@"response"][@"items"]){
-                            post_id = i[@"id"];
-                        }
-                        
-                    }
-                }];
-                [getPostId resume];
-                sleep(1);
-            }
-            while(1){
-                if(!stopFlag){
-                    
-                    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-                    
-                    [guId setString:@""];
-                    for (NSUInteger i = 0U; i < 20; i++) {
-                        u_int32_t r = arc4random() % [alphabet length];
-                        unichar c = [alphabet characterAtIndex:r];
-                        [guId appendFormat:@"%C", c];
-                    }
-                    NSURLSessionDataTask *addComment1 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.createComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@&guid=%@", public, post_id, _app.version, _app.token, message, guId]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        if(data){
-                            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            NSLog(@"%@", jsonData);
-                            if (jsonData[@"error"]){
-                                if([jsonData[@"error"][@"error_code"] intValue] == 14){
-                                    NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
-                                    //                                    NSLog(@"%@", jsonData[@"error"]);
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        NSInteger result = [[_captchaHandler handleCaptcha:jsonData[@"error"][@"captcha_img"]] runModal];
-                                        if ( result == NSAlertFirstButtonReturn){
-                                            NSURLSessionDataTask *addComment2 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.createComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@&captcha_sid=%@&captcha_key=%@&guid=%@", public, post_id, _app.version, _app.token, message, jsonData[@"error"][@"captcha_sid"], _captchaHandler.enterCode.stringValue, guId]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                if(data){
-                                                    NSDictionary *jsonData2 = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                    NSLog(@"%@", jsonData2);
-                                                }
-                                                dispatch_semaphore_signal(semaphore);
-                                            }];
-                                            [addComment2 resume];
-                                        }
-                                        if (result == NSAlertSecondButtonReturn){
-                                            stopFlag = YES;
-                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                                [progressSpin stopAnimation:self];
-                                            });
-                                            //                                                dispatch_semaphore_signal(semaphore);
-                                        }
-                                        
-                                    });
-                                }
-                                else{
-                                    NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
-                                }
-                            }
-                            else{
-//                                NSLog(@"%@", jsonData);
-                                
-                                dispatch_semaphore_signal(semaphore);
-                                
-                            }
-                        }
-                    }];
-                    [addComment1 resume];
-                    
-                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                    dispatch_semaphore_signal(semaphore);
-                    //
-                    sleep(1);
-                    
-                }
-                else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressSpin stopAnimation:self];
-                    });
-                    break;
-                }
-            }
-            
-        }
-    };
-    void (^makepost2)()=^{
-        __block NSString *post_id;
-        if(postRadio.state==1){
-            
-
-            if(PostVK.state==1){
-                NSString *vkURL;
-                __block NSString *messageForVk;
-                void (^startPostVk)(NSString *)=^(NSString *url){
-                    [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                        if(data){
-                            NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            NSLog(@"%@", postResponse);
-                            
-                            if([postResponse[@"response"][@"post_id"] intValue]!=0){
-                                NSLog(@"New post in Vkontakte successfully done");
-                            }
-                            else{
-                                NSLog(@"New post in Vkontakte is not done");
-                            }
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [progressSpin stopAnimation:self];
-                            });
-                        }
-                    }]resume];
-                };
-                if(message && [attachmentsData count]>0){
-//                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-                    messageForVk=message;
-                    vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",public, messageForVk, attachmentsPostVKString, _app.token, _app.version, [public intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-                    startPostVk(vkURL);
-                }
-                else if(!message  && [attachmentsData count]>0){
-//                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-                    messageForVk=message;
-                    vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",public, attachmentsPostVKString, _app.token, _app.version,[public intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-                     startPostVk(vkURL);
-                }
-                else if(message  && [attachmentsData count]==0){
-//                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-                    messageForVk=message;
-                    vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@%@",public, messageForVk, _app.token, _app.version,[public intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-                     startPostVk(vkURL);
-                }
-                else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cautionImage.hidden=NO;
-                        cautionLabel.hidden=NO;
-                        cautionLabel.stringValue=@"Textfield is empty and not attachments.";
-                        [progressSpin stopAnimation:self];
-                    });
-                }
-                 NSLog(@"%@", vkURL);
-            
-
-            }
-            if(PostTwitter.state==1){
-                if([attachmentsData count]>0){
-                    
-                    [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"image":attachmentsData,@"status":message} handler:^(NSData *data) {
-                        if(data){
-                            NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            if(resp[@"id"])
-                                NSLog(@"New post with media in Twitter successfully done");
-                            else
-                                NSLog(@"New post with media in Twitter is not done");
-                        }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [progressSpin stopAnimation:self];
-                        });
-                    }];
-                    
-                }else{
-                    
-                    [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"status":message} handler:^(NSData *data) {
-                        NSDictionary *twittResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                        NSLog(@"%@", twittResp);
-                        if(twittResp[@"id"])
-                            NSLog(@"New post in Twitter successfully done");
-                        else
-                            NSLog(@"New post in Twitter is not done");
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [progressSpin stopAnimation:self];
-                        });
-                    }];
-                    
-                }
-            }
-            if(postTumblr.state==1){
-                if([attachmentsData count]>0){
-                    [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":attachmentsData} handler:^(NSData *data) {
-                        if(data){
-                            NSDictionary *tumblrPhotoPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            if(tumblrPhotoPostResp[@"response"]){
-                                NSLog(@"Tumblr post with media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrPhotoPostResp[@"response"][@"id"]]);
-                            }else{
-                                NSLog(@"Tumblr post with media is not  done. Something wrong.");
-                            }
-                            //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
-                            //                           NSLog(@"%@", tumblrResp);
-                        }else{
-                            NSLog(@"Tumblr post data not recieved");
-                        }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [progressSpin stopAnimation:self];
-                        });
-                    }];
-                    
-                }else{
-                    [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
-                        if(data){
-                            NSDictionary *tumblrTextPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            if(tumblrTextPostResp[@"response"][@"id"]){
-                                NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
-                            }else{
-                                NSLog(@"Tumblr post without media is not  done. Something wrong.");
-                            }
-                            //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
-                            //                           NSLog(@"%@", tumblrResp);
-                        }else{
-                            NSLog(@"Tumblr post data not recieved");
-                        }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [progressSpin stopAnimation:self];
-                        });
-                    }];
-                }
-            }
-            
-            
-        }else{
-            NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", public, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                for (NSDictionary *i in jsonData[@"response"][@"items"]){
-                    post_id = i[@"id"];
-                    
-                    
-                }
-                sleep(1);
-                NSURLSessionDataTask *addComment1 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.addComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@", public, post_id, _app.version, _app.token, message]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    
-                    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    if (jsonData[@"error"]){
-                        
-                        NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
-                    }
-                    else{
-                        NSLog(@"%@", jsonData);
-                    }
-                }];
-                [addComment1 resume];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [progressSpin stopAnimation:self];
-                    
-                });
-            }];
-            [getPostId resume];
-            
-        }
-    };
+    alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    guId = [NSMutableString stringWithCapacity:20];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if(PostVK.state==0 && PostTwitter.state==0 && postTumblr.state==0){
@@ -960,29 +654,347 @@
             });
             //                    NSLog(@"Selecte social network");
         }
-//        else if([message isEqual:@""] || message==nil){
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                cautionImage.hidden=NO;
-//                cautionLabel.hidden=NO;
-//                cautionLabel.stringValue=@"Textfield is empty";
-//                [progressSpin stopAnimation:self];
-//            });
-//        }
+        //        else if([message isEqual:@""] || message==nil){
+        //            dispatch_async(dispatch_get_main_queue(), ^{
+        //                cautionImage.hidden=NO;
+        //                cautionLabel.hidden=NO;
+        //                cautionLabel.stringValue=@"Textfield is empty";
+        //                [progressSpin stopAnimation:self];
+        //            });
+        //        }
         else{
             if (repeatState==1){
-               
-                makepost();
+                
+                [self postWithRepeat];
             }
             else{
-
-                makepost2();
+                
+                [self postWithoutRepeat];
             }
         }
-    
+        
     });
+
+}
+- (IBAction)makePostAction:(id)sender {
+    [self prepareForPost:nil attachs:nil msg:nil];
+}
+-(void)postWithRepeat{
     
+    __block NSString *post_id;
+    stopFlag = NO;
+    if(postRadio.state==1){
+        while(1){
+            if(!stopFlag){
+                
+                dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@", owner, message, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    
+                    if (postResponse[@"error"]){
+                        if([postResponse[@"error"][@"error_code"] intValue] == 14){
+                            NSLog(@"%@:%@", postResponse[@"error"][@"error_code"], postResponse[@"error"][@"error_msg"]);
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                NSInteger result = [[_captchaHandler handleCaptcha:postResponse[@"error"][@"captcha_img"]] runModal];
+                                if (result == NSAlertFirstButtonReturn){
+                                    //                                        NSLog(@"%@", enterCode.stringValue);
+                                    //                                        NSLog(@"%@", postResponse[@"error"][@"captcha_sid"]);
+                                    NSURLSessionDataTask *addComment2 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&v=%@&access_token=%@&message=%@&captcha_sid=%@&captcha_key=%@", owner, _app.version, _app.token, message, postResponse[@"error"][@"captcha_sid"], [_captchaHandler readCode]]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                        if(data){
+                                            NSDictionary *jsonData2 = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                            NSLog(@"%@", jsonData2);
+                                        }
+                                        dispatch_semaphore_signal(semaphore);
+                                        
+                                    }];
+                                    [addComment2 resume];
+                                    
+                                }
+                                if (result == NSAlertSecondButtonReturn){
+                                    stopFlag = YES;
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [progressSpin stopAnimation:self];
+                                    });
+                                    //                                                dispatch_semaphore_signal(semaphore);
+                                }
+                            });
+                        }
+                        else{
+                            NSLog(@"%@:%@", postResponse[@"error"][@"error_code"], postResponse[@"error"][@"error_msg"]);
+                            
+                            
+                        }
+                    }else{
+                        dispatch_semaphore_signal(semaphore);
+                        NSLog(@"%@", postResponse);
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressSpin stopAnimation:self];
+                    });
+                    
+                    
+                }]resume];
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                dispatch_semaphore_signal(semaphore);
+                sleep(1);
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [progressSpin stopAnimation:self];
+                });
+                break;
+            }
+            
+        }
+    }else{
+        NSString *afterPostFieldString = afterPostIdField.stringValue;
+        if(![afterPostFieldString isEqualToString:@""]){
+            post_id = afterPostFieldString;
+            NSLog(@"POST ID %@", post_id);
+        }else{
+            NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", owner, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                if(data){
+                    NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    for (NSDictionary *i in jsonData[@"response"][@"items"]){
+                        post_id = i[@"id"];
+                    }
+                    
+                }
+            }];
+            [getPostId resume];
+            sleep(1);
+        }
+        while(1){
+            if(!stopFlag){
+                
+                dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                
+                [guId setString:@""];
+                for (NSUInteger i = 0U; i < 20; i++) {
+                    u_int32_t r = arc4random() % [alphabet length];
+                    unichar c = [alphabet characterAtIndex:r];
+                    [guId appendFormat:@"%C", c];
+                }
+                NSURLSessionDataTask *addComment1 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.createComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@&guid=%@", owner, post_id, _app.version, _app.token, message, guId]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if(data){
+                        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        NSLog(@"%@", jsonData);
+                        if (jsonData[@"error"]){
+                            if([jsonData[@"error"][@"error_code"] intValue] == 14){
+                                NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
+                                //                                    NSLog(@"%@", jsonData[@"error"]);
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    NSInteger result = [[_captchaHandler handleCaptcha:jsonData[@"error"][@"captcha_img"]] runModal];
+                                    if ( result == NSAlertFirstButtonReturn){
+                                        NSURLSessionDataTask *addComment2 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.createComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@&captcha_sid=%@&captcha_key=%@&guid=%@", owner, post_id, _app.version, _app.token, message, jsonData[@"error"][@"captcha_sid"], _captchaHandler.enterCode.stringValue, guId]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                            if(data){
+                                                NSDictionary *jsonData2 = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                                NSLog(@"%@", jsonData2);
+                                            }
+                                            dispatch_semaphore_signal(semaphore);
+                                        }];
+                                        [addComment2 resume];
+                                    }
+                                    if (result == NSAlertSecondButtonReturn){
+                                        stopFlag = YES;
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [progressSpin stopAnimation:self];
+                                        });
+                                        //                                                dispatch_semaphore_signal(semaphore);
+                                    }
+                                    
+                                });
+                            }
+                            else{
+                                NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
+                            }
+                        }
+                        else{
+                            //                                NSLog(@"%@", jsonData);
+                            
+                            dispatch_semaphore_signal(semaphore);
+                            
+                        }
+                    }
+                }];
+                [addComment1 resume];
+                
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                dispatch_semaphore_signal(semaphore);
+                //
+                sleep(1);
+                
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [progressSpin stopAnimation:self];
+                });
+                break;
+            }
+        }
+        
+    }
 }
 
+-(void)postWithoutRepeat{
+    __block NSString *post_id;
+    if(postRadio.state==1){
+        if(PostVK.state==1){
+            NSString *vkURL;
+            __block NSString *messageForVk;
+            void (^startPostVk)(NSString *)=^(NSString *url){
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    if(data){
+                        NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        NSLog(@"%@", postResponse);
+                        
+                        if([postResponse[@"response"][@"post_id"] intValue]!=0){
+                            NSLog(@"New post in Vkontakte successfully done");
+                        }
+                        else{
+                            NSLog(@"New post in Vkontakte is not done");
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [progressSpin stopAnimation:self];
+                        });
+                    }
+                }]resume];
+            };
+            if(message && [attachmentsData count]>0){
+                //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
+                messageForVk=message;
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",owner, messageForVk, attachmentsPostVKString, _app.token, _app.version, [owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                startPostVk(vkURL);
+            }
+            else if(!message  && [attachmentsData count]>0){
+                //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
+                messageForVk=message;
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner, attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                startPostVk(vkURL);
+            }
+            else if(message  && [attachmentsData count]==0){
+                //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
+                messageForVk=message;
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@%@",owner, messageForVk, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                startPostVk(vkURL);
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cautionImage.hidden=NO;
+                    cautionLabel.hidden=NO;
+                    cautionLabel.stringValue=@"Textfield is empty and not attachments.";
+                    [progressSpin stopAnimation:self];
+                });
+            }
+            NSLog(@"%@", vkURL);
+            
+            
+        }
+        if(PostTwitter.state==1){
+            if([attachmentsData count]>0){
+                
+                [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"image":attachmentsData,@"status":message} handler:^(NSData *data) {
+                    if(data){
+                        NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        if(resp[@"id"])
+                            NSLog(@"New post with media in Twitter successfully done");
+                        else
+                            NSLog(@"New post with media in Twitter is not done");
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressSpin stopAnimation:self];
+                    });
+                }];
+                
+            }else{
+                
+                [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"status":message} handler:^(NSData *data) {
+                    NSDictionary *twittResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", twittResp);
+                    if(twittResp[@"id"])
+                        NSLog(@"New post in Twitter successfully done");
+                    else
+                        NSLog(@"New post in Twitter is not done");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressSpin stopAnimation:self];
+                    });
+                }];
+                
+            }
+        }
+        if(postTumblr.state==1){
+            if([attachmentsData count]>0){
+                [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":attachmentsData} handler:^(NSData *data) {
+                    if(data){
+                        NSDictionary *tumblrPhotoPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        if(tumblrPhotoPostResp[@"response"]){
+                            NSLog(@"Tumblr post with media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrPhotoPostResp[@"response"][@"id"]]);
+                        }else{
+                            NSLog(@"Tumblr post with media is not  done. Something wrong.");
+                        }
+                        //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+                        //                           NSLog(@"%@", tumblrResp);
+                    }else{
+                        NSLog(@"Tumblr post data not recieved");
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressSpin stopAnimation:self];
+                    });
+                }];
+                
+            }else{
+                [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
+                    if(data){
+                        NSDictionary *tumblrTextPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        if(tumblrTextPostResp[@"response"][@"id"]){
+                            NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
+                        }else{
+                            NSLog(@"Tumblr post without media is not  done. Something wrong.");
+                        }
+                        //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+                        //                           NSLog(@"%@", tumblrResp);
+                    }else{
+                        NSLog(@"Tumblr post data not recieved");
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [progressSpin stopAnimation:self];
+                    });
+                }];
+            }
+        }
+        
+        
+    }else{
+        NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", owner, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            for (NSDictionary *i in jsonData[@"response"][@"items"]){
+                post_id = i[@"id"];
+                
+                
+            }
+            sleep(1);
+            NSURLSessionDataTask *addComment1 = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.addComment?owner_id=%@&post_id=%@&v=%@&access_token=%@&text=%@", owner, post_id, _app.version, _app.token, message]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                
+                NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                if (jsonData[@"error"]){
+                    
+                    NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
+                }
+                else{
+                    NSLog(@"%@", jsonData);
+                }
+            }];
+            [addComment1 resume];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [progressSpin stopAnimation:self];
+                
+            });
+        }];
+        [getPostId resume];
+        
+    }
+
+}
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     if([notification.object isEqual:recentGroups]){
         NSInteger row = [recentGroups selectedRow] ?  [recentGroups selectedRow] : 0;

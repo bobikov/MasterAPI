@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "appInfo.h"
 @interface TasksViewController : NSViewController{
      NSInteger seconds;
     __weak IBOutlet NSTableView *tasksList;
@@ -16,6 +16,7 @@
     NSInteger newSessionIndex;
     NSInteger totalTasksInSession;
     NSMutableArray *sessionsCurrentTaskIndexes;
+    appInfo *app;
     
 }
 
