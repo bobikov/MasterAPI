@@ -121,7 +121,7 @@
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
     newSessionStartBut.enabled=NO;
-    publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag;
+    publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
     [publishingDateForPost setDateValue: [NSDate date]];
   
  

@@ -15,13 +15,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6a8-Kx-p9W">
-                                <rect key="frame" x="57" y="324" width="634" height="271"/>
+                                <rect key="frame" x="57" y="144" width="634" height="451"/>
                                 <clipView key="contentView" ambiguous="YES" id="gHR-8c-exW">
-                                    <rect key="frame" x="1" y="1" width="632" height="269"/>
+                                    <rect key="frame" x="1" y="1" width="632" height="449"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="50" viewBased="YES" id="FWE-hR-z0w">
-                                            <rect key="frame" x="0.0" y="0.0" width="632" height="269"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="632" height="449"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -44,29 +44,11 @@
                                                             <rect key="frame" x="1" y="1" width="629" height="49"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uRx-vO-4h4">
-                                                                    <rect key="frame" x="0.0" y="34" width="192" height="14"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="hpe-vC-wib">
-                                                                        <font key="font" metaFont="system" size="12"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
-                                                                </textField>
                                                                 <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ace-Qv-dcC">
                                                                     <rect key="frame" x="4" y="-1" width="530" height="20"/>
                                                                 </progressIndicator>
-                                                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBV-eF-Eht">
-                                                                    <rect key="frame" x="566" y="10" width="18" height="18"/>
-                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Ndf-8H-eyW">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <action selector="stopResume:" target="FF0-yc-SNw" id="Cam-Vo-q1y"/>
-                                                                    </connections>
-                                                                </button>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3EN-3y-bKu">
-                                                                    <rect key="frame" x="411" y="34" width="98" height="14"/>
+                                                                    <rect key="frame" x="411" y="34" width="156" height="14"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zio-Kb-J4G">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -76,11 +58,29 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wCr-Gn-VOH">
                                                                     <rect key="frame" x="411" y="17" width="119" height="14"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="OaR-Ik-x4r">
-                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uRx-vO-4h4">
+                                                                    <rect key="frame" x="2" y="34" width="192" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="hpe-vC-wib">
+                                                                        <font key="font" metaFont="cellTitle"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBV-eF-Eht">
+                                                                    <rect key="frame" x="583" y="13" width="18" height="18"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Ndf-8H-eyW">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="stopResume:" target="FF0-yc-SNw" id="Cam-Vo-q1y"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="StopResume" destination="bBV-eF-Eht" id="M2G-RB-BFE"/>
@@ -108,7 +108,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1K-bC-qHa">
-                                <rect key="frame" x="65" y="276" width="96" height="32"/>
+                                <rect key="frame" x="51" y="104" width="96" height="32"/>
                                 <buttonCell key="cell" type="push" title="New task" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZFC-jG-L1u">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
