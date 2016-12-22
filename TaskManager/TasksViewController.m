@@ -69,19 +69,21 @@
             
         }else{
             if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
-                NSLog(@"%@", sessionsData[[timer.userInfo[@"index"] intValue]][@"info"][@"stopped"]);
+                NSLog(@"%@", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"]);
                 [timer invalidate];
             }else{
                 timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
-                NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][[timer.userInfo[@"task_index"] intValue]][@"data"][@"date"];
+                NSDate *nextDate = sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"][[timer.userInfo[@"task_index"] intValue]][@"date"];
                 NSString *nextDateString = [self getStringDate:nextDate];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
                 NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"date"];
-                NSTimer *timer = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"index"] intValue]], @"task_index":@0}] repeats:NO];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
                 
+                NSTimer *timer2 = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateTaskProgressInSession:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"session_index"] intValue]], @"task_index":[NSNumber numberWithInteger:[timer.userInfo[@"task_index"] intValue]]}] repeats:NO];
+                [[NSRunLoop currentRunLoop] addTimer:timer2 forMode:NSDefaultRunLoopMode];
+               
             }
         }
     }

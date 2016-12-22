@@ -13,5 +13,6 @@
 @property (weak) IBOutlet NSProgressIndicator *taskProgress;
 @property (weak) IBOutlet NSButton *StopResume;
 @property (weak) IBOutlet NSTextField *nextEventDate;
+@property (weak) IBOutlet NSTextField *countTasksLabel;
 
 @end
