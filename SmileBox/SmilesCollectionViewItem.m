@@ -18,10 +18,12 @@
     [super viewDidLoad];
     // Do view setup here.
      [self createTrackingArea];
-//   self.view.wantsLayer=YES;
-//    self.view.layer.masksToBounds=YES;
+   self.view.wantsLayer=YES;
+    self.view.layer.masksToBounds=YES;
 //      self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
 //   
+    self.view.layer.shouldRasterize = YES;
+    self.view.layer.rasterizationScale = [[NSScreen mainScreen] backingScaleFactor];
     
 //    _smileItem.layer.masksToBounds=YES;
 //    _smileItem.layer.cornerRadius=2;

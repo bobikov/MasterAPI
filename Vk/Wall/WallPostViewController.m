@@ -132,7 +132,7 @@
     TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
 //    [contr loadView];  
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_name":currentPostsSessionName, @"session_data": queuePostsInSession}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": queuePostsInSession}];
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;

@@ -117,7 +117,7 @@
     NSMutableDictionary *sessionObject;
     nextDate = data[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
-   NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_name":data[@"session_name"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+   NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
     sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
     [sessionsData addObject:sessionObject];
     newSessionIndex=[sessionsData count]-1;
@@ -138,6 +138,7 @@
     cell.taskProgress.doubleValue=[sessionsData[row][@"info"][@"current_task_index"] intValue];
     cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
     cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
+    cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
     if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){
         cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
         

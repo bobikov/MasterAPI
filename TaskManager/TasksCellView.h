@@ -14,5 +14,6 @@
 @property (weak) IBOutlet NSButton *StopResume;
 @property (weak) IBOutlet NSTextField *nextEventDate;
 @property (weak) IBOutlet NSTextField *countTasksLabel;
+@property (weak) IBOutlet NSTextField *sessionType;
 
 @end
