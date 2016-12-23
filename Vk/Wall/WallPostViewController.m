@@ -127,7 +127,11 @@
     newSessionNameField.stringValue=@"";
     newSessionStartBut.enabled=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
-    [publishingDateForPost setDateValue: [NSDate date]];
+    NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *comps = [cal components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
+    [comps setSecond:0];
+    [comps setCalendar:cal];
+    [publishingDateForPost setDateValue: [comps date] ];
   
  
 }

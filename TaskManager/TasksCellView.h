@@ -15,5 +15,7 @@
 @property (weak) IBOutlet NSTextField *nextEventDate;
 @property (weak) IBOutlet NSTextField *countTasksLabel;
 @property (weak) IBOutlet NSTextField *sessionType;
+@property (weak) IBOutlet NSTextField *startSessionDate;
+@property (weak) IBOutlet NSTextField *targetOwner;
 
 @end

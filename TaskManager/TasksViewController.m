@@ -109,6 +109,7 @@
 }
 -(void)startSession{
     NSDate *startSessionTaskDate = sessionsData[newSessionIndex][@"data"][0][@"date"];
+   
 //    NSLog(@"%@", sessionsData[newSessionIndex][@"data"][0][@"date"]);
     NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:newSessionIndex], @"task_index":@0}] repeats:NO];
 ////    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInteger:taskIndex], @"seconds":@0}] repeats:YES];
@@ -129,12 +130,14 @@
     
     NSDate *nextDate;
     NSString *nextDateString;
+
     totalTasksInSession = [data[@"session_data"] count];
 //    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", newSessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
     NSMutableDictionary *sessionObject;
     nextDate = data[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
-   NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+    NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+ 
     sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
     [sessionsData addObject:sessionObject];
     newSessionIndex=[sessionsData count]-1;
@@ -151,12 +154,15 @@
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     TasksCellView *cell = (TasksCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
+    NSInteger taskIndex =[sessionsData[row][@"info"][@"current_task_index"] intValue];
     cell.taskName.stringValue=[NSString stringWithFormat:@"Session name: %@", sessionsData[row][@"info"][@"session_name"]];
     cell.taskProgress.maxValue=[sessionsData[row][@"info"][@"totalTasks"] intValue];
-    cell.taskProgress.doubleValue=[sessionsData[row][@"info"][@"current_task_index"] intValue];
+    cell.taskProgress.doubleValue=taskIndex;
     cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
     cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
+    cell.targetOwner.stringValue = [NSString stringWithFormat:@"%@", sessionsData[row][@"data"][taskIndex][@"target_owner"]];
     cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
+    cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Session start: %@", sessionsData[row][@"info"][@"session_start_date"]];
     if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){
         cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
         
