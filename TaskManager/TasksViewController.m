@@ -102,7 +102,15 @@
 }
 -(void)postVK:(id)object{
     NSLog(@"%@", object);
-    [[app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&message=%@&access_token=%@&v=%@", object[@"target_owner"], object[@"attachments"],[object[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], app.token, app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSString *url;
+    if(![object[@"attachments"] isEqual:@""] && ![object[@"message"] isEqual:@""]){
+        url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&message=%@&access_token=%@&v=%@", object[@"target_owner"], object[@"attachments"],[object[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], app.token, app.version];
+    }else if([object[@"attachments"] isEqual:@""] && ![object[@"message"] isEqual:@""]){
+         url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@", object[@"target_owner"], [object[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], app.token, app.version];
+    }else if(![object[@"attachments"] isEqual:@""] && [object[@"message"] isEqual:@""]){
+           url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@", object[@"target_owner"], object[@"attachments"], app.token, app.version];
+    }
+    [[app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *postResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         NSLog(@"%@", postResp);
     }]resume];
@@ -160,7 +168,7 @@
     cell.taskProgress.doubleValue=taskIndex;
     cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
     cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
-    cell.targetOwner.stringValue = [NSString stringWithFormat:@"%@", sessionsData[row][@"data"][taskIndex][@"target_owner"]];
+    cell.targetOwner.stringValue = [NSString stringWithFormat:@"%@", sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owner"]];
     cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
     cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Session start: %@", sessionsData[row][@"info"][@"session_start_date"]];
     if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){

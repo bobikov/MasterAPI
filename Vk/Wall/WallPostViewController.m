@@ -121,7 +121,6 @@
     addPostToQueueBut.hidden=NO;
     startedSessionStatusLabel.hidden=NO;
     startedSessionCloseBut.hidden=NO;
-   
     currentPostsSessionName = newSessionNameField.stringValue;
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
@@ -136,17 +135,28 @@
  
 }
 - (IBAction)saveSession:(id)sender {
-    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+ 
+//    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     
-    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
-//    [contr loadView];  
-    
+//    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
+//    [contr loadView];
+    addPostToQueueBut.hidden=YES;
+    startedSessionStatusLabel.hidden=YES;
+    startedSessionCloseBut.hidden=YES;
+    publishingDateForPost.hidden=YES;
+    startedSessionCloseBut.enabled=YES;
+    newSessionStartBut.enabled=YES;
+    savePostsSessionBut.hidden=YES;
     [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+    [queuePostsInSession removeAllObjects];
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
     NSDate *selectedDate = publishingDateForPost.dateValue;
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message, @"attachments":attachmentsPostVKString, @"date":selectedDate}];
+ 
+    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate}];
+  
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
 //    NSLog(@"%@", queuePostsInSession);
 //    NSLog(@"%@ %@", message, attachmentsPostVKString );
