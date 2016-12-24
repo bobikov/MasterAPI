@@ -131,25 +131,22 @@
     rows=[favesUsersList selectedRowIndexes];
     [selectedUsers removeAllObjects];
     void(^addToBanBlock)()=^void(){
-        for (NSInteger i = [rows firstIndex]; i != NSNotFound; i = [rows indexGreaterThanIndex: i]){
-            [selectedUsers addObject:@{@"id":favesUsersData[i][@"id"], @"index":[NSNumber numberWithInteger:i]}] ;
-            
-            
-        }
-        for(NSDictionary *i in selectedUsers){
+       
+        for(NSDictionary *i in [favesUsersData objectsAtIndexes:rows]){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.banUser?user_id=%@&v=%@&access_token=%@", i[@"id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *addToBanResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
                 NSLog(@"%@", addToBanResponse);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [favesUsersList deselectRow:[i[@"index"] intValue]];
+                    [favesUsersList deselectRow:[favesUsersData indexOfObject:i]];
+                    [favesUsersList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[favesUsersData indexOfObject:i]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
                 });
             }]resume];
             sleep(1);
             
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [favesUsersData removeObjectsAtIndexes:rows];
-            [favesUsersList reloadData];
+//            [favesUsersData removeObjectsAtIndexes:rows];
+//            [favesUsersList reloadData];
             
             
         });

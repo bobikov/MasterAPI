@@ -17,6 +17,7 @@
     NSInteger totalTasksInSession;
     NSMutableArray *sessionsCurrentTaskIndexes;
     appInfo *app;
+    NSMutableArray *timers;
     
 }
 

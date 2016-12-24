@@ -153,9 +153,9 @@
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+    
     NSDate *selectedDate = publishingDateForPost.dateValue;
- 
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate}];
+    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate}];
   
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
 //    NSLog(@"%@", queuePostsInSession);

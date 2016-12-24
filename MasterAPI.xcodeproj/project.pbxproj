@@ -272,6 +272,8 @@
 		2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
+		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
+		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE662D1E07F2F500364A80 /* TasksCellView.m */; };
 		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
 /* End PBXBuildFile section */
@@ -752,6 +754,10 @@
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
+		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
+		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
+		2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsCellView.m; sourceTree = "<group>"; };
 		2BCE662C1E07F2F500364A80 /* TasksCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksCellView.h; sourceTree = "<group>"; };
 		2BCE662D1E07F2F500364A80 /* TasksCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksCellView.m; sourceTree = "<group>"; };
 		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
@@ -1136,6 +1142,10 @@
 				2B41FCD21E03E59E0013AC86 /* TasksViewController.m */,
 				2BCE662C1E07F2F500364A80 /* TasksCellView.h */,
 				2BCE662D1E07F2F500364A80 /* TasksCellView.m */,
+				2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */,
+				2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */,
+				2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */,
+				2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */,
 			);
 			path = TaskManager;
 			sourceTree = "<group>";
@@ -1850,6 +1860,7 @@
 				2B41FC721E02D3F70013AC86 /* DocsPersonalViewcontroller.m in Sources */,
 				2B41FC021E02D3F60013AC86 /* SmilesCollectionViewItem.m in Sources */,
 				2B41FC6E1E02D3F70013AC86 /* DialogsViewController.m in Sources */,
+				2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */,
 				2B41FCA11E02D3F70013AC86 /* SubscribersCustomCell.m in Sources */,
 				2B41FC911E02D3F70013AC86 /* LongPoll.m in Sources */,
 				2B41FBE51E02D3F60013AC86 /* InstagramAuth.m in Sources */,
@@ -1931,6 +1942,7 @@
 				2B41FC621E02D3F70013AC86 /* CreateAlbumPopup.m in Sources */,
 				2B41FC561E02D3F60013AC86 /* TwitterFriendsCustomCell.m in Sources */,
 				2B41FCBE1E02D3F70013AC86 /* YoutubeRWData.m in Sources */,
+				2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */,
 				2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */,
 				2B41FC941E02D3F70013AC86 /* CreateNewAlbumController.m in Sources */,
 				2B41FC4D1E02D3F60013AC86 /* TumblrFollowing.m in Sources */,

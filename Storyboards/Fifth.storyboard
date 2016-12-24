@@ -72,7 +72,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBV-eF-Eht">
-                                                                    <rect key="frame" x="664" y="7" width="16" height="16"/>
+                                                                    <rect key="frame" x="655" y="7" width="16" height="16"/>
                                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Ndf-8H-eyW">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -96,11 +96,11 @@
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <segue destination="5Vo-Zq-odR" kind="sheet" id="lWa-Qu-MRO"/>
+                                                                        <segue destination="5Vo-Zq-odR" kind="sheet" identifier="SessionDetails" id="lWa-Qu-MRO"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ghm-8s-LAJ">
-                                                                    <rect key="frame" x="673" y="32" width="15" height="15"/>
+                                                                    <rect key="frame" x="668" y="32" width="12" height="13"/>
                                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSStopProgressTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="FPr-y1-Z2P">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -151,8 +151,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1K-bC-qHa">
-                                <rect key="frame" x="51" y="104" width="96" height="32"/>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k1K-bC-qHa">
+                                <rect key="frame" x="22" y="96" width="96" height="32"/>
                                 <buttonCell key="cell" type="push" title="New task" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZFC-jG-L1u">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -171,17 +171,102 @@
             </objects>
             <point key="canvasLocation" x="243" y="224"/>
         </scene>
-        <!--View Controller-->
+        <!--Session Tasks Details View-->
         <scene sceneID="PYy-M7-7B1">
             <objects>
-                <viewController id="5Vo-Zq-odR" sceneMemberID="viewController">
+                <viewController id="5Vo-Zq-odR" customClass="SessionTasksDetailsView" sceneMemberID="viewController">
                     <view key="view" id="XO2-sJ-Pf6">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="102" horizontalPageScroll="10" verticalLineScroll="102" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYW-85-h5g">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                <clipView key="contentView" ambiguous="YES" id="Ost-BD-cIw">
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="100" viewBased="YES" id="19N-Ox-Exj">
+                                            <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <size key="intercellSpacing" width="3" height="2"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn identifier="MainCell" width="447" minWidth="40" maxWidth="1000" id="HW4-F0-sSj">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Szi-yn-DJf">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView id="ISX-37-Dk1" customClass="SessionTasksDetailsCellView">
+                                                            <rect key="frame" x="1" y="1" width="447" height="104"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ck4-Qo-L5r">
+                                                                    <rect key="frame" x="3" y="4" width="441" height="73"/>
+                                                                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="nH3-VU-s05">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="73"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <subviews>
+                                                                            <collectionView ambiguous="YES" id="EIn-qf-VI6">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="441" height="73"/>
+                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="bs1-6K-ueu">
+                                                                                    <size key="itemSize" width="70" height="70"/>
+                                                                                </collectionViewFlowLayout>
+                                                                                <color key="primaryBackgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                                                            </collectionView>
+                                                                        </subviews>
+                                                                    </clipView>
+                                                                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="GbV-V5-Anl">
+                                                                        <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                    </scroller>
+                                                                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ymh-R2-niI">
+                                                                        <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                    </scroller>
+                                                                </scrollView>
+                                                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aEy-4X-tvK">
+                                                                    <rect key="frame" x="0.0" y="79" width="446" height="26"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" id="rZ6-0t-ol3">
+                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="postAttachments" destination="EIn-qf-VI6" id="EFf-Sh-wUD"/>
+                                                                <outlet property="postText" destination="aEy-4X-tvK" id="Tw0-nd-M5n"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                        </tableView>
+                                    </subviews>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="pKv-Vs-8Dk">
+                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="QhO-j7-352">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nZJ-CA-tkk">
-                                <rect key="frame" x="14" y="273" width="20" height="21"/>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W17-Vi-G9b">
+                                <rect key="frame" x="5" y="287" width="14" height="13"/>
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSStopProgressTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="W17-Vi-G9b">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -191,10 +276,13 @@
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="postsList" destination="19N-Ox-Exj" id="4Xb-ah-hvO"/>
+                    </connections>
                 </viewController>
                 <customObject id="Seq-Iq-410" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="867" y="71"/>
+            <point key="canvasLocation" x="949" y="43"/>
         </scene>
         <!--Privacy Photo View Controller-->
         <scene sceneID="tFg-qd-vD9">
@@ -712,7 +800,6 @@
     </scenes>
     <resources>
         <image name="NSInfo" width="32" height="32"/>
-        <image name="NSRemoveTemplate" width="11" height="11"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="NSStopProgressTemplate" width="11" height="11"/>
     </resources>
