@@ -71,10 +71,106 @@
     [self setSelectorsButtonsState];
     
 }
+-(void)viewDidAppear{
+    
+    if(![self parentViewController]){
+        self.view.window.level = NSFloatingWindowLevel;
+    }
+    
+}
+
+-(void)textDidChange:(NSNotification *)notification{
+    
+    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
+    [self setSelectorsButtonsState];
+}
+
+-(void)addToAttachments:(NSNotification *)notification{
+    mediaAttachmentType = notification.userInfo[@"type"];
+    [indexPaths removeAllObjects];
+    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]};
+    if(![attachmentsData containsObject:object]){
+        [attachmentsData insertObject:object atIndex:0];
+        
+        //    [newData addObject:@{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]}];
+        [indexPaths addObject:[NSIndexPath indexPathForItem: 0 inSection:0]];
+        
+        [attachmentsCollectionView insertItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
+        //    NSLog(@"%@", indexPaths);
+        [attachmentsCollectionView setContent:attachmentsData];
+        
+        countPhotoInAttachments = 0;
+        countVideoInAttachments = 0;
+        countDocsInAttachments = 0;
+        ////    NSLog(@"%@", attachmentsData);
+        preparedAttachmentsString = [[NSMutableArray alloc]init];
+        for(NSDictionary *i in attachmentsData){
+            if([i[@"type"] isEqual:@"photo"]){
+                countPhotoInAttachments++;
+            }
+            else if([i[@"type"] isEqual:@"video"]){
+                countVideoInAttachments++;
+            }
+            else if([i[@"type"] isEqual:@"doc"]){
+                countDocsInAttachments++;
+            }
+//            NSInteger ownerInAttachString =i[@"data"][@"owner"]?abs([i[@"data"][@"owner"] intValue]):abs([i[@"data"][@"owner_id"]intValue]);
+             NSString *ownerInAttachString =i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"];
+            [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], ownerInAttachString, [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+            
+        }
+        //
+        attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
+        NSLog(@"%@",attachmentsPostVKString);
+        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
+        
+        [attachmentsCollectionView reloadItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
+        //    [attachmentsCollectionView reloadData];
+    }
+}
+-(void)removeItemFromAttachments:(NSNotification*)notification{
+    
+    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[attachmentsData indexOfObject:notification.userInfo[@"data"]] inSection:0];
+    
+    [attachmentsData removeObjectAtIndex:[attachmentsData indexOfObject:notification.userInfo[@"data"]]];
+    [attachmentsCollectionView deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+    attachmentsCollectionView.content=attachmentsData;
+    //    [attachmentsCollectionView reloadData];
+    //    NSLog(@"%@", attachmentsData);
+    countPhotoInAttachments = 0;
+    countVideoInAttachments = 0;
+    countDocsInAttachments = 0;
+    attachmentsPostVKString = nil;
+    [preparedAttachmentsString removeAllObjects];
+    for(NSDictionary *i in attachmentsData){
+        if([i[@"type"] isEqual:@"photo"]){
+            countPhotoInAttachments++;
+        }
+        else if([i[@"type"] isEqual:@"video"]){
+            countVideoInAttachments++;
+        }
+        else if([i[@"type"] isEqual:@"doc"]){
+            countDocsInAttachments++;
+        }
+        [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], i[@"data"][@"owner_id"], [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+        
+    }
+    //
+    attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
+    NSLog(@"%@",attachmentsPostVKString);
+    
+    attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
+    
+    
+    
+}
+
 -(void)observeScheduledPost:(NSNotification*)object{
     NSLog(@"%@", object.userInfo);
-    [self prepareForPost:object.userInfo[@"target_owner"] attachs:object.userInfo[@"attachments"] msg:object.userInfo[@"message"] repeatPost:NO scheduled:YES];
+    NSMutableDictionary *object1 = [object.userInfo mutableCopy];
+    [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
 }
+
 - (IBAction)closeStartedSessionAction:(id)sender {
     addPostToQueueBut.hidden=YES;
     startedSessionStatusLabel.hidden=YES;
@@ -141,45 +237,11 @@
         savePostsSessionBut.hidden=NO;
     }
 }
+
 -(void)insertSmile:(NSNotification*)notification{
     textView.string = [NSString stringWithFormat:@"%@%@", textView.string, notification.userInfo[@"smile"]];
 }
--(void)removeItemFromAttachments:(NSNotification*)notification{
 
-    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[attachmentsData indexOfObject:notification.userInfo[@"data"]] inSection:0];
- 
-     [attachmentsData removeObjectAtIndex:[attachmentsData indexOfObject:notification.userInfo[@"data"]]];
-    [attachmentsCollectionView deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-    attachmentsCollectionView.content=attachmentsData;
-//    [attachmentsCollectionView reloadData];
-//    NSLog(@"%@", attachmentsData);
-    countPhotoInAttachments = 0;
-    countVideoInAttachments = 0;
-    countDocsInAttachments = 0;
-    attachmentsPostVKString = nil;
-    [preparedAttachmentsString removeAllObjects];
-    for(NSDictionary *i in attachmentsData){
-        if([i[@"type"] isEqual:@"photo"]){
-            countPhotoInAttachments++;
-        }
-        else if([i[@"type"] isEqual:@"video"]){
-            countVideoInAttachments++;
-        }
-        else if([i[@"type"] isEqual:@"doc"]){
-            countDocsInAttachments++;
-        }
-        [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], i[@"data"][@"owner_id"], [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
-        
-    }
-    //
-    attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
-    NSLog(@"%@",attachmentsPostVKString);
-
-      attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
-    
-   
-    
-}
 -(void)setSelectorsButtonsState{
     if([textView.string isEqualToString:@""]){
         [PostTwitter setEnabled:NO];
@@ -190,6 +252,7 @@
         [postTumblr setEnabled:YES];
     }
 }
+
 - (IBAction)newPost:(id)sender {
     
     textView.string = @"";
@@ -200,6 +263,7 @@
     [indexPaths removeAllObjects];
 
 }
+
 - (IBAction)deleteMessage:(id)sender {
     NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
@@ -244,14 +308,6 @@
             }
         }];
     }];
-}
-
--(void)viewDidAppear{
-   
-    if(![self parentViewController]){
-          self.view.window.level = NSFloatingWindowLevel;
-    }
-
 }
 - (IBAction)removeGroupsToPost:(id)sender {
     NSInteger row = [recentGroups selectedRow];
@@ -298,53 +354,9 @@
     }
     
 }
--(void)addToAttachments:(NSNotification *)notification{
-    mediaAttachmentType = notification.userInfo[@"type"];
-    [indexPaths removeAllObjects];
-    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]};
-    if(![attachmentsData containsObject:object]){
-        [attachmentsData insertObject:object atIndex:0];
-        
-        //    [newData addObject:@{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]}];
-        [indexPaths addObject:[NSIndexPath indexPathForItem: 0 inSection:0]];
-        
-        [attachmentsCollectionView insertItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
-        //    NSLog(@"%@", indexPaths);
-        [attachmentsCollectionView setContent:attachmentsData];
-        
-        countPhotoInAttachments = 0;
-        countVideoInAttachments = 0;
-        countDocsInAttachments = 0;
-        ////    NSLog(@"%@", attachmentsData);
-        preparedAttachmentsString = [[NSMutableArray alloc]init];
-        for(NSDictionary *i in attachmentsData){
-            if([i[@"type"] isEqual:@"photo"]){
-                countPhotoInAttachments++;
-            }
-            else if([i[@"type"] isEqual:@"video"]){
-                countVideoInAttachments++;
-            }
-            else if([i[@"type"] isEqual:@"doc"]){
-                countDocsInAttachments++;
-            }
-            [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"], [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
-            
-        }
-        //
-        attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
-        NSLog(@"%@",attachmentsPostVKString);
-        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
-        
-        [attachmentsCollectionView reloadItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
-        //    [attachmentsCollectionView reloadData];
-    }
-}
 
--(void)textDidChange:(NSNotification *)notification{
-   
-    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
-    [self setSelectorsButtonsState];
-}
+
+
 -(NSArray*)ReadGroups{
     NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
@@ -603,7 +615,7 @@
     guId = [NSMutableString stringWithCapacity:20];
     postAfter =  [afterPost.stringValue intValue]-1;
     if(scheduled){
-        owner = ownerID;
+        owner = [NSString stringWithFormat:@"%@",ownerID];
         attachmentsPostVKString = attachs;
         message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         postTargetSourceSelector[@"vk"]=@1;
@@ -879,9 +891,9 @@
             startPostVk(vkURL);
         }
         else if(!message  && [attachmentsData count]>0){
-            //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-//            messageForVk=message;
+    
             vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner, attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+//            NSLog(@"%@", vkURL);
             startPostVk(vkURL);
         }
         else if(message  && [attachmentsData count]==0){

@@ -17,5 +17,6 @@
 @property (weak) IBOutlet NSTextField *sessionType;
 @property (weak) IBOutlet NSTextField *startSessionDate;
 @property (weak) IBOutlet NSTextField *targetOwner;
+@property (weak) IBOutlet NSImageView *completed;
 
 @end

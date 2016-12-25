@@ -87,16 +87,17 @@
             if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
                 
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]] mutableCopy]];
                 
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
+                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"completed"]=@1;
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             
                 NSLog(@"Session %@ complete.", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"session_name"]);
                 
             }else{
                 
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
+               [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]] mutableCopy]];
 
                 
                 timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
@@ -150,7 +151,7 @@
     NSMutableDictionary *sessionObject;
     nextDate = data[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
-    NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
+    NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0, @"completed":@0}];
     sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
     [sessionsData addObject:sessionObject];
     newSessionIndex=[sessionsData count]-1;
@@ -181,6 +182,9 @@
         
     }else{
         cell.StopResume.image=[NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
+    }
+    if([sessionsData[row][@"info"][@"completed"] intValue]){
+        cell.completed.hidden=NO;
     }
     return cell;
 }

@@ -58,7 +58,7 @@
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uRx-vO-4h4">
                                                                     <rect key="frame" x="2" y="34" width="192" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Label" id="hpe-vC-wib">
-                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -84,7 +84,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cir-4l-jN0">
                                                                     <rect key="frame" x="198" y="34" width="193" height="14"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="7ST-5z-oby">
-                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -122,9 +122,14 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
+                                                                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIS-wa-uLs">
+                                                                    <rect key="frame" x="623" y="26" width="20" height="20"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="mark1" id="3yz-I9-dHP"/>
+                                                                </imageView>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="StopResume" destination="bBV-eF-Eht" id="M2G-RB-BFE"/>
+                                                                <outlet property="completed" destination="OIS-wa-uLs" id="wq8-8T-KZ6"/>
                                                                 <outlet property="countTasksLabel" destination="wCr-Gn-VOH" id="pfV-w2-yxa"/>
                                                                 <outlet property="nextEventDate" destination="3EN-3y-bKu" id="2Gj-A4-F8s"/>
                                                                 <outlet property="sessionType" destination="Ath-jF-jAY" id="SEj-1E-4lS"/>
@@ -216,7 +221,6 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <collectionView ambiguous="YES" id="EIn-qf-VI6">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="441" height="73"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="bs1-6K-ueu">
                                                                                     <size key="itemSize" width="70" height="70"/>
@@ -237,7 +241,7 @@
                                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aEy-4X-tvK">
                                                                     <rect key="frame" x="0.0" y="79" width="446" height="26"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" id="rZ6-0t-ol3">
-                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <font key="font" metaFont="cellTitle"/>
                                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -256,7 +260,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="pKv-Vs-8Dk">
-                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                    <rect key="frame" x="0.0" y="-15" width="0.0" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="QhO-j7-352">
@@ -802,5 +806,6 @@
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="NSStopProgressTemplate" width="11" height="11"/>
+        <image name="mark1" width="30" height="30"/>
     </resources>
 </document>
