@@ -24,6 +24,8 @@
     timers = [[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
 }
+- (IBAction)newSession:(id)sender {
+}
 
 -(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     NSView *view=[sender superview];
@@ -86,8 +88,10 @@
 //        }else{
             if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
-                
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]] mutableCopy]];
+                NSString *attachments = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"attachments"]copy];
+                NSString *target_owner = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"target_owner"]copy];
+                NSString *message = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"message"]copy];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[NSMutableDictionary dictionaryWithDictionary:@{@"message":message, @"attachments":attachments, @"target_owner":target_owner}]];
                 
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"completed"]=@1;
@@ -96,10 +100,14 @@
                 NSLog(@"Session %@ complete.", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"session_name"]);
                 
             }else{
-                
-               [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]] mutableCopy]];
+                NSString *attachments = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"attachments"]copy];
+                NSString *target_owner = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"target_owner"]copy];
+                NSString *message = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"message"]copy];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[NSMutableDictionary dictionaryWithDictionary:@{@"message":message, @"attachments":attachments, @"target_owner":target_owner}]];
 
-                
+                if(timers[[timer.userInfo[@"session_index"] intValue]]){
+                    [timers removeObjectAtIndex:[timer.userInfo[@"session_index"] intValue]];
+                }
                 timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]];
@@ -108,15 +116,14 @@
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
                 NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"date"];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-              
+                
                 NSTimer *timer2 = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"session_index"] intValue]], @"task_index":[NSNumber numberWithInteger:[timer.userInfo[@"task_index"] intValue]]}] repeats:NO];
                 
                 
                 [[NSRunLoop currentRunLoop] addTimer:timer2 forMode:NSDefaultRunLoopMode];
-                if(timers[[timer.userInfo[@"session_index"] intValue]]){
-                    [timers removeObjectAtIndex:[timer.userInfo[@"session_index"] intValue]];
-                }
-                [timers insertObject:timer2 atIndex:[timer.userInfo[@"session_index"] intValue]];
+               
+//                [timers insertObject:timer2 atIndex:[timer.userInfo[@"session_index"] intValue]];
+                timers[[timer.userInfo[@"session_index"] intValue]]=timer2;
                 
             }
 //        }

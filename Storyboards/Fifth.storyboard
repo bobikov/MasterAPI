@@ -163,7 +163,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="newSession:" target="FF0-yc-SNw" id="LR4-dY-Sdf"/>
+                                    <action selector="newSession:" target="FF0-yc-SNw" id="hP8-fN-nUH"/>
                                 </connections>
                             </button>
                         </subviews>

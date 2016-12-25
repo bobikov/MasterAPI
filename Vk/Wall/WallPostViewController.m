@@ -38,7 +38,7 @@
     queuePostsInSession = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeScheduledPost:) name:@"DoScheduledPost" object:nil];
+    
 //    attachmentsCollectionView.wantsLayer=YES;
     attachmentsData = [[NSMutableArray alloc]init];
 //   attachmentsCollectionView.layer.backgroundColor = [NSColor clearColor];
@@ -66,8 +66,10 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToAttachments:) name:@"addToAttachments" object:nil];
     preparedAttachmentsString = [[NSMutableArray alloc]init];
+     postTargetSourceSelector = [[NSMutableDictionary alloc]initWithDictionary:@{@"vk":@0, @"tumblr":@0, @"twitter":@0}];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeItemFromAttachments:) name:@"removeItemFromAttachments" object:nil];
-    postTargetSourceSelector = [[NSMutableDictionary alloc]initWithDictionary:@{@"vk":@0, @"tumblr":@0, @"twitter":@0}];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeScheduledPost:) name:@"DoScheduledPost" object:nil];
+   
     [self setSelectorsButtonsState];
     
 }
@@ -168,7 +170,9 @@
 -(void)observeScheduledPost:(NSNotification*)object{
     NSLog(@"%@", object.userInfo);
     NSMutableDictionary *object1 = [object.userInfo mutableCopy];
-    [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
+//       dispatch_after(1, dispatch_get_main_queue(), ^(void){
+           [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
+//       });
 }
 
 - (IBAction)closeStartedSessionAction:(id)sender {
@@ -190,6 +194,7 @@
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
     newSessionStartBut.enabled=NO;
+//    savePostsSessionBut.hidden=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
     NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *comps = [cal components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
@@ -609,18 +614,19 @@
         }];
     }];
 }
--(void)prepareForPost:(id)ownerID attachs:(id)attachs msg:(id)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
+-(void)prepareForPost:(NSString*)ownerID attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
     
     alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     guId = [NSMutableString stringWithCapacity:20];
     postAfter =  [afterPost.stringValue intValue]-1;
     if(scheduled){
+         postTargetSourceSelector[@"vk"]=@1;
         owner = [NSString stringWithFormat:@"%@",ownerID];
-        attachmentsPostVKString = attachs;
+//        attachmentsPostVKString = attachs;
+        attachmentsPostVKStringScheduled = [attachs mutableCopy];
         message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        postTargetSourceSelector[@"vk"]=@1;
-        [self postWithoutRepeat];
-//        NSLog(@"%@, %@, %@", owner, attachmentsData, message);
+        [self postWithoutRepeat:YES];
+        NSLog(@"%@, %@, %@", owner, attachmentsPostVKStringScheduled, message);
    
 
     }else{
@@ -649,7 +655,7 @@
                 }
                 else{
                     if(postRadio.state){
-                        [self postWithoutRepeat];
+                        [self postWithoutRepeat:NO];
                     }else if(commentRadio.state){
                         [self addCommentWithoutRepeat];
                     }
@@ -858,7 +864,7 @@
         }
     }
 }
--(void)postWithoutRepeat{
+-(void)postWithoutRepeat:(BOOL)scheduled{
     if([postTargetSourceSelector[@"vk"] intValue]){
         NSString *vkURL;
         __block NSString *messageForVk;
@@ -884,19 +890,19 @@
                 }
             }]resume];
         };
-        if(message && [attachmentsData count]>0){
+        if(message && ([attachmentsData count]>0 || scheduled)){
             //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
             messageForVk=message;
-            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",owner, messageForVk, attachmentsPostVKString, _app.token, _app.version, [owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",owner, messageForVk, scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version, [owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
             startPostVk(vkURL);
         }
-        else if(!message  && [attachmentsData count]>0){
+        else if(!message  && ([attachmentsData count]>0 || scheduled)){
     
-            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner, attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-//            NSLog(@"%@", vkURL);
+            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner,scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+            NSLog(@"%@", vkURL);
             startPostVk(vkURL);
         }
-        else if(message  && [attachmentsData count]==0){
+        else if(message  && ([attachmentsData count]==0 || scheduled)){
             //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
             messageForVk=message;
             vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@%@",owner, messageForVk, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];

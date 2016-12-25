@@ -47,6 +47,7 @@
     NSMutableArray *attachmentsData;
     NSArray *dataAttachmentsFinalArray;
     NSString *attachmentsPostVKString;
+    NSString *attachmentsPostVKStringScheduled;
     NSMutableArray *preparedAttachmentsString;
     NSString *mediaAttachmentType;
     __weak IBOutlet NSTextField *attachmentsCountLabel;
@@ -74,6 +75,7 @@
     NSMutableString *guId;
     NSString *alphabet;
     NSMutableDictionary *postTargetSourceSelector;
+    
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;
