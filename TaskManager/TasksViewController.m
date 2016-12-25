@@ -22,9 +22,6 @@
     tasksList.dataSource=self;
     app = [[appInfo alloc]init];
     timers = [[NSMutableArray alloc]init];
-//    runLoop = [[NSRunLoop alloc]init];
-//    sessionscurrent_task_indexes = [[NSMutableArray alloc]init];
-//    NSLog(@"dddd %@", [runLoop currentMode]);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
 }
 
@@ -36,13 +33,16 @@
         contr.receivedData = sessionsData[sessionIndex];
     }
 }
+
 -(void)observeAddNewSessionTask:(NSNotification*)notification{
+    
 //    NSLog(@"%@", notification.userInfo);
 //       [self loadView];
     NSMutableDictionary *object = [notification.userInfo mutableCopy ];
 //    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:oo];
     [self addSession:object];
 }
+
 - (IBAction)stopResume:(id)sender {
     NSView *view=[sender superview];
     NSInteger sessionIndex = [tasksList rowForView:view];
@@ -75,6 +75,7 @@
     }
     [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:sessionIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
+
 -(void)updateSessionProgress:(NSTimer*)timer{
     
     if([timer isValid]){
