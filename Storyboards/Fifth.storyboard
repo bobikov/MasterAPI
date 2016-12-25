@@ -176,23 +176,23 @@
             <objects>
                 <viewController id="5Vo-Zq-odR" customClass="SessionTasksDetailsView" sceneMemberID="viewController">
                     <view key="view" id="XO2-sJ-Pf6">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="534" height="401"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="102" horizontalPageScroll="10" verticalLineScroll="102" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYW-85-h5g">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                <rect key="frame" x="0.0" y="0.0" width="534" height="381"/>
                                 <clipView key="contentView" ambiguous="YES" id="Ost-BD-cIw">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="534" height="381"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="100" viewBased="YES" id="19N-Ox-Exj">
-                                            <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="534" height="381"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="MainCell" width="447" minWidth="40" maxWidth="1000" id="HW4-F0-sSj">
+                                                <tableColumn identifier="MainCell" width="531" minWidth="40" maxWidth="1000" id="HW4-F0-sSj">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -206,7 +206,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="ISX-37-Dk1" customClass="SessionTasksDetailsCellView">
-                                                            <rect key="frame" x="1" y="1" width="447" height="104"/>
+                                                            <rect key="frame" x="1" y="1" width="531" height="104"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ck4-Qo-L5r">
@@ -265,7 +265,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nZJ-CA-tkk">
-                                <rect key="frame" x="5" y="287" width="14" height="13"/>
+                                <rect key="frame" x="5" y="389" width="14" height="11"/>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSStopProgressTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="W17-Vi-G9b">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -282,7 +282,7 @@
                 </viewController>
                 <customObject id="Seq-Iq-410" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="949" y="43"/>
+            <point key="canvasLocation" x="991" y="93.5"/>
         </scene>
         <!--Privacy Photo View Controller-->
         <scene sceneID="tFg-qd-vD9">

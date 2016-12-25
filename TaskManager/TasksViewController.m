@@ -22,20 +22,12 @@
     tasksList.dataSource=self;
     app = [[appInfo alloc]init];
     timers = [[NSMutableArray alloc]init];
-    
 //    runLoop = [[NSRunLoop alloc]init];
 //    sessionscurrent_task_indexes = [[NSMutableArray alloc]init];
 //    NSLog(@"dddd %@", [runLoop currentMode]);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
-    
-
-
 }
--(void)viewDidAppear{
- 
-    NSLog(@"%@", sessionsData);
-//    [tasksList reloadData];
-}
+
 -(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     NSView *view=[sender superview];
     NSInteger sessionIndex = [tasksList rowForView:view];
@@ -69,13 +61,13 @@
         sessionsData[sessionIndex][@"info"][@"state"]=@"stopped";
         sessionsData[sessionIndex][@"info"][@"stopped"]=@1;
     dispatch_async(dispatch_get_main_queue(), ^{
-//        NSTimer *stopTimer = ;
+//
 //        NSLog(@"%@", timers);
             NSLog(@"Timer invalidated by user");
-        [(NSTimer*)timers[sessionIndex] invalidate];
-//        [stopTimer invalidate];
-//        stopTimer = nil;
-        [timers removeObjectAtIndex:sessionIndex];
+        NSTimer *stopTimer =  (NSTimer*)timers[sessionIndex];
+        [stopTimer invalidate];
+        stopTimer = nil;
+//        [timers removeObjectAtIndex:sessionIndex];
     
     });
   
@@ -86,25 +78,25 @@
 -(void)updateSessionProgress:(NSTimer*)timer{
     
     if([timer isValid]){
-        if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
-            NSLog(@"%@", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"]);
-            NSLog(@"Timer stopped by user");
-            [timer invalidate];
-        }else{
+//        if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
+//            NSLog(@"%@", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"]);
+//            NSLog(@"Timer stopped by user");
+//            [timer invalidate];
+//        }else{
             if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
                 
-                //            [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
-                [self postVK:sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"][[timer.userInfo[@"task_index"] intValue]]];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
+                
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                [timer invalidate];
-                NSLog(@"Timer invalidated by session complete.");
+            
+                NSLog(@"Session %@ complete.", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"session_name"]);
                 
             }else{
                 
-                //                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
-                [self postVK:sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"][[timer.userInfo[@"task_index"] intValue]]];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
+
                 
                 timer.userInfo[@"task_index"] = [NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
@@ -114,38 +106,23 @@
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
                 NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"date"];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                
+              
                 NSTimer *timer2 = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"session_index"] intValue]], @"task_index":[NSNumber numberWithInteger:[timer.userInfo[@"task_index"] intValue]]}] repeats:NO];
                 
                 
                 [[NSRunLoop currentRunLoop] addTimer:timer2 forMode:NSDefaultRunLoopMode];
-                if([timers count]>0){
+                if(timers[[timer.userInfo[@"session_index"] intValue]]){
                     [timers removeObjectAtIndex:[timer.userInfo[@"session_index"] intValue]];
                 }
                 [timers insertObject:timer2 atIndex:[timer.userInfo[@"session_index"] intValue]];
                 
             }
-        }
+//        }
     }
 }
--(void)postVK:(id)object{
-    NSLog(@"%@", object);
-    NSString *url;
-    if(![object[@"attachments"] isEqual:@""] && ![object[@"message"] isEqual:@""]){
-        url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&message=%@&access_token=%@&v=%@", object[@"target_owner"], object[@"attachments"],[object[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], app.token, app.version];
-    }else if([object[@"attachments"] isEqual:@""] && ![object[@"message"] isEqual:@""]){
-         url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@", object[@"target_owner"], [object[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], app.token, app.version];
-    }else if(![object[@"attachments"] isEqual:@""] && [object[@"message"] isEqual:@""]){
-           url = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@", object[@"target_owner"], object[@"attachments"], app.token, app.version];
-    }
-    [[app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *postResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", postResp);
-    }]resume];
-}
+
 -(void)startSession{
     NSDate *startSessionTaskDate = sessionsData[newSessionIndex][@"data"][0][@"date"];
-    
 //    NSLog(@"%@", sessionsData[newSessionIndex][@"data"][0][@"date"]);
     NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:newSessionIndex], @"task_index":@0}] repeats:NO];
     [timers addObject:timer];
@@ -153,9 +130,7 @@
 //    [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
-- (IBAction)newSession:(id)sender {
-//    [self addSession:nil];
-}
+
 -(NSString*)getStringDate:(NSDate*)date{
     NSString *dateString;
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -163,8 +138,9 @@
     dateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
     return dateString;
 }
+
 -(void)addSession:(id)data{
-    
+
     NSDate *nextDate;
     NSString *nextDateString;
 
@@ -174,7 +150,6 @@
     nextDate = data[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
     NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0}];
- 
     sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
     [sessionsData addObject:sessionObject];
     newSessionIndex=[sessionsData count]-1;

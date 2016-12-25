@@ -73,6 +73,7 @@
     NSInteger repeatState;
     NSMutableString *guId;
     NSString *alphabet;
+    NSMutableDictionary *postTargetSourceSelector;
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;

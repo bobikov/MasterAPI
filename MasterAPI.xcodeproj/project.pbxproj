@@ -1558,6 +1558,8 @@
 		2B41FB941E02D3F60013AC86 /* Wall */ = {
 			isa = PBXGroup;
 			children = (
+				2B41FBA01E02D3F60013AC86 /* WallPostViewController.h */,
+				2B41FBA11E02D3F60013AC86 /* WallPostViewController.m */,
 				2B41FB961E02D3F60013AC86 /* AddRepostGroupController.m */,
 				2B41FB971E02D3F60013AC86 /* PostAttachmentsCustomItem.h */,
 				2B41FB951E02D3F60013AC86 /* AddRepostGroupController.h */,
@@ -1569,8 +1571,6 @@
 				2B41FB9D1E02D3F60013AC86 /* WallPostRecentGroupsCustomCell.m */,
 				2B41FB9E1E02D3F60013AC86 /* WallPostRespostTabController.h */,
 				2B41FB9F1E02D3F60013AC86 /* WallPostRespostTabController.m */,
-				2B41FBA01E02D3F60013AC86 /* WallPostViewController.h */,
-				2B41FBA11E02D3F60013AC86 /* WallPostViewController.m */,
 				2B41FBA21E02D3F60013AC86 /* WallRepostGroupsCustomCellView.h */,
 				2B41FBA31E02D3F60013AC86 /* WallRepostGroupsCustomCellView.m */,
 				2B41FBA41E02D3F60013AC86 /* WallRepostViewController.h */,

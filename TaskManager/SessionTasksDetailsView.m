@@ -23,7 +23,9 @@
     postsData = _receivedData[@"data"];
     [postsList reloadData];
     indexURL=0;
-    NSLog(@"%@", _receivedData);
+    self.view.wantsLayer = YES;
+    self.view.layer.backgroundColor = [[NSColor whiteColor]CGColor];
+//    NSLog(@"%@", _receivedData);
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [postsData count];
