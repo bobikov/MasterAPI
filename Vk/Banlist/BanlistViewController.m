@@ -122,17 +122,26 @@
     [self loadBanlist:NO :NO];
     
 }
--(BOOL)checkIfMoreOrEqualDays:(id)date{
+-(BOOL)checkIfMoreOrEqualDays:(NSString*)date{
 //    NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
-    NSInteger currentDateSubstractDays = [components day] - 10;
-    if(![date isEqual:@""] && date!=nil){
-        NSArray *lastSeenComponents = [date componentsSeparatedByString:@"."];
-        //        NSLog(@"%@", lastSeenComponents[1]);
-        if([lastSeenComponents[0] intValue]<=currentDateSubstractDays){
-            return YES;
-        }
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"dd.MM.yyyy HH:mm"];
+    NSDate *userLastSeenDate = [NSDate dateWithTimeIntervalSince1970:[date intValue]];
+    
+    
+    NSInteger tenDaysInSeconds = 60*60*24;
+    NSTimeInterval currentDateInterval = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval userLastSeenDateInterval = [userLastSeenDate timeIntervalSince1970];
+    NSTimeInterval tenDaysInterval = (currentDateInterval - userLastSeenDateInterval)/tenDaysInSeconds;
+    NSInteger tenDays = [[NSString stringWithFormat:@"%.0f", tenDaysInterval]intValue];
+//    NSLog(@"%li", tenDays);
+//    NSLog(@"%.f", userLastSeenDateInterval);
+//    NSLog(@"%@", userLastSeenDate);
+//    NSLog(@"%f", currentDateInterval);
+    if(tenDays >= 10){
+        return YES;
     }
+    
     return NO;
 }
 -(BOOL)checkIfMoreOrEqualMonth:(id)date{
@@ -152,7 +161,7 @@
     [banlistData removeAllObjects];
     for(NSDictionary *i in banlistDataCopy){
 //        NSLog(@"%@", [i[@"last_seen"] componentsSeparatedByString:@"."]);
-        if([self checkIfMoreOrEqualDays:i[@"last_seen"]]){
+        if([self checkIfMoreOrEqualDays:[NSString stringWithFormat:@"%@",i[@"timestamp"]]]){
             [banlistData addObject:i];
             
         }
@@ -386,7 +395,7 @@
                                 quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
                                 relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
                                 deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
-                                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"sex":sex, @"relation":relation, @"domain":domain};
+                                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"timestamp":a[@"last_seen"][@"time"] && a[@"last_seen"][@"time"]!=nil?a[@"last_seen"][@"time"]:@"", @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"sex":sex, @"relation":relation, @"domain":domain};
                                 
                                 
                                 
