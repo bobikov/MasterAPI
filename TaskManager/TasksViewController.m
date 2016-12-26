@@ -92,6 +92,8 @@
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"completed"]=@1;
+                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"]=@1;
+                sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"state"]=@"stopped";
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             
                 NSLog(@"Session %@ complete.", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"session_name"]);
