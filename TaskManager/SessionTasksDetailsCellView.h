@@ -11,7 +11,8 @@
 @interface SessionTasksDetailsCellView : NSTableCellView
 @property (weak) IBOutlet NSTextField *postText;
 @property (weak) IBOutlet NSCollectionView *postAttachments;
-@property (weak) IBOutlet NSTextField *date;
+@property (weak) IBOutlet NSTextField *postDate;
+
 
 
 @end

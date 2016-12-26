@@ -13,6 +13,7 @@
     __weak IBOutlet NSTableView *postsList;
     NSMutableArray *postsData;
     NSInteger indexURL;
+    NSInteger sumWidthLabels;
 }
 @property(nonatomic,readwrite)NSDictionary *receivedData;
 

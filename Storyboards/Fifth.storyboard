@@ -256,8 +256,8 @@
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
-                                                                <outlet property="date" destination="m13-8f-Vkc" id="im3-zX-lji"/>
                                                                 <outlet property="postAttachments" destination="EIn-qf-VI6" id="EFf-Sh-wUD"/>
+                                                                <outlet property="postDate" destination="m13-8f-Vkc" id="Xov-Qr-Ouh"/>
                                                                 <outlet property="postText" destination="aEy-4X-tvK" id="Tw0-nd-M5n"/>
                                                             </connections>
                                                         </tableCellView>
