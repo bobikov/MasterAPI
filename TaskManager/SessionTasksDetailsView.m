@@ -35,11 +35,21 @@
 -(void)loadPosts{
     
 }
+-(NSString*)convertDateToString:(NSDate*)date{
+    NSString *stringDate;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    //uncomment to get the time only
+    //[formatter setDateFormat:@"hh:mm a"];
+    [formatter setDateFormat:@"MM.dd.yyyy, HH:mm:SS"];
+    //    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    stringDate = [formatter stringFromDate:date];
+    return stringDate;
+}
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     SessionTasksDetailsCellView *cell = (SessionTasksDetailsCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
     cell.postAttachments.delegate=self;
     cell.postAttachments.dataSource=self;
-    cell.postDate.stringValue = postsData[row][@"date"];
+    cell.postDate.stringValue = [self convertDateToString:postsData[row][@"date"]];
     cell.postText.stringValue = postsData[row][@"message"];
     cell.postAttachments.content = postsData[row][@"attach_urls"];
     for(NSString *i in [postsData[row][@"postSources"] allKeys]){
@@ -50,7 +60,6 @@
                                        attributes:attributes
                                           context:nil];
             
-            NSInteger index=[[postsData[row][@"postSources"] allKeys] indexOfObject:i];
             NSTextField *label = [[NSTextField alloc]initWithFrame:NSMakeRect(sumWidthLabels, cell.frame.size.height-rect.size.height, rect.size.width+5, rect.size.height)];
             label.font = [NSFont systemFontOfSize:12];
             label.editable=NO;
