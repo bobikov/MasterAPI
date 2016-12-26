@@ -230,7 +230,7 @@
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
 }
 - (IBAction)addPostToQueue:(id)sender {
-    message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+    message=[textView.string isEqualToString:@""] ? nil : textView.string ;
     
     NSDate *selectedDate = publishingDateForPost.dateValue;
     [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
@@ -245,6 +245,7 @@
 
 -(void)insertSmile:(NSNotification*)notification{
     textView.string = [NSString stringWithFormat:@"%@%@", textView.string, notification.userInfo[@"smile"]];
+    [self setSelectorsButtonsState];
 }
 
 -(void)setSelectorsButtonsState{
