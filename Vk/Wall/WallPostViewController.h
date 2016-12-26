@@ -48,6 +48,7 @@
     NSArray *dataAttachmentsFinalArray;
     NSString *attachmentsPostVKString;
     NSString *attachmentsPostVKStringScheduled;
+    NSMutableArray *attachmentsDataScheduled;
     NSMutableArray *preparedAttachmentsString;
     NSString *mediaAttachmentType;
     __weak IBOutlet NSTextField *attachmentsCountLabel;

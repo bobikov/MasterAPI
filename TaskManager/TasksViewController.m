@@ -88,11 +88,8 @@
 //        }else{
             if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
-                NSString *attachments = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"attachments"]copy];
-                NSString *target_owner = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"target_owner"]copy];
-                NSString *message = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"message"]copy];
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[NSMutableDictionary dictionaryWithDictionary:@{@"message":message, @"attachments":attachments, @"target_owner":target_owner}]];
-                
+              
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"current_task_index"] =[NSNumber numberWithInteger:[timer.userInfo[@"task_index"]intValue]+1];
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"completed"]=@1;
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
@@ -100,10 +97,8 @@
                 NSLog(@"Session %@ complete.", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"session_name"]);
                 
             }else{
-                NSString *attachments = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"attachments"]copy];
-                NSString *target_owner = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"target_owner"]copy];
-                NSString *message = [sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"message"]copy];
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:[NSMutableDictionary dictionaryWithDictionary:@{@"message":message, @"attachments":attachments, @"target_owner":target_owner}]];
+ 
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"DoScheduledPost" object:nil userInfo:sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]]];
 
                 if(timers[[timer.userInfo[@"session_index"] intValue]]){
                     [timers removeObjectAtIndex:[timer.userInfo[@"session_index"] intValue]];
@@ -183,7 +178,7 @@
     cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
     cell.targetOwner.stringValue = [NSString stringWithFormat:@"%@", sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owner"]];
     cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
-    cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Session start: %@", sessionsData[row][@"info"][@"session_start_date"]];
+    cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Started at: %@", sessionsData[row][@"info"][@"session_start_date"]];
     if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){
         cell.StopResume.image = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
         

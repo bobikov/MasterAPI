@@ -101,7 +101,7 @@
                 method = [@"https://upload.twitter.com/1.1/media/upload.json" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
                 _oauth_signature = [self createSignature:method httpMethod:nil  media:nil query:nil];
                 requestHeader = [self createHeader];
-                NSLog(@"FILE TO POST IN TWITTER %@", rparams[@"image"][0][@"data"][@"items"][@"photoBig"] ?   rparams[@"image"][0][@"data"][@"items"][@"photoBig"] :  rparams[@"image"][0][@"data"][@"url"] );
+                NSLog(@"FILE TO POST IN TWITTER %@", rparams[@"image"][0][@"data"][@"items"][@"photoBig"] ? rparams[@"image"][0][@"data"][@"items"][@"photoBig"] :  rparams[@"image"][0][@"data"][@"url"] );
                 NSString *filename = rparams[@"image"][0][@"data"][@"items"][@"photoBig"] ? [rparams[@"image"][0][@"data"][@"items"][@"photoBig"] lastPathComponent] : rparams[@"image"][0][@"data"][@"title"];
 //                NSLog(@"%@", filename);
                 NSData *imgData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:rparams[@"image"][0][@"data"][@"items"][@"photoBig"] ? rparams[@"image"][0][@"data"][@"items"][@"photoBig"] : rparams[@"image"][0][@"data"][@"url"]]];

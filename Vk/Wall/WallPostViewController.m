@@ -47,7 +47,7 @@
     _captchaHandler = [[VKCaptchaHandler alloc]init];
     [groupsList removeAllItems];
     [groupsData addObject:_app.person];
-
+    attachmentsDataScheduled = [[NSMutableArray alloc]init];
 //    [groupsList addItemWithTitle:@"Title1"];
 
     messagesToPost = [[NSMutableArray alloc]initWithArray:[self ReadMessages]];
@@ -170,9 +170,9 @@
 -(void)observeScheduledPost:(NSNotification*)object{
     NSLog(@"%@", object.userInfo);
     NSMutableDictionary *object1 = [object.userInfo mutableCopy];
-//       dispatch_after(1, dispatch_get_main_queue(), ^(void){
-           [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
-//       });
+    postTargetSourceSelector = [NSMutableDictionary dictionaryWithDictionary:object1[@"postSources"]];
+    attachmentsDataScheduled = [object1[@"attach_urls"] mutableCopy];
+    [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
 }
 
 - (IBAction)closeStartedSessionAction:(id)sender {
@@ -233,7 +233,7 @@
     message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
     
     NSDate *selectedDate = publishingDateForPost.dateValue;
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate}];
+    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
   
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
 //    NSLog(@"%@", queuePostsInSession);
@@ -620,10 +620,11 @@
     guId = [NSMutableString stringWithCapacity:20];
     postAfter =  [afterPost.stringValue intValue]-1;
     if(scheduled){
-         postTargetSourceSelector[@"vk"]=@1;
+//        postTargetSourceSelector[@"vk"]=@1;
         owner = [NSString stringWithFormat:@"%@",ownerID];
 //        attachmentsPostVKString = attachs;
         attachmentsPostVKStringScheduled = [attachs mutableCopy];
+       
         message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         [self postWithoutRepeat:YES];
         NSLog(@"%@, %@, %@", owner, attachmentsPostVKStringScheduled, message);
@@ -641,17 +642,13 @@
                     [progressSpin stopAnimation:self];
                 });
             }
-            
             else{
                 if (repeatPost){
-                    
-                    
                     if(postRadio.state){
                         [self postWithRepeat];
                     }else if(commentRadio.state){
                         [self addCommentWithRepeat];
                     }
-                    
                 }
                 else{
                     if(postRadio.state){
@@ -661,9 +658,7 @@
                     }
                 }
             }
-            
         });
-
     }
 }
 - (IBAction)makePostAction:(id)sender {
@@ -921,9 +916,9 @@
         
     }
     if([postTargetSourceSelector[@"twitter"] intValue]){
-        if([attachmentsData count]>0){
+        if([attachmentsData count]>0 || [attachmentsDataScheduled count]>0){
             
-            [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"image":attachmentsData,@"status":message} handler:^(NSData *data) {
+            [_twitterClient APIRequest:@"statuses" rmethod:@"update.json" query:@{@"image":scheduled?attachmentsDataScheduled : attachmentsData,@"status":message} handler:^(NSData *data) {
                 if(data){
                     NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     if(resp[@"id"]){
@@ -959,8 +954,8 @@
         }
     }
     if([postTargetSourceSelector[@"tumblr"] intValue]){
-        if([attachmentsData count]>0){
-            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":attachmentsData} handler:^(NSData *data) {
+        if([attachmentsData count]>0 || [attachmentsDataScheduled count]>0){
+            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":scheduled?attachmentsDataScheduled : attachmentsData} handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrPhotoPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     if(tumblrPhotoPostResp[@"response"]){

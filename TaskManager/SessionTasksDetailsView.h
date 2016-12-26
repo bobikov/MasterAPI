@@ -15,4 +15,6 @@
     NSInteger indexURL;
 }
 @property(nonatomic,readwrite)NSDictionary *receivedData;
+
+
 @end
