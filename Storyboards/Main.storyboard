@@ -2160,13 +2160,13 @@ Gw
                                             </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sOy-f9-T4v">
-                                            <rect key="frame" x="390" y="620" width="105" height="26"/>
-                                            <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="chC-o0-rFp" id="1Ao-Ww-zD2">
+                                            <rect key="frame" x="360" y="620" width="135" height="26"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="chC-o0-rFp" id="1Ao-Ww-zD2">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="leJ-DC-pAF">
                                                     <items>
-                                                        <menuItem title="Item 1" state="on" id="chC-o0-rFp"/>
+                                                        <menuItem title="Item 1" state="on" hidden="YES" id="chC-o0-rFp"/>
                                                         <menuItem title="Item 2" id="j0U-DB-W4p"/>
                                                         <menuItem title="Item 3" id="3EH-Iy-k7R"/>
                                                     </items>

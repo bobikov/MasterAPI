@@ -23,7 +23,7 @@
     _app = [[appInfo alloc]init];
     banlistData = [[NSMutableArray alloc]init];
     foundData = [[NSMutableArray alloc]init];
-    NSArray *dateFilterItems = @[@"all", @" > 10", @"> this month"];
+    NSArray *dateFilterItems = @[@"last seen", @"all", @" > 10 days", @"> month"];
     [[banListScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     [dateFilterOptionsPopup removeAllItems];
@@ -98,13 +98,13 @@
 }
 - (IBAction)filterByDate:(id)sender {
     switch ([dateFilterOptionsPopup indexOfSelectedItem]){
-        case 0:
+        case 1:
             [self loadAllDates];
             break;
-        case 1:
+        case 2:
             [self loadEqualOrMoreThenDays];
             break;
-        case 2:
+        case 3:
              [self loadEqualOrMoreThenMonthLastSeen];
             break;
     }
