@@ -976,9 +976,10 @@
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="4" minimumLineSpacing="4" scrollDirection="horizontal" id="aby-oq-wov">
                                                 <size key="itemSize" width="80" height="24"/>
                                             </collectionViewFlowLayout>
-                                            <color key="primaryBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                            <color key="primaryBackgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                         </collectionView>
                                     </subviews>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="493-nr-Ouo"/>

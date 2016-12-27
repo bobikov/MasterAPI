@@ -7,16 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <Quartz/Quartz.h>
 @interface CustomScrollView : NSScrollView{
-    NSPoint firstPointFirstBorder;
-    NSPoint secPointFirstBorder;
-    NSPoint firstPointSecBorder;
-    NSPoint secPointSecBorder;
-    int minX;
-    int maxX;
-    int maxY;
-    int minY;
+    CALayer *border;
+    CALayer *backG;
 }
 
 @end

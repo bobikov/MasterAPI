@@ -9,30 +9,56 @@
 #import "ViewController.h"
 #import "ApiSourceSelectorItem.h"
 #import <Quartz/Quartz.h>
+#import "CustomView.h"
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     apiSourceListData = @[@"vkontakte", @"youtube", @"twitter", @"tumblr", @"instagram"];
+    apiSourceListData = @[@"vkontakte", @"youtube", @"twitter", @"tumblr", @"instagram"];
     apiSourceSelectorCollectionView.delegate=self;
     apiSourceSelectorCollectionView.dataSource=self;
     apiSourceSelectorCollectionView.content=apiSourceListData;
-//    apiSelectorScrollview.borderType=0;
-    apiSelectorScrollview.wantsLayer=YES;
+    apiSourceSelectorCollectionView.wantsLayer=YES;
+//     [apiSourceSelectorCollectionView reloadData];
+//    self.view.wantsLayer=YES;
+//    apiSelectorScrollview.wantsLayer=YES;
+    
     apiSelectorScrollview.borderType=0;
-    border = [CALayer layer];
-    border.backgroundColor = [[NSColor lightGrayColor]CGColor];
+//    border = [CALayer layer];
+//    backG = [CALayer layer];
+//    border.backgroundColor = [[NSColor lightGrayColor]CGColor];
+    apiSelectorScrollview.drawsBackground=NO;
+//    backG.frame = NSMakeRect(apiSelectorScrollview.frame.origin.x, apiSelectorScrollview.frame.origin.y, apiSelectorScrollview.frame.size.width,apiSelectorScrollview.frame.size.height);
+//    backG.backgroundColor=[[NSColor colorWithWhite:0.9 alpha:1.0]CGColor];
+//    apiSourceSelectorCollectionView.layer.frame=NSMakeRect(0, 10, apiSelectorScrollview.frame.size.width, apiSelectorScrollview.frame.size.height-20);
+    NSView *border = [[NSView alloc]init];
+    NSView *backG = [[NSView alloc]init];
+    border.wantsLayer=YES;
+    backG.wantsLayer=YES;
+    border.layer.backgroundColor = [[NSColor colorWithWhite:0.6 alpha:1.0]CGColor];
+     backG.layer.backgroundColor = [[NSColor colorWithWhite:0.8 alpha:1.0]CGColor];
+//    [border setAutoresizingMask:NSConst
+//    border.translatesAutoresizingMaskIntoConstraints = YES;
+    border.layer.autoresizingMask=NSViewWidthSizable;
+    backG.layer.autoresizingMask=NSViewWidthSizable;
+    border.frame = NSMakeRect(0, apiSelectorScrollview.frame.size.height-1, apiSelectorScrollview.frame.size.width, 1.0);
+    backG.frame  = NSMakeRect(0, 0, apiSelectorScrollview.frame.size.width, apiSelectorScrollview.frame.size.height-1);
+    [apiSelectorScrollview addSubview:border positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
+    [apiSelectorScrollview addSubview:backG positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
     
-    border.frame = NSMakeRect(0, apiSelectorScrollview.frame.size.height - 1.0, apiSelectorScrollview.frame.size.width, 2.0);
+//    self.view.layer.backgroundColor=[[NSColor colorWithWhite:0.7 alpha:1.0]CGColor];
+//    apiSourceSelectorCollectionView.layer.backgroundColor=[[NSColor colorWithWhite:1.0 alpha:1.0]CGColor];
+ 
+//    [self.view.layer addSublayer:backG];
     
-    [apiSelectorScrollview.layer addSublayer:border];
-    
+    [self setDefaultSelectedAPISource];
 }
 
--(void)viewDidLayout{
-//    border.frame = self.view.bounds;
-    border.frame = NSMakeRect(0, apiSelectorScrollview.frame.size.height - 1.0, self.view.bounds.size.width, 2.0);
+-(void)setDefaultSelectedAPISource{
+    [apiSourceSelectorCollectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
+
+
 -(void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleHidden;
     self.view.window.titlebarAppearsTransparent = YES;
@@ -44,7 +70,18 @@
     _youtubeRWD = [[YoutubeRWData alloc]init];
     _tumblrRWD = [[TumblrRWData alloc]init];
     _instaRWD  = [[InstagramRWD alloc]init];
+    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:apiSourceSelectorCollectionView.frame];
+    vibrantView.material=NSVisualEffectMaterialSidebar;
     
+    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
+    
+    
+    //    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+    //    vibrantView.wantsLayer=YES;
+//    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+    [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    
+//    [apiSourceSelectorCollectionView addSubview:vibrantView positioned:NSWindowBelow relativeTo:apiSourceSelectorCollectionView];
 //    if (![_VKKeyHandler VKTokensEcxistsInCoreData]){
 //        [ApiSourceSelector setEnabled:NO forSegment:0];
 //    }
@@ -110,9 +147,9 @@
 }
 -(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSInteger selectedSource = [indexPaths allObjects][0].item;
-    NSRect selectedSourceFrame = [collectionView itemAtIndexPath:[indexPaths allObjects][0]].view.frame;
-    ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView itemAtIndexPath:[indexPaths allObjects][0]];
- 
+//    NSRect selectedSourceFrame = [collectionView itemAtIndexPath:[indexPaths allObjects][0]].view.frame;
+//    ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView itemAtIndexPath:[indexPaths allObjects][0]];
+    
 //    NSLog(@"%f", selectedSourceFrame.origin.x);
 //    [[NSNotificationCenter defaultCenter]postNotificationName:@"redrawBorderLine" object:nil userInfo:@{@"rect":[NSValue valueWithRect: selectedSourceFrame]}];
     switch (selectedSource){
@@ -133,6 +170,7 @@
             break;
             
     }
+//    [collectionView deselectItemsAtIndexPaths:indexPaths];
 }
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [apiSourceListData count];
@@ -140,6 +178,7 @@
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView makeItemWithIdentifier:@"ApiSourceSelectorItem" forIndexPath:indexPath];
     item.sourceName.stringValue = apiSourceListData[indexPath.item];
+
     return item;
 }
 @end

@@ -17,8 +17,10 @@
     __weak IBOutlet NSCollectionView *apiSourceSelectorCollectionView;
     NSArray *apiSourceListData;
     __weak IBOutlet NSScrollView *apiSelectorScrollview;
-    CALayer *border ;
-    
+//    CALayer *border;
+//    CALayer *backG;
+    BOOL loaded;
+   
 }
 @property(nonatomic)keyHandler *VKKeyHandler;
 @property(nonatomic)TwitterRWData *twitterRWD;
