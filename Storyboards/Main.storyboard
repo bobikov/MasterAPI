@@ -3648,9 +3648,6 @@ Gw
                                             <rect key="frame" x="544" y="588" width="20" height="20"/>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="9qR-a3-bX4"/>
                                         </imageView>
-                                        <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Dwh-Dh-72T">
-                                            <rect key="frame" x="0.0" y="590" width="16" height="16"/>
-                                        </progressIndicator>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PdZ-gV-MtY">
                                             <rect key="frame" x="490" y="470" width="20" height="20"/>
                                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="docs1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="A6x-Nj-AHc">
@@ -3771,6 +3768,9 @@ Gw
                                                 <action selector="saveSession:" target="Hxb-ne-Y3h" id="sai-ZC-tMu"/>
                                             </connections>
                                         </button>
+                                        <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Dwh-Dh-72T">
+                                            <rect key="frame" x="8" y="591" width="16" height="16"/>
+                                        </progressIndicator>
                                     </subviews>
                                 </view>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>

@@ -182,6 +182,7 @@
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     albumToUploadTo = self.representedObject[@"id"];
+    NSLog(@"%@", albumToUploadTo);
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner_id"] ];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
     URLsViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
@@ -224,7 +225,7 @@
         
         for(NSString *videoURL in filesForUpload){
             dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%@&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], videoURL, albumToUploadTo, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%i&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], videoURL, [albumToUploadTo intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSLog(@"%@", uploadResp);
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -272,16 +273,23 @@
 //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
 //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
 //    self.view.layer.borderWidth=1;
-    _removeItem.hidden=NO;
-    _moveToAlbum.hidden=NO;
+//
+    int overAlbumId = [self.representedObject[@"id"] intValue];
+//       NSLog(@"%i", overAlbumId);
+    if(overAlbumId!=-1 && overAlbumId!=-2){
+        _removeItem.hidden=NO;
+        _moveToAlbum.hidden=NO;
+        
+        if(self.representedObject[@"cover"]){
+            _addURL.hidden=NO;
+        }
+    }
 //    if(self.representedObject[@"count"]){
 //        NSAttributedString *countAttrString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@", self.representedObject[@"count"] ]attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor]}];
 //        _countLabel.attributedStringValue=countAttrString;
 //        _countLabel.hidden=NO;
 //    }
-    if(self.representedObject[@"cover"]){
-        _addURL.hidden=NO;
-    }
+   
 }
 
 - (void)mouseExited:(NSEvent *)theEvent{
