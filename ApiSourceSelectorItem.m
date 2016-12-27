@@ -59,7 +59,7 @@
         CustomView *view = (CustomView*)self.view;
 //        view.layer.backgroundColor=[[NSColor whiteColor] CGColor];
         [view setSelectedBackground];
-        
+        self.view.frame = NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height+3);
         //            self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.30 green:0.70 blue:0.90 alpha:0.8]CGColor];
         //            self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.10 green:0.60 blue:0.90 alpha:1.0]CGColor];
         //            self.view.layer.borderWidth=2;
@@ -69,6 +69,7 @@
         //        }
     }
     else{
+        self.view.frame = NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-3);
         NSAttributedString *attrTitle = [[NSAttributedString alloc]initWithString:_sourceName.stringValue attributes:@{NSForegroundColorAttributeName:[NSColor blackColor],NSParagraphStyleAttributeName:paragraphStyle}];
 //        _sourceName.attributedStringValue=attrTitle;
 //        self.view.layer.backgroundColor=[[NSColor windowBackgroundColor] CGColor];
@@ -81,10 +82,10 @@
     }
 }
 -(void)mouseEntered:(NSEvent *)theEvent{
-    [[NSCursor pointingHandCursor]set];
+//    [[NSCursor pointingHandCursor]set];
 }
 -(void)mouseExited:(NSEvent *)theEvent{
-    [[NSCursor arrowCursor]set];
+//    [[NSCursor arrowCursor]set];
 }
 //-(void)mouseDown:(NSEvent *)theEvent{
 //     [[NSCursor pointingHandCursor]set];

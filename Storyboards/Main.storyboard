@@ -964,14 +964,14 @@
                                     <segue destination="rpt-nf-let" kind="embed" id="cCP-yH-jMu"/>
                                 </connections>
                             </containerView>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcQ-1h-hHI">
+                            <scrollView borderType="line" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcQ-1h-hHI">
                                 <rect key="frame" x="182" y="775" width="748" height="26"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="AhV-Iy-ydq">
-                                    <rect key="frame" x="0.0" y="0.0" width="748" height="26"/>
+                                    <rect key="frame" x="1" y="1" width="746" height="24"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="qDA-bx-gA1">
-                                            <rect key="frame" x="0.0" y="0.0" width="748" height="26"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="746" height="24"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="4" minimumLineSpacing="4" scrollDirection="horizontal" id="aby-oq-wov">
                                                 <size key="itemSize" width="80" height="24"/>
@@ -1017,6 +1017,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="apiSelectorScrollview" destination="mcQ-1h-hHI" id="ynm-j5-5zq"/>
                         <outlet property="apiSourceSelectorCollectionView" destination="qDA-bx-gA1" id="B6V-mi-OYm"/>
                     </connections>
                 </viewController>

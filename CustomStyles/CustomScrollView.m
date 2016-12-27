@@ -10,24 +10,38 @@
 
 @implementation CustomScrollView
 -(void)awakeFromNib{
- 
-  
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(redrawLine:) name:@"redrawBorderLine" object:nil];
+
+}
+-(void)redrawLine:(NSNotification*)notification{
+    int x = [notification.userInfo[@"rect"] rectValue].origin.x;
+    int y = [notification.userInfo[@"rect"] rectValue].origin.y;
+
+    secPointFirstBorder = NSMakePoint(minX, x);
+    [self setNeedsDisplay:YES];
 }
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-   
-    // Drawing code here.
+     [super drawRect:dirtyRect];
+   [NSGraphicsContext saveGraphicsState];
+    NSBezierPath *path = [NSBezierPath bezierPath];
+ 
+    firstPointFirstBorder = NSMakePoint(minX, minY);
+    secPointFirstBorder = NSMakePoint(maxX, minY);
+    minX = NSMinX(dirtyRect);
+    maxX = NSMaxX(dirtyRect);
+    maxY = NSMaxY(dirtyRect);
+    minY = NSMinY(dirtyRect);
+    
+    [[NSColor blackColor] set];
+    [path setLineWidth:5.0];
+//    [path setWindingRule:NSEvenOddWindingRule];
+//    [path setClip];
+    [path moveToPoint:firstPointFirstBorder];
+    [path appendBezierPathWithArcFromPoint:firstPointFirstBorder toPoint:secPointFirstBorder radius:0.0];
+
+    [path stroke];
+   [NSGraphicsContext restoreGraphicsState];
+    
 }
-- (void)tile {
-    [super tile];
-//    self.wantsLayer=YES;
-//    self.layer.masksToBounds=YES;
-//    self.contentView.wantsLayer=YES;
-//    self.contentView.layer.masksToBounds=YES;
-//    [[self contentView] setFrame:NSMakeRect(1, 1, self.frame.size.width-2, self.frame.size.height-2)];
-//     [[self contentView] setFrame:[self bounds]];
-    NSRect scrollViewFrame = [[self contentView] frame];
-    scrollViewFrame.size.width = self.frame.size.width-3;
-    [[self contentView] setFrame:scrollViewFrame];
-}
+
 @end

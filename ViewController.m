@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ApiSourceSelectorItem.h"
+#import <Quartz/Quartz.h>
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -16,7 +17,21 @@
     apiSourceSelectorCollectionView.delegate=self;
     apiSourceSelectorCollectionView.dataSource=self;
     apiSourceSelectorCollectionView.content=apiSourceListData;
+//    apiSelectorScrollview.borderType=0;
+    apiSelectorScrollview.wantsLayer=YES;
+    apiSelectorScrollview.borderType=0;
+    border = [CALayer layer];
+    border.backgroundColor = [[NSColor lightGrayColor]CGColor];
     
+    border.frame = NSMakeRect(0, apiSelectorScrollview.frame.size.height - 1.0, apiSelectorScrollview.frame.size.width, 2.0);
+    
+    [apiSelectorScrollview.layer addSublayer:border];
+    
+}
+
+-(void)viewDidLayout{
+//    border.frame = self.view.bounds;
+    border.frame = NSMakeRect(0, apiSelectorScrollview.frame.size.height - 1.0, self.view.bounds.size.width, 2.0);
 }
 -(void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleHidden;
@@ -94,7 +109,30 @@
 
 }
 -(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
-    
+    NSInteger selectedSource = [indexPaths allObjects][0].item;
+    NSRect selectedSourceFrame = [collectionView itemAtIndexPath:[indexPaths allObjects][0]].view.frame;
+    ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView itemAtIndexPath:[indexPaths allObjects][0]];
+ 
+//    NSLog(@"%f", selectedSourceFrame.origin.x);
+//    [[NSNotificationCenter defaultCenter]postNotificationName:@"redrawBorderLine" object:nil userInfo:@{@"rect":[NSValue valueWithRect: selectedSourceFrame]}];
+    switch (selectedSource){
+        case 0:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectVKApi" object:nil];
+            break;
+        case 1:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectYoutubeApi" object:nil];
+            break;
+        case 2:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectTwitterApi" object:nil];
+            break;
+        case 3:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectTumblrApi" object:nil];
+            break;
+        case 4:
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectInstagramApi" object:nil];
+            break;
+            
+    }
 }
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [apiSourceListData count];

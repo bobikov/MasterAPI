@@ -8,6 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CustomScrollView : NSScrollView
+@interface CustomScrollView : NSScrollView{
+    NSPoint firstPointFirstBorder;
+    NSPoint secPointFirstBorder;
+    NSPoint firstPointSecBorder;
+    NSPoint secPointSecBorder;
+    int minX;
+    int maxX;
+    int maxY;
+    int minY;
+}
 
 @end

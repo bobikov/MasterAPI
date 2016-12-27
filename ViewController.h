@@ -16,6 +16,8 @@
     
     __weak IBOutlet NSCollectionView *apiSourceSelectorCollectionView;
     NSArray *apiSourceListData;
+    __weak IBOutlet NSScrollView *apiSelectorScrollview;
+    CALayer *border ;
     
 }
 @property(nonatomic)keyHandler *VKKeyHandler;
