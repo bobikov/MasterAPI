@@ -845,6 +845,13 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bgu-os-UbT"/>
                             </imageView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U9f-lR-IbD">
+                                <rect key="frame" x="429" y="16" width="67" height="32"/>
+                                <buttonCell key="cell" type="push" title="Post" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mhU-Iy-mHk">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="p57-YM-Njl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6MO-RO-cj7" secondAttribute="trailing" constant="280" id="6Tc-r7-PSf"/>
@@ -957,57 +964,60 @@
                                     <segue destination="rpt-nf-let" kind="embed" id="cCP-yH-jMu"/>
                                 </connections>
                             </containerView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lkS-eh-eMf">
-                                <rect key="frame" x="196" y="772" width="67" height="32"/>
-                                <buttonCell key="cell" type="push" title="Post" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GYy-DB-xw9">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <segue destination="Hxb-ne-Y3h" kind="show" id="r1n-aq-Jl5"/>
-                                </connections>
-                            </button>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uto-Au-Soc">
-                                <rect key="frame" x="261" y="776" width="411" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="b80-Ct-1Uf">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment label="Vkontakte" width="80" selected="YES"/>
-                                        <segment label="Youtube" width="80" tag="1"/>
-                                        <segment label="Twitter" width="80"/>
-                                        <segment label="Tumblr" width="80"/>
-                                        <segment label="Instagram"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="ApiSourceSelect:" target="XfG-lQ-9wD" id="dgG-EK-TdU"/>
-                                </connections>
-                            </segmentedControl>
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcQ-1h-hHI">
+                                <rect key="frame" x="182" y="775" width="748" height="26"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="AhV-Iy-ydq">
+                                    <rect key="frame" x="0.0" y="0.0" width="748" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <collectionView selectable="YES" allowsEmptySelection="NO" id="qDA-bx-gA1">
+                                            <rect key="frame" x="0.0" y="0.0" width="748" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="4" minimumLineSpacing="4" scrollDirection="horizontal" id="aby-oq-wov">
+                                                <size key="itemSize" width="80" height="24"/>
+                                            </collectionViewFlowLayout>
+                                            <color key="primaryBackgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                        </collectionView>
+                                    </subviews>
+                                </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="493-nr-Ouo"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="748" id="iJW-MU-oKK"/>
+                                </constraints>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="aav-WZ-c9M">
+                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="M2L-Iu-EEF">
+                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="w8O-hS-bBj" firstAttribute="top" secondItem="mcQ-1h-hHI" secondAttribute="bottom" id="1A7-hs-HJm"/>
                             <constraint firstItem="8Nf-yc-Cxj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="182" id="2s2-eq-9N0"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="93" id="5Lh-xk-RrV"/>
                             <constraint firstItem="VYa-34-QnE" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="HgJ-Tz-72P"/>
                             <constraint firstAttribute="bottom" secondItem="8Nf-yc-Cxj" secondAttribute="bottom" id="N8T-YI-aEH"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="top" secondItem="w8O-hS-bBj" secondAttribute="bottom" id="RUV-jF-Q4Q"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="trailing" secondItem="w8O-hS-bBj" secondAttribute="trailing" id="Rpq-N0-A28"/>
+                            <constraint firstItem="mcQ-1h-hHI" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="182" id="TTJ-7f-Xwi"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="leading" secondItem="8Nf-yc-Cxj" secondAttribute="leading" id="Tym-vw-EnO"/>
                             <constraint firstItem="VYa-34-QnE" firstAttribute="bottom" secondItem="8Nf-yc-Cxj" secondAttribute="bottom" id="byi-V3-ymP"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="trailing" secondItem="8Nf-yc-Cxj" secondAttribute="trailing" id="cH6-2c-NXl"/>
                             <constraint firstItem="w8O-hS-bBj" firstAttribute="top" secondItem="VYa-34-QnE" secondAttribute="top" constant="26" id="i6r-L2-pWQ"/>
                             <constraint firstAttribute="trailing" secondItem="8Nf-yc-Cxj" secondAttribute="trailing" id="jXh-QP-0bZ"/>
-                            <constraint firstItem="w8O-hS-bBj" firstAttribute="top" secondItem="lkS-eh-eMf" secondAttribute="bottom" constant="4" id="kdN-5X-mLE"/>
                             <constraint firstItem="ZTc-Ha-wgV" firstAttribute="leading" secondItem="w8O-hS-bBj" secondAttribute="leading" id="mGK-qd-3bt"/>
-                            <constraint firstItem="w8O-hS-bBj" firstAttribute="top" secondItem="Uto-Au-Soc" secondAttribute="bottom" constant="3" id="mYe-kh-uKO"/>
                             <constraint firstItem="8Nf-yc-Cxj" firstAttribute="top" secondItem="ZTc-Ha-wgV" secondAttribute="bottom" id="nQs-LI-A6f"/>
+                            <constraint firstAttribute="trailing" secondItem="mcQ-1h-hHI" secondAttribute="trailing" id="srU-X3-A73"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VYa-34-QnE" secondAttribute="trailing" constant="747" id="wiH-eg-L4R"/>
                             <constraint firstItem="w8O-hS-bBj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="26" id="ww7-10-unn"/>
-                            <constraint firstItem="Uto-Au-Soc" firstAttribute="leading" secondItem="lkS-eh-eMf" secondAttribute="trailing" constant="6" id="y5n-g6-AhI"/>
-                            <constraint firstItem="Uto-Au-Soc" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" constant="1.5" id="zdc-8e-Xk0"/>
+                            <constraint firstItem="mcQ-1h-hHI" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="y6j-tZ-RmZ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ApiSourceSelector" destination="Uto-Au-Soc" id="rgQ-cU-VgL"/>
+                        <outlet property="apiSourceSelectorCollectionView" destination="qDA-bx-gA1" id="B6V-mi-OYm"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -6433,7 +6443,6 @@ Gw
         <image name="volume" width="95" height="140"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="r1n-aq-Jl5"/>
         <segue reference="ngi-Ei-XeG"/>
         <segue reference="rKg-9L-D2X"/>
     </inferredMetricsTieBreakers>

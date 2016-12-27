@@ -274,6 +274,8 @@
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
+		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
+		2BCBAA981E125A0D0083B95E /* ApiSourceSelectorItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */; };
 		2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE662D1E07F2F500364A80 /* TasksCellView.m */; };
 		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
 /* End PBXBuildFile section */
@@ -758,6 +760,9 @@
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
 		2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsCellView.m; sourceTree = "<group>"; };
+		2BCBAA941E125A0C0083B95E /* ApiSourceSelectorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelectorItem.h; sourceTree = "<group>"; };
+		2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelectorItem.m; sourceTree = "<group>"; };
+		2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ApiSourceSelectorItem.xib; sourceTree = "<group>"; };
 		2BCE662C1E07F2F500364A80 /* TasksCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksCellView.h; sourceTree = "<group>"; };
 		2BCE662D1E07F2F500364A80 /* TasksCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksCellView.m; sourceTree = "<group>"; };
 		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
@@ -1660,6 +1665,9 @@
 				2B41FBCB1E02D3F60013AC86 /* main.m */,
 				2B41FBCC1E02D3F60013AC86 /* ViewController.h */,
 				2B41FBCD1E02D3F60013AC86 /* ViewController.m */,
+				2BCBAA941E125A0C0083B95E /* ApiSourceSelectorItem.h */,
+				2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */,
+				2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */,
 				2B5946CC1D72B26100F3A93D /* Frameworks */,
 				2B9F40DC1CC67B0D005C4716 /* Products */,
 			);
@@ -1761,6 +1769,7 @@
 				2B41FC271E02D3F60013AC86 /* photo.png in Resources */,
 				2B41FC401E02D3F60013AC86 /* Welcome.png in Resources */,
 				2B41FC131E02D3F60013AC86 /* close15px.png in Resources */,
+				2BCBAA981E125A0D0083B95E /* ApiSourceSelectorItem.xib in Resources */,
 				2B41FC241E02D3F60013AC86 /* next.png in Resources */,
 				2B41FC031E02D3F60013AC86 /* SmilesCollectionViewItem.xib in Resources */,
 				2B41FC2F1E02D3F60013AC86 /* profile.png in Resources */,
@@ -1841,6 +1850,7 @@
 				2B41FC7E1E02D3F70013AC86 /* FriendsMessageSendViewController.m in Sources */,
 				2B41FCA01E02D3F70013AC86 /* CustomSubscribersTableView.m in Sources */,
 				2B41FCBF1E02D3F70013AC86 /* YoutubeAddToPlaylistController.m in Sources */,
+				2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */,
 				2B41FC8A1E02D3F70013AC86 /* GroupsCustomTableView.m in Sources */,
 				2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */,
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,

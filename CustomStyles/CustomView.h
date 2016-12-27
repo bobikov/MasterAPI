@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@interface CustomView : NSView
-
+#define deltaXfromLeftAndRight 2
+@interface CustomView : NSView{
+    NSColor* bgColr;
+}
+-(void)setUnselectedBackground;
+-(void)setSelectedBackground;
 @end

@@ -22,7 +22,7 @@
     [self createTrackingArea];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
-      self.view.layer.cornerRadius=5;
+    self.view.layer.cornerRadius=5;
     _removeItem.hidden=YES;
     _moveToAlbum.hidden=YES;
     _app = [[appInfo alloc]init];
