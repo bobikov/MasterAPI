@@ -2586,7 +2586,14 @@
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2sm-DB-vwo">
                                 <rect key="frame" x="32" y="56" width="55" height="18"/>
-                                <buttonCell key="cell" type="check" title="index" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tpt-7I-RTA">
+                                <buttonCell key="cell" type="check" title="index" bezelStyle="regularSquare" imagePosition="left" inset="2" id="tpt-7I-RTA">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8cR-OP-p12">
+                                <rect key="frame" x="105" y="55" width="72" height="18"/>
+                                <buttonCell key="cell" type="check" title="ownerID" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0yq-lx-kKM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -2594,6 +2601,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="checkOwnerID" destination="8cR-OP-p12" id="EWg-LV-jJm"/>
                         <outlet property="indexCheck" destination="2sm-DB-vwo" id="6gp-D0-U1K"/>
                         <outlet property="tagsField" destination="YHk-xM-EQ3" id="YgN-C0-dql"/>
                         <outlet property="titleField" destination="8CS-Ni-1ol" id="Fd3-7P-lxq"/>

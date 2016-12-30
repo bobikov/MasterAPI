@@ -171,11 +171,11 @@
 
 - (IBAction)backToAlbumsAction:(id)sender {
     
-    [self loadAlbums];
     
     friendId=nil;
     ownerId=nil;
-    
+    [self loadAlbums];
+
 }
 
 
@@ -382,7 +382,7 @@
                     NSImageRep *rep = [[image representations] objectAtIndex:0];
                     NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                     image.size=imageSize;
-                    cachedImage[[albumsData objectAtIndex:indexPath.item]]=image;
+                    cachedImage[albumsData[indexPath.item]]=image;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [videoAlbumsItem.albumsCover setImage:image];
                     });

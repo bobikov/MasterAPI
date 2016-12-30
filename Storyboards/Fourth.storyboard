@@ -418,7 +418,7 @@ Gw
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
