@@ -24,6 +24,7 @@
     searchField.delegate = self;
     [[postsListScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
+     cellMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Search Menu", @"Search Menu title")];
     [self searchFieldMenu];
 
 }

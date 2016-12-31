@@ -67,11 +67,9 @@
     postID = nil;
     [mediaURLS removeAllObjects];
     [postsData removeAllObjects];
-    if(![searchField.stringValue containsString:@"#"]){
-         [self loadMediaPosts:searchField.stringValue];
-    }else{
-        [self loadMediaPostsByTag:searchField.stringValue];
-    }
+   
+    [self loadMediaPosts:searchField.stringValue];
+  
 //
 //    [self loadProfileInfo:searchField.stringValue];
     
