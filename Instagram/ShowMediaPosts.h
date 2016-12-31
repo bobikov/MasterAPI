@@ -21,6 +21,7 @@
     NSString *postID;
     NSMutableArray *mediaURLS;
     NSMenu *cellMenu ;
+    NSString *startCursor;
 }
 
 @end

@@ -67,9 +67,22 @@
     postID = nil;
     [mediaURLS removeAllObjects];
     [postsData removeAllObjects];
-    [self loadMediaPosts:searchField.stringValue];
-    [self loadProfileInfo:searchField.stringValue];
-//    [self loadMediaPostsByTag:searchField.stringValue];
+    if(![searchField.stringValue containsString:@"#"]){
+         [self loadMediaPosts:searchField.stringValue];
+    }else{
+        [self loadMediaPostsByTag:searchField.stringValue];
+    }
+//
+//    [self loadProfileInfo:searchField.stringValue];
+    
+    
+    //username search https://www.instagram.com/web/search/topsearch/?query=name
+    //logined user feed https://www.instagram.com/?__a=1
+    //tag search https://www.instagram.com/explore/tags/alien/?__a=1 + start_cursor by max_id param
+    //username by user_id https://www.instagram.com/query/?q=ig_user(3)
+    //likes photo/video https://www.instagram.com/p/%post_is%/?__a=1
+    //user info https://www.instagram.com/kevin/?__a=1
+    //post info  https://www.instagram.com/p/BGBgSw0tpHQ/?__a=1
 }
 -(void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
@@ -115,7 +128,6 @@
             totalCountTitle.title = [NSString stringWithFormat:@"%li", postsCount];
         }
     }
-
 }
 - (IBAction)copyMediaURLs:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
@@ -154,13 +166,13 @@
     return [postsData count];
 }
 -(void)loadMediaPostsByTag:(NSString*)tag{
-    NSString *pageHTML = [[NSString alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@", tag]] encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"%@",pageHTML);
-    HTMLDocument *doc=[HTMLDocument documentWithString:pageHTML];
-    NSArray *cursorLinkTag = [doc nodesMatchingSelector:@"#react-root"];
-    HTMLElement *cursorHref = cursorLinkTag[0];
-    NSLog(@"%@",cursorHref);
-//    _oidfu
+    [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@/?__a=1", tag]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *tagSearchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
+            NSLog(@"%@", i[@"display_src"]);
+        }
+    }]resume];
+
 
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{

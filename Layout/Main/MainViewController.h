@@ -51,6 +51,8 @@
 @property(nonatomic) NSTabViewController *TwitterProfile;
 @property(nonatomic)NSViewController *InstagramFollowsView;
 @property(nonatomic)NSViewController *InstagramMediaPosts;
+@property(nonatomic)NSViewController *InstagramSearchByTagView;
+
 @property(nonatomic)NSViewController *TasksView;
 //-(id)showCurrentController;
 @end

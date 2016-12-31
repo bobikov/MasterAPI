@@ -61,12 +61,7 @@ typedef void(^OnComplete) (NSMutableArray *data);
     }
 
 }
-- (IBAction)closeWindow:(id)sender {
 
-    [self dismissViewController:self];
-    
-    
-}
 -(void)loadGroupsByAdminPopup{
     
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

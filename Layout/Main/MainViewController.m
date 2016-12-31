@@ -13,7 +13,7 @@
 @end
 
 @implementation MainViewController
-@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView;
+@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView;
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveMainController:) name:@"RemoveMainController" object:nil];
@@ -58,10 +58,9 @@
     InstagramFollowsView = [story4 instantiateControllerWithIdentifier:@"InstagramFollows"];
     InstagramMediaPosts = [story4 instantiateControllerWithIdentifier:@"InstagramMediaPosts"];
     TasksView = [story5 instantiateControllerWithIdentifier:@"TasksView"];
+    InstagramSearchByTagView = [story4 instantiateControllerWithIdentifier:@"InstagramSearchByTagView"];
 //    secCon = [story instantiateControllerWithIdentifier:@"secondController"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
-
-    
     [self displayContentController:welcomeView];
     currentController = welcomeView;
 }
@@ -81,7 +80,6 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"privacy video albums" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"copy audio" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show audio" object:nil];
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"profile photo change" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show video" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show photo" object:nil];
@@ -102,6 +100,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show youtube videos" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show twitter profile" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show follows" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show media" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"search media by tag" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectVKApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTumblrApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTwitterApi" object:nil];
@@ -133,17 +133,13 @@
 //    [coolCon removeFromParentViewController];
 //    [coolCon.view removeFromSuperview];
     if ([self.childViewControllers count]>0){
-        
-        
         [self removeChildViewControllerAtIndex:0];
         [currentController removeFromParentViewController];
         [currentController.view removeFromSuperview];
-       
-        
+
     }
     else{
-        
-        
+  
     }
     currentController = controller;
     [self displayContentController:controller];
@@ -179,7 +175,6 @@
     
 }
 -(void)SelectYoutubeApi:(NSNotification*)notification{
-    
     youtubeCurrentController ?  [self switchControllers:youtubeCurrentController] : [self switchControllers:YoutubeSubscriptions];
 }
 -(void)SelectTumblrApi:(NSNotification*)notification{
@@ -197,7 +192,6 @@
 }
 -(void)display:(NSNotification *)notification{
 //    NSLog(@"%@", notification.name);
-
     if ([notification.name  isEqual: @"copy photo"]){
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :photoCopyView ];
         [self switchControllers:photoCopyView];
@@ -318,6 +312,10 @@
     else if ([notification.name isEqual:@"show media"]){
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :InstagramMediaPosts];
         [self switchControllers:InstagramMediaPosts];
+    }
+    else if ([notification.name isEqual:@"search media by tag"]){
+        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :InstagramSearchByTagView];
+        [self switchControllers:InstagramSearchByTagView];
     }
     
 }

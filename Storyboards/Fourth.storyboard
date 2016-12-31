@@ -1072,15 +1072,8 @@ Gw
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r4E-Ky-ZLc">
-                                                                    <rect key="frame" x="362" y="-4" width="79" height="32"/>
-                                                                    <buttonCell key="cell" type="push" title="browser" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pNN-PF-4zY">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                </button>
                                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ef9-54-I42">
-                                                                    <rect key="frame" x="185" y="2" width="123" height="15"/>
+                                                                    <rect key="frame" x="185" y="2" width="159" height="15"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="Yk2-Kr-HEn">
                                                                         <font key="font" metaFont="systemMedium" size="11"/>
                                                                         <color key="textColor" white="0.25" alpha="1" colorSpace="calibratedWhite"/>
@@ -1093,9 +1086,6 @@ Gw
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
-                                                                    <connections>
-                                                                        <action selector="showMedia:" target="lxn-mC-jqv" id="Kn5-7k-OUd"/>
-                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                             <connections>
@@ -1139,7 +1129,7 @@ Gw
                             </button>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdb-Pb-sjE">
                                 <rect key="frame" x="189" y="652" width="296" height="22"/>
-                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="instagram username" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" recentsAutosaveName="users" id="rmE-0B-C06">
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="instagram tag" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" recentsAutosaveName="users" id="rmE-0B-C06">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1152,7 +1142,7 @@ Gw
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="copyMediaURLs:" target="lxn-mC-jqv" id="PQf-HG-QuJ"/>
+                                    <action selector="copyMediaURLs:" target="lxn-mC-jqv" id="uIB-Fk-Fi0"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kGL-Sb-PwC">
@@ -1161,17 +1151,16 @@ Gw
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="selectOnlyImages:" target="lxn-mC-jqv" id="K01-rc-AYn"/>
-                                </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="loadedCountTitle" destination="Ors-tK-sHI" id="1J4-eX-RqB"/>
+                        <outlet property="loadedCountTitle" destination="Ors-tK-sHI" id="RDY-Xg-Mpe"/>
+                        <outlet property="postsList" destination="4ct-3f-af7" id="GAi-wq-f15"/>
                         <outlet property="postsListClip" destination="6m1-eK-Nuo" id="IXa-gK-YxX"/>
                         <outlet property="postsListScroll" destination="Ui5-WZ-6de" id="dBt-ey-pdY"/>
-                        <outlet property="totalCountTitle" destination="TTC-u8-k3X" id="NUM-Le-q4K"/>
+                        <outlet property="searchField" destination="zdb-Pb-sjE" id="hZX-td-JEu"/>
+                        <outlet property="totalCountTitle" destination="TTC-u8-k3X" id="Krc-zG-Ygf"/>
                     </connections>
                 </viewController>
                 <customObject id="uef-qI-ROM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

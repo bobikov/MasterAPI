@@ -128,8 +128,8 @@
 
 - (IBAction)uploadButtonAction:(id)sender {
     [self removeDownloadAndUploadStatuOver];
-    selectedObject = [[NSMutableDictionary alloc]initWithDictionary:self.representedObject];
-    
+    selectedObject = [[NSMutableDictionary alloc]init];
+    selectedObject = self.representedObject;
     albumToUploadTo = selectedObject[@"id"] ;
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     [self setProgress];
@@ -138,12 +138,12 @@
 }
 
 - (IBAction)uploadByURLsAction:(id)sender {
-   
+   [self removeDownloadAndUploadStatuOver];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"uploadPhotoURLs" object:nil];
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     albumToUploadTo = selectedObject[@"id"];
-//     [self removeDownloadAndUploadStatuOver];
+    
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
     URLsViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
