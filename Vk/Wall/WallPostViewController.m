@@ -557,15 +557,12 @@
     NSView *parentCell = [sender superview];
     NSInteger row = [listOfMessages rowForView:parentCell];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-    
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%@ == message",messagesToPost[row][@"message"]]];
     [request setReturnsObjectsAsFaults:NO];
-    //    [request setResultType:NSDictionaryResultType];
     NSError *readError;
-    NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+    NSArray *array = [temporaryContext executeFetchRequest:request error:&readError];
     [temporaryContext performBlock:^{
-        
-   
-        [temporaryContext deleteObject:array[row]];
+        [temporaryContext deleteObject:array[0]];
         NSError *saveError;
         if(![temporaryContext save:&saveError]){
             NSLog(@"Error");
@@ -577,11 +574,7 @@
                 abort();
             }else{
                 [moc performBlock:^{
-                    
                     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-                    //    temporaryContext.parentContext = moc;
-                    //              NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:moc];
-                    
                     [request setReturnsObjectsAsFaults:NO];
                     [request setResultType:NSDictionaryResultType];
                     NSError *readError;
@@ -1075,6 +1068,8 @@
     }
     return nil;
 }
+
+
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if([attachmentsData count]>0){
         return [attachmentsData count];
