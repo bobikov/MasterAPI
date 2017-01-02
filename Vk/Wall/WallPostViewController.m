@@ -576,7 +576,7 @@
                 NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
                 abort();
             }else{
-                [temporaryContext performBlock:^{
+                [moc performBlock:^{
                     
                     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
                     //    temporaryContext.parentContext = moc;
@@ -642,7 +642,9 @@
                 }
             }
         });
+      
     }
+      [self writeMessage];
 }
 - (IBAction)makePostAction:(id)sender {
     repeatState = repeat.state;
