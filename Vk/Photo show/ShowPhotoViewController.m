@@ -152,6 +152,7 @@
 
 -(void)loadSearchVideo{
     if(!albumLoaded){
+        
         NSInteger counter=0;
         NSMutableArray *photoAlbumsTemp=[[NSMutableArray alloc]init];
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
@@ -165,6 +166,7 @@
             
         }
         if([photoAlbumsTemp count]>0){
+            [albumsData removeAllObjects];
             albumsData = photoAlbumsTemp;
             [collectionViewListAlbums setContent:albumsData];
             [collectionViewListAlbums reloadData];

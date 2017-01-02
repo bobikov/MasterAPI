@@ -24,7 +24,6 @@
     self.view.layer.masksToBounds=YES;
     self.view.layer.cornerRadius=5;
     _downloadButton.hidden=YES;
-  
     _app = [[appInfo alloc]init];
     manager = [NSFileManager defaultManager];
     _countInAlbum.wantsLayer=YES;
@@ -46,8 +45,6 @@
     _uploadByURLsButton.hidden=YES;
     _uploadPhoto.hidden=YES;
 
-//     [[NSNotificationCenter defaultCenter]removeObserver:@"haha"];
-//   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"haha" object:nil];
 }
 - (IBAction)moveToAlbum:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];

@@ -38,7 +38,8 @@
     queuePostsInSession = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
-    
+    moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+
 //    attachmentsCollectionView.wantsLayer=YES;
     attachmentsData = [[NSMutableArray alloc]init];
 //   attachmentsCollectionView.layer.backgroundColor = [NSColor clearColor];
@@ -81,12 +82,14 @@
     
 }
 
+
 -(void)textDidChange:(NSNotification *)notification{
     
     charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
     [self setSelectorsButtonsState];
 }
 
+//Attachments actions
 -(void)addToAttachments:(NSNotification *)notification{
     mediaAttachmentType = notification.userInfo[@"type"];
     [indexPaths removeAllObjects];
@@ -166,7 +169,67 @@
     
     
 }
+//Attachments actions end
 
+
+//Scheduled post
+- (IBAction)startSession:(id)sender {
+    publishingDateForPost.hidden=NO;
+    addPostToQueueBut.hidden=NO;
+    startedSessionStatusLabel.hidden=NO;
+    startedSessionCloseBut.hidden=NO;
+    currentPostsSessionName = newSessionNameField.stringValue;
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
+    newSessionNameField.stringValue=@"";
+    newSessionStartBut.enabled=NO;
+    //    savePostsSessionBut.hidden=NO;
+    publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
+    NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *comps = [cal components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
+    [comps setSecond:0];
+    [comps setCalendar:cal];
+    [publishingDateForPost setDateValue: [comps date] ];
+    
+    
+}
+- (IBAction)saveSession:(id)sender {
+    
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    
+    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
+    //    contr.view = [[NSView alloc]init];
+    [contr loadView];
+    [contr viewDidLoad];
+    addPostToQueueBut.hidden=YES;
+    startedSessionStatusLabel.hidden=YES;
+    startedSessionCloseBut.hidden=YES;
+    publishingDateForPost.hidden=YES;
+    startedSessionCloseBut.enabled=YES;
+    newSessionStartBut.enabled=YES;
+    savePostsSessionBut.hidden=YES;
+    
+    dispatch_after(1, dispatch_get_main_queue(), ^(void){
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+        
+    });
+    dispatch_after(1, dispatch_get_main_queue(), ^(void){
+        [queuePostsInSession removeAllObjects];
+    });
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
+}
+- (IBAction)addPostToQueue:(id)sender {
+    message=[textView.string isEqualToString:@""] ? nil : textView.string ;
+    
+    NSDate *selectedDate = publishingDateForPost.dateValue;
+    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
+    
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
+    //    NSLog(@"%@", queuePostsInSession);
+    //    NSLog(@"%@ %@", message, attachmentsPostVKString );
+    if([queuePostsInSession count]>0){
+        savePostsSessionBut.hidden=NO;
+    }
+}
 -(void)observeScheduledPost:(NSNotification*)object{
     NSLog(@"%@", object.userInfo);
     NSMutableDictionary *object1 = [object.userInfo mutableCopy];
@@ -174,7 +237,6 @@
     attachmentsDataScheduled = [object1[@"attach_urls"] mutableCopy];
     [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
 }
-
 - (IBAction)closeStartedSessionAction:(id)sender {
     addPostToQueueBut.hidden=YES;
     startedSessionStatusLabel.hidden=YES;
@@ -185,69 +247,30 @@
     savePostsSessionBut.hidden=YES;
     [queuePostsInSession removeAllObjects];
 }
-- (IBAction)startSession:(id)sender {
-    publishingDateForPost.hidden=NO;
-    addPostToQueueBut.hidden=NO;
-    startedSessionStatusLabel.hidden=NO;
-    startedSessionCloseBut.hidden=NO;
-    currentPostsSessionName = newSessionNameField.stringValue;
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
-    newSessionNameField.stringValue=@"";
-    newSessionStartBut.enabled=NO;
-//    savePostsSessionBut.hidden=NO;
-    publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
-    NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = [cal components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
-    [comps setSecond:0];
-    [comps setCalendar:cal];
-    [publishingDateForPost setDateValue: [comps date] ];
-  
- 
-}
-- (IBAction)saveSession:(id)sender {
- 
-    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
-    
-    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
-//    contr.view = [[NSView alloc]init];
-    [contr loadView];
-    [contr viewDidLoad];
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    publishingDateForPost.hidden=YES;
-    startedSessionCloseBut.enabled=YES;
-    newSessionStartBut.enabled=YES;
-    savePostsSessionBut.hidden=YES;
-   
-    dispatch_after(1, dispatch_get_main_queue(), ^(void){
-         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
-    
-    });
-    dispatch_after(1, dispatch_get_main_queue(), ^(void){
-      [queuePostsInSession removeAllObjects];
-    });
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
-}
-- (IBAction)addPostToQueue:(id)sender {
-    message=[textView.string isEqualToString:@""] ? nil : textView.string ;
-    
-    NSDate *selectedDate = publishingDateForPost.dateValue;
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
-  
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
-//    NSLog(@"%@", queuePostsInSession);
-//    NSLog(@"%@ %@", message, attachmentsPostVKString );
-    if([queuePostsInSession count]>0){
-        savePostsSessionBut.hidden=NO;
-    }
-}
+//Scheduled post end
+
+
 
 -(void)insertSmile:(NSNotification*)notification{
     textView.string = [NSString stringWithFormat:@"%@%@", textView.string, notification.userInfo[@"smile"]];
     [self setSelectorsButtonsState];
 }
-
+- (IBAction)stopPost:(id)sender {
+    stopFlag=YES;
+    [progressSpin stopAnimation:self];
+}
+- (IBAction)radioAction:(id)sender {
+    //    NSLog(@"%@", sender);
+    if(postRadio.state==1){
+        //        NSLog(@"Post");
+        afterPost.hidden=YES;
+        
+    }
+    if(commentRadio.state==1){
+        //        NSLog(@"Comment");
+        afterPost.hidden=NO;
+    }
+}
 -(void)setSelectorsButtonsState{
     if([textView.string isEqualToString:@""]){
         [PostTwitter setEnabled:NO];
@@ -258,7 +281,6 @@
         [postTumblr setEnabled:YES];
     }
 }
-
 - (IBAction)newPost:(id)sender {
     
     textView.string = @"";
@@ -269,77 +291,13 @@
     [indexPaths removeAllObjects];
 
 }
+- (IBAction)groupsListAction:(id)sender {
+    publicId.stringValue =[NSString stringWithFormat:@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]];
+    NSLog(@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]);
+    
+}
 
-- (IBAction)deleteMessage:(id)sender {
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
-    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    temporaryContext.parentContext=moc;
-    NSView *parentCell = [sender superview];
-    NSInteger row = [listOfMessages rowForView:parentCell];
-    [temporaryContext performBlock:^{
-    
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-        
-        [request setReturnsObjectsAsFaults:NO];
-        //    [request setResultType:NSDictionaryResultType];
-        NSError *readError;
-        NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
-        [temporaryContext deleteObject:array[row]];
-        NSError *saveError;
-        if(![temporaryContext save:&saveError]){
-            NSLog(@"Error");
-        }
-        [moc performBlock:^{
-            NSError *error = nil;
-            if (![moc save:&error]) {
-                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
-                abort();
-            }else{
-                [temporaryContext performBlock:^{
-                    
-                    
-                    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-                    //    temporaryContext.parentContext = moc;
-                    //              NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:moc];
-                    
-                    
-                    [request setReturnsObjectsAsFaults:NO];
-                    [request setResultType:NSDictionaryResultType];
-                    NSError *readError;
-                    messagesToPost = [[NSMutableArray alloc]initWithArray: [temporaryContext executeFetchRequest:request error:&readError]];
-                  
-                    [listOfMessages reloadData];
-                }];
-                
-            }
-        }];
-    }];
-}
-- (IBAction)removeGroupsToPost:(id)sender {
-    NSInteger row = [recentGroups selectedRow];
-    NSString *groupId =  groupsToPost[row][@"id"];
-//    NSLog(@"%@", groupId);
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroupsToPost"];
-    [request setReturnsObjectsAsFaults:NO];
-    //    [request setResultType:NSDictionaryResultType];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"id == %@", groupId]];
-    NSError *fetchError;
-    NSError *delError;
-    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
-    for(NSManagedObject *object in array){
-        [moc deleteObject:object];
-        if(![moc save:&delError]){
-            NSLog(@"Delete groups to post object error.");
-        }else{
-            NSLog(@"Group is successfully deleted");
-            [self reloadRecentGroups];
-        }
-    }
-//    [self removeAllGroups];
-    
-    
-}
+
 -(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"videosForAttachments"]){
         ShowVideoViewController *controller = (ShowVideoViewController *)segue.destinationController;
@@ -362,9 +320,32 @@
 }
 
 
-
+//Read and Write data
+- (IBAction)removeGroupsToPost:(id)sender {
+    NSInteger row = [recentGroups selectedRow];
+    NSString *groupId =  groupsToPost[row][@"id"];
+    //    NSLog(@"%@", groupId);
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroupsToPost"];
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"id == %@", groupId]];
+    NSError *fetchError;
+    NSError *delError;
+    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
+    for(NSManagedObject *object in array){
+        [moc deleteObject:object];
+        if(![moc save:&delError]){
+            NSLog(@"Delete groups to post object error.");
+        }else{
+            NSLog(@"Group is successfully deleted");
+            [self reloadRecentGroups];
+        }
+    }
+    //    [self removeAllGroups];
+    
+    
+}
 -(NSArray*)ReadGroups{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKGroupsToPost"];
@@ -376,7 +357,6 @@
     return array;
 }
 -(void)writeGroup{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
        NSMutableArray *tempArray = [[NSMutableArray alloc]init];
 //    [self removeAllGroups];
     if([self ReadGroups]!=nil){
@@ -454,15 +434,10 @@
     });
     }
 -(void)removeAllGroups{
-
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
-    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc ] initWithEntityName:@"VKGroupsToPost"];
-    
     NSError *error;
     NSArray *items = [moc executeFetchRequest:fetchRequest error:&error];
     //    fetchRequest = nil;
-    
     if ([items count]>0){
         for (NSManagedObject *managedObject in items) {
             [moc deleteObject:managedObject];
@@ -471,11 +446,10 @@
         if (![moc save:&error]) {
         }
     }
-
 }
 -(NSArray *)ReadMessages{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
     temporaryContext.parentContext = moc;
     NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:temporaryContext];
@@ -496,8 +470,6 @@
             [tempArray addObject:i[@"message"]];
         }
     }
-   
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
      NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
    
@@ -539,56 +511,21 @@
 }
 -(void)reloadMessages{
     messagesToPost = [[NSMutableArray alloc]initWithArray:[self ReadMessages]];
-          [listOfMessages reloadData];
-}
--(void)loadGroups{
-    [groupsList addItemWithTitle:@"Personal"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
-                [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [groupsList addItemWithTitle:i[@"name"]];
-                });
-            }
-        }]resume];
-    });
-}
-- (IBAction)groupsListAction:(id)sender {
-    publicId.stringValue =[NSString stringWithFormat:@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]];
-    NSLog(@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]);
-    
-}
-- (IBAction)stopPost:(id)sender {
-    stopFlag=YES;
-    [progressSpin stopAnimation:self];
-}
-- (IBAction)radioAction:(id)sender {
-//    NSLog(@"%@", sender);
-    if(postRadio.state==1){
-//        NSLog(@"Post");
-        afterPost.hidden=YES;
-        
-    }
-    if(commentRadio.state==1){
-//        NSLog(@"Comment");
-        afterPost.hidden=NO;
-    }
+    [listOfMessages reloadData];
 }
 - (IBAction)removeText:(id)sender {
-    
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    temporaryContext.parentContext=moc;
+      temporaryContext.parentContext=moc;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+    
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    
+    NSError *readError;
+    NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+  
     [temporaryContext performBlock:^{
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-        
-        [request setReturnsObjectsAsFaults:NO];
-        //    [request setResultType:NSDictionaryResultType];
-        
-        NSError *readError;
-        NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+   
         [temporaryContext deleteObject:array[selectedObject]];
         NSError *saveError;
         if(![temporaryContext save:&saveError]){
@@ -609,28 +546,73 @@
                 messagesToPost = [[NSMutableArray alloc]initWithArray: [moc executeFetchRequest:request error:&readError]];
                 //              [listOfMessages reloadData];
                 NSLog(@"%@", messagesToPost);
-                //                  [self reloadMessages];
                 [listOfMessages reloadData];
             }
         }];
     }];
 }
+- (IBAction)deleteMessage:(id)sender {
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext=moc;
+    NSView *parentCell = [sender superview];
+    NSInteger row = [listOfMessages rowForView:parentCell];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+    
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    NSError *readError;
+    NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+    [temporaryContext performBlock:^{
+        
+   
+        [temporaryContext deleteObject:array[row]];
+        NSError *saveError;
+        if(![temporaryContext save:&saveError]){
+            NSLog(@"Error");
+        }
+        [moc performBlock:^{
+            NSError *error = nil;
+            if (![moc save:&error]) {
+                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
+                abort();
+            }else{
+                [temporaryContext performBlock:^{
+                    
+                    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+                    //    temporaryContext.parentContext = moc;
+                    //              NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:moc];
+                    
+                    [request setReturnsObjectsAsFaults:NO];
+                    [request setResultType:NSDictionaryResultType];
+                    NSError *readError;
+                    messagesToPost = [[NSMutableArray alloc]initWithArray: [moc executeFetchRequest:request error:&readError]];
+                    
+                    [listOfMessages reloadData];
+                }];
+                
+            }
+        }];
+    }];
+}
+//End Read and Write data
+
+//Post methods
 -(void)prepareForPost:(NSString*)ownerID attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
     
     alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     guId = [NSMutableString stringWithCapacity:20];
     postAfter =  [afterPost.stringValue intValue]-1;
     if(scheduled){
-//        postTargetSourceSelector[@"vk"]=@1;
+        //        postTargetSourceSelector[@"vk"]=@1;
         owner = [NSString stringWithFormat:@"%@",ownerID];
-//        attachmentsPostVKString = attachs;
+        //        attachmentsPostVKString = attachs;
         attachmentsPostVKStringScheduled = [attachs mutableCopy];
-       
+        
         message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         [self postWithoutRepeat:YES];
         NSLog(@"%@, %@, %@", owner, attachmentsPostVKStringScheduled, message);
-   
-
+        
+        
     }else{
         owner = publicId.stringValue;
         message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
@@ -1000,7 +982,10 @@
         }
     }
 }
+//Post methods end
 
+
+//Get info about new owner
 -(void)getGroupInfo:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%i&access_token=%@&v=%@", abs([publicId.stringValue intValue]), _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
@@ -1014,6 +999,25 @@
         
     }]resume];
 }
+//Get infro about new owner end
+
+
+
+-(void)loadGroups{
+    [groupsList addItemWithTitle:@"Personal"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
+                [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [groupsList addItemWithTitle:i[@"name"]];
+                });
+            }
+        }]resume];
+    });
+}
+
 
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
@@ -1034,7 +1038,6 @@
 //        }
     }
 }
-
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView isEqual:recentGroups]){
         if ([groupsToPost count]>0) {
@@ -1076,7 +1079,6 @@
     }
     return 0;
 }
-
 -(NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     PostAttachmentsCustomItem *item1 = [[PostAttachmentsCustomItem alloc]init];

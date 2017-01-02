@@ -29,7 +29,7 @@
     manager = [NSFileManager defaultManager];
     loadForAttachments = _recivedData[@"loadDocsForAttachments"] ? YES : NO;
     userGroupsByAdminData = [[NSMutableArray alloc]init];
-
+    downloadFile = nil;
     [self loadUserGroupsByAdmin];
     owner = owner == nil ? _app.person : owner;
     _captchaHandler = [[VKCaptchaHandler alloc]init];
@@ -63,6 +63,17 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"doc", @"data":docsData[row]}];
     
+}
+
+- (IBAction)showDocsByOwner:(id)sender {
+    
+    if(![publicIdField.stringValue isEqual:@""]){
+        owner = publicIdField.stringValue;
+        [self loadDocs];
+        
+    }else{
+        NSLog(@"Enter owner id");
+    }
 }
 
 -(void)editDocs:(NSNotification*)notification{
@@ -285,16 +296,7 @@
     [self chooseDirectoryToDownloadTo];
 }
 
-- (IBAction)showDocsByOwner:(id)sender {
-    
-    if(![publicIdField.stringValue isEqual:@""]){
-        owner = publicIdField.stringValue;
-        [self loadDocs];
-        
-    }else{
-        NSLog(@"Enter owner id");
-    }
-}
+
 
 -(void)chooseDirectoryToDownloadTo{
     NSOpenPanel *saveDlg = [NSOpenPanel openPanel];
@@ -304,7 +306,7 @@
     [saveDlg setCanChooseDirectories:YES];
     if([saveDlg runModal] == NSFileHandlingPanelOKButton){
         filePath = [[[saveDlg URL] absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-//        NSLog(@"%@", filePath);
+        NSLog(@"Download path %@", filePath);
         [self prepareDownloadDocs];
     }
 }
@@ -315,21 +317,23 @@
     counterDownloader=0;
     NSIndexSet *rows = [docsTableView selectedRowIndexes];
     selectedItems =[[NSMutableArray alloc] initWithArray: [docsData objectsAtIndexes:rows]];
-    NSLog(@"%@", selectedItems);
+    NSLog(@"Selected items %@", selectedItems);
     selectedCount = [selectedItems count];
-    
-     downloadAndUploadProgressBarLabel.stringValue=[NSString stringWithFormat:@"Download: %li / %li", counterDownloader, [selectedItems count]];
+    downloadAndUploadProgressBarLabel.stringValue=[NSString stringWithFormat:@"Download: %li / %li", counterDownloader, [selectedItems count]];
 //    downloadAndUploadProgressBar.maxValue=selectedCount;
-
     [self startDownloadDocs];
-
 }
 
 -(void)startDownloadDocs{
     [self setControlButtonsDownloadState];
     docFileName = [[[selectedItems[counterDownloader][@"photo"] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:selectedItems[counterDownloader][@"ext"]];
-    downloadFile = [_backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", selectedItems[counterDownloader][@"url"]]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:selectedItems[counterDownloader][@"url"]]];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    downloadFile = [_backgroundSession downloadTaskWithRequest:request];
     [downloadFile resume];
+    NSLog(@"Download docs started");
+    NSLog(@"Download URL %@", selectedItems[counterDownloader][@"url"]);
 }
 //end download docs process
 
@@ -718,4 +722,8 @@
     downloadAndUploadProgressBar.doubleValue=totalBytesWritten;
 }
 
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
+    NSLog(@"ERRO DOWNLOAD DOCS %@", [error localizedDescription]);
+    downloadFile = nil;
+}
 @end

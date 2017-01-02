@@ -76,6 +76,7 @@
     NSMutableString *guId;
     NSString *alphabet;
     NSMutableDictionary *postTargetSourceSelector;
+    NSManagedObjectContext *moc;
     
 }
 @property(nonatomic)appInfo *app;
