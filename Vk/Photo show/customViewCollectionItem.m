@@ -73,6 +73,7 @@
 //    NSLog(@"dddd");
      [[NSNotificationCenter defaultCenter] removeObserver:self name:@"uploadPhotoURLs" object:nil];
 }
+
 -(void)setProgress{
 //     self.downloadAndUploadProgress.maxValue=expectedBytes;
 //    self.downloadAndUploadProgress.doubleValue=progress;
@@ -80,6 +81,7 @@
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
     albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu",uploadCounter == 0 ? 0 : uploadCounter+1, [filesForUpload count] ];
 }
+
 -(void)prepareURLsForUpload:(NSString*)urlsString{
    filesForUpload = [self urlsFromString:urlsString];
     NSLog(@"%@", filesForUpload);
@@ -95,6 +97,7 @@
         }];
     }
 }
+
 -(NSMutableArray*)urlsFromString:(NSString*)fullString{
     NSMutableArray *urls = [[NSMutableArray alloc]init];
     
@@ -328,9 +331,7 @@
     
 }
 
--(IBAction)downloadButtonAction:(id)sender {
-    
- 
+-(IBAction)downloadButtonAction:(id)sender{
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     selectedObject[@"busy"]=@1;
@@ -342,7 +343,7 @@
        
         [self chooseDirectoryForAlbumDownload:selectedObject[@"title"] :selectedObject[@"id"] :_app.person :self.representedObject[@"size"]];
     }
-    
+
 }
 
 -(void)getUploadURL:(id)album_id completion:(OnComplete)completion{
@@ -757,7 +758,6 @@
     }
 }
 
-// 3
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes{
     //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"PDFDownloader" message:@"Download is resumed successfully" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     //    [alert show];

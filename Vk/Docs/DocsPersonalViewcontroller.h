@@ -59,6 +59,7 @@
     __weak IBOutlet NSButton *downloadButton;
     ViewControllerMenuItem *viewControllerItem;
     __weak IBOutlet NSButton *deleteButton;
+    BOOL busy;
 }
 
 @property(nonatomic)appInfo *app;

@@ -18,8 +18,8 @@
     __weak IBOutlet NSTableView *postsList;
     NSMutableArray *postsData;
     NSString *endCursor;
-     NSMutableArray *mediaURLS;
-      NSMenu *cellMenu ;
+    NSMutableArray *mediaURLS;
+    NSMenu *cellMenu ;
 }
 
 @end

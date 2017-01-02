@@ -18,6 +18,9 @@
     [super viewDidLoad];
     _app = [[appInfo alloc]init];
     progressUploadBar.hidden=YES;
+    currentPhoto.wantsLayer=YES;
+    currentPhoto.layer.masksToBounds=YES;
+    currentPhoto.layer.cornerRadius=4;
     [progressSpin startAnimation:self];
     intervalField.enabled=NO;
     filePathLabel.hidden=YES;

@@ -42,6 +42,18 @@
 
     cachedImage = [[NSMutableDictionary alloc]init];
 }
+-(void)viewDidAppear{
+    //    if(!albumLoaded){
+    //        [self loadAlbums:nil];
+    //    }
+    if(_loadFromFullUserInfo || _loadFromWallPost){
+        self.view.window.titleVisibility=NSWindowTitleHidden;
+        self.view.window.titlebarAppearsTransparent = YES;
+        self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+        self.view.window.movableByWindowBackground=NO;
+    }
+}
+
 -(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"createPhotoAlbumSeague"]){
         CreateNewAlbumController *controller = (CreateNewAlbumController *)segue.destinationController;
@@ -119,21 +131,12 @@
 
     });
 }
+
 -(void)createAlbumReload:(NSNotification*)notification{
     [self loadAlbums];
 }
 
--(void)viewDidAppear{
-//    if(!albumLoaded){
-//        [self loadAlbums:nil];
-//    }
-    if(_loadFromFullUserInfo || _loadFromWallPost){
-        self.view.window.titleVisibility=NSWindowTitleHidden;
-        self.view.window.titlebarAppearsTransparent = YES;
-        self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
-        self.view.window.movableByWindowBackground=NO;
-    }
-}
+
 
 -(void)loadMembershipGroupAlbum:(NSNotification *)notification{
     ownerId = [NSString stringWithFormat:@"-%@", notification.userInfo[@"id"]];
@@ -178,7 +181,6 @@
 
 }
 
-
 - (IBAction)showPhotoByOwner:(id)sender {
     if(![ownerField.stringValue isEqual:@""]){
         ownerId=ownerField.stringValue;
@@ -188,15 +190,17 @@
     
     
 }
+
 - (IBAction)albumsListDropdownAction:(id)sender {
     [self loadSelectedAlbum:albumsData2[[albumsListDropdown indexOfSelectedItem]][@"id"]] ;
-    
 }
+
 - (IBAction)friendsListDropdownAction:(id)sender {
     friendId = friends[[friendsListDropdown indexOfSelectedItem]][@"id"];
     ownerId= friendId;
     [self loadAlbums];
 }
+
 -(void)loadSelectedAlbum:(id)albumId{
     nameSelectedObject = @"album";
       [albumsData removeAllObjects];
@@ -219,7 +223,8 @@
             else if(i[@"photo_604"] && !i[@"photo_807"]){
                 bigPhoto = i[@"photo_604"];
             }
-            [albumsData addObject:@{@"title": albumTitle,  @"owner_id":ownerId == nil?ownerId=_app.person:ownerId, @"items":@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"], @"photoBig":bigPhoto, @"caption":i[@"text"]}}];
+            NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?ownerId=_app.person:ownerId, @"items":@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"], @"photoBig":bigPhoto, @"caption":i[@"text"]}}];
+            [albumsData addObject:object];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             albumLoaded=YES;
@@ -334,6 +339,8 @@
         
     }] resume];
 }
+
+
 
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if([albumsData count]>0){

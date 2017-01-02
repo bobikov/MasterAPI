@@ -144,7 +144,7 @@
 -(void)SelectInstagramApi:(NSNotification*)notification{
     currentSelectorName = @"instagram";
     _topLevelItems = @[@"Media"];
-    [_childrenDictionary setObject:@[@"show media", @"search media by tag"] forKey:@"Media"];
+    [_childrenDictionary setObject:@[@"user media feed", @"show media", @"search media by tag"] forKey:@"Media"];
     
     [OutlineSidebar reloadData];
     [OutlineSidebar expandItem:nil expandChildren:YES];

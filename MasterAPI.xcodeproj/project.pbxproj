@@ -270,6 +270,7 @@
 		2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD61E0428CB0013AC86 /* Header.xib */; };
 		2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */; };
 		2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */; };
+		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
@@ -753,6 +754,8 @@
 		2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesHeaderView.m; sourceTree = "<group>"; };
 		2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramSearchByTagController.h; sourceTree = "<group>"; };
 		2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramSearchByTagController.m; sourceTree = "<group>"; };
+		2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramFeedViewController.h; sourceTree = "<group>"; };
+		2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramFeedViewController.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -870,6 +873,8 @@
 				2B41FA171E02D3F50013AC86 /* ShowMediaPosts.m */,
 				2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */,
 				2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */,
+				2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */,
+				2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -1859,6 +1864,7 @@
 				2B41FCAF1E02D3F70013AC86 /* ViewControllerMenuItem.m in Sources */,
 				2B41FCCA1E02D3F70013AC86 /* YoutubeVideosCustomCell.m in Sources */,
 				2B41FBFF1E02D3F60013AC86 /* NSString+HTMLEntities.m in Sources */,
+				2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */,
 				2B41FC5A1E02D3F70013AC86 /* TwitterUpdateAvatarController.m in Sources */,
 				2B41FC631E02D3F70013AC86 /* CustomAudiolistTableView.m in Sources */,
 				2B41FBDD1E02D3F60013AC86 /* CustomSlider.m in Sources */,

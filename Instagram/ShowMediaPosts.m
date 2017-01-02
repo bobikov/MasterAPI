@@ -69,9 +69,7 @@
     [postsData removeAllObjects];
    
     [self loadMediaPosts:searchField.stringValue];
-  
-//
-//    [self loadProfileInfo:searchField.stringValue];
+    [self loadProfileInfo:searchField.stringValue];
     
     
     //username search https://www.instagram.com/web/search/topsearch/?query=name
@@ -107,8 +105,6 @@
                                       action:NULL keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsMenuItemTag];
     [cellMenu insertItem:item atIndex:3];
-    
-    
     [searchField setSearchMenuTemplate:cellMenu];
 }
 -(void)loadProfileInfo:(NSString*)username{

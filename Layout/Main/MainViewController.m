@@ -13,7 +13,7 @@
 @end
 
 @implementation MainViewController
-@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView;
+@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView;
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveMainController:) name:@"RemoveMainController" object:nil];
@@ -59,6 +59,7 @@
     InstagramMediaPosts = [story4 instantiateControllerWithIdentifier:@"InstagramMediaPosts"];
     TasksView = [story5 instantiateControllerWithIdentifier:@"TasksView"];
     InstagramSearchByTagView = [story4 instantiateControllerWithIdentifier:@"InstagramSearchByTagView"];
+    InstagramFeedView = [story4 instantiateControllerWithIdentifier:@"InstagramFeedViewController"];
 //    secCon = [story instantiateControllerWithIdentifier:@"secondController"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
     [self displayContentController:welcomeView];
@@ -102,6 +103,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show follows" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show media" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"search media by tag" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"user media feed" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectVKApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTumblrApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTwitterApi" object:nil];
@@ -316,6 +318,10 @@
     else if ([notification.name isEqual:@"search media by tag"]){
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :InstagramSearchByTagView];
         [self switchControllers:InstagramSearchByTagView];
+    }
+    else if ([notification.name isEqual:@"user media feed"]){
+        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :InstagramFeedView];
+        [self switchControllers:InstagramFeedView];
     }
     
 }

@@ -534,7 +534,7 @@
 }
 
 -(void)setControlButtonsStoppedState{
-
+    busy = NO;
     if([[docsTableView selectedRowIndexes]count]>0){
         uploadButton.enabled=YES;
         editButton.enabled=YES;
@@ -552,6 +552,7 @@
 }
 
 -(void)setControlButtonsDownloadState{
+    busy = YES;
     uploadButton.enabled=NO;
     downloadButton.enabled=NO;
     deleteButton.enabled=NO;
@@ -565,7 +566,7 @@
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
-    if([[docsTableView selectedRowIndexes]count]>0){
+    if([[docsTableView selectedRowIndexes]count]>0 && !busy){
         editButton.enabled=YES;
         downloadButton.enabled=YES;
         deleteButton.enabled=YES;
@@ -626,7 +627,7 @@
         else{
             if(uploadCounter+1==[filesForUpload count]){
                 [_backgroundSession finishTasksAndInvalidate];
-                
+                busy = NO;
                 dispatch_async(dispatch_get_main_queue(), ^{
                 
                     downloadAndUploadProgressBarLabel.stringValue = [NSString stringWithFormat:@"%li/%lu", uploadCounter+1, [filesForUpload count] ];

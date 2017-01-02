@@ -52,7 +52,7 @@
 @property(nonatomic)NSViewController *InstagramFollowsView;
 @property(nonatomic)NSViewController *InstagramMediaPosts;
 @property(nonatomic)NSViewController *InstagramSearchByTagView;
-
+@property(nonatomic)NSViewController *InstagramFeedView;
 @property(nonatomic)NSViewController *TasksView;
 //-(id)showCurrentController;
 @end

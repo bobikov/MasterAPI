@@ -88,8 +88,9 @@
             int hasNextPage = [tagSearchResp[@"tag"][@"media"][@"page_info"][@"has_next_page"] intValue];
             NSLog(@"Has next page %i", hasNextPage);
             endCursor = hasNextPage ? tagSearchResp[@"tag"][@"media"][@"page_info"][@"end_cursor"] : nil;
+            NSLog(@"%@", endCursor);
             for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
-                //            NSLog(@"%@", i[@"display_src"]);
+                
                 [mediaURLS addObject:i[@"display_src"]];
                 NSString *caption  = i[@"caption"] && ![i[@"caption"] isEqual:[NSNull null]] &&  ![i[@"caption"] isEqual:nil] && ![i[@"caption"] isEqual:@""]? i[@"caption"]: @"";
 //                NSString *caption  = @"";
