@@ -24,19 +24,15 @@
 //    apiSelectorScrollview.wantsLayer=YES;
     
     apiSelectorScrollview.borderType=0;
-//    border = [CALayer layer];
-//    backG = [CALayer layer];
-//    border.backgroundColor = [[NSColor lightGrayColor]CGColor];
+
     apiSelectorScrollview.drawsBackground=NO;
-//    backG.frame = NSMakeRect(apiSelectorScrollview.frame.origin.x, apiSelectorScrollview.frame.origin.y, apiSelectorScrollview.frame.size.width,apiSelectorScrollview.frame.size.height);
-//    backG.backgroundColor=[[NSColor colorWithWhite:0.9 alpha:1.0]CGColor];
-//    apiSourceSelectorCollectionView.layer.frame=NSMakeRect(0, 10, apiSelectorScrollview.frame.size.width, apiSelectorScrollview.frame.size.height-20);
+
     NSView *border = [[NSView alloc]init];
     NSView *backG = [[NSView alloc]init];
     border.wantsLayer=YES;
     backG.wantsLayer=YES;
     border.layer.backgroundColor = [[NSColor colorWithWhite:0.6 alpha:1.0]CGColor];
-     backG.layer.backgroundColor = [[NSColor colorWithWhite:0.8 alpha:1.0]CGColor];
+    backG.layer.backgroundColor = [[NSColor colorWithWhite:0.8 alpha:1.0]CGColor];
 //    [border setAutoresizingMask:NSConst
 //    border.translatesAutoresizingMaskIntoConstraints = YES;
     border.layer.autoresizingMask=NSViewWidthSizable;
@@ -46,10 +42,16 @@
     [apiSelectorScrollview addSubview:border positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
     [apiSelectorScrollview addSubview:backG positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
     
-//    self.view.layer.backgroundColor=[[NSColor colorWithWhite:0.7 alpha:1.0]CGColor];
-//    apiSourceSelectorCollectionView.layer.backgroundColor=[[NSColor colorWithWhite:1.0 alpha:1.0]CGColor];
- 
-//    [self.view.layer addSublayer:backG];
+//    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:backG.frame];
+//    vibrantView.material=NSVisualEffectMaterialTitlebar;
+//    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
+//    //    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+//    //    vibrantView.wantsLayer=YES;
+//    //    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+//    [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+//
+//    [backG addSubview:vibrantView positioned:NSWindowBelow relativeTo:backG];
+
     
     [self setDefaultSelectedAPISource];
 }
@@ -145,6 +147,7 @@
 //    }
 
 }
+
 -(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSInteger selectedSource = [indexPaths allObjects][0].item;
 //    NSRect selectedSourceFrame = [collectionView itemAtIndexPath:[indexPaths allObjects][0]].view.frame;

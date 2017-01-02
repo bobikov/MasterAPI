@@ -17,8 +17,9 @@
 @synthesize  backgroundSession;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    
     [self createTrackingArea];
+    
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
     self.view.layer.cornerRadius=5;
@@ -43,9 +44,7 @@
     _downloadAndUploadStatusOver.layer.masksToBounds=YES;
     _downloadAndUploadStatusOver.layer.cornerRadius=5;
     _uploadByURLsButton.hidden=YES;
-      _uploadPhoto.hidden=YES;
-    
-    
+    _uploadPhoto.hidden=YES;
 
 //     [[NSNotificationCenter defaultCenter]removeObserver:@"haha"];
 //   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"haha" object:nil];
@@ -340,10 +339,8 @@
         [self chooseDirectory];
     }
     else{
-       
         [self chooseDirectoryForAlbumDownload:selectedObject[@"title"] :selectedObject[@"id"] :_app.person :self.representedObject[@"size"]];
     }
-
 }
 
 -(void)getUploadURL:(id)album_id completion:(OnComplete)completion{

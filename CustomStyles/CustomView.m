@@ -10,7 +10,8 @@
 
 @implementation CustomView
 -(void)awakeFromNib{
-     bgColr = [NSColor colorWithWhite:0.82 alpha:1.0];
+    bgColr = [NSColor colorWithWhite:0.82 alpha:1.0];
+    borderColor = [NSColor colorWithWhite:0.6 alpha:1.0];
 }
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
@@ -33,10 +34,10 @@
     [path appendBezierPathWithArcFromPoint:NSMakePoint(minX + deltaXfromLeftAndRight, minY) toPoint:leftMiddlePoint radius:0.0];
     
     // left middle to top middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX-0 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:4.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX-0 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:2.0];
     
     // top middle to right middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX-0 - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:4.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX-0 - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:2.0];
     
     // right middle to right bottom
     [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:0.0];
@@ -47,12 +48,12 @@
     //    [path setLineWidth:frame.size.width];
     [path setClip];
 
-    [path setLineWidth:1];
+    [path setLineWidth:2];
 
     [bgColr setFill];
     [NSBezierPath fillRect:dirtyRect];
-    [path setLineWidth:1];
-    [[NSColor grayColor] set];
+  
+    [borderColor set];
     [path stroke];
 }
 

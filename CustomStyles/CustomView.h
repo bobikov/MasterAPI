@@ -10,6 +10,7 @@
 #define deltaXfromLeftAndRight 2
 @interface CustomView : NSView{
     NSColor* bgColr;
+    NSColor *borderColor;
     BOOL selected;
 
     
