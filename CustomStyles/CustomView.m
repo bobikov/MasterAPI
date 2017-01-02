@@ -43,9 +43,10 @@
     [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:0.0];
     
     //left bottom to right bottom -- line
-//    [path lineToPoint:leftBottomPoint];
-    
+    //[path lineToPoint:leftBottomPoint];
     //    [path setLineWidth:frame.size.width];
+    
+    
     [path setClip];
 
     [path setLineWidth:2];

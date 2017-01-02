@@ -39,6 +39,23 @@
 -(void)viewDidAppear{
      [self loadDocs];
 }
+-(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"ShowDoc"]){
+        //        ShowDocWindowController *controller = (ShowDocWindowController *)segue.destinationController;
+        ShowDocViewController *controller = (ShowDocViewController *)segue.destinationController;
+        NSView *parentCell = [sender superview];
+        NSInteger row = [docsTableView rowForView:parentCell];
+        //        CGRect rect=CGRectMake(0, y, 0, 0);
+        dataForUserInfo = docsData[row];
+        NSLog(@"%@", dataForUserInfo);
+        controller.receivedData=dataForUserInfo;
+    }else if([segue.identifier isEqualToString:@"addDocsByOwnerSegue"]){
+        addDocsByOwnerController *contr = (addDocsByOwnerController *)segue.destinationController;
+        selectedItems = [[NSMutableArray alloc]initWithArray:[docsData objectsAtIndexes:[docsTableView selectedRowIndexes]]];
+        contr.receivedData=[[NSMutableArray alloc]initWithArray:selectedItems];
+    }
+}
+
 - (IBAction)addToAttachments:(id)sender {
     NSView *parentCell = [sender superview];
     NSInteger row = [docsTableView rowForView:parentCell];
@@ -47,6 +64,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"doc", @"data":docsData[row]}];
     
 }
+
 -(void)editDocs:(NSNotification*)notification{
     __block void(^editDocsBlock)(NSInteger, BOOL, NSString*, NSString*);
     NSDictionary *data=notification.userInfo;
@@ -106,6 +124,7 @@
         editDocsBlock(0, 0, nil, nil);
     });
 }
+
 -(void)loadUserGroupsByAdmin{
     __block NSMenuItem *menuItem;
     __block NSMenu *menu1 = [[NSMenu alloc]init];
@@ -144,6 +163,7 @@
         }]resume];
     });
 }
+
 - (IBAction)addMultipleDocs:(id)sender {
     __block NSInteger docCounter = 0;
     selectedItems = [[NSMutableArray alloc]initWithArray:[docsData objectsAtIndexes:[docsTableView selectedRowIndexes]]];
@@ -169,18 +189,14 @@
   
     
 }
+
 - (IBAction)userGroupsByAdminSelect:(id)sender {
     owner = userGroupsByAdminData[[userGroupsByAdmin indexOfSelectedItem]];
     [self loadDocs];
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
-    if(globalCheck.state){
-        [self globalDocsSearch];
-    }
-    else{
-        [self localDocsSearch];
-    }
-}
+
+
+//search docs
 -(void)localDocsSearch{
     docsDataCopy=[[NSMutableArray alloc] initWithArray:docsData];
     [progressSpin startAnimation:self];
@@ -197,6 +213,7 @@
     [docsTableView reloadData];
     [progressSpin stopAnimation:self];
 }
+
 -(void)globalDocsSearch{
     docsDataCopy=[[NSMutableArray alloc] initWithArray:docsData];
     [progressSpin startAnimation:self];
@@ -247,17 +264,27 @@
         }
     }]resume];
 }
+
+-(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+    if(globalCheck.state){
+        [self globalDocsSearch];
+    }
+    else{
+        [self localDocsSearch];
+    }
+}
+
 -(void)searchFieldDidEndSearching:(NSSearchField *)sender{
     docsData = docsDataCopy;
     [docsTableView reloadData];
 }
+//end search docs
+
+//Download docs process
 - (IBAction)downloadDocs:(id)sender {
     [self chooseDirectoryToDownloadTo];
-  
-    
-
-    
 }
+
 - (IBAction)showDocsByOwner:(id)sender {
     
     if(![publicIdField.stringValue isEqual:@""]){
@@ -268,6 +295,7 @@
         NSLog(@"Enter owner id");
     }
 }
+
 -(void)chooseDirectoryToDownloadTo{
     NSOpenPanel *saveDlg = [NSOpenPanel openPanel];
     [saveDlg setCanCreateDirectories:YES];
@@ -275,15 +303,12 @@
     [saveDlg setCanChooseFiles:NO];
     [saveDlg setCanChooseDirectories:YES];
     if([saveDlg runModal] == NSFileHandlingPanelOKButton){
-      
         filePath = [[[saveDlg URL] absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
 //        NSLog(@"%@", filePath);
-        
-            [self prepareDownloadDocs];
-        
-        
+        [self prepareDownloadDocs];
     }
 }
+
 -(void)prepareDownloadDocs{
     NSURLSessionConfiguration *backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"DownloadDocsSession"];
     _backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
@@ -299,17 +324,22 @@
     [self startDownloadDocs];
 
 }
+
 -(void)startDownloadDocs{
     [self setControlButtonsDownloadState];
     docFileName = [[[selectedItems[counterDownloader][@"photo"] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:selectedItems[counterDownloader][@"ext"]];
     downloadFile = [_backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", selectedItems[counterDownloader][@"url"]]]];
     [downloadFile resume];
-    
 }
+//end download docs process
+
+
+//Upload docs process
 - (IBAction)uploadAction:(id)sender {
     
     [self chooseDirectoryToUpload];
 }
+
 -(void)chooseDirectoryToUpload{
     
     NSOpenPanel* openDlgUpload = [NSOpenPanel openPanel];
@@ -342,6 +372,7 @@
 
     
 }
+
 -(void)prepareForUpload{
     NSURLSessionConfiguration *backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"UploadDocsSession"];
    _backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
@@ -353,6 +384,7 @@
     });
 
 }
+
 -(void)uploadPersonalDocs{
     [self setControlButtonsUploadingDocsState];
     
@@ -382,6 +414,7 @@
 
     
 }
+
 -(void)getUploadUrl:(OnComplete)completion{
     NSString *baseURL;
     baseURL = [NSString stringWithFormat:@"https://api.vk.com/method/docs.getUploadServer?%@v=%@&access_token=%@", [owner isEqualToString:_app.person] ? @"" : [NSString stringWithFormat:@"group_id=%i&", abs([owner intValue])], _app.version, _app.token];
@@ -393,10 +426,15 @@
     }] resume];
     
 }
+//end upload docs process
+
+
 - (IBAction)stopDownloadOrUpload:(id)sender {
     [self setControlButtonsStoppedState];
     [_backgroundSession invalidateAndCancel];
 }
+
+
 - (IBAction)deleteDocs:(id)sender {
     [self setControlButtonsDeleteState];
     __block NSInteger docCounter = 0;
@@ -427,25 +465,9 @@
     });
   
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"ShowDoc"]){
-//        ShowDocWindowController *controller = (ShowDocWindowController *)segue.destinationController;
-        ShowDocViewController *controller = (ShowDocViewController *)segue.destinationController;
-        NSView *parentCell = [sender superview];
-            NSInteger row = [docsTableView rowForView:parentCell];
-            //        CGRect rect=CGRectMake(0, y, 0, 0);
-            dataForUserInfo = docsData[row];
-            NSLog(@"%@", dataForUserInfo);
-        controller.receivedData=dataForUserInfo;
-    }else if([segue.identifier isEqualToString:@"addDocsByOwnerSegue"]){
-        addDocsByOwnerController *contr = (addDocsByOwnerController *)segue.destinationController;
-        selectedItems = [[NSMutableArray alloc]initWithArray:[docsData objectsAtIndexes:[docsTableView selectedRowIndexes]]];
-        contr.receivedData=[[NSMutableArray alloc]initWithArray:selectedItems];
-    }
-}
+
+
 - (IBAction)showDocInWindow:(id)sender {
-    
-    
 //    NSView *parentCell = [sender superview];
 //    NSInteger row = [docsTableView rowForView:parentCell];
 //    //        CGRect rect=CGRectMake(0, y, 0, 0);
@@ -456,6 +478,10 @@
 //    [_showDocController showWindow:self];
 //    NSLog(@"fffff");
 }
+
+
+
+
 -(void)loadDocs{
     [docsData removeAllObjects];
     [progressSpin startAnimation:self];
@@ -561,6 +587,8 @@
 
 
 
+
+
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [docsData count];
 }
@@ -576,7 +604,6 @@
         deleteButton.enabled=NO;
     }
 }
-
 
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([docsData count]>0){
@@ -601,6 +628,11 @@
     }
     return nil;
 }
+
+
+
+
+
 
 -(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
     NSDictionary *uploadDocResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -654,7 +686,6 @@
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     downloadAndUploadProgressBar.maxValue=totalBytesExpectedToSend;
     downloadAndUploadProgressBar.doubleValue=totalBytesSent;
-    
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
@@ -666,6 +697,7 @@
          downloadAndUploadProgressBarLabel.stringValue=[NSString stringWithFormat:@"Download: %li / %li", counterDownloader, [selectedItems count]];
     });
     if(selectedCount ==  counterDownloader+1){
+        busy=NO;
         [self setControlButtonsStoppedState];
         [_backgroundSession finishTasksAndInvalidate];
         dispatch_async(dispatch_get_main_queue(), ^{
