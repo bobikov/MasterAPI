@@ -98,6 +98,7 @@
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"post wall",@"wall posts remove", nil] forKey:@"Wall"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"change status", nil] forKey:@"Status"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"profile photo change", nil] forKey:@"Profile"];
+    [_childrenDictionary setObject:@[@"show groups"] forKey:@"Groups"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"in black list?", @"show banned", nil] forKey:@"Banlist"];
     [_childrenDictionary setObject:@[@"show favorites"] forKey:@"Favorites"];
     

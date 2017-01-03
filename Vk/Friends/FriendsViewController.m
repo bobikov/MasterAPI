@@ -88,36 +88,23 @@
         }else{
             [friendsListPopupData removeAllObjects];
             [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
-            
+            ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+            [viewControllerItem loadView];
             menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]] action:nil keyEquivalent:@""];
-            
-            //                    [menuItem setTitle:];
-            NSView *itemView = [[NSView alloc]initWithFrame:NSMakeRect(0, 0, 300, 33)];
-           
-            
             NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:_userDataFromFullUserInfo[@"user_photo"]]];
-            image.size=NSMakeSize(30, 30);
             
-            NSTextField *itemLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(0, 33/2, 260, 15)];
-            itemLabel.stringValue=[NSString stringWithFormat:@"%@ %@", _userDataFromFullUserInfo[@"first_name"], _userDataFromFullUserInfo[@"last_name"]];
-            itemLabel.editable=NO;
-            itemLabel.drawsBackground=NO;
-            itemLabel.bordered=NO;
-            NSImageView *imageView = [[NSImageView alloc]initWithFrame:NSMakeRect(250, 1, 30, 30)];
-            imageView.wantsLayer=YES;
-            imageView.layer.masksToBounds=YES;
-            imageView.layer.cornerRadius=30/2;
-            [imageView setImageScaling:NSImageScaleProportionallyUpOrDown];
-            [imageView setImage:image];
-            [itemView addSubview:imageView];
-            [itemView addSubview:itemLabel];
+            image.size=NSMakeSize(30,30);
+            viewControllerItem.photo.wantsLayer=YES;
+            viewControllerItem.photo.layer.masksToBounds=YES;
+            viewControllerItem.photo.layer.cornerRadius=39/2;
             [menuItem setImage:image];
-            
-            //                    [menuItem setView:itemView];
-            //                      [menuItem setTarget:self];
+            //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+            //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+            [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+            viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]];
+            [viewControllerItem.photo setImage:image];
+            [menuItem setView:[viewControllerItem view]];
             [menu1 addItem:menuItem];
-    
-
             dispatch_async(dispatch_get_main_queue(), ^{
                 [friendsListPopup removeAllItems];
 //                [friendsListPopup addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
@@ -290,7 +277,6 @@
     [self loadFriends:NO];
     
 }
-
 - (IBAction)FriendsFilterOfflineAction:(id)sender {
 
      [self loadFriends:NO];

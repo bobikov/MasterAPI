@@ -1953,13 +1953,13 @@
                                 </connections>
                             </button>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="73" horizontalPageScroll="10" verticalLineScroll="73" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T1y-j9-S1L" customClass="RFOverlayScrollView">
-                                <rect key="frame" x="167" y="9" width="466" height="601"/>
+                                <rect key="frame" x="167" y="9" width="466" height="589"/>
                                 <clipView key="contentView" ambiguous="YES" id="WY2-R9-D21">
-                                    <rect key="frame" x="1" y="1" width="464" height="599"/>
+                                    <rect key="frame" x="1" y="1" width="464" height="587"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="71" viewBased="YES" id="Qc4-Fm-jgq">
-                                            <rect key="frame" x="0.0" y="0.0" width="464" height="599"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="464" height="587"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2214,6 +2214,20 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FwD-oB-kan">
+                                <rect key="frame" x="564" y="599" width="64" height="17"/>
+                                <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="pQH-h8-lYq">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                </buttonCell>
+                            </button>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g5Z-4H-VN7">
+                                <rect key="frame" x="170" y="599" width="64" height="17"/>
+                                <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="q4g-zG-sHL">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2237,8 +2251,10 @@
                         <outlet property="progressSpin" destination="2aa-6v-aWd" id="wlv-EK-SeK"/>
                         <outlet property="publicIdField" destination="LT3-3q-hIJ" id="jmV-Ck-HLu"/>
                         <outlet property="searchDocsBar" destination="fe1-QI-8nL" id="bWX-79-xmt"/>
+                        <outlet property="selectedCountLabel" destination="g5Z-4H-VN7" id="CNs-dV-6Ko"/>
                         <outlet property="stopButton" destination="S7R-fZ-7gG" id="63U-Ba-u4Z"/>
                         <outlet property="tagsField" destination="3sg-R2-k52" id="bNn-DR-87f"/>
+                        <outlet property="totalCount" destination="FwD-oB-kan" id="PQ0-et-qOq"/>
                         <outlet property="uploadButton" destination="n4c-Po-1JC" id="q3f-N9-dHY"/>
                         <outlet property="userGroupsByAdmin" destination="QcE-5Q-tf1" id="7lp-Rg-lZh"/>
                     </connections>

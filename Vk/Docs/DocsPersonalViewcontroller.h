@@ -60,6 +60,11 @@
     ViewControllerMenuItem *viewControllerItem;
     __weak IBOutlet NSButton *deleteButton;
     BOOL busy;
+    __weak IBOutlet NSButton *totalCount;
+  
+    NSString *totalDocsCounter;
+    
+    __weak IBOutlet NSButton *selectedCountLabel;
 }
 
 @property(nonatomic)appInfo *app;

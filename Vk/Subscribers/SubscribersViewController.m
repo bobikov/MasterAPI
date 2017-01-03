@@ -8,12 +8,13 @@
 
 #import "SubscribersViewController.h"
 #import "FullUserInfoPopupViewController.h"
+#import "ViewControllerMenuItem.h"
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
 
 @implementation SubscribersViewController
-@synthesize value, arrayController;
+@synthesize value, ownerId;
 - (void)viewDidLoad {
     [super viewDidLoad];
     subscribersList.delegate = self;
@@ -25,13 +26,38 @@
      _app = [[appInfo alloc]init];
     offsetCounter = 0;
     foundData = [[NSMutableArray alloc]init];
+    friendsListPopupData = [[NSMutableArray alloc]init];
     value=[[NSMutableArray alloc]init];
     selectedUsers = [[NSMutableArray alloc]init];
     _stringHighlighter = [[StringHighlighter alloc]init];
+    [friendsListPopup removeAllItems];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromSubscribers:) name:@"VisitUserPageFromSubscribers" object:nil];
+    [self loadSubscribersPopup];
+}
+- (void)viewDidAppear{
+    [self loadSubscribers:NO :NO];
     
+}
+-(void)viewDidScroll:(NSNotification *)notification{
+    if([notification.object isEqual:subscribersClipView]){
+        NSInteger scrollOrigin = [[subscribersScrollView contentView]bounds].origin.y+NSMaxY([subscribersScrollView visibleRect]);
+        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
+        NSInteger boundsHeight = subscribersList.bounds.size.height;
+        //    NSInteger frameHeight = subscribersList.frame.size.height;
+        if (scrollOrigin == boundsHeight+2) {
+            //Refresh here
+            //         NSLog(@"The end of table");
+            if([foundData count] <=0){
+                [self loadSubscribers:NO :YES];
+            }
+        }
+        //        NSLog(@"%ld", scrollOrigin);
+        //        NSLog(@"%ld", boundsHeight);
+        //    NSLog(@"%fld", frameHeight-300);
+        //
+    }
 }
 -(void)VisitUserPageFromSubscribers:(NSNotification*)notification{
     
@@ -40,33 +66,12 @@
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",subscribersData[row][@"id"]]]];
     
 }
-- (void)viewDidAppear{
-    [self loadSubscribers:NO :NO];
-    
-}
+
 - (IBAction)friendsListPopupSelect:(id)sender {
-    
-    
+    ownerId = subscribersData[[friendsListPopup indexOfSelectedItem]][@"id"];
+    [self loadSubscribers:NO :NO];
 }
--(void)viewDidScroll:(NSNotification *)notification{
-    if([notification.object isEqual:subscribersClipView]){
-    NSInteger scrollOrigin = [[subscribersScrollView contentView]bounds].origin.y+NSMaxY([subscribersScrollView visibleRect]);
-//    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
-    NSInteger boundsHeight = subscribersList.bounds.size.height;
-//    NSInteger frameHeight = subscribersList.frame.size.height;
-    if (scrollOrigin == boundsHeight+2) {
-        //Refresh here
-        //         NSLog(@"The end of table");
-        if([foundData count] <=0){
-            [self loadSubscribers:NO :YES];
-        }
-    }
-//        NSLog(@"%ld", scrollOrigin);
-//        NSLog(@"%ld", boundsHeight);
-    //    NSLog(@"%fld", frameHeight-300);
-    //
-    }
-}
+
 -(void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadSearchSubscribers];
 }
@@ -209,7 +214,6 @@
 - (IBAction)menFilterAction:(id)sender {
     [self loadSubscribers:NO :NO];
 }
-
 - (IBAction)FriendsFilterOfflineAction:(id)sender {
     
     [self loadSubscribers:NO :NO];
@@ -237,8 +241,75 @@
     
 }
 
+-(void)loadSubscribersPopup{
+    __block NSMenu *menu1 = [[NSMenu alloc]init];
+    __block  NSMenuItem *menuItem;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if(!_loadFromFullUserInfo){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                    [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                    ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                    [viewControllerItem loadView];
+                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                    
+                    
+                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                    
+                    image.size=NSMakeSize(30,30);
+                    viewControllerItem.photo.wantsLayer=YES;
+                    viewControllerItem.photo.layer.masksToBounds=YES;
+                    viewControllerItem.photo.layer.cornerRadius=39/2;
+                    [menuItem setImage:image];
+                    //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+                    //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                    [viewControllerItem.photo setImage:image];
+                    [menuItem setView:[viewControllerItem view]];
+                    [menu1 addItem:menuItem];
+                }
+                dispatch_async(dispatch_get_main_queue(),^{
+                    //[friendsListDropdown setPullsDown:YES];
+                    [friendsListPopup removeAllItems];
+                    [friendsListPopup setMenu:menu1];
+                });
+            }]resume];
+        }else{
+            [friendsListPopupData removeAllObjects];
+            NSLog(@"%@", _userDataFromFullUserInfo);
+            [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
+            ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+            [viewControllerItem loadView];
+            menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]] action:nil keyEquivalent:@""];
+            
+            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:_userDataFromFullUserInfo[@"user_photo"]]];
+            image.size=NSMakeSize(30,30);
+            viewControllerItem.photo.wantsLayer=YES;
+            viewControllerItem.photo.layer.masksToBounds=YES;
+            viewControllerItem.photo.layer.cornerRadius=39/2;
+            [menuItem setImage:image];
+            [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+            viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]];
+            [viewControllerItem.photo setImage:image];
+            [menuItem setView:[viewControllerItem view]];
+            [menu1 addItem:menuItem];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [friendsListPopup removeAllItems];
+                //                [friendsListPopup addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
+                [friendsListPopup setMenu:menu1];
+            });
+        }
+    });
+    
 
+}
 -(void)loadSubscribers:(BOOL)searchByName :(BOOL)makeOffset{
+   
     __block NSDictionary *object;
     if(makeOffset){
         offsetLoadSubscribers=offsetLoadSubscribers+500;
@@ -247,9 +318,10 @@
         offsetLoadSubscribers=0;
          offsetCounter=0;
     }
+    ownerId = ownerId ? ownerId : _app.person;
      [progressSpin startAnimation:self];
 //    __block NSMutableArray *tempSubscribers = [[NSMutableArray alloc]init];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.getFollowers?user_id=%@&count=500&offset=%i&suggested=0&need_viewed=1&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,about,site,contacts,books,music,schools,education,quotes,relation&v=%@&access_token=%@", _app.person, offsetLoadSubscribers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.getFollowers?user_id=%@&count=500&offset=%i&suggested=0&need_viewed=1&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,about,site,contacts,books,music,schools,education,quotes,relation&v=%@&access_token=%@", ownerId, offsetLoadSubscribers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *responseGetFollowers = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(error){

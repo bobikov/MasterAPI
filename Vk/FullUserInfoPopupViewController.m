@@ -10,7 +10,7 @@
 #import "ShowVideoViewController.h"
 #import "ShowPhotoViewController.h"
 #import "FriendsViewController.h"
-
+#import "SubscribersViewController.h"
 @interface FullUserInfoPopupViewController ()
 
 @end
@@ -50,6 +50,14 @@
         contr.userDataFromFullUserInfo=_receivedData;
         contr.loadFromFullUserInfo=YES;
         contr.ownerId=_receivedData[@"id"];
+    }
+    else if([segue.identifier isEqual:@"ShowUserFollowersFromFullInfoSegue"]){
+        
+        SubscribersViewController *contr = (SubscribersViewController *)segue.destinationController;
+        contr.userDataFromFullUserInfo=_receivedData;
+        contr.loadFromFullUserInfo=YES;
+        contr.ownerId=_receivedData[@"id"];
+    
     }
 }
 -(void)loadUserInfo {

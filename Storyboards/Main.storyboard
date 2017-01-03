@@ -1840,7 +1840,7 @@ Gw
                                             </buttonCell>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnS-xf-OLK">
-                                            <rect key="frame" x="153" y="616" width="137" height="26"/>
+                                            <rect key="frame" x="153" y="616" width="190" height="26"/>
                                             <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="X3Y-9G-8ev" id="tOa-Kw-bM5">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -6441,6 +6441,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ngi-Ei-XeG"/>
-        <segue reference="rKg-9L-D2X"/>
+        <segue reference="UJd-Mh-HYj"/>
     </inferredMetricsTieBreakers>
 </document>

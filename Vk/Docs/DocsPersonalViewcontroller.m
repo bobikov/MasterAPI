@@ -507,6 +507,7 @@
                 NSString *docId;
                 NSString *docUrl;
                 NSString *ext;
+                totalDocsCounter = [NSString stringWithFormat:@"%@", docsGetResponse[@"response"][@"count"]];
                 for(NSDictionary *i in docsGetResponse[@"response"][@"items"]){
                     title=i[@"title"];
                     docId=i[@"id"];
@@ -533,8 +534,9 @@
                     
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    //                _arrayController.content = docsData;
-                    
+                    //_arrayController.content = docsData;
+//                    loadedCount.title = [NSString stringWithFormat:@"%li",[docsData count]];
+                    totalCount.title = totalDocsCounter;
                     [docsTableView reloadData];
                     [progressSpin stopAnimation:self];
                 });
@@ -598,6 +600,13 @@
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
+    selectedCount = [[docsTableView selectedRowIndexes]count];
+    selectedCountLabel.title = [NSString stringWithFormat:@"%li", selectedCount];
+    if(selectedCount>0){
+        selectedCountLabel.hidden=NO;
+    }else{
+        selectedCountLabel.hidden=YES;
+    }
     if([[docsTableView selectedRowIndexes]count]>0 && !busy){
         editButton.enabled=YES;
         downloadButton.enabled=YES;
@@ -692,7 +701,7 @@
     downloadAndUploadProgressBar.doubleValue=totalBytesSent;
 }
 
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
     NSString *destinationURL = [filePath stringByAppendingPathComponent:docFileName];
     NSError *error = nil;
     [manager moveItemAtURL:location toURL:[NSURL fileURLWithPath:destinationURL]  error:&error];
@@ -717,7 +726,7 @@
   
 }
 
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
     downloadAndUploadProgressBar.maxValue=totalBytesExpectedToWrite;
     downloadAndUploadProgressBar.doubleValue=totalBytesWritten;
 }
