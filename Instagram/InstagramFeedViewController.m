@@ -25,6 +25,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     cursor = nil;
     [self loadUserFeed];
+//    [self loadFololowing];
 }
 -(void)viewDidScroll:(NSNotification*)notificaion{
     NSInteger scrollOrigin = [[postsListScroll contentView]bounds].origin.y+NSMaxY([postsListScroll visibleRect]);
@@ -71,6 +72,15 @@
         }
     }]resume];
 
+}
+-(void)loadFololowing{
+      NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:@"https://www.instagram.com/kostyabobby/following/?__a=1"]];
+    [[instaClient.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary *dd = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", dd);
+        }
+    }]resume];
 }
 -(NSString *)formatDate:(NSString*)timestamp{
     NSString *date;

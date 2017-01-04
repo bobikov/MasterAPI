@@ -18,9 +18,7 @@
     [super viewDidLoad];
     _app = [[appInfo alloc]init];
     progressUploadBar.hidden=YES;
-    currentPhoto.wantsLayer=YES;
-    currentPhoto.layer.masksToBounds=YES;
-    currentPhoto.layer.cornerRadius=4;
+
     [progressSpin startAnimation:self];
     intervalField.enabled=NO;
     filePathLabel.hidden=YES;
@@ -78,15 +76,75 @@
             NSDictionary *photoGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(photoGetResponse[@"response"]){
                 NSImage *photoI = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"photo_604"]]];
+                
+                NSImageRep *rep = [[photoI representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                NSLog(@"%f %f",imageSize.width, imageSize.height);
+                photoI.size=imageSize;
+//                photoI = [self imageResize:photoI newSize:NSMakeSize(imageSize.width/2.5, imageSize.height/2.5)];
+                photoI = [self resizedImage:photoI toPixelDimensions:NSMakeSize(imageSize.width/2.5, imageSize.height/2.5)];
+                currentPhoto.wantsLayer=YES;
+                currentPhoto.layer.masksToBounds=YES;
+                
+                int deltaSize =  imageSize.height/2.5 - currentPhoto.frame.size.height;
                 dispatch_async(dispatch_get_main_queue(), ^{
+//                    [currentPhoto setImageScaling:NSImageScaleProportionallyUpOrDown];
+                      currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, imageSize.width/2.5, imageSize.height/2.5);
+                 
                     //                currentPhoto.frame = NSMakeRect([photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"width"] intValue], [photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"heigth"] intValue], 0,0);
                     [currentPhoto setImage:photoI];
                     [progressSpin stopAnimation:self];
+                  
+                    currentPhoto.layer.cornerRadius=4;
                 });
                 
             }
         }
     }] resume];
+}
+- (NSImage *)resizedImage:(NSImage *)sourceImage toPixelDimensions:(NSSize)newSize
+{
+    if (! sourceImage.isValid) return nil;
+    
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                             initWithBitmapDataPlanes:NULL
+                             pixelsWide:newSize.width
+                             pixelsHigh:newSize.height
+                             bitsPerSample:8
+                             samplesPerPixel:4
+                             hasAlpha:YES
+                             isPlanar:NO
+                             colorSpaceName:NSCalibratedRGBColorSpace
+                             bytesPerRow:0
+                             bitsPerPixel:0];
+    rep.size = newSize;
+    
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:rep]];
+    [sourceImage drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [NSGraphicsContext restoreGraphicsState];
+    
+    NSImage *newImage = [[NSImage alloc] initWithSize:newSize];
+    [newImage addRepresentation:rep];
+    return newImage;
+}
+- (NSImage *)imageResize:(NSImage*)anImage newSize:(NSSize)newSize {
+    NSImage *sourceImage = anImage;
+  
+    
+    // Report an error if the source isn't a valid image
+    if (![sourceImage isValid]){
+        NSLog(@"Invalid Image");
+    } else {
+        NSImage *smallImage = [[NSImage alloc] initWithSize: newSize];
+//        [smallImage lockFocus];
+        [sourceImage setSize: newSize];
+        [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+        [sourceImage drawAtPoint:NSZeroPoint fromRect:CGRectMake(0, 0, newSize.width, newSize.height) operation:NSCompositeCopy fraction:1.0];
+//        [smallImage unlockFocus];
+        return smallImage;
+    }
+    return nil;
 }
 - (IBAction)checkRepeatAction:(id)sender {
     if(checkRepeat.state==1){
@@ -135,7 +193,9 @@
                         NSImageRep *rep = [[image representations] objectAtIndex:0];
                         NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                         image.size=imageSize;
+//                        image = [self imageResize:image newSize:NSMakeSize(imageSize.width, imageSize.height)];
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
                             [currentPhoto setImage:image];
                         });
                     });

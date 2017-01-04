@@ -418,7 +418,7 @@ Gw
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
@@ -883,18 +883,14 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="3kb-g0-8bJ">
+                            <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="3kb-g0-8bJ">
                                 <rect key="frame" x="67" y="360" width="529" height="311"/>
                                 <view key="contentView" id="oiH-Xg-Qhs">
                                     <rect key="frame" x="1" y="1" width="527" height="309"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-qE-5VZ">
-                                            <rect key="frame" x="277" y="34" width="230" height="230"/>
-                                            <imageCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="our-UC-ryb"/>
-                                        </imageView>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lg-xo-lTm">
-                                            <rect key="frame" x="26" y="241" width="96" height="22"/>
+                                            <rect key="frame" x="26" y="237" width="96" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="interval" drawsBackground="YES" id="Dy6-Uy-n9i">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -902,7 +898,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fH1-Xf-RAC">
-                                            <rect key="frame" x="25" y="211" width="68" height="18"/>
+                                            <rect key="frame" x="25" y="213" width="61" height="18"/>
                                             <buttonCell key="cell" type="check" title="repeat" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OY1-RW-V5N">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -912,24 +908,14 @@ Gw
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wn3-JL-bcq">
-                                            <rect key="frame" x="25" y="184" width="89" height="18"/>
+                                            <rect key="frame" x="25" y="176" width="89" height="14"/>
                                             <buttonCell key="cell" type="check" title="remove old" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9kb-ys-uln">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-FK-QPI">
-                                            <rect key="frame" x="21" y="33" width="100" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Iio-LU-AWh">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="uploadFile:" target="Rbe-M8-YOd" id="1wi-Df-vdJ"/>
-                                            </connections>
-                                        </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mAa-bU-XBd">
-                                            <rect key="frame" x="275" y="272" width="93" height="17"/>
+                                            <rect key="frame" x="271" y="268" width="93" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current photo:" id="Bu6-la-yFk">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -937,10 +923,10 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="fng-qN-xFg">
-                                            <rect key="frame" x="26" y="134" width="100" height="20"/>
+                                            <rect key="frame" x="26" y="130" width="100" height="20"/>
                                         </progressIndicator>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-dS-PD3">
-                                            <rect key="frame" x="24" y="105" width="38" height="18"/>
+                                            <rect key="frame" x="24" y="101" width="38" height="18"/>
                                             <buttonCell key="cell" type="check" title="url" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2RT-Kh-3og">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -950,7 +936,7 @@ Gw
                                             </connections>
                                         </button>
                                         <textField hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NGR-QU-e0J">
-                                            <rect key="frame" x="26" y="79" width="230" height="22"/>
+                                            <rect key="frame" x="26" y="75" width="225" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="fqA-fT-pvB">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -958,7 +944,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="thO-yO-RQh">
-                                            <rect key="frame" x="24" y="267" width="122" height="26"/>
+                                            <rect key="frame" x="24" y="263" width="119" height="26"/>
                                             <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="jkk-sd-Lkn" id="V1E-Gb-dLh">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -974,25 +960,29 @@ Gw
                                                 <action selector="userGroupsByAdminSelect:" target="Rbe-M8-YOd" id="GRo-Xt-uZs"/>
                                             </connections>
                                         </popUpButton>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-qE-5VZ">
+                                            <rect key="frame" x="276" y="73" width="188" height="188"/>
+                                            <imageCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" alignment="left" id="our-UC-ryb"/>
+                                        </imageView>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-FK-QPI">
+                                            <rect key="frame" x="20" y="32" width="84" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Iio-LU-AWh">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="uploadFile:" target="Rbe-M8-YOd" id="1wi-Df-vdJ"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="523" id="Fza-yF-S2V"/>
-                                    <constraint firstAttribute="height" constant="305" id="LjW-JG-glX"/>
-                                </constraints>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </box>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="U97-lT-7Je">
-                                <rect key="frame" x="20" y="653" width="16" height="16"/>
+                                <rect key="frame" x="11" y="653" width="16" height="16"/>
                             </progressIndicator>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="centerX" secondItem="daD-kE-YKI" secondAttribute="centerX" constant="-42.5" id="B99-Qc-L3q"/>
-                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="daD-kE-YKI" secondAttribute="leading" constant="70" id="RWC-Xm-Jjv"/>
-                            <constraint firstAttribute="bottom" secondItem="3kb-g0-8bJ" secondAttribute="bottom" constant="364" id="l5E-N3-k83"/>
-                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="top" secondItem="daD-kE-YKI" secondAttribute="top" constant="11" id="xzF-sY-ezX"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="checkRepeat" destination="fH1-Xf-RAC" id="6Mo-iS-IRe"/>
