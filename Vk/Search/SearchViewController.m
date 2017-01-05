@@ -90,7 +90,7 @@
 - (IBAction)searchWithParams:(id)sender {
     usedParams=YES;
     country = nil;
-    country = countries[[countriesList indexOfSelectedItem]];
+    country = countries[[countriesList indexOfSelectedItem]] ? countries[[countriesList indexOfSelectedItem]] : nil;
     [self loadResults:YES];
     
 }

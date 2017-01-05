@@ -115,7 +115,7 @@
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="337" id="WRo-Py-CqC"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="nUb-T0-tPh">
-                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <font key="font" size="12" name="Helvetica"/>
                                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -179,17 +179,17 @@
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bgt-iz-ljG">
                                                                     <rect key="frame" x="226" y="50" width="91" height="15"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="87" id="4W1-nQ-vU9"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="87" id="4W1-nQ-vU9"/>
                                                                         <constraint firstAttribute="height" constant="15" id="ZZ2-rX-2fw"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="wRc-xT-PGH">
-                                                                        <font key="font" metaFont="systemSemibold" size="12"/>
+                                                                        <font key="font" metaFont="systemSemibold" size="11"/>
                                                                         <color key="textColor" red="0.098998397435897445" green="0.098998397435897445" blue="0.098998397435897445" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H4t-uH-Ldg">
-                                                                    <rect key="frame" x="445" y="49" width="16" height="16"/>
+                                                                    <rect key="frame" x="466" y="49" width="16" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="16" id="RGc-ze-pSi"/>
                                                                         <constraint firstAttribute="height" constant="16" id="pHz-ex-rM3"/>
@@ -197,25 +197,25 @@
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="verified_2" id="6fc-9a-Rcn"/>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Oeq-pK-1e9">
-                                                                    <rect key="frame" x="317" y="50" width="91" height="15"/>
+                                                                    <rect key="frame" x="317" y="50" width="86" height="15"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="87" id="932-4u-s5h"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="932-4u-s5h"/>
                                                                         <constraint firstAttribute="height" constant="15" id="R71-oY-sk0"/>
                                                                     </constraints>
-                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="d6H-dM-5wv">
-                                                                        <font key="font" metaFont="systemSemibold" size="12"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" truncatesLastVisibleLine="YES" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="d6H-dM-5wv">
+                                                                        <font key="font" metaFont="systemSemibold" size="11"/>
                                                                         <color key="textColor" red="0.098998397439999997" green="0.098998397439999997" blue="0.098998397439999997" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uzk-JR-6R5">
-                                                                    <rect key="frame" x="404" y="50" width="35" height="15"/>
+                                                                    <rect key="frame" x="423" y="50" width="35" height="15"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="15" id="PLW-XX-vWM"/>
                                                                         <constraint firstAttribute="width" constant="31" id="dLc-9k-Ugs"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="qWU-Ds-gtb">
-                                                                        <font key="font" metaFont="systemSemibold" size="12"/>
+                                                                        <font key="font" metaFont="systemSemibold" size="11"/>
                                                                         <color key="textColor" red="0.098998397439999997" green="0.098998397439999997" blue="0.098998397439999997" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -229,7 +229,7 @@
                                                                 <constraint firstItem="Uzk-JR-6R5" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" id="Dsq-u5-CEg"/>
                                                                 <constraint firstItem="Oeq-pK-1e9" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" id="Hs4-R1-dUN"/>
                                                                 <constraint firstItem="a5k-mg-fQN" firstAttribute="centerY" secondItem="whx-dn-wQL" secondAttribute="centerY" constant="2.5" id="ODo-Fa-4Wx"/>
-                                                                <constraint firstItem="a5k-mg-fQN" firstAttribute="leading" secondItem="H4t-uH-Ldg" secondAttribute="trailing" constant="28" id="QKP-Oq-Aaa"/>
+                                                                <constraint firstItem="a5k-mg-fQN" firstAttribute="leading" secondItem="H4t-uH-Ldg" secondAttribute="trailing" constant="7" id="QKP-Oq-Aaa"/>
                                                                 <constraint firstItem="5fH-Sb-ymI" firstAttribute="bottom" secondItem="a5k-mg-fQN" secondAttribute="bottom" constant="-3" id="ShO-YH-U5h"/>
                                                                 <constraint firstItem="a5k-mg-fQN" firstAttribute="top" secondItem="ouZ-0D-uzZ" secondAttribute="top" constant="4" id="Ufi-1a-lZ5"/>
                                                                 <constraint firstAttribute="trailing" secondItem="ouZ-0D-uzZ" secondAttribute="trailing" constant="19" id="Ycv-y1-fMg"/>
@@ -243,8 +243,8 @@
                                                                 <constraint firstItem="TiC-oM-lvC" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" id="oJ0-0h-FNv"/>
                                                                 <constraint firstAttribute="bottom" secondItem="ouZ-0D-uzZ" secondAttribute="bottom" constant="51" id="pzk-Zf-gaE"/>
                                                                 <constraint firstItem="5fH-Sb-ymI" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" constant="41" id="qEc-La-eoq"/>
-                                                                <constraint firstItem="Uzk-JR-6R5" firstAttribute="leading" secondItem="Oeq-pK-1e9" secondAttribute="trailing" id="ufx-xV-wnd"/>
                                                                 <constraint firstItem="bgt-iz-ljG" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" id="uht-sz-rr3"/>
+                                                                <constraint firstItem="H4t-uH-Ldg" firstAttribute="leading" secondItem="Uzk-JR-6R5" secondAttribute="trailing" constant="10" id="vXw-Oc-KFf"/>
                                                                 <constraint firstAttribute="trailing" secondItem="TPa-LK-3Ra" secondAttribute="trailing" constant="178" id="w1m-nu-ecq"/>
                                                                 <constraint firstItem="H4t-uH-Ldg" firstAttribute="top" secondItem="whx-dn-wQL" secondAttribute="top" id="xCf-GG-bDf"/>
                                                                 <constraint firstItem="lsT-BN-NoV" firstAttribute="top" secondItem="TiC-oM-lvC" secondAttribute="bottom" constant="35" id="yfi-bs-1ha"/>
@@ -270,7 +270,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="500" id="RdZ-mE-ZU5"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="582" id="RdZ-mE-ZU5"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="425" id="y3d-kf-Rqy"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="nzn-4n-Vqc">
