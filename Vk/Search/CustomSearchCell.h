@@ -19,5 +19,6 @@
 @property (weak) IBOutlet NSImageView *photo;
 @property (weak) IBOutlet NSImageView *status;
 @property (weak) IBOutlet NSImageView *blacklisted;
+@property (weak) IBOutlet NSTextField *lastSeen;
 
 @end

@@ -204,6 +204,14 @@ Gw
                                                                     <rect key="frame" x="224" y="5" width="14" height="14"/>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="blacklisted_min2" id="KCd-zD-2z5"/>
                                                                 </imageView>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lsT-BN-NoV">
+                                                                    <rect key="frame" x="137" y="3" width="81" height="14"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="3YQ-Sy-cUx">
+                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="a5k-mg-fQN" secondAttribute="trailing" constant="20" id="6X7-m9-L0C"/>
@@ -222,6 +230,7 @@ Gw
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="blacklisted" destination="j6Y-Ze-0CE" id="2Ed-oA-EMz"/>
+                                                                <outlet property="lastSeen" destination="lsT-BN-NoV" id="0bo-Hf-aLA"/>
                                                                 <outlet property="name" destination="TiC-oM-lvC" id="3jC-zm-8bI"/>
                                                                 <outlet property="photo" destination="a5k-mg-fQN" id="OK9-uh-YwY"/>
                                                                 <outlet property="status" destination="ouZ-0D-uzZ" id="he2-nb-q4Q"/>

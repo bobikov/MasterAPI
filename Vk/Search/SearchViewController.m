@@ -47,12 +47,12 @@
      NSInteger row = [notification.userInfo[@"row"] intValue];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.addUser?user_id=%@&v=%@&access_token=%@",foundListData[row][@"id"], _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *faveAddUser = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", faveAddUser);
+//        NSLog(@"%@", faveAddUser);
     }]resume];
 }
 -(void)VisitUserPage:(NSNotification*)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
-    NSLog(@"%@", foundListData[row]);
+//    NSLog(@"%@", foundListData[row]);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",foundListData[row][@"id"]]]];
 }
 - (IBAction)showFullInfo:(id)sender {
@@ -225,7 +225,7 @@
         if(data){
             
             NSDictionary *searchResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", searchResponse);
+//            NSLog(@"%@", searchResponse);
             totalCountPeople = [searchResponse[@"response"][@"count"] intValue];
             searchResponse = byId.state==1? searchResponse[@"response"]: searchResponse[@"response"][@"items"];
             for (NSDictionary *a in searchResponse){
@@ -233,7 +233,7 @@
                 NSString *city;
                 NSString *status;
                 NSString *bdate;
-                NSString *online;
+                int online;
 //                NSString *firstName;
 //                NSString *lastName;
                 NSString *fullName;
@@ -283,7 +283,7 @@
                 else{
                     bdate=@"";
                 }
-                online = [NSString stringWithFormat:@"%@", a[@"online"]];
+                online =[a[@"online"] intValue];
                 if(a[@"last_seen"] && a[@"last_seen"]!=nil){
                     double timestamp = [a[@"last_seen"][@"time"] intValue];
                     NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: timestamp];
@@ -298,7 +298,7 @@
                 else{
                     last_seen = @"";
                 }
-                if([online intValue] == 1){
+                if(online){
                     last_seen=@"";
                 }
                 countryName = a[@"country"] && a[@"country"]!=nil ? a[@"country"][@"title"] : @"";
@@ -317,7 +317,7 @@
                 deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
                 domain = a[@"domain"] ? a[@"domain"] : @"";
 //                NSLog(@"%@", a[@"counters"] );
-                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain};
+                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":[NSNumber numberWithInt:online], @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain};
 //                NSLog(@"%@", object);
               
                 
@@ -366,6 +366,9 @@
                 NSString *site;
                 NSString *type;
                 NSString *screenName;
+                
+                int online;
+                online= [i[@"online"] intValue];
                 desc = i[@"description"] && i[@"description"] != nil ? i[@"description"] : @"";
                 photo = i[@"photo_200"] ? i[@"photo_200"] : i[@"photo_100"] ?  i[@"photo_100"] : i[@"photo_50"];
                 deactivated = i[@"deactivated"] ? i[@"deactivated"] : @"";
@@ -380,6 +383,7 @@
                 country = i[@"country"] && i[@"country"][@"title"] != nil ? i[@"country"][@"title"] : @"";
                 type = i[@"type"] && i[@"type"] != nil ? i[@"type"] : @"";
                 screenName = i[@"screen_name"] && i[@"screen_name"] != nil ? i[@"screen_name"] : @"";
+    
                 city = i[@"city"] && i[@"city"][@"title"]!=nil ? i[@"city"][@"title"] : @"";
                 object = @{@"name":i[@"name"], @"id":[NSString stringWithFormat:@"%@",i[@"id"]], @"deactivated":deactivated, @"desc":desc, @"photo":photo, @"members_count":membersCount, @"status":status, @"site":site, @"start_date":startDate, @"country":country, @"city":city, @"type":type, @"screen_name":screenName, @"is_member":isMember, @"finish_date":finishDate};
                 
@@ -402,46 +406,36 @@
             [self loadPeople:NO];
             break;
     }
-
-
-    
 }
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    
     if([foundListData count]>0){
         return [foundListData count];
     }
-    
     return 0;
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([foundListData count]>0){
-        CustomSearchCell *cell = [[CustomSearchCell alloc]init];
-        cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
+        CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=25;
         cell.photo.layer.masksToBounds=YES;
+        cell.lastSeen.stringValue=foundListData[row][@"last_seen"];
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         [cell.userStatus setAllowsEditingTextAttributes:YES];
-   
         if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
             cell.blacklisted.hidden=NO;
         }else{
             cell.blacklisted.hidden=YES;
         };
         if(searchType.selectedSegment==1){
-            
             cell.name.stringValue = foundListData[row][@"full_name"];
-            //        cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
-            
-            
-            
+            //cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                  NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
@@ -458,7 +452,6 @@
             }else{
                 [cell.status setImage:[NSImage imageNamed:NSImageNameStatusNone]];
             }
-            
         }
         else if(searchType.selectedSegment==0){
             
@@ -474,12 +467,7 @@
             
         }
         return cell;
-        
     }
-    
     return nil;
 }
-
-
-
 @end
