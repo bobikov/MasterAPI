@@ -27,7 +27,8 @@
     NSString *url;
     NSString *queryString;
     __weak IBOutlet NSButton *byId;
-    
+    NSMutableArray *countries;
+    __weak IBOutlet NSComboBox *countriesList;
     __weak IBOutlet NSScrollView *searchListScrollView;
 
     __weak IBOutlet NSButton *loadedCountResults;

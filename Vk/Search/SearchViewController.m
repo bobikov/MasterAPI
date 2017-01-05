@@ -22,12 +22,15 @@
     foundListData = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     [addBut setEnabled:NO];
+    countries = [[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPage:) name:@"VisitUserPage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addUserToFaves:) name:@"addUserToFaves" object:nil];
     _stringHighlighter = [[StringHighlighter alloc]init];
     searchOffsetCounter = 0;
     [[searchListScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
+    [countriesList removeAllItems];
+    [self loadCountries];
 }
 -(void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
@@ -42,6 +45,19 @@
         }
     }
 
+}
+-(void)loadCountries{
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/database.getCountries?need_all=1&count=1000&access_token=%@&v=%@", _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//        NSLog(@"%@", countriesResp);
+        for(NSDictionary *i in countriesResp[@"response"][@"items"]){
+//            [countries addObject:i[@"title"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                  [countriesList addItemWithObjectValue:i[@"title"]];
+            });
+          
+        }
+    }]resume];
 }
 -(void)addUserToFaves:(NSNotification*)notification{
      NSInteger row = [notification.userInfo[@"row"] intValue];
