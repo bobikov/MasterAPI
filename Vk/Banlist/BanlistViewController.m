@@ -842,8 +842,8 @@
 //        if(![banlistData[row][@"status"]isEqual:@""] && banlistData[row][@"status"]!=nil){
 //        cell.status.stringValue=banlistData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12];
-        [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+       
+       
 //        }else{
 //                    cell.status.stringValue = banlistData[row][@"status"];
 //        }
@@ -862,9 +862,11 @@
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
-                
+                 NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12];
 //                cachedImage[banlistData[row]]=image;
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.status.attributedStringValue = attrStatusString;
+                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                     [cell.userPhoto setImage:image];
                 });
             });

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
+#import "StringHighlighter.h"
 @interface FavoritesUsersViewController : NSViewController{
     
     __weak IBOutlet NSButton *sendMessage;
@@ -32,6 +33,7 @@
     NSInteger offsetLoadFaveUsers;
     NSInteger offsetCounter;
     __weak IBOutlet NSButton *showFavesUsersStatBut;
+    StringHighlighter *stringHighlighter;
 }
 @property(nonatomic, readwrite)appInfo *app;
 @end

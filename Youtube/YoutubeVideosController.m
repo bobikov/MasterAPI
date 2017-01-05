@@ -37,10 +37,19 @@
   
     
     [self loadSubscriptionsFromData];
-    
+    [self channels];
 }
 -(void)viewDidAppear{
    
+}
+-(void)channels{
+    [_youtubeClient APIRequest:@"channels" query:@{@"part":@"contentDetails", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
+        if(data){
+            NSDictionary *channelsResp  = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", channelsResp);
+        }
+        
+    }];
 }
 - (IBAction)loadMinePlaylists:(id)sender {
     [loadedItemsData removeAllObjects];

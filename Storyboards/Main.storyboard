@@ -1336,8 +1336,12 @@ Gw
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="inM-xN-fwK">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="inM-xN-fwK">
                                             <rect key="frame" x="-6" y="35" width="80" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="68" id="G2j-Pl-HMv"/>
+                                                <constraint firstAttribute="height" constant="21" id="Xaw-lh-kW3"/>
+                                            </constraints>
                                             <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Bza-r9-Sui">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -1498,6 +1502,7 @@ Gw
                                     <constraints>
                                         <constraint firstItem="aVx-l4-SGv" firstAttribute="leading" secondItem="faS-lf-ezw" secondAttribute="trailing" constant="8" id="6p0-C1-ZoK"/>
                                         <constraint firstItem="LTl-av-YgX" firstAttribute="top" secondItem="YV8-fo-IvX" secondAttribute="bottom" constant="5" id="822-IZ-pCL"/>
+                                        <constraint firstItem="inM-xN-fwK" firstAttribute="top" secondItem="faS-lf-ezw" secondAttribute="bottom" constant="5" id="8IC-9Q-rGG"/>
                                         <constraint firstItem="LTl-av-YgX" firstAttribute="leading" secondItem="KCC-vE-c1S" secondAttribute="leading" constant="278" id="FUX-85-aEj"/>
                                         <constraint firstAttribute="trailing" secondItem="aVx-l4-SGv" secondAttribute="trailing" constant="8" id="LnR-hu-zhb"/>
                                         <constraint firstAttribute="bottom" secondItem="LTl-av-YgX" secondAttribute="bottom" constant="42" id="Mbd-Ah-2dT"/>
@@ -1505,6 +1510,7 @@ Gw
                                         <constraint firstItem="YV8-fo-IvX" firstAttribute="top" secondItem="aVx-l4-SGv" secondAttribute="bottom" constant="5" id="ZiH-7k-ylo"/>
                                         <constraint firstAttribute="bottom" secondItem="faS-lf-ezw" secondAttribute="bottom" constant="68" id="bAU-Cv-erh"/>
                                         <constraint firstAttribute="trailing" secondItem="YV8-fo-IvX" secondAttribute="trailing" constant="8" id="bnN-Ce-iWh"/>
+                                        <constraint firstItem="inM-xN-fwK" firstAttribute="leading" secondItem="KCC-vE-c1S" secondAttribute="leading" id="crO-eF-5Qm"/>
                                         <constraint firstItem="LTl-av-YgX" firstAttribute="top" secondItem="YV8-fo-IvX" secondAttribute="bottom" constant="5" id="dkN-Bx-Mrh"/>
                                         <constraint firstAttribute="trailing" secondItem="LTl-av-YgX" secondAttribute="trailing" constant="356" id="hJC-h2-Uel"/>
                                         <constraint firstItem="YV8-fo-IvX" firstAttribute="leading" secondItem="faS-lf-ezw" secondAttribute="trailing" constant="8" id="ifV-92-MBs"/>
