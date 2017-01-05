@@ -32,6 +32,34 @@
     [countriesList removeAllItems];
     [self loadCountries];
 }
+- (void)viewDidAppear{
+    self.view.window.title=@"Global search";
+    //    self.view.wantsLayer = YES;
+    //    self.view.layer.masksToBounds=YES;
+    //    self.view.layer.cornerRadius=8;
+    //    self.view.layer.backgroundColor=[[NSColor blackColor]CGColor];
+    self.view.window.titleVisibility=NSWindowTitleHidden;
+    self.view.window.titlebarAppearsTransparent = YES;
+    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+    self.view.window.movableByWindowBackground=YES;
+    //    self.view.wantsLayer=YES;
+    //    self.view.layer.masksToBounds=YES;
+    //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:0.0]CGColor];
+    
+    
+    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
+    vibrantView.material=NSVisualEffectStateActive;
+    
+    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
+    
+    
+    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+    
+    
+    [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    
+    [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
+}
 -(void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
     //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
@@ -41,7 +69,7 @@
         //Refresh here
         //         NSLog(@"The end of table");
         if([foundListData count] > 0){
-            [self loadPeople:YES];
+            [self loadPeople:YES useParams:usedParams];
         }
     }
 
@@ -51,7 +79,7 @@
         NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //        NSLog(@"%@", countriesResp);
         for(NSDictionary *i in countriesResp[@"response"][@"items"]){
-//            [countries addObject:i[@"title"]];
+            [countries addObject:i[@"id"]];
             dispatch_async(dispatch_get_main_queue(), ^{
                   [countriesList addItemWithObjectValue:i[@"title"]];
             });
@@ -59,10 +87,17 @@
         }
     }]resume];
 }
+- (IBAction)searchWithParams:(id)sender {
+    usedParams=YES;
+    country = nil;
+    country = countries[[countriesList indexOfSelectedItem]];
+    [self loadResults:YES];
+    
+}
 -(void)addUserToFaves:(NSNotification*)notification{
      NSInteger row = [notification.userInfo[@"row"] intValue];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.addUser?user_id=%@&v=%@&access_token=%@",foundListData[row][@"id"], _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *faveAddUser = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//        NSDictionary *faveAddUser = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //        NSLog(@"%@", faveAddUser);
     }]resume];
 }
@@ -166,48 +201,17 @@
         }
     }]resume];
 }
-- (void)viewDidAppear{
-    self.view.window.title=@"Global search";
-//    self.view.wantsLayer = YES;
-//    self.view.layer.masksToBounds=YES;
-//    self.view.layer.cornerRadius=8;
-//    self.view.layer.backgroundColor=[[NSColor blackColor]CGColor];
-    self.view.window.titleVisibility=NSWindowTitleHidden;
-    self.view.window.titlebarAppearsTransparent = YES;
-    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
-    self.view.window.movableByWindowBackground=YES;
-//    self.view.wantsLayer=YES;
-//    self.view.layer.masksToBounds=YES;
-//    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:0.0]CGColor];
-    
-    
-        NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
-        vibrantView.material=NSVisualEffectStateActive;
-    
-        vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
-    
-    
-            vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
-    
-   
-        [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    
-        [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
-}
+
 -(void)viewDidLayout{
     [searchBar becomeFirstResponder];
 }
-- (IBAction)cancelAction:(id)sender {
-    [[[self view] window]close];
-}
-- (IBAction)addAction:(id)sender {
-    
-}
+
 -(void)searchFieldDidEndSearching:(NSSearchField *)sender{
 
 }
 -(void)searchFieldDidStartSearching:(NSSearchField *)sender{
-    [self loadResults];
+    usedParams=NO;
+    [self loadResults:NO];
     
 }
 - (IBAction)searchTypeAction:(id)sender {
@@ -219,7 +223,7 @@
     }
 }
 
--(void)loadPeople:(BOOL)makeOffset{
+-(void)loadPeople:(BOOL)makeOffset useParams:(BOOL)useParams{
     if(makeOffset){
         searchOffsetCounter = searchOffsetCounter + 100;
     }else{
@@ -227,13 +231,26 @@
         [foundListData removeAllObjects];
         [foundList reloadData];
     }
-    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
-    if(byId.state==1){
-        url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=pcity,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
+    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    if(useParams){
+        NSString *fullQuery = queryString ? [NSString stringWithFormat:@"q=%@&", queryString] : nil;
+        
+        NSString *countryParam = country ? [NSString stringWithFormat:@"country=%@&", country] : nil;
+        
+        url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&%@count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@",  fullQuery ? fullQuery : @"", countryParam ? countryParam : @"", searchOffsetCounter, _app.version, _app.token];
+    
     }else{
-        url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=pcity,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@",  queryString, searchOffsetCounter, _app.version, _app.token];
+        
+        if(byId.state==1){
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
+        }else{
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@",  queryString, searchOffsetCounter, _app.version, _app.token];
+        }
     }
+   
+    
+
     
     __block NSInteger totalCountPeople;
 //    __block NSInteger startInsertIndex = [foundListData count];
@@ -270,9 +287,12 @@
                 NSString *deactivated;
                 NSString *relation;
                 NSString *domain;
+              
+                int verified;
 //                NSString *friendsCount;
                 int blacklisted;
                 int blacklisted_by_me;
+                verified = [a[@"verified"] intValue];
                  fullName =  [NSString stringWithFormat:@"%@ %@", a[@"first_name"], a[@"last_name"]];
                 city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
                 status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
@@ -290,9 +310,9 @@
                     NSDate *date = [formatter dateFromString:bdate];
                     [formatter setDateFormat:templateLateTime2];
                     if(![bdate isEqual:@""]){
-                        bdate = [NSString stringWithFormat:@"%d лет", 2016 - [[formatter stringFromDate:date] intValue]];
+                        bdate = [NSString stringWithFormat:@"%d", 2016 - [[formatter stringFromDate:date] intValue]];
                     }
-                    if([bdate isEqual:@"2016 лет" ]){
+                    if([bdate isEqual:@"2016" ]){
                         bdate=@"";
                     }
                 }
@@ -333,7 +353,7 @@
                 deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
                 domain = a[@"domain"] ? a[@"domain"] : @"";
 //                NSLog(@"%@", a[@"counters"] );
-                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":[NSNumber numberWithInt:online], @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain};
+                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":[NSNumber numberWithInt:online], @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain, @"verified":[NSNumber numberWithInt:verified]};
 //                NSLog(@"%@", object);
               
                 
@@ -412,14 +432,14 @@
         }
     }]resume];
 }
--(void)loadResults{
+-(void)loadResults:(BOOL)useParams{
     queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     switch(searchType.selectedSegment){
         case 0:
             [self loadGroups];
             break;
         case 1:
-            [self loadPeople:NO];
+            [self loadPeople:NO useParams:useParams];
             break;
     }
 }
@@ -438,9 +458,13 @@
     if([foundListData count]>0){
         CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.photo.wantsLayer=YES;
-        cell.photo.layer.cornerRadius=25;
+        cell.photo.layer.cornerRadius=60/2;
         cell.photo.layer.masksToBounds=YES;
         cell.lastSeen.stringValue=foundListData[row][@"last_seen"];
+        cell.country.stringValue=foundListData[row][@"country"];
+        cell.verified.hidden = [foundListData[row][@"verified"] intValue] ? NO : YES;
+        cell.age.stringValue = foundListData[row][@"bdate"];
+        cell.city.stringValue = foundListData[row][@"city"];
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         [cell.userStatus setAllowsEditingTextAttributes:YES];
@@ -455,7 +479,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                  NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
-                NSSize imSize=NSMakeSize(50, 50);
+                NSSize imSize=NSMakeSize(60, 60);
                 image.size=imSize;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.userStatus.attributedStringValue = attrStatusString;
@@ -474,7 +498,7 @@
             cell.name.stringValue = foundListData[row][@"name"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"photo"]]]];
-                NSSize imSize=NSMakeSize(50, 50);
+                NSSize imSize=NSMakeSize(60, 60);
                 image.size=imSize;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [cell.photo setImage:image];
