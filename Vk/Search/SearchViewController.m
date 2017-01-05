@@ -429,8 +429,7 @@
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         [cell.userStatus setAllowsEditingTextAttributes:YES];
-        cell.userStatus.attributedStringValue = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
-        [cell.userStatus setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+   
         if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
             cell.blacklisted.hidden=NO;
         }else{
@@ -444,10 +443,13 @@
             
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                 NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
                 NSSize imSize=NSMakeSize(50, 50);
                 image.size=imSize;
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.userStatus.attributedStringValue = attrStatusString;
+                    [cell.userStatus setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                     [cell.photo setImage:image];
                 });
             });
