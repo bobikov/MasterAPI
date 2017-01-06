@@ -13,7 +13,6 @@
 @end
 
 @implementation SearchViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     foundList.delegate = self;
@@ -60,7 +59,10 @@
     
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
 }
--(void)viewDidScroll:(NSNotification*)notification{
+- (void)viewDidLayout{
+    [searchBar becomeFirstResponder];
+}
+- (void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
     //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
     NSInteger boundsHeight = foundList.bounds.size.height;
@@ -69,12 +71,34 @@
         //Refresh here
         //         NSLog(@"The end of table");
         if([foundListData count] > 0){
-            [self loadPeople:YES useParams:usedParams];
+            if([selectedSourceName isEqualToString:@"people"]){
+                [self loadPeople:YES useParams:usedParams];
+            }else if([selectedSourceName isEqualToString:@"group"]){
+                [self loadGroups:YES useParams:usedParams];
+            }
         }
     }
+    
+    
+}
+
+
+- (void)loadResults:(BOOL)useParams{
+    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    switch(searchType.selectedSegment){
+        case 0:
+            selectedSourceName = @"group";
+            [self loadGroups:NO useParams:useParams];
+            break;
+        case 1:
+            selectedSourceName = @"people";
+            [self loadPeople:NO useParams:useParams];
+            break;
+    }
+
 
 }
--(void)loadCountries{
+- (void)loadCountries{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/database.getCountries?need_all=1&count=1000&access_token=%@&v=%@", _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //        NSLog(@"%@", countriesResp);
@@ -89,19 +113,18 @@
 }
 - (IBAction)searchWithParams:(id)sender {
     usedParams=YES;
-    country = nil;
-    country = ![countriesList.stringValue isEqual:@""]  ? countries[[countriesList indexOfSelectedItem]] : nil;
+    countryID = nil;
+    countryID = ![countriesList.stringValue isEqual:@""]  ? countries[[countriesList indexOfSelectedItem]] : nil;
     [self loadResults:YES];
-    
 }
--(void)addUserToFaves:(NSNotification*)notification{
+- (void)addUserToFaves:(NSNotification*)notification{
      NSInteger row = [notification.userInfo[@"row"] intValue];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.addUser?user_id=%@&v=%@&access_token=%@",foundListData[row][@"id"], _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 //        NSDictionary *faveAddUser = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //        NSLog(@"%@", faveAddUser);
     }]resume];
 }
--(void)VisitUserPage:(NSNotification*)notification{
+- (void)VisitUserPage:(NSNotification*)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
 //    NSLog(@"%@", foundListData[row]);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",foundListData[row][@"id"]]]];
@@ -135,7 +158,7 @@
     }
     
 }
--(void)loadGroupByIdInfo:(NSString*)groupId{
+- (void)loadGroupByIdInfo:(NSString*)groupId{
     
     url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%@&fields=description,city,country,members_count,status,site,start_date,finish_date,ban_info&access_token=%@&v=%@", groupId, _app.token, _app.version];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -202,14 +225,10 @@
     }]resume];
 }
 
--(void)viewDidLayout{
-    [searchBar becomeFirstResponder];
-}
-
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
 
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     usedParams=NO;
     [self loadResults:NO];
     
@@ -222,8 +241,7 @@
         [addBut setEnabled:NO];
     }
 }
-
--(void)loadPeople:(BOOL)makeOffset useParams:(BOOL)useParams{
+- (void)loadPeople:(BOOL)makeOffset useParams:(BOOL)useParams{
     if(makeOffset){
         searchOffsetCounter = searchOffsetCounter + 100;
     }else{
@@ -236,7 +254,7 @@
     if(useParams){
         NSString *fullQuery = queryString ? [NSString stringWithFormat:@"q=%@&", queryString] : nil;
         
-        NSString *countryParam = country ? [NSString stringWithFormat:@"country=%@&", country] : nil;
+        NSString *countryParam = countryID ? [NSString stringWithFormat:@"country=%@&", countryID] : nil;
         
         url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&%@count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@",  fullQuery ? fullQuery : @"", countryParam ? countryParam : @"", searchOffsetCounter, _app.version, _app.token];
     
@@ -377,10 +395,25 @@
         }
     }] resume];
 }
--(void)loadGroups{
-    
-    url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&v=%@&access_token=%@", queryString, _app.version, _app.token];
-    [foundListData removeAllObjects];
+- (void)loadGroups:(BOOL)makeOffset useParams:(BOOL)useParams{
+    if(makeOffset){
+        searchOffsetCounter = searchOffsetCounter + 100;
+    }else{
+        searchOffsetCounter = 0;
+        [foundListData removeAllObjects];
+        [foundList reloadData];
+    }
+    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    if(useParams){
+
+        NSString *countryParam = countryID ? [NSString stringWithFormat:@"country_id=%@&", countryID] : nil;
+        
+        url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&%@offset=%li&v=%@&access_token=%@", queryString,  countryParam ? countryParam : @"", searchOffsetCounter, _app.version, _app.token];
+        
+    }else{
+        
+        url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&offset=%li&v=%@&access_token=%@", queryString, searchOffsetCounter, _app.version, _app.token];
+    }
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             
@@ -431,49 +464,50 @@
             });
         }
     }]resume];
+
 }
--(void)loadResults:(BOOL)useParams{
-    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    switch(searchType.selectedSegment){
-        case 0:
-            [self loadGroups];
-            break;
-        case 1:
-            [self loadPeople:NO useParams:useParams];
-            break;
-    }
-}
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+
+
+
+
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if([foundListData count]>0){
         return [foundListData count];
     }
     return 0;
 }
-
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([foundListData count]>0){
         CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=60/2;
         cell.photo.layer.masksToBounds=YES;
-        cell.lastSeen.stringValue=foundListData[row][@"last_seen"];
-        cell.country.stringValue=foundListData[row][@"country"];
-        cell.verified.hidden = [foundListData[row][@"verified"] intValue] ? NO : YES;
-        cell.age.stringValue = foundListData[row][@"bdate"];
-        cell.city.stringValue = foundListData[row][@"city"];
+      
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
-        [cell.userStatus setAllowsEditingTextAttributes:YES];
-        if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
-            cell.blacklisted.hidden=NO;
-        }else{
-            cell.blacklisted.hidden=YES;
-        };
+     
+   
         if(searchType.selectedSegment==1){
+            cell.country.hidden=NO;
+            cell.age.hidden=NO;
+            cell.city.hidden=NO;
+        
+            if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
+                cell.blacklisted.hidden=NO;
+            }else{
+                cell.blacklisted.hidden=YES;
+            };
+            [cell.userStatus setAllowsEditingTextAttributes:YES];
+            cell.lastSeen.stringValue=foundListData[row][@"last_seen"];
+            cell.country.stringValue=foundListData[row][@"country"];
+            cell.verified.hidden = [foundListData[row][@"verified"] intValue] ? NO : YES;
+            cell.age.stringValue = foundListData[row][@"bdate"];
+            cell.city.stringValue = foundListData[row][@"city"];
             cell.name.stringValue = foundListData[row][@"full_name"];
             //cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -494,7 +528,11 @@
             }
         }
         else if(searchType.selectedSegment==0){
-            
+            cell.country.hidden=YES;
+            cell.age.hidden=YES;
+            cell.verified.hidden=YES;
+            cell.city.hidden=YES;
+            cell.blacklisted.hidden=YES;
             cell.name.stringValue = foundListData[row][@"name"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"photo"]]]];

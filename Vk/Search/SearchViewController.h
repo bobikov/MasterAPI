@@ -34,8 +34,9 @@
     __weak IBOutlet NSButton *loadedCountResults;
     __weak IBOutlet NSClipView *searchListClipView;
     NSInteger searchOffsetCounter;
-    NSString *country;
+    NSString *countryID;
     BOOL usedParams;
+    NSString *selectedSourceName;
 }
 @property (nonatomic) appInfo *app;
 @property(nonatomic)StringHighlighter *stringHighlighter;

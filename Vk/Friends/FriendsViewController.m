@@ -671,10 +671,7 @@
         cell.fullName.stringValue = FriendsData[row][@"full_name"];
 //        cell.status.stringValue = FriendsData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
-
-        
-        [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+       
         cell.bdate.stringValue = FriendsData[row][@"bdate"];
         cell.lastSeen.stringValue = FriendsData[row][@"last_seen"];
         cell.sex.stringValue = FriendsData[row][@"sex"];
@@ -684,9 +681,12 @@
         cell.photo.layer.masksToBounds=TRUE;
 
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+               NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
               NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
              imagePhoto.size=imSize;
              dispatch_async(dispatch_get_main_queue(), ^{
+                 cell.status.attributedStringValue = attrStatusString;
+                 [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                  [cell.photo setImage:imagePhoto];
              });
          });
