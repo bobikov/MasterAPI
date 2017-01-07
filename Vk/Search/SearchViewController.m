@@ -405,21 +405,15 @@
     }
     queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     if(useParams){
-
         NSString *countryParam = countryID ? [NSString stringWithFormat:@"country_id=%@&", countryID] : nil;
-        
         url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&%@offset=%li&v=%@&access_token=%@", queryString,  countryParam ? countryParam : @"", searchOffsetCounter, _app.version, _app.token];
-        
     }else{
-        
         url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&offset=%li&v=%@&access_token=%@", queryString, searchOffsetCounter, _app.version, _app.token];
     }
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
-            
             NSDictionary *searchResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             for (NSDictionary *i in searchResponse[@"response"][@"items"]){
-                
                 NSString *desc;
                 NSString *photo;
                 NSString *deactivated;
@@ -459,7 +453,7 @@
                 [foundListData addObject:object];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                
+                loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
                 [foundList reloadData];
             });
         }

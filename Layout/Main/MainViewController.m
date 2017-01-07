@@ -114,7 +114,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectTwitterApi:) name:@"SelectTwitterApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectYoutubeApi:) name:@"SelectYoutubeApi" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectInstagramApi:) name:@"SelectInstagramApi" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(preloadTasksView:) name:@"preloadTaskView" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCurrentController:) name:@"showCurrentMainController" object:nil];
+}
+-(void)preloadTasksView:(NSNotification*)notiifcation{
+//    [TasksView loadView];
+    if(TasksView.view){
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:notiifcation.userInfo];
+    }
 }
 -(void)RemoveMainController:(NSNotification*)notification{
     if ([self.childViewControllers count]>0){

@@ -85,7 +85,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="65" viewBased="YES" id="GMq-iS-O28" customClass="SearchCustomTableView">
-                                            <rect key="frame" x="0.0" y="0.0" width="582" height="425"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="582" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -493,7 +493,7 @@
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>

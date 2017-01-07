@@ -169,7 +169,7 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="tasksList" destination="FWE-hR-z0w" id="tOC-1q-jTn"/>
+                        <outlet property="tasksList" destination="FWE-hR-z0w" id="ijW-kD-LO7"/>
                     </connections>
                 </viewController>
                 <customObject id="zpX-Pw-fg4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

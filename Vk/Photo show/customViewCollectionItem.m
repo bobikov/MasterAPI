@@ -270,7 +270,7 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent{
     
-    [[NSCursor pointingHandCursor]set];
+//    [[NSCursor pointingHandCursor]set];
     //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
     //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
     //     self.view.layer.borderWidth=1;
@@ -304,6 +304,7 @@
 }
 
 -(void)mouseExited:(NSEvent *)theEvent{
+    
     //  [[NSCursor currentCursor]set];
     //   self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
     //     self.view.layer.borderWidth=0;

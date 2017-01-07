@@ -14,20 +14,27 @@
 @end
 
 @implementation TasksViewController
-
+@synthesize  newSessionObject,sessionsData;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    sessionsData = [[NSMutableArray alloc]init];
     tasksList.delegate=self;
     tasksList.dataSource=self;
+    sessionsData = [[NSMutableArray alloc]init];
+   
     app = [[appInfo alloc]init];
     timers = [[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
+    
 }
-- (IBAction)newSession:(id)sender {
+- (void)viewDidAppear{
+        NSLog(@"%@", sessionsData);
+        NSLog(@"%@", newSessionObject);
+        [tasksList reloadData];
 }
 
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (IBAction)newSession:(id)sender {
+}
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     NSView *view=[sender superview];
     NSInteger sessionIndex = [tasksList rowForView:view];
     if([segue.identifier isEqual:@"SessionDetails"]){
@@ -35,16 +42,16 @@
         contr.receivedData = sessionsData[sessionIndex];
     }
 }
-
--(void)observeAddNewSessionTask:(NSNotification*)notification{
-    
+- (void)observeAddNewSessionTask:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo);
 //       [self loadView];
-    NSMutableDictionary *object = [notification.userInfo mutableCopy ];
+    
+   newSessionObject = [notification.userInfo mutableCopy ];
 //    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:oo];
-    [self addSession:object];
+     dispatch_after(1, dispatch_get_main_queue(), ^(void){
+         [ self addSession];
+     });
 }
-
 - (IBAction)stopResume:(id)sender {
     NSView *view=[sender superview];
     NSInteger sessionIndex = [tasksList rowForView:view];
@@ -77,8 +84,7 @@
     }
     [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:sessionIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
-
--(void)updateSessionProgress:(NSTimer*)timer{
+- (void)updateSessionProgress:(NSTimer*)timer{
     
     if([timer isValid]){
 //        if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
@@ -126,8 +132,7 @@
 //        }
     }
 }
-
--(void)startSession{
+- (void)startSession{
     NSDate *startSessionTaskDate = sessionsData[newSessionIndex][@"data"][0][@"date"];
 //    NSLog(@"%@", sessionsData[newSessionIndex][@"data"][0][@"date"]);
     NSTimer *timer = [[NSTimer alloc]initWithFireDate:startSessionTaskDate interval:0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:newSessionIndex], @"task_index":@0}] repeats:NO];
@@ -136,41 +141,38 @@
 //    [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
-
--(NSString*)getStringDate:(NSDate*)date{
+- (NSString*)getStringDate:(NSDate*)date{
+    
     NSString *dateString;
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:date];
     dateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
     return dateString;
 }
-
--(void)addSession:(id)data{
+- (void)addSession{
 
     NSDate *nextDate;
     NSString *nextDateString;
-
-    totalTasksInSession = [data[@"session_data"] count];
+    totalTasksInSession = [newSessionObject[@"session_data"] count];
 //    NSMutableDictionary *sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"name":[NSString stringWithFormat:@"Task %li", newSessionIndex+1], @"totalPosts":[NSNumber numberWithInteger:totalTasksInSession], @"currentPost":@0, @"state":@"inprogress"}];
     NSMutableDictionary *sessionObject;
-    nextDate = data[@"session_data"][0][@"date"];
+    nextDate = newSessionObject[@"session_data"][0][@"date"];
     nextDateString = [self getStringDate:nextDate];
-    NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":data[@"session_name"],@"session_type":data[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0, @"completed":@0}];
-    sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":data[@"session_data"]}];
+    NSMutableDictionary *sessionInfoObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"session_start_date":[self getStringDate:nextDate], @"session_name":newSessionObject[@"session_name"],@"session_type":newSessionObject[@"session_type"], @"next_task_date":nextDateString, @"totalTasks":[NSNumber numberWithInteger:totalTasksInSession], @"current_task_index":@0, @"state":@"inprogress", @"stopped":@0, @"completed":@0}];
+    sessionObject = [[NSMutableDictionary alloc]initWithDictionary:@{@"info":sessionInfoObject, @"data":newSessionObject[@"session_data"]}];
     [sessionsData addObject:sessionObject];
     newSessionIndex=[sessionsData count]-1;
     NSLog(@"%@", sessionsData);
     NSLog(@"%li", totalTasksInSession);
-    
-    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newSessionIndex] withAnimation:NSTableViewAnimationSlideDown];
+//    [tasksList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newSessionIndex] withAnimation:NSTableViewAnimationSlideDown];
     [self startSession];
-    
 }
 
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [sessionsData count];
 }
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     TasksCellView *cell = (TasksCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
     NSInteger taskIndex =[sessionsData[row][@"info"][@"current_task_index"] intValue];
     cell.taskName.stringValue=[NSString stringWithFormat:@"Session name: %@", sessionsData[row][@"info"][@"session_name"]];

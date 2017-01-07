@@ -190,16 +190,16 @@
     [comps setCalendar:cal];
     [publishingDateForPost setDateValue: [comps date] ];
     
-    
 }
 - (IBAction)saveSession:(id)sender {
-    
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
-    
-    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
+//    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
     //    contr.view = [[NSView alloc]init];
-    [contr loadView];
-    [contr viewDidLoad];
+//     [[NSNotificationCenter defaultCenter]postNotificationName:@"preloadTaskView" object:nil];
+//    [contr loadView];
+    
+//    contr.view.hidden = NO;
+    
     addPostToQueueBut.hidden=YES;
     startedSessionStatusLabel.hidden=YES;
     startedSessionCloseBut.hidden=YES;
@@ -207,14 +207,20 @@
     startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
     savePostsSessionBut.hidden=YES;
-    
+   
     dispatch_after(1, dispatch_get_main_queue(), ^(void){
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+//         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
         
+        
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"preloadTaskView" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+                [queuePostsInSession removeAllObjects];
+//         contr.newSessionObject = [@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]} mutableCopy];
+       
+//        [contr addSession];
+//        [contr.tasksList reloadData];
     });
-    dispatch_after(1, dispatch_get_main_queue(), ^(void){
-        [queuePostsInSession removeAllObjects];
-    });
+  
+  
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
 }
 - (IBAction)addPostToQueue:(id)sender {

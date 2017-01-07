@@ -42,7 +42,7 @@
 
     cachedImage = [[NSMutableDictionary alloc]init];
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     //    if(!albumLoaded){
     //        [self loadAlbums:nil];
     //    }
@@ -54,7 +54,7 @@
     }
 }
 
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"createPhotoAlbumSeague"]){
         CreateNewAlbumController *controller = (CreateNewAlbumController *)segue.destinationController;
         
@@ -65,8 +65,7 @@
         controller.recivedData=@{@"type":@"photo"};
     }
 }
-
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     __block  NSMenuItem *menuItem;
     [groupsListPopup removeAllItems];
@@ -102,13 +101,11 @@
     });
  
 }
-
 - (IBAction)groupsListPopup:(id)sender {
     ownerId=[groupsListPoupData objectAtIndex:[groupsListPopup indexOfSelectedItem]];
     [self loadAlbums];
 }
-
--(void)removeObject:(NSNotification*)notification{
+- (void)removeObject:(NSNotification*)notification{
 //    [self loadSelectedAlbum:selectedAlbumToLoad];
     dispatch_async(dispatch_get_main_queue(),^{
         
@@ -119,8 +116,7 @@
         
     });
 }
-
--(void)removePhotoAlbum:(NSNotification*)notification{
+- (void)removePhotoAlbum:(NSNotification*)notification{
 
     dispatch_async(dispatch_get_main_queue(),^{
 
@@ -131,26 +127,20 @@
 
     });
 }
-
--(void)createAlbumReload:(NSNotification*)notification{
+- (void)createAlbumReload:(NSNotification*)notification{
     [self loadAlbums];
 }
-
-
-
--(void)loadMembershipGroupAlbum:(NSNotification *)notification{
+- (void)loadMembershipGroupAlbum:(NSNotification *)notification{
     ownerId = [NSString stringWithFormat:@"-%@", notification.userInfo[@"id"]];
     [self loadAlbums];
 }
-
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadSearchVideo];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     [self loadAlbums];
 }
-
--(void)loadSearchVideo{
+- (void)loadSearchVideo{
     if(!albumLoaded){
         
         NSInteger counter=0;
@@ -182,7 +172,6 @@
     [self loadAlbums];
 
 }
-
 - (IBAction)showPhotoByOwner:(id)sender {
     if(![ownerField.stringValue isEqual:@""]){
         ownerId=ownerField.stringValue;
@@ -192,18 +181,15 @@
     
     
 }
-
 - (IBAction)albumsListDropdownAction:(id)sender {
     [self loadSelectedAlbum:albumsData2[[albumsListDropdown indexOfSelectedItem]][@"id"]] ;
 }
-
 - (IBAction)friendsListDropdownAction:(id)sender {
     friendId = friends[[friendsListDropdown indexOfSelectedItem]][@"id"];
     ownerId= friendId;
     [self loadAlbums];
 }
-
--(void)loadSelectedAlbum:(id)albumId{
+- (void)loadSelectedAlbum:(id)albumId{
     nameSelectedObject = @"album";
       [albumsData removeAllObjects];
     NSString *url;
@@ -237,8 +223,7 @@
         
     }] resume];
 }
-
--(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
     if(!albumLoaded){
         NSLog(@"%@", [albumsData objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
@@ -260,8 +245,7 @@
         }
     }
 }
-
--(void)loadFriends{
+- (void)loadFriends{
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     __block  NSMenuItem *menuItem;
     if(!_loadFromFullUserInfo){
@@ -309,8 +293,7 @@
       
     }
 }
-
--(void)loadAlbums{
+- (void)loadAlbums{
     [albumsData removeAllObjects];
      [albumsData2 removeAllObjects];
     [albumsListDropdown removeAllItems];
@@ -344,14 +327,13 @@
 
 
 
--(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if([albumsData count]>0){
         return [albumsData count];
     }
     return 0;
 }
-
--(NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     customViewCollectionItem *videoAlbumsItem = (customViewCollectionItem *)[collectionView makeItemWithIdentifier:@"ShowPhotoViewController" forIndexPath:indexPath];
     if([albumsData count]>0){
         NSAttributedString *attrTitle;
