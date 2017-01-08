@@ -14,7 +14,7 @@
 #import "SmilesViewController.h"
 #import "TasksViewController.h"
 #import <EventKit/EventKit.h>
-@interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate>
+@interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
 
@@ -70,23 +70,48 @@
      postTargetSourceSelector = [[NSMutableDictionary alloc]initWithDictionary:@{@"vk":@0, @"tumblr":@0, @"twitter":@0}];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeItemFromAttachments:) name:@"removeItemFromAttachments" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeScheduledPost:) name:@"DoScheduledPost" object:nil];
-   
+    savePostsSessionBut.enabled=NO;
     [self setSelectorsButtonsState];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
 }
+-(void)sessionNameDidChange:(NSNotification*)notification{
+//    NSLog(@"hahaha");
+//    if([notification.object isEqual: newSessionNameField]){
+    currentPostsSessionName = newSessionNameField.stringValue;
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
+        if([newSessionNameField.stringValue length]>0){
+            savePostsSessionBut.enabled=YES;
+            
+        }else{
+            savePostsSessionBut.enabled=NO;
+        }
+//    };
+}
+
+
 -(void)viewDidAppear{
-    
     if(![self parentViewController]){
         self.view.window.level = NSFloatingWindowLevel;
+        self.view.window.titleVisibility=NSWindowTitleVisible;
+        self.view.window.titlebarAppearsTransparent = YES;
+        self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+        self.view.window.movableByWindowBackground=YES;
+        [self.view.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight]];
+        savePostsSessionBut.enabled=NO;
     }
-    
 }
 
 
 -(void)textDidChange:(NSNotification *)notification{
     
-    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
-    [self setSelectorsButtonsState];
+    if(notification.object == newSessionNameField){
+        
+       
+    }else if(notification.object == textView){
+        charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
+        [self setSelectorsButtonsState];
+    }
 }
 
 //Attachments actions
@@ -178,9 +203,11 @@
     addPostToQueueBut.hidden=NO;
     startedSessionStatusLabel.hidden=NO;
     startedSessionCloseBut.hidden=NO;
-    currentPostsSessionName = newSessionNameField.stringValue;
+//    currentPostsSessionName = newSessionNameField.stringValue;
+    currentPostsSessionName = @"";
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
+    newSessionNameField.hidden=NO;
     newSessionStartBut.enabled=NO;
     //    savePostsSessionBut.hidden=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
@@ -192,7 +219,7 @@
     
 }
 - (IBAction)saveSession:(id)sender {
-    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+//    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
 //    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
     //    contr.view = [[NSView alloc]init];
 //     [[NSNotificationCenter defaultCenter]postNotificationName:@"preloadTaskView" object:nil];
@@ -206,8 +233,9 @@
     publishingDateForPost.hidden=YES;
     startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
+    savePostsSessionBut.enabled=NO;
     savePostsSessionBut.hidden=YES;
-   
+    newSessionNameField.hidden=YES;
     dispatch_after(1, dispatch_get_main_queue(), ^(void){
 //         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
         
@@ -251,6 +279,7 @@
     startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
     savePostsSessionBut.hidden=YES;
+    newSessionNameField.hidden=YES;
     [queuePostsInSession removeAllObjects];
 }
 //Scheduled post end

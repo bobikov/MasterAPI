@@ -14,6 +14,7 @@
 
 @implementation MainViewController
 @synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveMainController:) name:@"RemoveMainController" object:nil];
@@ -30,7 +31,7 @@
     videoCopyView = [story instantiateControllerWithIdentifier:@"VideoCopy"];
     wallPostView = [story instantiateControllerWithIdentifier:@"WallPost"];
     privacyPhotoAlbumsView = [story5 instantiateControllerWithIdentifier:@"PrivacyPhotoAlbums"];
-    changeStatusView = [story instantiateControllerWithIdentifier:@"StatusChange"];
+    changeStatusView = [story4 instantiateControllerWithIdentifier:@"StatusChange"];
     dialogsView = [story instantiateControllerWithIdentifier:@"DialogsView"];
     subscribersView = [story instantiateControllerWithIdentifier:@"SubscribersView"];
     videoPrivacyView = [ story5 instantiateControllerWithIdentifier:@"VideoPrivacy"];
@@ -65,10 +66,11 @@
     [self displayContentController:welcomeView];
     currentController = welcomeView;
 }
--(void)showTasksManager:(NSNotification*)notification{
+
+- (void)showTasksManager:(NSNotification*)notification{
    [self switchControllers:TasksView];
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show friends" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"copy photo" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"welcome" object:nil];
@@ -117,13 +119,13 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(preloadTasksView:) name:@"preloadTaskView" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCurrentController:) name:@"showCurrentMainController" object:nil];
 }
--(void)preloadTasksView:(NSNotification*)notiifcation{
+- (void)preloadTasksView:(NSNotification*)notiifcation{
 //    [TasksView loadView];
     if(TasksView.view){
         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:notiifcation.userInfo];
     }
 }
--(void)RemoveMainController:(NSNotification*)notification{
+- (void)RemoveMainController:(NSNotification*)notification{
     if ([self.childViewControllers count]>0){
         
         [self removeChildViewControllerAtIndex:0];
@@ -132,11 +134,8 @@
         
     }
 }
-//-(id)showCurrentController{
-////    NSLog(@"%li", [self.childViewControllers count]);
-//    return self.childViewControllers;
-//}
--(void)switchControllers:(NSViewController*)controller{
+
+- (void)switchControllers:(NSViewController*)controller{
     NSLog(@"Switch");
 //    [self removeChildViewControllerAtIndex:0];
 //    [coolCon removeFromParentViewController];
@@ -154,7 +153,7 @@
     [self displayContentController:controller];
 }
 
-- (void) displayContentController:(NSViewController *)content {
+- (void)displayContentController:(NSViewController *)content {
 //    CATransition *transition = [CATransition animation];
 //    transition.duration = 0.25;
 //    transition.removedOnCompletion=YES;
@@ -183,23 +182,23 @@
     
     
 }
--(void)SelectYoutubeApi:(NSNotification*)notification{
+- (void)SelectYoutubeApi:(NSNotification*)notification{
     youtubeCurrentController ?  [self switchControllers:youtubeCurrentController] : [self switchControllers:YoutubeSubscriptions];
 }
--(void)SelectTumblrApi:(NSNotification*)notification{
+- (void)SelectTumblrApi:(NSNotification*)notification{
     
     tumblrCurrentcontroller ?  [self switchControllers:tumblrCurrentcontroller] : [self switchControllers:TumblrFollowing];
 }
--(void)SelectTwitterApi:(NSNotification*)notification{
+- (void)SelectTwitterApi:(NSNotification*)notification{
     twitterCurrentController ?  [self switchControllers:twitterCurrentController] : [self switchControllers:TwitterFriends];
 }
--(void)SelectVKApi:(NSNotification*)notification{
+- (void)SelectVKApi:(NSNotification*)notification{
     vkCurrentController ?  [self switchControllers:vkCurrentController] : [self switchControllers:profilePhotoChangeView];
 }
--(void)SelectInstagramApi:(NSNotification*)notification{
+- (void)SelectInstagramApi:(NSNotification*)notification{
     instaCurrentController ? [self switchControllers:instaCurrentController] : [ self switchControllers:InstagramMediaPosts];
 }
--(void)display:(NSNotification *)notification{
+- (void)display:(NSNotification *)notification{
 //    NSLog(@"%@", notification.name);
     if ([notification.name  isEqual: @"copy photo"]){
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :photoCopyView ];
@@ -332,7 +331,7 @@
     }
     
 }
--(void)setCurrentSelectedMain:(id)name :(NSViewController*)controller{
+- (void)setCurrentSelectedMain:(id)name :(NSViewController*)controller{
     if([name isEqual:@"youtube"]){
         youtubeCurrentController = controller;
     }

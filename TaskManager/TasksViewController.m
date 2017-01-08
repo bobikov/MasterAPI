@@ -43,15 +43,12 @@
     }
 }
 - (void)observeAddNewSessionTask:(NSNotification*)notification{
-//    NSLog(@"%@", notification.userInfo);
-//       [self loadView];
-    
    newSessionObject = [notification.userInfo mutableCopy ];
-//    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:oo];
      dispatch_after(1, dispatch_get_main_queue(), ^(void){
          [ self addSession];
      });
 }
+
 - (IBAction)stopResume:(id)sender {
     NSView *view=[sender superview];
     NSInteger sessionIndex = [tasksList rowForView:view];
@@ -85,13 +82,7 @@
     [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:sessionIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
 - (void)updateSessionProgress:(NSTimer*)timer{
-    
     if([timer isValid]){
-//        if([sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"] intValue]){
-//            NSLog(@"%@", sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"stopped"]);
-//            NSLog(@"Timer stopped by user");
-//            [timer invalidate];
-//        }else{
             if([timer.userInfo[@"task_index"] intValue] == [sessionsData[[timer.userInfo[@"session_index"] intValue]][@"data"] count]-1){
                 NSLog(@"%@",timer.userInfo[@"task_index"]);
               
@@ -119,17 +110,11 @@
                 sessionsData[[timer.userInfo[@"session_index"] intValue]][@"info"][@"next_task_date"] = nextDateString;
                 NSDate *currentSessionTaskDate = sessionsData[[timer.userInfo[@"session_index"]intValue]][@"data"][[timer.userInfo[@"task_index"]intValue]][@"date"];
                 [tasksList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[timer.userInfo[@"session_index"] intValue]] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                
                 NSTimer *timer2 = [[NSTimer alloc]initWithFireDate:currentSessionTaskDate interval:0.0 target:self selector:@selector(updateSessionProgress:) userInfo:[[NSMutableDictionary alloc]initWithDictionary:@{@"session_index":[NSNumber numberWithInteger:[timer.userInfo[@"session_index"] intValue]], @"task_index":[NSNumber numberWithInteger:[timer.userInfo[@"task_index"] intValue]]}] repeats:NO];
-                
-                
                 [[NSRunLoop currentRunLoop] addTimer:timer2 forMode:NSDefaultRunLoopMode];
-               
 //                [timers insertObject:timer2 atIndex:[timer.userInfo[@"session_index"] intValue]];
                 timers[[timer.userInfo[@"session_index"] intValue]]=timer2;
-                
             }
-//        }
     }
 }
 - (void)startSession{
@@ -150,7 +135,6 @@
     return dateString;
 }
 - (void)addSession{
-
     NSDate *nextDate;
     NSString *nextDateString;
     totalTasksInSession = [newSessionObject[@"session_data"] count];
@@ -180,7 +164,7 @@
     cell.taskProgress.doubleValue=taskIndex;
     cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
     cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
-    cell.targetOwner.stringValue = [NSString stringWithFormat:@"%@", sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owner"]];
+    cell.targetOwner.stringValue = [NSString stringWithFormat:@"To: %@", sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owner"]];
     cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
     cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Started at: %@", sessionsData[row][@"info"][@"session_start_date"]];
     if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){

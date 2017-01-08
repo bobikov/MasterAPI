@@ -17,6 +17,14 @@
     NSMutableArray *statusListData;
     NSString *currentStatusData;
     __weak IBOutlet NSButton *saveStatus;
+    NSManagedObjectContext *moc;
+    __weak IBOutlet NSButton *newSessionStartBut;
+    __weak IBOutlet NSTextField *startedSessionStatusLabel;
+    __weak IBOutlet NSButton *startedSessionCloseBut;
+    __weak IBOutlet NSTextField *newSessionNameField;
+    __weak IBOutlet NSButton *addPostToQueueBut;
+    __weak IBOutlet NSDatePicker *sessionDatePicker;
+
     
 }
 @property (nonatomic)appInfo *app;
