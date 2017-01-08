@@ -23,10 +23,16 @@
     __weak IBOutlet NSButton *startedSessionCloseBut;
     __weak IBOutlet NSTextField *newSessionNameField;
     __weak IBOutlet NSButton *addPostToQueueBut;
-    __weak IBOutlet NSDatePicker *sessionDatePicker;
-
+//    __weak IBOutlet NSDatePicker *sessionDatePicker;
+    __weak IBOutlet NSButton *saveStatusSession;
+    NSString *currentSessionName;
+    __weak IBOutlet NSTextField *sessionInterval;
+    NSString *scheduledStatusText;
+    __weak IBOutlet NSStepper *stepperSessionInterval;
+    __weak IBOutlet NSBox *sessionWrapper;
     
 }
+
 @property (nonatomic)appInfo *app;
 
 @end

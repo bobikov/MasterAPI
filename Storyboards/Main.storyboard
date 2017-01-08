@@ -3289,18 +3289,6 @@ Gw
                                     <rect key="frame" x="0.0" y="0.0" width="586" height="600"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AiK-XY-fMA">
-                                            <rect key="frame" x="117" y="236" width="34" height="23"/>
-                                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="VI8-Pf-tL9">
-                                                <font key="font" metaFont="system"/>
-                                                <segments>
-                                                    <segment width="32"/>
-                                                </segments>
-                                            </segmentedCell>
-                                            <connections>
-                                                <action selector="removeGroupsToPost:" target="Hxb-ne-Y3h" id="tvr-pG-gVu"/>
-                                            </connections>
-                                        </segmentedControl>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yXJ-aG-APg">
                                             <rect key="frame" x="115" y="368" width="169" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Photos:0 Videos:0 Docs:0" id="wxS-DS-esF">
@@ -3309,10 +3297,6 @@ Gw
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tje-Fg-yFC">
-                                            <rect key="frame" x="127" y="240" width="14" height="14"/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSRemoveTemplate" id="6jy-84-2pH"/>
-                                        </imageView>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9NC-Pg-bBB" customClass="RFOverlayScrollView">
                                             <rect key="frame" x="117" y="257" width="177" height="111"/>
                                             <clipView key="contentView" ambiguous="YES" id="bND-On-KPR">
@@ -3767,7 +3751,7 @@ Gw
                                             <rect key="frame" x="8" y="581" width="16" height="16"/>
                                         </progressIndicator>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MZk-Ot-zvl">
-                                            <rect key="frame" x="117" y="5" width="34" height="21"/>
+                                            <rect key="frame" x="117" y="5" width="26" height="21"/>
                                             <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tV2-g5-Y44">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -3782,6 +3766,13 @@ Gw
                                             <connections>
                                                 <action selector="startSession:" target="Hxb-ne-Y3h" id="mj7-CG-Cth"/>
                                             </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nBo-S6-cMS">
+                                            <rect key="frame" x="117" y="238" width="26" height="21"/>
+                                            <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jx3-ct-LHH">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
                                         </button>
                                     </subviews>
                                 </view>

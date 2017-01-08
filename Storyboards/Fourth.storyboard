@@ -1525,6 +1525,16 @@
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
+                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fRu-lA-Qag">
+                                                                                <rect key="frame" x="470" y="46" width="10" height="9"/>
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="lLu-GG-AA3">
+                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                    <font key="font" metaFont="system"/>
+                                                                                </buttonCell>
+                                                                                <connections>
+                                                                                    <action selector="removeStatusFromList2:" target="11R-HW-hoF" id="NRF-Xt-055"/>
+                                                                                </connections>
+                                                                            </button>
                                                                         </subviews>
                                                                         <constraints>
                                                                             <constraint firstAttribute="trailing" secondItem="jQi-ro-g43" secondAttribute="trailing" constant="-2" id="BwW-ey-6lt"/>
@@ -1575,40 +1585,6 @@
                                                 <segue destination="YGS-41-8MQ" kind="popover" popoverAnchorView="kXP-EO-CHm" popoverBehavior="t" preferredEdge="maxY" id="DgU-VR-jLJ"/>
                                             </connections>
                                         </button>
-                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z83-v4-25x">
-                                            <rect key="frame" x="448" y="593" width="156" height="17"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" placeholderString="" drawsBackground="YES" id="mWc-Wd-G3c">
-                                                <font key="font" metaFont="cellTitle"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fwq-Dn-s5x">
-                                            <rect key="frame" x="154" y="591" width="29" height="20"/>
-                                            <buttonCell key="cell" type="bevel" title="Add" bezelStyle="rounded" image="queue1_30" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="0yB-Jm-jB3">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="cellTitle"/>
-                                            </buttonCell>
-                                        </button>
-                                        <datePicker hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDm-bC-lwy">
-                                            <rect key="frame" x="190" y="590" width="184" height="27"/>
-                                            <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="e90-Fs-v12">
-                                                <font key="font" metaFont="system"/>
-                                                <calendarDate key="date" timeIntervalSinceReferenceDate="-595929600" calendarFormat="%Y-%m-%d %H:%M:%S %z">
-                                                    <!--1982-02-12 08:00:00 -0800-->
-                                                    <timeZone key="timeZone" name="US/Pacific"/>
-                                                </calendarDate>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            </datePickerCell>
-                                        </datePicker>
-                                        <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHZ-gu-6YS">
-                                            <rect key="frame" x="372" y="584" width="70" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A3H-Ih-HaI">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LHL-n2-NBI">
                                             <rect key="frame" x="7" y="592" width="18" height="18"/>
                                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="schedul_icon_timer_1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="7Q1-tQ-E1B">
@@ -1619,21 +1595,76 @@
                                                 <action selector="scheduleStatus:" target="11R-HW-hoF" id="2Uj-ry-EpL"/>
                                             </connections>
                                         </button>
-                                        <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaf-kw-fAA">
-                                            <rect key="frame" x="610" y="594" width="16" height="16"/>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Y7c-ft-GW9">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                        <textField hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jdz-km-CUN">
-                                            <rect key="frame" x="32" y="590" width="111" height="22"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="session name" drawsBackground="YES" id="uFu-1q-3u9">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
+                                        <box hidden="YES" autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="none" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SZj-J0-Clu">
+                                            <rect key="frame" x="32" y="583" width="623" height="32"/>
+                                            <view key="contentView" id="kOA-Z6-r9x">
+                                                <rect key="frame" x="0.0" y="0.0" width="623" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaf-kw-fAA">
+                                                        <rect key="frame" x="598" y="12" width="16" height="16"/>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Y7c-ft-GW9">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="closeSession:" target="11R-HW-hoF" id="Gnc-TX-ZeW"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d7w-WM-vYV">
+                                                        <rect key="frame" x="241" y="6" width="96" height="22"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="mvX-DG-4iV">
+                                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Xp5-xL-k0m"/>
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHZ-gu-6YS">
+                                                        <rect key="frame" x="360" y="2" width="70" height="32"/>
+                                                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A3H-Ih-HaI">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="saveStatusSession:" target="11R-HW-hoF" id="S1x-ty-zND"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fwq-Dn-s5x">
+                                                        <rect key="frame" x="142" y="9" width="29" height="20"/>
+                                                        <buttonCell key="cell" type="bevel" title="Add" bezelStyle="rounded" image="queue1_30" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="0yB-Jm-jB3">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="cellTitle"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z83-v4-25x">
+                                                        <rect key="frame" x="436" y="11" width="156" height="17"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" placeholderString="" drawsBackground="YES" id="mWc-Wd-G3c">
+                                                            <font key="font" metaFont="cellTitle"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jdz-km-CUN">
+                                                        <rect key="frame" x="20" y="8" width="111" height="22"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="session name" drawsBackground="YES" id="uFu-1q-3u9">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XFN-8h-S4h">
+                                                        <rect key="frame" x="342" y="5" width="19" height="27"/>
+                                                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="f4t-c7-Y5W"/>
+                                                        <connections>
+                                                            <action selector="stepperValueUpdater:" target="11R-HW-hoF" id="Y1w-QC-vnO"/>
+                                                        </connections>
+                                                    </stepper>
+                                                </subviews>
+                                            </view>
+                                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </box>
                                     </subviews>
                                 </view>
                                 <constraints>
@@ -1656,11 +1687,13 @@
                         <outlet property="listOfStatus" destination="2lM-IQ-FDb" id="hhT-av-nSE"/>
                         <outlet property="newSessionNameField" destination="jdz-km-CUN" id="usz-6E-T7m"/>
                         <outlet property="newSessionStartBut" destination="LHL-n2-NBI" id="eoQ-TV-HzN"/>
-                        <outlet property="saveStatus" destination="zHZ-gu-6YS" id="4ar-zL-txc"/>
-                        <outlet property="sessionDatePicker" destination="UDm-bC-lwy" id="z0Q-9s-qIF"/>
+                        <outlet property="saveStatusSession" destination="zHZ-gu-6YS" id="eVT-2U-3Rg"/>
+                        <outlet property="sessionInterval" destination="d7w-WM-vYV" id="Vsx-cK-eAb"/>
+                        <outlet property="sessionWrapper" destination="SZj-J0-Clu" id="nJS-Vd-qbP"/>
                         <outlet property="setNewStatusButton" destination="Jty-Sx-nIZ" id="5la-JZ-LLH"/>
                         <outlet property="startedSessionCloseBut" destination="aaf-kw-fAA" id="Hxo-sb-4Zi"/>
                         <outlet property="startedSessionStatusLabel" destination="z83-v4-25x" id="368-bH-Ik4"/>
+                        <outlet property="stepperSessionInterval" destination="XFN-8h-S4h" id="6LS-vk-zGF"/>
                         <outlet property="symbolCounter" destination="qJj-5h-vi2" id="9CP-hE-W6L"/>
                         <outlet property="textNewStatus" destination="xXS-hS-ReY" id="sfP-ZJ-Iss"/>
                     </connections>
@@ -1673,6 +1706,7 @@
     <resources>
         <image name="NSRemoveTemplate" width="11" height="11"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
         <image name="blacklisted_min2" width="30" height="30"/>
         <image name="play" width="218" height="236"/>
         <image name="queue1_30" width="30" height="30"/>

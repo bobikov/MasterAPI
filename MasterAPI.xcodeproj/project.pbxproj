@@ -274,6 +274,8 @@
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 		2BB8DD751E225A70003E975A /* schedul_icon_timer_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD741E225A70003E975A /* schedul_icon_timer_1.png */; };
+		2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */; };
+		2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
@@ -761,6 +763,9 @@
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB8DD741E225A70003E975A /* schedul_icon_timer_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schedul_icon_timer_1.png; sourceTree = "<group>"; };
+		2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksVKStatusView.xib; sourceTree = "<group>"; };
+		2BB8DD7B1E22BEED003E975A /* TasksVKStatusCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksVKStatusCellView.h; sourceTree = "<group>"; };
+		2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksVKStatusCellView.m; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -1159,6 +1164,9 @@
 				2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */,
 				2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */,
 				2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */,
+				2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */,
+				2BB8DD7B1E22BEED003E975A /* TasksVKStatusCellView.h */,
+				2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */,
 			);
 			path = TaskManager;
 			sourceTree = "<group>";
@@ -1819,6 +1827,7 @@
 				2B41FC0D1E02D3F60013AC86 /* banned.png in Resources */,
 				2B41FC341E02D3F60013AC86 /* smiles_min1.png in Resources */,
 				2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */,
+				2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */,
 				2B41FC211E02D3F60013AC86 /* link1_15px.png in Resources */,
 				2B41FC2C1E02D3F60013AC86 /* prefs15px.png in Resources */,
 				2BB8DD751E225A70003E975A /* schedul_icon_timer_1.png in Resources */,
@@ -1876,6 +1885,7 @@
 				2B41FCB71E02D3F70013AC86 /* WallPostRecentGroupsCustomCell.m in Sources */,
 				2B41FC971E02D3F70013AC86 /* PhotoCaptionView.m in Sources */,
 				2B41FC7B1E02D3F70013AC86 /* FavoritesTabController.m in Sources */,
+				2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */,
 				2B41FCC91E02D3F70013AC86 /* YoutubeVideosController.m in Sources */,
 				2B41FC721E02D3F70013AC86 /* DocsPersonalViewcontroller.m in Sources */,
 				2B41FC021E02D3F60013AC86 /* SmilesCollectionViewItem.m in Sources */,
