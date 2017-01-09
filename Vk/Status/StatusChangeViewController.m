@@ -33,7 +33,7 @@
     [self loadCurrentStatus];
     [self ReadStatusList];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
- 
+    
     
 }
 - (void)viewDidAppear{
@@ -41,33 +41,32 @@
  
 }
 
-- (void)doScheduledStatus:(NSNotification*)notification{
-    NSLog(@"Sheduled status %@", notification.userInfo[@"status"]);
-    scheduledStatusText = [notification.userInfo[@"status"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    [self setStatus:YES];
-}
 - (void)sessionNameDidChange:(NSNotification*)notification{
-//    startedSessionStatusLabel.stringValue = [NSString stringWithFormat:@"Count: %li", [statusListData count]];
+    //    startedSessionStatusLabel.stringValue = [NSString stringWithFormat:@"Count: %li", [statusListData count]];
     currentSessionName = newSessionNameField.stringValue;
-//    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentSessionName, @0];
+    //    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentSessionName, @0];
     if([newSessionNameField.stringValue length]>0){
         saveStatusSession.enabled=YES;
         
     }else{
         saveStatusSession.enabled=NO;
     }
-  
+    
+}
+
+
+- (void)doScheduledStatus:(NSNotification*)notification{
+    NSLog(@"Sheduled status %@", notification.userInfo[@"status"]);
+    scheduledStatusText = [notification.userInfo[@"status"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    [self setStatus:YES];
 }
 - (IBAction)scheduleStatus:(id)sender {
     
     [self startSheduleSession];
 }
 - (void)startSheduleSession{
-    
-
-    
     sessionWrapper.hidden=NO;
-     stepperSessionInterval.integerValue=1;
+    sessionInterval.integerValue=stepperSessionInterval.integerValue;
 //    sessionWrapper.wantsLayer=YES;
 //    sessionWrapper.layer.masksToBounds=YES;
 //    sessionWrapper.layer.cornerRadius=5;
@@ -83,8 +82,7 @@
         saveStatusSession.enabled=NO;
     }
     startedSessionStatusLabel.stringValue = [NSString stringWithFormat:@"Count: %li", [statusListData count]];
-    [self setDefaultInterval];
-  
+
 }
 - (IBAction)closeSession:(id)sender {
     sessionWrapper.hidden=YES;
@@ -96,12 +94,14 @@
 //    saveStatusSession.hidden=YES;
 //    newSessionNameField.hidden=YES;
     newSessionNameField.stringValue=@"";
-    stepperSessionInterval.integerValue=1;
+     sessionInterval.integerValue=stepperSessionInterval.minValue;
 //  [queuePostsInSession removeAllObjects];
 }
 - (IBAction)stepperValueUpdater:(id)sender {
     sessionInterval.integerValue=stepperSessionInterval.integerValue;
 }
+
+
 - (IBAction)saveStatusSession:(id)sender {
 //    NSDate *date = [sessionInterval dateValue];
     
@@ -117,108 +117,9 @@
     stepperSessionInterval.integerValue=0;
     sessionInterval.integerValue=0;
 }
-
 - (IBAction)saveStatusAction:(id)sender {
 //    [self writeStatusToFile:currentStatus.stringValue];
     [self saveCurrentStatus];
-}
--(void)setDefaultInterval{
-//    sessionInterval.datePickerElements = NSHourMinuteSecondDatePickerElementFlag;
-//    NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-//    
-//    
-//    NSDateComponents *comps = [cal components:NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitSecond fromDate:[NSDate date]];
-//    [comps setSecond:0];
-//    [comps setCalendar:cal];
-//    [comps setHour:0];
-//    [comps setMinute:1];
-//    NSDate *defaultDate = [comps date];
-//    [sessionInterval setDateValue: defaultDate];
-    
-    
-
-}
-- (IBAction)removeStatusFromList2:(id)sender {
-    NSView *view = [sender superview];
-    NSInteger index = [listOfStatus rowForView:view];
-    NSString *status = statusListData[index][@"status"];
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKStatusList"];
-    [request setReturnsObjectsAsFaults:NO];
-    //    [request setResultType:NSDictionaryResultType];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"status == %@", status]];
-    NSError *fetchError;
-    NSError *delError;
-    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
-    for(NSManagedObject *object in array){
-        [moc deleteObject:object];
-        if(![moc save:&delError]){
-            NSLog(@"Delete object error");
-        }else{
-            NSLog(@"Status is successfully deleted");
-            [self ReadStatusList];
-            [listOfStatus reloadData];
-        }
-    }
-}
-
-- (IBAction)removeStatusFromList:(id)sender {
-    NSInteger row = [listOfStatus selectedRow];
-    NSString *status =  statusListData[row][@"status"];
-    NSLog(@"%@", status);
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKStatusList"];
-    [request setReturnsObjectsAsFaults:NO];
-//    [request setResultType:NSDictionaryResultType];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"status == %@", status]];
-    NSError *fetchError;
-    NSError *delError;
-    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
-    for(NSManagedObject *object in array){
-        [moc deleteObject:object];
-        if(![moc save:&delError]){
-            NSLog(@"Delete object error");
-        }else{
-            NSLog(@"Status is successfully deleted");
-            [self ReadStatusList];
-            [listOfStatus reloadData];
-        }
-    }
-}
-- (void)loadCurrentStatus{
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/status.get?user_id=%@&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            currentStatus.stringValue = jsonData[@"response"][@"text"];
-        });
-    }] resume];
-//    [loadStatus resume];
-//    sleep(1);
-//    currentStatus.stringValue = currentStatusData;
-}
-- (IBAction)setStatusAction:(id)sender {
-    [self setStatus:NO];
-
-}
-
--(void)setStatus:(BOOL)scheduled{
-    if(([textNewStatus.string length]<=160 && [textNewStatus.string length]!=0) || scheduled){
-        NSString *statusText=[textNewStatus.string  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/status.set?text=%@&v=%@&access_token=%@", scheduled ? scheduledStatusText : statusText, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if([jsonData[@"response"] intValue]){
-                NSLog(@"Sucessfuly status set.");
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    currentStatus.stringValue=textNewStatus.string;
-                    [self loadCurrentStatus];
-                });
-            }
-        }]resume];
-        //        [self writeStatusToFile:textNewStatus.string];
-        if(!scheduled){
-            [self saveStatusCore];
-        }
-        
-    }
-
 }
 - (void)saveCurrentStatus{
     if([currentStatus.stringValue length]<=160 && [currentStatus.stringValue length]!=0){
@@ -242,9 +143,9 @@
     }
 }
 - (void)saveStatusCore{
-
-    if([textNewStatus.string length]<=160 && [textNewStatus.string length]!=0){
     
+    if([textNewStatus.string length]<=160 && [textNewStatus.string length]!=0){
+        
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];
         for(NSDictionary *i in [self ReadStatusList]){
             [tempArray addObject:i[@"status"]];
@@ -266,7 +167,7 @@
         }
         
     }
-
+    
 }
 - (NSArray*)ReadStatusList{
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKStatusList"];
@@ -285,6 +186,92 @@
     }
     return array;
 }
+- (IBAction)removeStatusFromList2:(id)sender {
+    NSView *view = [sender superview];
+    NSInteger index = [listOfStatus rowForView:view];
+    NSString *status = statusListData[index][@"status"];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKStatusList"];
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"status == %@", status]];
+    NSError *fetchError;
+    NSError *delError;
+    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
+    for(NSManagedObject *object in array){
+        [moc deleteObject:object];
+        if(![moc save:&delError]){
+            NSLog(@"Delete object error");
+        }else{
+            NSLog(@"Status is successfully deleted");
+            [self ReadStatusList];
+            [listOfStatus reloadData];
+        }
+    }
+}
+- (IBAction)removeStatusFromList:(id)sender {
+    NSInteger row = [listOfStatus selectedRow];
+    NSString *status =  statusListData[row][@"status"];
+    NSLog(@"%@", status);
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKStatusList"];
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"status == %@", status]];
+    NSError *fetchError;
+    NSError *delError;
+    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
+    for(NSManagedObject *object in array){
+        [moc deleteObject:object];
+        if(![moc save:&delError]){
+            NSLog(@"Delete object error");
+        }else{
+            NSLog(@"Status is successfully deleted");
+            [self ReadStatusList];
+            [listOfStatus reloadData];
+        }
+    }
+}
+
+
+
+
+
+- (void)loadCurrentStatus{
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/status.get?user_id=%@&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            currentStatus.stringValue = jsonData[@"response"][@"text"];
+        });
+    }] resume];
+//    [loadStatus resume];
+//    sleep(1);
+//    currentStatus.stringValue = currentStatusData;
+}
+- (IBAction)setStatusAction:(id)sender {
+    [self setStatus:NO];
+
+}
+- (void)setStatus:(BOOL)scheduled{
+    if(([textNewStatus.string length]<=160 && [textNewStatus.string length]!=0) || scheduled){
+        NSString *statusText=[textNewStatus.string  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/status.set?text=%@&v=%@&access_token=%@", scheduled ? scheduledStatusText : statusText, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            if([jsonData[@"response"] intValue]){
+                NSLog(@"Sucessfuly status set.");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    currentStatus.stringValue=textNewStatus.string;
+                    [self loadCurrentStatus];
+                });
+            }
+        }]resume];
+        //        [self writeStatusToFile:textNewStatus.string];
+        if(!scheduled){
+            [self saveStatusCore];
+        }
+        
+    }
+
+}
+
 
 
 - (void)textDidChange:(NSNotification *)notification{
