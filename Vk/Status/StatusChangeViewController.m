@@ -33,9 +33,12 @@
     [self loadCurrentStatus];
     [self ReadStatusList];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
+ 
+    
 }
 - (void)viewDidAppear{
 //    [self loadCurrentStatus];
+ 
 }
 
 - (void)doScheduledStatus:(NSNotification*)notification{
@@ -60,13 +63,20 @@
     [self startSheduleSession];
 }
 - (void)startSheduleSession{
+    
+
+    
     sessionWrapper.hidden=NO;
-    startedSessionStatusLabel.hidden=NO;
-    startedSessionCloseBut.hidden=NO;
-    newSessionNameField.hidden=NO;
-    sessionInterval.hidden=NO;
-    newSessionStartBut.enabled=NO;
-    saveStatusSession.hidden=NO;
+     stepperSessionInterval.integerValue=1;
+//    sessionWrapper.wantsLayer=YES;
+//    sessionWrapper.layer.masksToBounds=YES;
+//    sessionWrapper.layer.cornerRadius=5;
+//    startedSessionStatusLabel.hidden=NO;
+//    startedSessionCloseBut.hidden=NO;
+//    newSessionNameField.hidden=NO;
+//    sessionInterval.hidden=NO;
+//    newSessionStartBut.enabled=NO;
+//    saveStatusSession.hidden=NO;
     if([newSessionNameField.stringValue length]>0){
         saveStatusSession.enabled=YES;
     }else{
@@ -74,18 +84,19 @@
     }
     startedSessionStatusLabel.stringValue = [NSString stringWithFormat:@"Count: %li", [statusListData count]];
     [self setDefaultInterval];
+  
 }
 - (IBAction)closeSession:(id)sender {
     sessionWrapper.hidden=YES;
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    sessionInterval.hidden=YES;
-    newSessionStartBut.enabled=YES;
-    saveStatusSession.hidden=YES;
-    newSessionNameField.hidden=YES;
+//    addPostToQueueBut.hidden=YES;
+//    startedSessionStatusLabel.hidden=YES;
+//    startedSessionCloseBut.hidden=YES;
+//    sessionInterval.hidden=YES;
+//    newSessionStartBut.enabled=YES;
+//    saveStatusSession.hidden=YES;
+//    newSessionNameField.hidden=YES;
     newSessionNameField.stringValue=@"";
-    stepperSessionInterval.integerValue=0;
+    stepperSessionInterval.integerValue=1;
 //  [queuePostsInSession removeAllObjects];
 }
 - (IBAction)stepperValueUpdater:(id)sender {

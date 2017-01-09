@@ -273,9 +273,9 @@
 		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
-		2BB8DD751E225A70003E975A /* schedul_icon_timer_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD741E225A70003E975A /* schedul_icon_timer_1.png */; };
 		2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */; };
 		2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */; };
+		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
@@ -762,10 +762,10 @@
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BB8DD741E225A70003E975A /* schedul_icon_timer_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schedul_icon_timer_1.png; sourceTree = "<group>"; };
 		2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksVKStatusView.xib; sourceTree = "<group>"; };
 		2BB8DD7B1E22BEED003E975A /* TasksVKStatusCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksVKStatusCellView.h; sourceTree = "<group>"; };
 		2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksVKStatusCellView.m; sourceTree = "<group>"; };
+		2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schedule_icon_timer_1_25px.png; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -1079,10 +1079,10 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				2BB8DD741E225A70003E975A /* schedul_icon_timer_1.png */,
 				2BCE662F1E095B7600364A80 /* queue1_30.png */,
 				2B41FA661E02D3F50013AC86 /* add_plus40.png */,
 				2B41FA671E02D3F50013AC86 /* audio.png */,
+				2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */,
 				2B41FA681E02D3F50013AC86 /* audio_min.png */,
 				2B41FA691E02D3F50013AC86 /* banned.png */,
 				2B41FA6A1E02D3F50013AC86 /* bar.png */,
@@ -1812,6 +1812,7 @@
 				2B41FC291E02D3F60013AC86 /* play.png in Resources */,
 				2B41FC311E02D3F60013AC86 /* remove_transp_15.png in Resources */,
 				2B41FC371E02D3F60013AC86 /* twitter2.png in Resources */,
+				2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */,
 				2B41FC2A1E02D3F60013AC86 /* plus.png in Resources */,
 				2B41FC281E02D3F60013AC86 /* photo_min.png in Resources */,
 				2B41FC191E02D3F60013AC86 /* docs1.png in Resources */,
@@ -1830,7 +1831,6 @@
 				2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */,
 				2B41FC211E02D3F60013AC86 /* link1_15px.png in Resources */,
 				2B41FC2C1E02D3F60013AC86 /* prefs15px.png in Resources */,
-				2BB8DD751E225A70003E975A /* schedul_icon_timer_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -199,16 +199,17 @@
 
 //Scheduled post
 - (IBAction)startSession:(id)sender {
-    publishingDateForPost.hidden=NO;
-    addPostToQueueBut.hidden=NO;
-    startedSessionStatusLabel.hidden=NO;
-    startedSessionCloseBut.hidden=NO;
+    sessionWrapper.hidden=NO;
+//    publishingDateForPost.hidden=NO;
+//    addPostToQueueBut.hidden=NO;
+//    startedSessionStatusLabel.hidden=NO;
+//    startedSessionCloseBut.hidden=NO;
 //    currentPostsSessionName = newSessionNameField.stringValue;
     currentPostsSessionName = @"";
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
     newSessionNameField.stringValue=@"";
-    newSessionNameField.hidden=NO;
-    newSessionStartBut.enabled=NO;
+//    newSessionNameField.hidden=NO;
+//    newSessionStartBut.enabled=NO;
     //    savePostsSessionBut.hidden=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
     NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
@@ -226,16 +227,16 @@
 //    [contr loadView];
     
 //    contr.view.hidden = NO;
-    
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    publishingDateForPost.hidden=YES;
-    startedSessionCloseBut.enabled=YES;
+    sessionWrapper.hidden=YES;
+//    addPostToQueueBut.hidden=YES;
+//    startedSessionStatusLabel.hidden=YES;
+//    startedSessionCloseBut.hidden=YES;
+//    publishingDateForPost.hidden=YES;
+//    startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
-    savePostsSessionBut.enabled=NO;
-    savePostsSessionBut.hidden=YES;
-    newSessionNameField.hidden=YES;
+//    savePostsSessionBut.enabled=NO;
+//    savePostsSessionBut.hidden=YES;
+//    newSessionNameField.hidden=YES;
     dispatch_after(1, dispatch_get_main_queue(), ^(void){
 //         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
         
@@ -272,14 +273,15 @@
     [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
 }
 - (IBAction)closeStartedSessionAction:(id)sender {
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    publishingDateForPost.hidden=YES;
+    sessionWrapper.hidden=YES;
+//    addPostToQueueBut.hidden=YES;
+//    startedSessionStatusLabel.hidden=YES;
+//    startedSessionCloseBut.hidden=YES;
+//    publishingDateForPost.hidden=YES;
     startedSessionCloseBut.enabled=YES;
-    newSessionStartBut.enabled=YES;
-    savePostsSessionBut.hidden=YES;
-    newSessionNameField.hidden=YES;
+//    newSessionStartBut.enabled=YES;
+//    savePostsSessionBut.hidden=YES;
+//    newSessionNameField.hidden=YES;
     [queuePostsInSession removeAllObjects];
 }
 //Scheduled post end

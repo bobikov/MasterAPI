@@ -77,6 +77,7 @@
     NSString *alphabet;
     NSMutableDictionary *postTargetSourceSelector;
     NSManagedObjectContext *moc;
+    __weak IBOutlet NSBox *sessionWrapper;
     
 }
 @property(nonatomic)appInfo *app;
