@@ -256,6 +256,7 @@
     message=[textView.string isEqualToString:@""] ? nil : textView.string ;
     
     NSDate *selectedDate = publishingDateForPost.dateValue;
+    
     [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
     
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Posts: %li", [queuePostsInSession count]];

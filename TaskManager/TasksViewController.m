@@ -156,11 +156,13 @@
     }
 }
 - (NSString*)getStringDate:(NSDate*)date{
-    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
     NSString *dateString;
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:date];
-    dateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
+//    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:date ];
+//    dateString = [NSString stringWithFormat:@"%ld.%ld.%ld, %ld:%ld",components.day,components.month,(long)components.year, (long)components.hour, (long)components.minute];
+    dateString = [formatter stringFromDate:date];
     return dateString;
 }
 - (void)addSession{
@@ -221,7 +223,7 @@
     else if([sessionsData[row][@"info"][@"session_type"]isEqual:@"post"]){
         TasksCellView *cell = (TasksCellView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
         NSInteger taskIndex =[sessionsData[row][@"info"][@"current_task_index"] intValue];
-        cell.taskName.stringValue=[NSString stringWithFormat:@"Session name: %@", sessionsData[row][@"info"][@"session_name"]];
+        cell.taskName.stringValue=[NSString stringWithFormat:@"Name: %@", sessionsData[row][@"info"][@"session_name"]];
         cell.taskProgress.maxValue=[sessionsData[row][@"info"][@"totalTasks"] intValue];
         cell.taskProgress.doubleValue=taskIndex;
         cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
