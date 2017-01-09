@@ -62,7 +62,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNamesController:) name:@"ShowNamesController" object:nil];
  
 }
--(void)showNamesController:(NSNotification*)notification{
+- (void)showNamesController:(NSNotification*)notification{
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
 //    ShowNamesController *contr = [story instantiateControllerWithIdentifier:@"ShowNamesViewController"];
     _windowController = [story instantiateControllerWithIdentifier:@"ShowNamesWindowController"];
@@ -70,7 +70,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowNamesData" object:nil  userInfo:@{@"data":videoAlbums}];
     [_windowController showWindow:self];
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     if(_loadFromFullUserInfo || _loadFromWallPost){
         self.view.window.titleVisibility=NSWindowTitleHidden;
         self.view.window.titlebarAppearsTransparent = YES;
@@ -79,8 +79,59 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     }
 
 }
+- (void)viewDidScroll:(NSNotification *)notification{
+    if([notification.object isEqual:videoAlbumsClipView]){
+        NSInteger scrollOrigin = [[scrollView contentView]bounds].origin.y+NSMaxY([scrollView visibleRect])-2;
+        //    NSInteger numberRowHeights = [collectionViewListAlbums numberOfItemsInSection:0];
+        NSInteger boundsHeight = collectionViewListAlbums.bounds.size.height;
+        //    NSInteger frameHeight = playList.frame.size.height;
+        if (scrollOrigin == boundsHeight) {
+            
+            NSLog(@"The end of section");
+            if(!albumLoaded){
+                [self loadAlbums:YES :nil];
+            }
+            else if(searchGlobalMode){
+                [self loadSearchGlobalVideo:YES];
+            }
+            else if(searchUserVideoMode){
+                [self loadSearchUserVideos:YES];
+            }
+            else{
+                if(selectedAlbumOffset < totalVideoInAlbum)
+                    [self loadSelectedAlbum:selectedAlbum :YES :countInAlbum :nil];
+            }
+        }
+        //    NSLog(@"%lu", numberRowHeights);
+        //        NSLog(@"%ld", scrollOrigin);
+        //        NSLog(@"%ld", boundsHeight);
+        //    NSLog(@"%fld", frameHeight-300);
+        //
+    }
+}
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"createVideoAlbumSeague"]){
+        createNewVideoAlbumController *controller = (createNewVideoAlbumController *)segue.destinationController;
+        if([[collectionViewListAlbums selectionIndexes]count]>0 && videoAlbums[0][@"cover"]){
+            NSMutableArray *titles = [[NSMutableArray alloc]init];
+            for(NSDictionary *i in [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]){
+                [titles addObject:i[@"title"]];
+            }
+            controller.selectedAlbumNames =  [titles componentsJoinedByString:@","];
+        }
+        
+        
+        controller.receivedDataForNewAlbum=@{@"owner":ownerId == nil || ![groupsPopupData containsObject:ownerId] ? _app.person : ownerId};
+        controller.ownerInMainVideoController=ownerId == nil || ![groupsPopupData containsObject:ownerId] ? _app.person : ownerId;
+    }
+    else if([segue.identifier isEqualToString:@"GroupsFromFileSegueVideo"]){
+        GroupsFromFileViewController *controller = (GroupsFromFileViewController *)segue.destinationController;
+        controller.recivedData=@{@"type":@"video"};
+        
+    }
+}
 
--(void)createVideoAlbumReload:(NSNotification *)notification{
+- (void)createVideoAlbumReload:(NSNotification *)notification{
 //    [ownerId isEqual:_app.person] ? [self loadAlbums:NO :nil :ownerId] : nil;
     
 //    ownerId=[groupsPopupData containsObject:ownerId]?ownerId:_app.person;
@@ -89,8 +140,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     }
 //    NSLog(@"%@", ownerId);
 }
-
--(void)removeVideoAlbum:(NSNotification*)notification{
+- (void)removeVideoAlbum:(NSNotification*)notification{
 //    [self loadAlbums:NO :nil];
     dispatch_async(dispatch_get_main_queue(),^{
         
@@ -103,19 +153,30 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
         
     });
 }
-
 - (IBAction)createNewAlbum:(id)sender {
     
     
 }
+- (void)removeObject:(NSNotification*)notification{
+    dispatch_async(dispatch_get_main_queue(),^{
+        //    [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
+        
+        [videoAlbums removeObjectAtIndex:[notification.userInfo[@"index"] intValue]];
+        [collectionViewListAlbums deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+        collectionViewListAlbums.content = videoAlbums;
+        //        [collectionViewListAlbums reloadData];
+        //    NSLog(@"%@", selectedAlbum);
+        //    NSLog(@"%@", countInAlbum);
+    });
+}
 
--(void)loadMembershipGroupAlbum:(NSNotification *)notification{
+- (void)loadMembershipGroupAlbum:(NSNotification *)notification{
     publicIdFrom=nil;
     ownerId = [NSString stringWithFormat:@"-%@", notification.userInfo[@"id"]];
     [self loadAlbums:NO :nil];
 }
-
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     __block  NSMenuItem *menuItem;
     [groupsPopupList removeAllItems];
@@ -123,6 +184,8 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
     [viewControllerItem loadView];
     menuItem = [[NSMenuItem alloc]initWithTitle:@"Personal" action:nil keyEquivalent:@""];
+    viewControllerItem.nameField.stringValue=@"Personal";
+    [menuItem setView:[viewControllerItem view]];
     [menu1 addItem:menuItem];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -156,26 +219,55 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     });
 
 }
-
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"createVideoAlbumSeague"]){
-        createNewVideoAlbumController *controller = (createNewVideoAlbumController *)segue.destinationController;
-        if([[collectionViewListAlbums selectionIndexes]count]>0 && videoAlbums[0][@"cover"]){
-            NSMutableArray *titles = [[NSMutableArray alloc]init];
-            for(NSDictionary *i in [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]){
-                [titles addObject:i[@"title"]];
+- (void)loadFriends{
+    __block NSMenu *menu1 = [[NSMenu alloc]init];
+    __block  NSMenuItem *menuItem;
+    if(!_loadFromFullUserInfo){
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(data){
+                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                    [friends addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                    //                    [itemTitles addObject:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]]];
+                    viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                    [viewControllerItem loadView];
+                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                    
+                    
+                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                    
+                    image.size=NSMakeSize(30,30);
+                    [menuItem setImage:image];
+                    viewControllerItem.photo.wantsLayer=YES;
+                    viewControllerItem.photo.layer.masksToBounds=YES;
+                    viewControllerItem.photo.layer.cornerRadius=39/2;
+                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                    [viewControllerItem.photo setImage:image];
+                    [menuItem setView:[viewControllerItem view]];
+                    [menu1 addItem:menuItem];
+                    
+                }
+                
+                dispatch_async(dispatch_get_main_queue(),^{
+                    
+                    //                    [friendsListDropdown setPullsDown:YES];
+                    [friendsListDropdown removeAllItems];
+                    [friendsListDropdown setMenu:menu1];
+                    
+                    
+                });
+                
+                //                [friendsListDropdown addItemsWithTitles:[NSArray arrayWithArray:itemTitles]];
             }
-             controller.selectedAlbumNames =  [titles componentsJoinedByString:@","];
-        }
-  
-       
-        controller.receivedDataForNewAlbum=@{@"owner":ownerId == nil || ![groupsPopupData containsObject:ownerId] ? _app.person : ownerId};
-        controller.ownerInMainVideoController=ownerId == nil || ![groupsPopupData containsObject:ownerId] ? _app.person : ownerId;
-    }
-    else if([segue.identifier isEqualToString:@"GroupsFromFileSegueVideo"]){
-        GroupsFromFileViewController *controller = (GroupsFromFileViewController *)segue.destinationController;
-        controller.recivedData=@{@"type":@"video"};
+        }]resume];
         
+    }else{
+        //        ownerId = _userDataFromFullUserInfo[@"id"];
+        [friends addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", _userDataFromFullUserInfo[@"first_name"], _userDataFromFullUserInfo[@"last_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
+        [friendsListDropdown removeAllItems];
+        [friendsListDropdown addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
     }
 }
 
@@ -184,20 +276,6 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     [self loadAlbums:NO :nil];
    
     
-}
-
--(void)removeObject:(NSNotification*)notification{
-    dispatch_async(dispatch_get_main_queue(),^{
-        //    [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
-        
-        [videoAlbums removeObjectAtIndex:[notification.userInfo[@"index"] intValue]];
-        [collectionViewListAlbums deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-        collectionViewListAlbums.content = videoAlbums;
-//        [collectionViewListAlbums reloadData];
-        //    NSLog(@"%@", selectedAlbum);
-        //    NSLog(@"%@", countInAlbum);
-    });
 }
 
 - (IBAction)albumsDropdownListAction:(id)sender {
@@ -218,7 +296,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     
 }
 
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
    
     
     switch (searchSource.selectedSegment){
@@ -237,8 +315,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     }
     
 }
-
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     searchGlobalMode = NO;
     searchUserVideoMode = NO;
 //    if(albumLoaded){
@@ -275,51 +352,81 @@ NSInteger floatSort(id num1, id num2, void *context){
         return NSOrderedSame;
 }
 
--(void)viewDidScroll:(NSNotification *)notification{
-    if([notification.object isEqual:videoAlbumsClipView]){
-        NSInteger scrollOrigin = [[scrollView contentView]bounds].origin.y+NSMaxY([scrollView visibleRect])-2;
-        //    NSInteger numberRowHeights = [collectionViewListAlbums numberOfItemsInSection:0];
-        NSInteger boundsHeight = collectionViewListAlbums.bounds.size.height;
-        //    NSInteger frameHeight = playList.frame.size.height;
-        if (scrollOrigin == boundsHeight) {
-            
-            NSLog(@"The end of section");
-            if(!albumLoaded){
-                [self loadAlbums:YES :nil];
+
+- (void)loadAlbums:(BOOL)makeOffset :(id)albums {
+    ownerId = ownerId == nil ? _app.person : ownerId;
+    __block NSString *url;
+    nameSelectedObject = @"albums";
+    albumLoaded=NO;
+    searchGlobalMode=NO;
+    searchUserVideoMode=NO;
+    //    NSMutableArray *itemTitles = [[NSMutableArray alloc]init];
+    __block int index=0;
+    if(!makeOffset && !albums){
+        
+        [videoAlbums removeAllObjects];
+        [albumsDropdownList removeAllItems];
+        
+        offset = 0;
+    }
+    else{
+        offset=offset+100;
+    }
+    
+    
+    url =[NSString stringWithFormat:@"https://api.vk.com/method/video.getAlbums?owner_id=%@&extended=1&v=%@&count=100&offset=%lu&need_system=1&access_token=%@", ownerId, _app.version, offset, _app.token];
+    
+    
+    
+    if(albums==nil){
+        __block NSString *cover;
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(data){
+                NSDictionary *getAlbumsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                for(NSDictionary *i in getAlbumsResponse[@"response"][@"items"]){
+                    index++;
+                    if(i[@"photo_160"]){
+                        cover= i[@"photo_160"];
+                    }
+                    else{
+                        cover=@"";
+                    }
+                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInt:index], @"id":i[@"id"], @"cover":cover, @"owner_id":i[@"owner_id"], @"title":i[@"title"], @"count":i[@"count"]}];
+                    
+                    [videoAlbums addObject:object];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [albumsDropdownList addItemWithTitle:i[@"title"]];
+                    });
+                    
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [collectionViewListAlbums setContent:videoAlbums];
+                    [collectionViewListAlbums reloadData];
+                    totalCount.title = [NSString stringWithFormat:@"%@", getAlbumsResponse[@"response"][@"count"]];
+                });
             }
-            else if(searchGlobalMode){
-                [self loadSearchGlobalVideo:YES];
-            }
-            else if(searchUserVideoMode){
-                [self loadSearchUserVideos:YES];
-            }
-            else{
-                if(selectedAlbumOffset < totalVideoInAlbum)
-                    [self loadSelectedAlbum:selectedAlbum :YES :countInAlbum :nil];
-            }
-        }
-        //    NSLog(@"%lu", numberRowHeights);
-        //        NSLog(@"%ld", scrollOrigin);
-        //        NSLog(@"%ld", boundsHeight);
-        //    NSLog(@"%fld", frameHeight-300);
-        //
+        }] resume];
+    }
+    else{
+        
+        [collectionViewListAlbums setContent:videoAlbums];
+        [collectionViewListAlbums reloadData];
+        
     }
 }
-
--(void)showAlbumsFromPublic{
+- (void)showAlbumsFromPublic{
     ownerId=[NSString stringWithFormat:@"%@", publicIdFromShow.stringValue];
     [self loadAlbums:NO :nil];
     
 }
-
 - (IBAction)showAlbumsFromButAction:(id)sender {
     
     ownerId=[NSString stringWithFormat:@"%@", publicIdFromShow.stringValue];
     publicIdFrom=[NSString stringWithFormat:@"%@", publicIdFromShow.stringValue];
     [self loadAlbums:NO :nil];
 }
-
--(void)loadSearchAlbumVideo{
+- (void)loadSearchAlbumVideo{
     
     if(albumLoaded){
         NSInteger counter=0;
@@ -348,8 +455,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     }
 
 }
-
--(void)loadSearchUserVideos:(BOOL)makeOffset{
+- (void)loadSearchUserVideos:(BOOL)makeOffset{
     NSLog(@"Load searc user videos");
     ownerId=nil;
     NSString *url;
@@ -384,8 +490,7 @@ NSInteger floatSort(id num1, id num2, void *context){
         });
     }] resume];
 }
-
--(void)loadSearchGlobalVideo:(BOOL)makeOffset{
+- (void)loadSearchGlobalVideo:(BOOL)makeOffset{
     nameSelectedObject = @"album";
     ownerId=nil;
     if(makeOffset){
@@ -423,8 +528,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     
     
 }
-
--(void)loadSelectedAlbum:(id)albumId :(BOOL)makeOffset :(id)count :(id)videoData{
+- (void)loadSelectedAlbum:(id)albumId :(BOOL)makeOffset :(id)count :(id)videoData{
      totalCount.title = [NSString stringWithFormat:@"%@", count];
     nameSelectedObject = @"album";
     __block int index=0;
@@ -488,7 +592,13 @@ NSInteger floatSort(id num1, id num2, void *context){
          
      }
 }
--(BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event{
+
+
+
+
+
+
+- (BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event{
 
     return YES;
 }
@@ -500,7 +610,7 @@ NSInteger floatSort(id num1, id num2, void *context){
 //    return YES;
 //}
 
--(NSImage*)collectionView:(NSCollectionView *)collectionView draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event offset:(NSPointPointer)dragImageOffset{
+- (NSImage*)collectionView:(NSCollectionView *)collectionView draggingImageForItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event offset:(NSPointPointer)dragImageOffset{
     NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]]representedObject][@"cover"]]];
 //    NSLog(@"%@", indexes);
     return image;
@@ -509,7 +619,7 @@ NSInteger floatSort(id num1, id num2, void *context){
 sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     return NSDragOperationMove;
 }
--(id<NSPasteboardWriting>)collectionView:(NSCollectionView *)collectionView pasteboardWriterForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (id<NSPasteboardWriting>)collectionView:(NSCollectionView *)collectionView pasteboardWriterForItemAtIndexPath:(NSIndexPath *)indexPath{
 //    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
 //    [pasteBoard clearContents];
 //    NSArray *objects = [NSArray arrayWithObjects:[[collectionViewListAlbums itemAtIndexPath:indexPath]representedObject][@"cover"], nil];
@@ -517,7 +627,7 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     return [[collectionViewListAlbums itemAtIndexPath:indexPath]representedObject][@"cover"];
 }
 
--(void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+- (void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSLog(@"Dragging session is started");
     indexPathsOfItemsBeingDragged = [indexPaths copy];
     NSLog(@"%@", indexPaths);
@@ -545,7 +655,7 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 //    return NSDragOperationMove;
 }
 
--(BOOL)collectionView:(NSCollectionView *)collectionView acceptDrop:(id<NSDraggingInfo>)draggingInfo indexPath:(NSIndexPath *)indexPath dropOperation:(NSCollectionViewDropOperation)dropOperation{
+- (BOOL)collectionView:(NSCollectionView *)collectionView acceptDrop:(id<NSDraggingInfo>)draggingInfo indexPath:(NSIndexPath *)indexPath dropOperation:(NSCollectionViewDropOperation)dropOperation{
     __block NSInteger toItemIndex = indexPath.item;
     [indexPathsOfItemsBeingDragged enumerateIndexPathsWithOptions:0 usingBlock:^(NSIndexPath *fromIndexPath, BOOL *stop) {
         NSInteger fromItemIndex = fromIndexPath.item;
@@ -601,7 +711,7 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     return YES;
 }
 
--(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
 
     NSEvent *currentEvent = [NSApp currentEvent];
     
@@ -642,127 +752,14 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 
 }
 
--(void)loadFriends{
-    __block NSMenu *menu1 = [[NSMenu alloc]init];
-    __block  NSMenuItem *menuItem;
-    if(!_loadFromFullUserInfo){
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if(data){
-                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
-                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
-                    [friends addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
-                    //                    [itemTitles addObject:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]]];
-                    viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                    [viewControllerItem loadView];
-                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
-                    
-                    
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                    
-                    image.size=NSMakeSize(30,30);
-                    [menuItem setImage:image];
-                    viewControllerItem.photo.wantsLayer=YES;
-                    viewControllerItem.photo.layer.masksToBounds=YES;
-                    viewControllerItem.photo.layer.cornerRadius=39/2;
-                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
-                    [viewControllerItem.photo setImage:image];
-                    [menuItem setView:[viewControllerItem view]];
-                    [menu1 addItem:menuItem];
-                    
-                }
-                
-                dispatch_async(dispatch_get_main_queue(),^{
-                    
-                    //                    [friendsListDropdown setPullsDown:YES];
-                    [friendsListDropdown removeAllItems];
-                    [friendsListDropdown setMenu:menu1];
-                    
-                    
-                });
-                
-                //                [friendsListDropdown addItemsWithTitles:[NSArray arrayWithArray:itemTitles]];
-            }
-        }]resume];
-        
-    }else{
-//        ownerId = _userDataFromFullUserInfo[@"id"];
-        [friends addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", _userDataFromFullUserInfo[@"first_name"], _userDataFromFullUserInfo[@"last_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
-        [friendsListDropdown removeAllItems];
-        [friendsListDropdown addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
-    }
-}
 
--(void)loadAlbums:(BOOL)makeOffset :(id)albums {
-    ownerId = ownerId == nil ? _app.person : ownerId;
-    __block NSString *url;
-    nameSelectedObject = @"albums";
-    albumLoaded=NO;
-    searchGlobalMode=NO;
-    searchUserVideoMode=NO;
-//    NSMutableArray *itemTitles = [[NSMutableArray alloc]init];
-    __block int index=0;
-    if(!makeOffset && !albums){
-      
-        [videoAlbums removeAllObjects];
-        [albumsDropdownList removeAllItems];
 
-        offset = 0;
-    }
-    else{
-        offset=offset+100;
-    }
-
-   
-    url =[NSString stringWithFormat:@"https://api.vk.com/method/video.getAlbums?owner_id=%@&extended=1&v=%@&count=100&offset=%lu&need_system=1&access_token=%@", ownerId, _app.version, offset, _app.token];
-    
-
-   
-    if(albums==nil){
-        __block NSString *cover;
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if(data){
-                NSDictionary *getAlbumsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                for(NSDictionary *i in getAlbumsResponse[@"response"][@"items"]){
-                    index++;
-                    if(i[@"photo_160"]){
-                        cover= i[@"photo_160"];
-                    }
-                    else{
-                        cover=@"";
-                    }
-                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInt:index], @"id":i[@"id"], @"cover":cover, @"owner_id":i[@"owner_id"], @"title":i[@"title"], @"count":i[@"count"]}];
-                    
-                    [videoAlbums addObject:object];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [albumsDropdownList addItemWithTitle:i[@"title"]];
-                    });
-
-                }
-                dispatch_async(dispatch_get_main_queue(), ^{
-
-                    [collectionViewListAlbums setContent:videoAlbums];
-                    [collectionViewListAlbums reloadData];
-                    totalCount.title = [NSString stringWithFormat:@"%@", getAlbumsResponse[@"response"][@"count"]];
-                });
-            }
-        }] resume];
-    }
-    else{
-      
-        [collectionViewListAlbums setContent:videoAlbums];
-        [collectionViewListAlbums reloadData];
-        
-    }
-}
-
--(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
 
     return [videoAlbums count];
 }
 
--(NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     CustomVideoCollectionItem *item1 = (CustomVideoCollectionItem*)[collectionView makeItemWithIdentifier:@"CustomVideoCollectionItem" forIndexPath:indexPath];
     NSAttributedString *attrTitle;

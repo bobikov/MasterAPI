@@ -18,7 +18,6 @@
     [super viewDidLoad];
     _app = [[appInfo alloc]init];
     progressUploadBar.hidden=YES;
-
     [progressSpin startAnimation:self];
     intervalField.enabled=NO;
     filePathLabel.hidden=YES;
@@ -33,6 +32,8 @@
     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
     [viewControllerItem loadView];
     menuItem = [[NSMenuItem alloc]initWithTitle:@"Personal" action:nil keyEquivalent:@""];
+    viewControllerItem.nameField.stringValue=@"Personal";
+    [menuItem setView:[viewControllerItem view]];
     [menu1 addItem:menuItem];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -58,7 +59,6 @@
         });
     }]resume];
 }
-
 -(void)viewDidAppear{
     
     [self loadCurrentPhoto];

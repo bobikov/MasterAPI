@@ -13,7 +13,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a5V-0y-Fy7">
-                    <rect key="frame" x="7" y="32" width="185" height="14"/>
+                    <rect key="frame" x="2" y="35" width="185" height="14"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Label" id="6l3-n6-50u">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -21,7 +21,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttc-Ys-f6r">
-                    <rect key="frame" x="7" y="15" width="119" height="14"/>
+                    <rect key="frame" x="2" y="18" width="119" height="14"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="skd-eY-IlQ">
                         <font key="font" metaFont="system" size="10"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -29,7 +29,7 @@
                     </textFieldCell>
                 </textField>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OA0-G8-eIc">
-                    <rect key="frame" x="660" y="7" width="16" height="16"/>
+                    <rect key="frame" x="655" y="8" width="16" height="16"/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="N0B-GO-cdA">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -39,14 +39,14 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5eg-71-8a4">
-                    <rect key="frame" x="673" y="30" width="12" height="13"/>
+                    <rect key="frame" x="668" y="33" width="12" height="13"/>
                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSStopProgressTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="dGF-uV-fst">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Exz-Bu-xjd">
-                    <rect key="frame" x="196" y="9" width="458" height="35"/>
+                    <rect key="frame" x="190" y="12" width="458" height="35"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Label" id="cxf-bK-p2h">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

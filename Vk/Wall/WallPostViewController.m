@@ -79,7 +79,7 @@
 //    NSLog(@"hahaha");
 //    if([notification.object isEqual: newSessionNameField]){
     currentPostsSessionName = newSessionNameField.stringValue;
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
+//    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
         if([newSessionNameField.stringValue length]>0){
             savePostsSessionBut.enabled=YES;
             
@@ -206,7 +206,7 @@
 //    startedSessionCloseBut.hidden=NO;
 //    currentPostsSessionName = newSessionNameField.stringValue;
     currentPostsSessionName = @"";
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Posts: %@", @0];
     newSessionNameField.stringValue=@"";
 //    newSessionNameField.hidden=NO;
 //    newSessionStartBut.enabled=NO;
@@ -258,7 +258,7 @@
     NSDate *selectedDate = publishingDateForPost.dateValue;
     [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
     
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Posts: %li", [queuePostsInSession count]];
     //    NSLog(@"%@", queuePostsInSession);
     //    NSLog(@"%@ %@", message, attachmentsPostVKString );
     if([queuePostsInSession count]>0){
@@ -289,7 +289,9 @@
 
 
 -(void)insertSmile:(NSNotification*)notification{
+    
     textView.string = [NSString stringWithFormat:@"%@%@", textView.string, notification.userInfo[@"smile"]];
+    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
     [self setSelectorsButtonsState];
 }
 - (IBAction)stopPost:(id)sender {

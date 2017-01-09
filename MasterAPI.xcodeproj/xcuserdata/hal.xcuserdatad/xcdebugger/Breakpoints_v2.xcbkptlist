@@ -641,11 +641,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Status/StatusChangeViewController.m"
-            timestampString = "505640789.691957"
+            timestampString = "505641228.646082"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "-setStatusAction:"
             landmarkType = "5">
          </BreakpointContent>
