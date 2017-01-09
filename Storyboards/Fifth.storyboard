@@ -14,9 +14,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="748" height="620"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6a8-Kx-p9W">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="52" horizontalPageScroll="10" verticalLineScroll="52" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6a8-Kx-p9W">
                                 <rect key="frame" x="28" y="144" width="700" height="451"/>
-                                <clipView key="contentView" ambiguous="YES" id="gHR-8c-exW">
+                                <clipView key="contentView" id="gHR-8c-exW">
                                     <rect key="frame" x="1" y="1" width="698" height="449"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -147,6 +147,10 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="451" id="Jc5-vG-LGf"/>
+                                    <constraint firstAttribute="width" constant="700" id="ZQv-Ld-0O3"/>
+                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="gLR-eS-Az3">
                                     <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -167,6 +171,11 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="6a8-Kx-p9W" firstAttribute="centerX" secondItem="e2j-fX-jW7" secondAttribute="centerX" constant="4" id="78X-oP-zqV"/>
+                            <constraint firstItem="6a8-Kx-p9W" firstAttribute="top" secondItem="e2j-fX-jW7" secondAttribute="top" constant="25" id="B1d-Nx-lGb"/>
+                            <constraint firstItem="6a8-Kx-p9W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="e2j-fX-jW7" secondAttribute="leading" constant="28" id="FYX-IZ-kKa"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tasksList" destination="FWE-hR-z0w" id="ijW-kD-LO7"/>
