@@ -33,7 +33,8 @@
     [friendsListPopup removeAllItems];
      _stringHighlighter = [[StringHighlighter alloc]init];
     [self loadFriendsPopup];
-  
+    cachedImage = [[NSMutableDictionary alloc]init];
+    cachedStatus = [[NSMutableDictionary alloc]init];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
 //    
@@ -679,18 +680,23 @@
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=40;
         cell.photo.layer.masksToBounds=TRUE;
-
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-               NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
-              NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
-             imagePhoto.size=imSize;
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 cell.status.attributedStringValue = attrStatusString;
-                 [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                 [cell.photo setImage:imagePhoto];
-             });
-         });
-       
+        if([cachedImage count]>0 && cachedImage[FriendsData[row]] && cachedStatus[FriendsData[row]]){
+            cell.photo.image=cachedImage[FriendsData[row]];
+            cell.status.attributedStringValue = cachedStatus[FriendsData[row]];
+        }else{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
+                cachedStatus[FriendsData[row]]=attrStatusString;
+                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
+                imagePhoto.size=imSize;
+                cachedImage[FriendsData[row]] = imagePhoto;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.status.attributedStringValue = attrStatusString;
+                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+                    [cell.photo setImage:imagePhoto];
+                });
+            });
+        }
       
 
         if([FriendsData[row][@"online"] isEqual:@"1"]){

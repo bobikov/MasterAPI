@@ -18,6 +18,8 @@
     foundList.delegate = self;
     foundList.dataSource = self;
     searchBar.delegate = self;
+    cachedImage = [[NSMutableDictionary alloc]init];
+    cachedStatus = [[NSMutableDictionary alloc]init];
     foundListData = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     [addBut setEnabled:NO];
@@ -30,6 +32,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     [countriesList removeAllItems];
     [self loadCountries];
+   
 }
 - (void)viewDidAppear{
     self.view.window.title=@"Global search";
@@ -377,7 +380,7 @@
                 
                 [foundListData addObject:object];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [foundList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[foundListData count]==0?0:[foundListData count]] withAnimation:NSTableViewAnimationEffectNone];
+                    [foundList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[foundListData count]==1?0:[foundListData count]] withAnimation:NSTableViewAnimationEffectNone];
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -497,24 +500,31 @@
                 cell.blacklisted.hidden=YES;
             };
             [cell.userStatus setAllowsEditingTextAttributes:YES];
-            cell.lastSeen.stringValue=foundListData[row][@"last_seen"];
-            cell.country.stringValue=foundListData[row][@"country"];
+            cell.lastSeen.stringValue = foundListData[row][@"last_seen"];
+            cell.country.stringValue = foundListData[row][@"country"];
             cell.verified.hidden = [foundListData[row][@"verified"] intValue] ? NO : YES;
             cell.age.stringValue = foundListData[row][@"bdate"];
             cell.city.stringValue = foundListData[row][@"city"];
             cell.name.stringValue = foundListData[row][@"full_name"];
             //cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                 NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
-                NSSize imSize=NSMakeSize(60, 60);
-                image.size=imSize;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.userStatus.attributedStringValue = attrStatusString;
-                    [cell.userStatus setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                    [cell.photo setImage:image];
+            if([cachedImage count]>0 && cachedImage[foundListData[row]] && cachedStatus[foundListData[row]]){
+                [cell.photo setImage:cachedImage[foundListData[row]]];
+                cell.userStatus.attributedStringValue = cachedStatus[foundListData[row]];
+            }else{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
+                    cachedStatus[foundListData[row]] = [attrStatusString copy];
+                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
+                    NSSize imSize=NSMakeSize(60, 60);
+                    image.size=imSize;
+                    cachedImage[foundListData[row]] = image;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell.userStatus.attributedStringValue = attrStatusString;
+                        [cell.userStatus setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+                        [cell.photo setImage:image];
+                    });
                 });
-            });
+            }
             if([foundListData[row][@"online"] intValue]){
                 [cell.status setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
             }else{

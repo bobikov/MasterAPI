@@ -29,6 +29,8 @@
     __weak IBOutlet NSButton *filterOffline;
     __weak IBOutlet NSButton *filterMen;
     __weak IBOutlet NSButton *filterWomen;
+    NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
 }
 
 

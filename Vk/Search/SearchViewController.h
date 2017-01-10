@@ -37,6 +37,8 @@
     NSString *countryID;
     BOOL usedParams;
     NSString *selectedSourceName;
+    NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
 }
 @property (nonatomic) appInfo *app;
 @property(nonatomic)StringHighlighter *stringHighlighter;

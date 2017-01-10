@@ -23,6 +23,8 @@
     selectedUsers = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     _stringHighlighter = [[StringHighlighter alloc]init];
+    cachedStatus = [[NSMutableDictionary alloc]init];
+    cachedImage = [[NSMutableDictionary alloc]init];
 }
 -(void)viewDidAppear{
     [self loadOutRequests:NO];
@@ -418,8 +420,7 @@
         cell.lastSeen.stringValue = outRequestsData[row][@"last_seen"];
 //        cell.status.stringValue = outRequestsData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:outRequestsData[row][@"status"] Emails:YES fontSize:12];
-        [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+       
         cell.city.stringValue = outRequestsData[row][@"city"];
         cell.country.stringValue = outRequestsData[row][@"country"];
         cell.bdate.stringValue = outRequestsData[row][@"bdate"];
@@ -430,15 +431,26 @@
         }else{
             cell.verified.hidden=YES;
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", outRequestsData[row][@"user_photo"]]]];
-            NSImageRep *rep = [[image representations] objectAtIndex:0];
-            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-            image.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.photo setImage:image];
+        if([cachedImage count]>0 && cachedImage[outRequestsData[row]] && cachedStatus[outRequestsData[row]]){
+            cell.photo.image=cachedImage[outRequestsData[row]];
+            cell.status.attributedStringValue = cachedStatus[outRequestsData[row]];
+            
+        }else{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:outRequestsData[row][@"status"] Emails:YES fontSize:12];
+                cachedStatus[outRequestsData[row]] = attrStatusString;
+                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", outRequestsData[row][@"user_photo"]]]];
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                cachedImage[outRequestsData[row]]=image;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.status.attributedStringValue = attrStatusString;
+                     [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+                    [cell.photo setImage:image];
+                });
             });
-        });
+        }
         if([outRequestsData[row][@"online"] intValue] == 1){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

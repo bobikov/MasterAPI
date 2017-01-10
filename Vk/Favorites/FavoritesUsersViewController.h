@@ -34,6 +34,8 @@
     NSInteger offsetCounter;
     __weak IBOutlet NSButton *showFavesUsersStatBut;
     StringHighlighter *stringHighlighter;
+    NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
 }
 @property(nonatomic, readwrite)appInfo *app;
 @end

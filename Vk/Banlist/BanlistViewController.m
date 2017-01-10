@@ -29,8 +29,9 @@
     [dateFilterOptionsPopup removeAllItems];
     [dateFilterOptionsPopup addItemsWithTitles:dateFilterItems];
     value = [[NSMutableArray alloc]init];
-   selectedUsers=[[NSMutableArray alloc]init];
+    selectedUsers=[[NSMutableArray alloc]init];
     cachedImage = [[NSMutableDictionary alloc]init];
+    cachedStatus = [[NSMutableDictionary alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromBanlist:) name:@"VisitUserPageFromBanlist" object:nil];
     _stringHighlighter = [[StringHighlighter alloc]init];
 }
@@ -854,23 +855,27 @@
         cell.userPhoto.wantsLayer=YES;
         cell.userPhoto.layer.masksToBounds=YES;
         cell.userPhoto.layer.cornerRadius=80/2;
-//        if([cachedImage count]>0 && cachedImage[banlistData[row]]){
-//            cell.userPhoto.image=cachedImage[banlistData[row]];
-//        }else{
+        if([cachedImage count]>0 && cachedImage[banlistData[row]] && cachedStatus[banlistData[row]]){
+            cell.userPhoto.image=cachedImage[banlistData[row]];
+            cell.status.attributedStringValue = cachedStatus[banlistData[row]];
+            
+            
+        }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", banlistData[row][@"user_photo"]]]];
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
                  NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12];
-//                cachedImage[banlistData[row]]=image;
+                cachedStatus[banlistData[row]]=attrStatusString;
+                cachedImage[banlistData[row]]=image;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.status.attributedStringValue = attrStatusString;
                     [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                     [cell.userPhoto setImage:image];
                 });
             });
-//        }
+        }
         if([banlistData[row][@"online"] intValue] == 1){
             [cell.onlineStatus setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

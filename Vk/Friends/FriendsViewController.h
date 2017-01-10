@@ -40,6 +40,8 @@
     NSMutableArray *friendsListPopupData;
     __weak IBOutlet NSScrollView *scrollView;
     __weak IBOutlet NSTextField *cityField;
+    NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
 }
 
 @property(nonatomic)appInfo *app;

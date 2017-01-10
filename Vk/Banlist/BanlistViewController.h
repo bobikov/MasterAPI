@@ -41,6 +41,7 @@
     BOOL loading;
     NSInteger totalCountBanned;
     NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
    
 }
 @property (strong) IBOutlet NSArrayController *arrayController;

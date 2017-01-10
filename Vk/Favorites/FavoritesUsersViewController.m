@@ -28,6 +28,8 @@
     favesUsersDataCopy = [[NSMutableArray alloc]init];
     selectedUsers = [[NSMutableArray alloc]init];
     favesUsersTemp = [[NSMutableArray alloc]init];
+    cachedImage = [[NSMutableDictionary alloc]init];
+    cachedStatus = [[NSMutableDictionary alloc]init];
     _app = [[appInfo alloc]init];
       [self loadFavesUsers:NO :NO];
     stringHighlighter = [[StringHighlighter alloc]init];
@@ -675,20 +677,27 @@
             cell.deactivatedStatus.stringValue = favesUsersData[row][@"deactivated"];
             cell.deactivatedStatus.hidden=NO;
         }
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSAttributedString *attrStatusString = [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"] Emails:YES fontSize:12];
-            NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]]];
-            NSImageRep *rep = [[imagePhoto representations] objectAtIndex:0];
-            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-            imagePhoto.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                 cell.status.attributedStringValue = attrStatusString;
-                  [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                [cell.photo setImage:imagePhoto];
+        if([cachedImage count]>0 && cachedImage[favesUsersData[row]] && cachedStatus[favesUsersData[row]]){
+            cell.photo.image=cachedImage[favesUsersData[row]];
+            cell.status.attributedStringValue = cachedStatus[favesUsersData[row]];
+            
+            
+        }else{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSAttributedString *attrStatusString = [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"] Emails:YES fontSize:12];
+                cachedStatus[favesUsersData[row]] = attrStatusString;
+                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]]];
+                NSImageRep *rep = [[imagePhoto representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                imagePhoto.size=imageSize;
+                cachedImage[favesUsersData[row]] = imagePhoto;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.status.attributedStringValue = attrStatusString;
+                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+                    [cell.photo setImage:imagePhoto];
+                });
             });
-        });
-        
+        }
         
         
         if([favesUsersData[row][@"online"] isEqual:@"1"]){
