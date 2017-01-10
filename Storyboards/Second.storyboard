@@ -1149,11 +1149,11 @@
             <objects>
                 <viewController storyboardIdentifier="TumblrAvatar" id="xSb-6W-kYz" customClass="TumblrAvatar" sceneMemberID="viewController">
                     <view key="view" id="7X2-bk-paI">
-                        <rect key="frame" x="0.0" y="0.0" width="666" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="666" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="eKp-WK-pjZ">
-                                <rect key="frame" x="82" y="351" width="529" height="311"/>
+                            <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="eKp-WK-pjZ">
+                                <rect key="frame" x="82" y="311" width="529" height="311"/>
                                 <view key="contentView" id="ptw-Sw-Gjs">
                                     <rect key="frame" x="1" y="1" width="527" height="309"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1218,10 +1218,19 @@
                                         </progressIndicator>
                                     </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="523" id="X6v-xs-tYx"/>
+                                    <constraint firstAttribute="height" constant="305" id="oxf-GQ-qrD"/>
+                                </constraints>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </box>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="eKp-WK-pjZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7X2-bk-paI" secondAttribute="leading" constant="85" id="emb-jA-Ja4"/>
+                            <constraint firstItem="eKp-WK-pjZ" firstAttribute="top" secondItem="7X2-bk-paI" secondAttribute="top" constant="20" id="hP4-Ns-7Ua"/>
+                            <constraint firstItem="eKp-WK-pjZ" firstAttribute="centerX" secondItem="7X2-bk-paI" secondAttribute="centerX" constant="13.5" id="mSX-GZ-bLy"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tumblrAvatar" destination="HC5-bw-zg7" id="4oR-tQ-SR5"/>
@@ -1236,17 +1245,17 @@
             <objects>
                 <viewController storyboardIdentifier="TumblrFollowing" id="G0z-vo-53z" customClass="TumblrFollowing" sceneMemberID="viewController">
                     <view key="view" id="dff-KA-ZhI">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="75" horizontalPageScroll="10" verticalLineScroll="75" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpt-mj-29g" customClass="RFOverlayScrollView">
-                                <rect key="frame" x="184" y="33" width="544" height="615"/>
+                                <rect key="frame" x="184" y="13" width="544" height="595"/>
                                 <clipView key="contentView" ambiguous="YES" id="2QT-JH-LCf">
-                                    <rect key="frame" x="1" y="1" width="542" height="613"/>
+                                    <rect key="frame" x="1" y="1" width="542" height="593"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="ZUa-op-1dd">
-                                            <rect key="frame" x="0.0" y="0.0" width="542" height="613"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1351,17 +1360,17 @@
                                 </scroller>
                             </scrollView>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="grD-AY-okM">
-                                <rect key="frame" x="29" y="652" width="16" height="16"/>
+                                <rect key="frame" x="29" y="612" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d72-HR-mvX">
-                                <rect key="frame" x="592" y="651" width="65" height="17"/>
+                                <rect key="frame" x="592" y="611" width="65" height="17"/>
                                 <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="rVI-B7-QDQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3PS-XR-aOd">
-                                <rect key="frame" x="663" y="651" width="65" height="17"/>
+                                <rect key="frame" x="663" y="611" width="65" height="17"/>
                                 <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="q4n-YJ-RNs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
@@ -1387,17 +1396,17 @@
             <objects>
                 <viewController storyboardIdentifier="TumblrFollowers" id="KFv-7h-k32" customClass="TumblrFollowers" sceneMemberID="viewController">
                     <view key="view" id="Zlz-Fl-YDH">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="75" horizontalPageScroll="10" verticalLineScroll="75" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPd-SD-J6b">
-                                <rect key="frame" x="184" y="45" width="544" height="615"/>
+                                <rect key="frame" x="184" y="13" width="544" height="595"/>
                                 <clipView key="contentView" ambiguous="YES" id="hfJ-yp-swX">
-                                    <rect key="frame" x="1" y="1" width="542" height="613"/>
+                                    <rect key="frame" x="1" y="1" width="542" height="593"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="EjC-SQ-uFl">
-                                            <rect key="frame" x="0.0" y="0.0" width="542" height="613"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1479,7 +1488,7 @@
                                 </scroller>
                             </scrollView>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ig4-AS-VLh">
-                                <rect key="frame" x="29" y="652" width="16" height="16"/>
+                                <rect key="frame" x="29" y="612" width="16" height="16"/>
                             </progressIndicator>
                         </subviews>
                     </view>
@@ -1497,11 +1506,11 @@
             <objects>
                 <viewController storyboardIdentifier="TumblrPosts" id="ii1-NH-Cza" customClass="TumblrPosts" sceneMemberID="viewController">
                     <view key="view" id="HUr-wr-dYF">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYU-Zi-8lW">
-                                <rect key="frame" x="38" y="626" width="96" height="22"/>
+                                <rect key="frame" x="38" y="586" width="96" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="owner" drawsBackground="YES" id="okR-WK-A4p">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1509,7 +1518,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pSC-X9-CWY">
-                                <rect key="frame" x="38" y="585" width="96" height="22"/>
+                                <rect key="frame" x="38" y="545" width="96" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="count" drawsBackground="YES" id="cGd-N4-OpU">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1517,10 +1526,10 @@
                                 </textFieldCell>
                             </textField>
                             <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Ujw-PT-AjH">
-                                <rect key="frame" x="36" y="526" width="100" height="20"/>
+                                <rect key="frame" x="36" y="486" width="100" height="20"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xrc-1W-WIK">
-                                <rect key="frame" x="32" y="458" width="108" height="32"/>
+                                <rect key="frame" x="32" y="418" width="108" height="32"/>
                                 <buttonCell key="cell" type="push" title="download" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0sE-9s-1c9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1530,7 +1539,7 @@
                                 </connections>
                             </button>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="69" horizontalPageScroll="10" verticalLineScroll="69" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUQ-8S-FJ3" customClass="RFOverlayScrollView">
-                                <rect key="frame" x="198" y="42" width="509" height="595"/>
+                                <rect key="frame" x="198" y="13" width="509" height="595"/>
                                 <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="W7K-rY-3gX">
                                     <rect key="frame" x="1" y="1" width="507" height="593"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1610,7 +1619,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jr0-pR-NrY">
-                                <rect key="frame" x="50" y="414" width="74" height="32"/>
+                                <rect key="frame" x="50" y="374" width="74" height="32"/>
                                 <buttonCell key="cell" type="push" title="Show" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GRt-nQ-FxU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1620,7 +1629,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AZa-2O-QI8">
-                                <rect key="frame" x="36" y="362" width="101" height="32"/>
+                                <rect key="frame" x="36" y="322" width="101" height="32"/>
                                 <buttonCell key="cell" type="push" title="followings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dKL-0O-sJk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1630,21 +1639,13 @@
                                 </connections>
                             </button>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qaZ-ns-Zzt">
-                                <rect key="frame" x="290" y="638" width="172" height="22"/>
-                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" id="ROk-Bj-u3d">
+                                <rect key="frame" x="198" y="610" width="179" height="22"/>
+                                <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="tumblr tag" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" id="ROk-Bj-u3d">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </searchFieldCell>
                             </searchField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNJ-rq-lZL">
-                                <rect key="frame" x="198" y="641" width="92" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="serch by tag:" id="QXW-w2-GND">
-                                    <font key="font" metaFont="systemSemibold" size="13"/>
-                                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -1659,7 +1660,7 @@
                 </viewController>
                 <customObject id="N1X-qx-EoN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1001" y="4695"/>
+            <point key="canvasLocation" x="1019" y="4662"/>
         </scene>
         <!--Tumblr Perms Controller-->
         <scene sceneID="7GW-XZ-hju">
@@ -1714,17 +1715,17 @@
             <objects>
                 <viewController storyboardIdentifier="TwitterFriends" id="koC-qB-NKS" customClass="TwitterFriends" sceneMemberID="viewController">
                     <view key="view" id="5is-TW-H9l">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="75" horizontalPageScroll="10" verticalLineScroll="75" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wGA-Vn-BVi" customClass="RFOverlayScrollView">
-                                <rect key="frame" x="184" y="33" width="544" height="615"/>
+                                <rect key="frame" x="184" y="13" width="544" height="595"/>
                                 <clipView key="contentView" ambiguous="YES" id="U36-Tu-rNj">
-                                    <rect key="frame" x="1" y="1" width="542" height="613"/>
+                                    <rect key="frame" x="1" y="1" width="542" height="593"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="pxe-jb-3Zq">
-                                            <rect key="frame" x="0.0" y="0.0" width="542" height="613"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1826,24 +1827,24 @@
                                 </scroller>
                             </scrollView>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="PA7-Yn-J1R">
-                                <rect key="frame" x="29" y="652" width="16" height="16"/>
+                                <rect key="frame" x="29" y="612" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JtB-HI-rta">
-                                <rect key="frame" x="592" y="651" width="65" height="17"/>
+                                <rect key="frame" x="592" y="611" width="65" height="17"/>
                                 <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="RN8-GH-yPA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8V-4W-dSq">
-                                <rect key="frame" x="663" y="651" width="65" height="17"/>
+                                <rect key="frame" x="663" y="611" width="65" height="17"/>
                                 <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="ZlD-az-Uqg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
                             </button>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JZE-ZC-gOr">
-                                <rect key="frame" x="184" y="652" width="237" height="22"/>
+                                <rect key="frame" x="184" y="612" width="237" height="22"/>
                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" id="zv4-L2-1ag">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2708,19 +2709,19 @@
             <objects>
                 <viewController title="Avatar" storyboardIdentifier="TwitterUpdateAvatar" id="yh5-CH-ei2" customClass="TwitterUpdateAvatarController" sceneMemberID="viewController">
                     <view key="view" id="4uf-zQ-hMB">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-yB-JdI">
-                                <rect key="frame" x="21" y="326" width="244" height="40"/>
+                                <rect key="frame" x="21" y="286" width="244" height="40"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="Xaa-k0-j4E">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="jac-mY-z7n">
-                                <rect key="frame" x="86" y="322" width="529" height="311"/>
+                            <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="jac-mY-z7n">
+                                <rect key="frame" x="86" y="282" width="529" height="311"/>
                                 <view key="contentView" id="5bd-Ac-iUc">
                                     <rect key="frame" x="1" y="1" width="527" height="309"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2775,10 +2776,19 @@
                                         </progressIndicator>
                                     </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="305" id="3nb-Gm-mOA"/>
+                                    <constraint firstAttribute="width" constant="523" id="UaY-CD-f5t"/>
+                                </constraints>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </box>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="jac-mY-z7n" firstAttribute="centerX" secondItem="4uf-zQ-hMB" secondAttribute="centerX" constant="-23.5" id="6MZ-pt-1uK"/>
+                            <constraint firstItem="jac-mY-z7n" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4uf-zQ-hMB" secondAttribute="leading" constant="89" id="IeH-DW-RFs"/>
+                            <constraint firstItem="jac-mY-z7n" firstAttribute="top" secondItem="4uf-zQ-hMB" secondAttribute="top" constant="49" id="ke0-jc-E0E"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="avatarImage" destination="2qe-PU-TZ5" id="FeK-UF-g34"/>
