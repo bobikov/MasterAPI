@@ -861,7 +861,7 @@
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIS-Xw-9Au">
                                             <rect key="frame" x="200" y="30" width="245" height="549"/>
                                             <clipView key="contentView" ambiguous="YES" id="DrP-1X-GWH">
-                                                <rect key="frame" x="1" y="23" width="243" height="525"/>
+                                                <rect key="frame" x="1" y="0.0" width="243" height="548"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rEw-gY-Db8" id="dwI-2C-Wdi">
@@ -931,7 +931,7 @@
                                                 </objectValues>
                                             </comboBoxCell>
                                         </comboBox>
-                                        <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="gx3-ju-7GH">
+                                        <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="gx3-ju-7GH">
                                             <rect key="frame" x="53" y="246" width="100" height="20"/>
                                         </progressIndicator>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CxI-9D-RRB">
@@ -955,7 +955,7 @@
                                         <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="UBj-rc-DCI">
                                             <rect key="frame" x="20" y="610" width="16" height="16"/>
                                         </progressIndicator>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cub-eN-Oel">
+                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cub-eN-Oel">
                                             <rect key="frame" x="53" y="266" width="100" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="0 / 0" id="yp9-Cf-keI">
                                                 <font key="font" metaFont="system"/>
@@ -1000,7 +1000,7 @@
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRQ-AX-deJ">
                                             <rect key="frame" x="463" y="30" width="245" height="549"/>
                                             <clipView key="contentView" ambiguous="YES" id="yep-ZR-mlI">
-                                                <rect key="frame" x="1" y="23" width="243" height="525"/>
+                                                <rect key="frame" x="1" y="0.0" width="243" height="548"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="EvM-9E-g6p" id="8Mj-WA-0nZ">

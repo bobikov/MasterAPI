@@ -162,6 +162,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
 }
 
 - (IBAction)copyAction:(id)sender {
+    
     ownerID = ownerID ? ownerID : publicId.stringValue;
     __block void (^copyFromWall)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
     __block void (^copyFromAlbum)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
@@ -475,6 +476,9 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.get?owner_id=%@&album_id=%@&count=1&offset=%li&access_token=%@&v=%@", ownerID, albumToCopyFrom, step, _app.token, _app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                     NSDictionary *getPhotosResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //                    NSLog(@"%@", getPhotosResponse);
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        progressLabel.hidden=NO;
+                    });
                     for (NSDictionary *i in getPhotosResponse[@"response"][@"items"]){
                         if(captchaCopyPhoto){
                             urlPhotoCopy = [NSString stringWithFormat:@"https://api.vk.com/method/photos.copy?owner_id=%@&photo_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"owner_id"], i[@"id"], _app.token, _app.version, captcha_sid, captcha_key];
@@ -486,7 +490,6 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                         [[_app.session dataTaskWithURL:[NSURL URLWithString:urlPhotoCopy] completionHandler:^(NSData  *data, NSURLResponse *response, NSError *error) {
                             NSDictionary *copyPhotoResponse=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             photoIdToCopy = copyPhotoResponse[@"response"];
-//                            NSLog(@"%@", photoIdToCopy);
                             if(error){
                                 stopped=YES;
                                 //stoppedAttachLoop=YES;
@@ -527,7 +530,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                                             }
                                             else{
                                                 NSLog(@"Photo sucessfully moved:%@", movePhotoResponse[@"response"]);
-                                                sleep(1.5);
+                                                sleep(2);
                                                 dispatch_semaphore_signal(semaphore);
                                             }
                                         }]resume];
@@ -613,7 +616,6 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
         [alert runModal];
     }
     else{
-        
         //        if([albumFromId.stringValue isEqual:@"wall"] && ![publicId.stringValue isEqual:@""] && ![count.stringValue isEqual:@""]){
         //            NSLog(@"copy started");
         //            runPhotoCopy=YES;

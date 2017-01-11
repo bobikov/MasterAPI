@@ -4967,7 +4967,7 @@ Gw
                                     <rect key="frame" x="0.0" y="0.0" width="182" height="594"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" viewBased="YES" indentationPerLevel="14" autosaveExpandedItems="YES" outlineTableColumn="yMm-fN-VsH" id="6nM-fp-WfB">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="14" autosaveExpandedItems="YES" outlineTableColumn="yMm-fN-VsH" id="6nM-fp-WfB">
                                             <rect key="frame" x="0.0" y="0.0" width="182" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
