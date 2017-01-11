@@ -16,6 +16,7 @@
 @synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView;
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RemoveMainController:) name:@"RemoveMainController" object:nil];
     
@@ -26,7 +27,7 @@
     NSStoryboard *story5 =[NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     
     friendsView = [story instantiateControllerWithIdentifier:@"Friends"];
-    photoCopyView = [story instantiateControllerWithIdentifier:@"PhotoCopy"];
+    photoCopyView = [story5 instantiateControllerWithIdentifier:@"PhotoCopy"];
     welcomeView = [story instantiateControllerWithIdentifier:@"Welcome"];
     videoCopyView = [story instantiateControllerWithIdentifier:@"VideoCopy"];
     wallPostView = [story instantiateControllerWithIdentifier:@"WallPost"];

@@ -29,13 +29,12 @@
     __weak IBOutlet NSTableView *fromTableView;
     __weak IBOutlet NSComboBox *privacyList;
     __weak IBOutlet NSTableView *toTableView;
-    NSMutableArray *photoAlbums;
-    NSMutableArray *photoAlbums2;
+    NSMutableArray *personalAlbums;
+    NSMutableArray *fromOwnerAlbums;
     NSString *albumToCopyTo;
     NSString *albumToCopyFrom;
     NSString *publicIdFrom;
     NSInteger countPhotos;
-    NSString *publicName;
     NSString *targetAlbumId;
     NSString *urlPhotoCopy;
     NSString *urlPhotoEdit;
@@ -46,8 +45,7 @@
     updatesHandler *handleUpdate;
     BOOL captchaOpened;
     BOOL stoppedAttachLoop;
-    NSString *publicIdPhotoFrom;
-    NSString *publicIdPhotoFromPlus;
+    VKCaptchaHandler *captchaHandler;
     NSString *privacy_view;
     int publicIdIntTemp;
     NSInteger step;
@@ -57,9 +55,13 @@
     BOOL runPhotoCopy;
     __weak IBOutlet NSProgressIndicator *progressSpin;
     dispatch_semaphore_t semaphore;
+    NSString *ownerID;
+    NSString *albumFromTitle;
 }
+
+
 @property(nonatomic) appInfo *app;
 @property (strong) IBOutlet NSArrayController *arrayController1;
 @property (strong) IBOutlet NSArrayController *arrayController2;
-@property(nonatomic, readwrite)VKCaptchaHandler *captchaHandler;
+
 @end
