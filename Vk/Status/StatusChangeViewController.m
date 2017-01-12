@@ -237,14 +237,13 @@
 
 - (void)loadCurrentStatus{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/status.get?user_id=%@&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            currentStatus.stringValue = jsonData[@"response"][@"text"];
-        });
+        if(data){
+            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                currentStatus.stringValue = jsonData[@"response"][@"text"];
+            });
+        }
     }] resume];
-//    [loadStatus resume];
-//    sleep(1);
-//    currentStatus.stringValue = currentStatusData;
 }
 - (IBAction)setStatusAction:(id)sender {
     [self setStatus:NO];

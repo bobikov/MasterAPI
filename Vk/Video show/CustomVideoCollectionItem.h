@@ -15,6 +15,7 @@
     NSString *albumToUploadTo;
     NSArray *filesForUpload;
     NSString *ownerId;
+    NSMenu *theDropdownContextMenu;
 }
 @property (weak) IBOutlet NSButton *moveToAlbum;
 

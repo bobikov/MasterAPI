@@ -162,7 +162,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
 }
 
 - (IBAction)copyAction:(id)sender {
-    
+    stopped=NO;
     ownerID = ownerID ? ownerID : publicId.stringValue;
     __block void (^copyFromWall)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
     __block void (^copyFromAlbum)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
@@ -487,6 +487,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                             urlPhotoCopy = [NSString stringWithFormat:@"https://api.vk.com/method/photos.copy?owner_id=%@&photo_id=%@&access_token=%@&v=%@", i[@"owner_id"], i[@"id"], _app.token, _app.version];
                         }
                         NSLog(@"%@", i[@"id"]);
+                        
                         [[_app.session dataTaskWithURL:[NSURL URLWithString:urlPhotoCopy] completionHandler:^(NSData  *data, NSURLResponse *response, NSError *error) {
                             NSDictionary *copyPhotoResponse=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             photoIdToCopy = copyPhotoResponse[@"response"];

@@ -5073,13 +5073,13 @@ Gw
             <objects>
                 <viewController storyboardIdentifier="MainController" id="yKA-Gq-Kgi" customClass="MainViewController" sceneMemberID="viewController">
                     <view key="view" id="7do-nv-5A9">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="680"/>
+                        <rect key="frame" x="0.0" y="0.0" width="745" height="680"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
                 <customObject id="OSG-hK-kKg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="178" y="1900"/>
+            <point key="canvasLocation" x="179.5" y="1900"/>
         </scene>
         <!--ShowPhoto-->
         <scene sceneID="DqA-Ny-TLe">

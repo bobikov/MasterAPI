@@ -33,7 +33,7 @@
 - (void)viewDidAppear{
     
 }
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -48,17 +48,14 @@
 }
 - (IBAction)filterNobody:(id)sender {
     [self filterAlbumsByPrivacy];
-    
 }
 - (IBAction)filterFriends:(id)sender {
-    
     [self filterAlbumsByPrivacy];
 }
 - (IBAction)filterAll:(id)sender {
-    
     [self filterAlbumsByPrivacy];
 }
--(void)filterAlbumsByPrivacy{
+- (void)filterAlbumsByPrivacy{
     NSInteger counter=0;
     //    [albumsTable scrollToBeginningOfDocument:self];
     //    if([groupInvitesList numberOfRows]>2){
@@ -146,7 +143,6 @@
     [self loadAlbums:[groupsPopupData objectAtIndex:[groupsPopupList indexOfSelectedItem]]];
 }
 - (IBAction)deleteAlbumButtonAction:(id)sender {
-    
     __block BOOL stopped;
     __block NSIndexSet *rows;
     __block NSString *url;

@@ -91,7 +91,7 @@
     
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy video", @"privacy video albums", @"show video", nil] forKey:@"Video"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy audio", @"show audio", nil] forKey:@"Audio"];
-    [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy photo", @"privacy photo albums", @"download photo", @"show photo", nil] forKey:@"Photo"];
+    [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy photo", @"privacy photo albums", @"show photo", nil] forKey:@"Photo"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show dialogs", nil] forKey:@"Dialogs"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show friends", @"show subscribers", @"show friends outs", nil] forKey:@"Friends"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show docs",  nil] forKey:@"Docs"];

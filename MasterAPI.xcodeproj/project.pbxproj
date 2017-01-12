@@ -277,6 +277,7 @@
 		2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */; };
 		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
 		2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */; };
+		2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
@@ -768,6 +769,8 @@
 		2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksVKStatusCellView.m; sourceTree = "<group>"; };
 		2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schedule_icon_timer_1_25px.png; sourceTree = "<group>"; };
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
+		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
+		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -1280,6 +1283,7 @@
 				2B41FB751E02D3F60013AC86 /* Video copy */,
 				2B41FB781E02D3F60013AC86 /* Video privacy */,
 				2B41FB7B1E02D3F60013AC86 /* Video show */,
+				2B41FB941E02D3F60013AC86 /* Wall */,
 				2B41FB8D1E02D3F60013AC86 /* ViewControllerMenuItem.h */,
 				2B41FB8E1E02D3F60013AC86 /* ViewControllerMenuItem.m */,
 				2B41FB8F1E02D3F60013AC86 /* ViewControllerMenuItem.xib */,
@@ -1287,7 +1291,8 @@
 				2B41FB911E02D3F60013AC86 /* VKCaptchaHandler.m */,
 				2B41FB921E02D3F60013AC86 /* VKLoginViewController.h */,
 				2B41FB931E02D3F60013AC86 /* VKLoginViewController.m */,
-				2B41FB941E02D3F60013AC86 /* Wall */,
+				2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */,
+				2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */,
 			);
 			path = Vk;
 			sourceTree = "<group>";
@@ -1505,8 +1510,8 @@
 		2B41FB621E02D3F60013AC86 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				2B41FB631E02D3F60013AC86 /* CustomSearchCell.h */,
 				2B41FB641E02D3F60013AC86 /* CustomSearchCell.m */,
+				2B41FB631E02D3F60013AC86 /* CustomSearchCell.h */,
 				2B41FB651E02D3F60013AC86 /* SearchCustomTableView.h */,
 				2B41FB661E02D3F60013AC86 /* SearchCustomTableView.m */,
 				2B41FB671E02D3F60013AC86 /* SearchViewController.h */,
@@ -1889,6 +1894,7 @@
 				2B41FCB71E02D3F70013AC86 /* WallPostRecentGroupsCustomCell.m in Sources */,
 				2B41FC971E02D3F70013AC86 /* PhotoCaptionView.m in Sources */,
 				2B41FC7B1E02D3F70013AC86 /* FavoritesTabController.m in Sources */,
+				2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */,
 				2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */,
 				2B41FCC91E02D3F70013AC86 /* YoutubeVideosController.m in Sources */,
 				2B41FC721E02D3F70013AC86 /* DocsPersonalViewcontroller.m in Sources */,

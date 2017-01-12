@@ -295,7 +295,6 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     [self loadAlbums:NO :nil];
     
 }
-
 - (void)searchFieldDidStartSearching:(NSSearchField *)sender{
    
     
@@ -863,10 +862,10 @@ static NSString *StringFromCollectionViewDropOperation(NSCollectionViewDropOpera
             return @"?";
     }
 }
-
 static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath) {
     if (indexPath && indexPath.length == 2) {
         return [NSString stringWithFormat:@"(%ld,%ld)", (long)(indexPath.section), (long)(indexPath.item)];
+    
     } else {
         return @"(nil)";
     }

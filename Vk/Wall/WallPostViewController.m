@@ -677,7 +677,9 @@
         });
       
     }
+    if(message){
       [self writeMessage];
+    }
 }
 - (IBAction)makePostAction:(id)sender {
     repeatState = repeat.state;

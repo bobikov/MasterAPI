@@ -27,17 +27,17 @@
     NSString *selectedDirectoryPath;
     NSInteger uploadCounter;
     NSInteger downloadCounter;
-       NSURL *uploadUrl;
-     NSArray* filesForUpload;
+    NSURL *uploadUrl;
+    NSArray* filesForUpload;
     NSString *filename;
     NSString *albumToUploadTo;
     NSString *ownerId;
-  NSMutableDictionary *selectedObject;
+    NSMutableDictionary *selectedObject;
     customViewCollectionItem *item;
     double progress;
     double expectedBytes;
     BOOL proccessGoing;
-  
+    NSMenu *theDropdownContextMenu;
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;

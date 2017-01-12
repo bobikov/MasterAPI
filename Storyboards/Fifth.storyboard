@@ -320,17 +320,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="738" height="609"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NJU-RE-yXE">
-                                            <rect key="frame" x="87" y="473" width="218" height="17"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zOE-6z-94k">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <connections>
-                                                <binding destination="Xrm-ak-x8t" name="value" keyPath="selection.title" id="00u-WC-4nn"/>
-                                            </connections>
-                                        </textField>
                                         <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="gf6-qL-WxY">
                                             <rect key="frame" x="20" y="563" width="16" height="16"/>
                                         </progressIndicator>
@@ -523,7 +512,6 @@
                         <outlet property="privacyList" destination="WC0-bF-P2o" id="DsD-xq-Lao"/>
                         <outlet property="progressSpin" destination="gf6-qL-WxY" id="zDG-bD-dVA"/>
                         <outlet property="scrollViewAlbumTables" destination="ghM-Ir-Tpe" id="bwb-vz-SEH"/>
-                        <outlet property="titleLabel" destination="NJU-RE-yXE" id="q6f-fl-9dY"/>
                     </connections>
                 </viewController>
                 <customObject id="Avh-VS-1Y6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -531,6 +519,55 @@
                 <arrayController id="CDC-0D-phn"/>
             </objects>
             <point key="canvasLocation" x="1746" y="1557"/>
+        </scene>
+        <!--Remove Video And Photo Items View Controller-->
+        <scene sceneID="0Ov-aL-o5c">
+            <objects>
+                <viewController storyboardIdentifier="RemoveVideoAndPhotoItemsViewController" id="ev0-Mn-7m4" customClass="RemoveVideoAndPhotoItemsViewController" sceneMemberID="viewController">
+                    <view key="view" id="r2N-ZT-Mjd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="om2-f7-u4T">
+                                <rect key="frame" x="31" y="19" width="315" height="20"/>
+                            </progressIndicator>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LPR-Ql-J04">
+                                <rect key="frame" x="5" y="105" width="12" height="12"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="KYl-TW-EWZ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="qUp-hg-Qla" id="Z2R-cf-NdI"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wkp-ni-yYq">
+                                <rect key="frame" x="29" y="46" width="319" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="iSq-9a-JBp">
+                                    <font key="font" metaFont="system" size="12"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PaD-ga-c6V">
+                                <rect key="frame" x="86" y="100" width="205" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="zuB-bl-Sl3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="progressBar" destination="om2-f7-u4T" id="GkO-dK-G4e"/>
+                        <outlet property="progressLabel" destination="wkp-ni-yYq" id="Sui-8z-DPR"/>
+                        <outlet property="titleLabel" destination="PaD-ga-c6V" id="L0Q-YQ-pv0"/>
+                    </connections>
+                </viewController>
+                <customObject id="qUp-hg-Qla" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1571.5" y="2022.5"/>
         </scene>
         <!--Video Privacy View Controller-->
         <scene sceneID="qPT-ca-G2c">

@@ -266,9 +266,8 @@
 }
 
 -(void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-     __block NSDictionary *object;
+    __block NSDictionary *object;
     __block void (^loadFavesBlock)(BOOL);
-    
     loadFavesBlock = ^void(BOOL offset){
         [progressSpin startAnimation:self];
         if(offset){
@@ -278,8 +277,6 @@
             offsetLoadFaveUsers=0;
             offsetCounter=0;
         }
-        
-        
         __block NSInteger totalCount;
         __block NSInteger startInsertRowIndex = [favesUsersData count];
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -308,16 +305,11 @@
                                 return;
                             }
                             if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                                
                                 NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                
                                 if (statusCode != 200) {
                                     NSLog(@"dataTask HTTP status code: %lu", statusCode);
                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                        
-                                        
                                         [progressSpin stopAnimation:self];
-                                        
                                     });
                                     return;
                                 }
@@ -326,14 +318,13 @@
                             }
                             
                             NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            //                   NSLog(@"%@", getUsersResponse);
+                            //NSLog(@"%@", getUsersResponse);
                             if (getUsersResponse[@"error"]){
                                 NSLog(@"%@:%@", getUsersResponse[@"error"][@"error_code"], getUsersResponse[@"error"][@"error_msg"]);
                             }
                             else{
                                 
                                 NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
-                                
                                 NSString *city;
                                 NSString *status;
                                 NSString *bdate;
@@ -347,7 +338,7 @@
                                 NSString *books;
                                 NSString *site;
                                 NSString *mobilePhone;
-                                //                       NSString *phone;
+                                //NSString *phone;
                                 NSString *photoBig;
                                 NSString *photo;
                                 NSString *about;
@@ -631,10 +622,6 @@
     }else{
         loadFavesBlock(NO);
     }
-    
-        
- 
-    
 }
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
@@ -693,7 +680,7 @@
                 cachedImage[favesUsersData[row]] = imagePhoto;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.status.attributedStringValue = attrStatusString;
-                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+//                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                     [cell.photo setImage:imagePhoto];
                 });
             });

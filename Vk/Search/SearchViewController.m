@@ -103,14 +103,16 @@
 }
 - (void)loadCountries{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/database.getCountries?need_all=1&count=1000&access_token=%@&v=%@", _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//        NSLog(@"%@", countriesResp);
-        for(NSDictionary *i in countriesResp[@"response"][@"items"]){
-            [countries addObject:i[@"id"]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                  [countriesList addItemWithObjectValue:i[@"title"]];
-            });
-          
+        if(data){
+            NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            //NSLog(@"%@", countriesResp);
+            for(NSDictionary *i in countriesResp[@"response"][@"items"]){
+                [countries addObject:i[@"id"]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [countriesList addItemWithObjectValue:i[@"title"]];
+                });
+                
+            }
         }
     }]resume];
 }
