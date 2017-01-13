@@ -279,11 +279,10 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 }
 
 - (IBAction)albumsDropdownListAction:(id)sender {
-    selectedAlbum= videoAlbums2[[albumsDropdownList indexOfSelectedItem]][@"id"];
-    countInAlbum =videoAlbums2[[albumsDropdownList indexOfSelectedItem]][@"count"];
+    selectedAlbum= videoAlbums[[albumsDropdownList indexOfSelectedItem]][@"id"];
+    countInAlbum =videoAlbums[[albumsDropdownList indexOfSelectedItem]][@"count"];
     ownerId=ownerId==nil?_app.person : ownerId;
-//    publicIdFrom=nil;
-//    NSLog(@"%@", selectedAlbum);
+    NSLog(@"%@", selectedAlbum);
     [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil];
 //    NSLog(@"%@", videoAlbums2[[albumsDropdownList indexOfSelectedItem]][@"id"]);
     
@@ -594,11 +593,42 @@ NSInteger floatSort(id num1, id num2, void *context){
 
 
 
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+    NSEvent *currentEvent = [NSApp currentEvent];
+    NSInteger selectedItemIndex = [indexPaths allObjects][0].item;
+    [albumsDropdownList selectItemAtIndex:selectedItemIndex];
+    if(!albumLoaded){
+        NSLog(@"%@", [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
+        selectedAlbum= [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"id"] ;
+        countInAlbum =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"count"];
+        ownerId=[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"owner_id"];
+        if(!loadForVKAddToAlbum && !([currentEvent modifierFlags] & NSCommandKeyMask) && [currentEvent type]!=NSLeftMouseDragged && [[collectionViewListAlbums selectionIndexes]count]==1){
+            [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil] ;
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectedVideoAlbumVK" object:nil userInfo:[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]];
+        }
+    }
+    else{
+        myWinContr = [[NSWindowController alloc]initWithWindowNibName:@"MyVideoWindowController"];
+        myWinContr2 = [self.storyboard instantiateControllerWithIdentifier:@"VideoController"];
+        selectedVideoURL = [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"player"];
+        selectedVideoTitle =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"title"];
+        selectedVideoCover = [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"photo2"];
+        if(!loadForAttachments ){
+            if(!([currentEvent modifierFlags] & NSCommandKeyMask) && [[collectionViewListAlbums selectionIndexes]count]==1){
+                [myWinContr2 showWindow:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"playVideo" object:nil userInfo:@{@"url":selectedVideoURL, @"title":selectedVideoTitle, @"cover":selectedVideoCover}];
+            }
+        }else{
+            NSLog(@"%@", selectedVideoTitle);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"video", @"data":[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]}];
+        }
+    }
+}
 
 
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event{
-
     return YES;
 }
 //- (BOOL)collectionView:(NSCollectionView *)collectionView writeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths toPasteboard:(NSPasteboard *)pasteboard{
@@ -710,46 +740,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     return YES;
 }
 
-- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
-
-    NSEvent *currentEvent = [NSApp currentEvent];
-    
-        if(!albumLoaded){
-                 NSLog(@"%@", [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
-                selectedAlbum= [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"id"] ;
-                countInAlbum =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"count"];
-                ownerId=[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"owner_id"];
-                if(!loadForVKAddToAlbum && !([currentEvent modifierFlags] & NSCommandKeyMask) && [currentEvent type]!=NSLeftMouseDragged && [[collectionViewListAlbums selectionIndexes]count]==1){
-                    [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil] ;
-                }else{
-                      [[NSNotificationCenter defaultCenter] postNotificationName:@"selectedVideoAlbumVK" object:nil userInfo:[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]];
-                }
-
-
-           
-        }
-        else{
-            
-                myWinContr = [[NSWindowController alloc]initWithWindowNibName:@"MyVideoWindowController"];
-           
-                myWinContr2 = [self.storyboard instantiateControllerWithIdentifier:@"VideoController"];
-
-                selectedVideoURL = [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"player"];
-                selectedVideoTitle =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"title"];
-                selectedVideoCover = [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"photo2"];
-                if(!loadForAttachments ){
-                    if(!([currentEvent modifierFlags] & NSCommandKeyMask) && [[collectionViewListAlbums selectionIndexes]count]==1){
-                        [myWinContr2 showWindow:self];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"playVideo" object:nil userInfo:@{@"url":selectedVideoURL, @"title":selectedVideoTitle, @"cover":selectedVideoCover}];
-                    }
-                }else{
-                    NSLog(@"%@", selectedVideoTitle);
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"video", @"data":[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]}];
-                }
-
-        }
-
-}
 
 
 
@@ -757,7 +747,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 
     return [videoAlbums count];
 }
-
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     CustomVideoCollectionItem *item1 = (CustomVideoCollectionItem*)[collectionView makeItemWithIdentifier:@"CustomVideoCollectionItem" forIndexPath:indexPath];
@@ -792,7 +781,7 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 ////                [item1.uploadByURLsButton removeFromSuperview];
 ////                [item1.downloadAndUploadStatusOver removeFromSuperview];
 //            }
-            if([cachedImage count]>0 && cachedImage[[videoAlbums objectAtIndex:indexPath.item]]!=nil){
+            if([cachedImage count]>0 && cachedImage[videoAlbums[indexPath.item]]){
                 item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
             }else{
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -849,6 +838,9 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     
     
 }
+
+
+
 
 static NSString *StringFromCollectionViewDropOperation(NSCollectionViewDropOperation dropOperation) {
     switch (dropOperation) {

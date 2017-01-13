@@ -138,7 +138,7 @@
 }
 
 - (IBAction)uploadByURLsAction:(id)sender {
-   [self removeDownloadAndUploadStatuOver];
+//   [self removeDownloadAndUploadStatuOver];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"uploadPhotoURLs" object:nil];
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;

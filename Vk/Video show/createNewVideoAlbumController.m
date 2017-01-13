@@ -16,7 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
     _app = [[appInfo alloc]init];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
@@ -51,7 +50,6 @@
         for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
             [groupsByAdminSelectorData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
             [groupsByAdminPopupSelector addItemWithTitle:i[@"name"]];
-            
         }
     }]resume];
 }
@@ -63,12 +61,15 @@
     NSInteger index = [groupsByAdminPopupSelector indexOfSelectedItem];
     owner = [NSString stringWithFormat:@"%i",abs([groupsByAdminSelectorData[index] intValue])];
 }
+-(void)setProgressStatus{
+    progressBar.maxValue = [albumNames count];
+    progressBar.doubleValue = albumNamesCounter;
+}
 - (IBAction)createAlbum:(id)sender {
     __block void (^createMultiAlbums)( BOOL, NSInteger, NSString *, NSString *);
     __block void (^createOneAlbum)( BOOL, NSString *, NSString *);
     __block NSString *privacy;
     __block NSString *url;
-   
     owner = owner == nil ? _app.person : owner;
     if(radioAll.state==1){
         privacy = @"all";
@@ -80,11 +81,8 @@
         privacy =@"nobody";
     }
     albumNamesCounter=0;
-   
-    
-
     createMultiAlbums = ^void(BOOL captcha, NSInteger offset, NSString *captcha_key, NSString *captcha_sid){
-         stopFlag=NO;
+        stopFlag=NO;
         albumNames = [newAlbumTitle.stringValue componentsSeparatedByString:@","];
         albumNamesCounter = offset ? offset - 1  : albumNamesCounter;
         while (albumNamesCounter < [albumNames count]){
@@ -100,15 +98,18 @@
                  NSLog(@"%@", createAlbumResponse);
                 if(createAlbumResponse[@"response"]){
                     albumNamesCounter++;
-                   
-                    
-                        if (albumNamesCounter==[albumNames count]){
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [self setProgressStatus];
+                    });
+                    if (albumNamesCounter==[albumNames count]){
+                        dispatch_async(dispatch_get_main_queue(),^{
+                            [self dismissController:self];
+                        });
+                        dispatch_after(1, dispatch_get_main_queue(), ^(void){
                             [[NSNotificationCenter defaultCenter]postNotificationName:@"createVideoAlbumReload" object:nil userInfo:@{@"reload":[owner isEqual:_ownerInMainVideoController]?@1:@0}];
-                        }
-                   
+                        });
                     
-                    
-                    
+                    }
                 }else if(createAlbumResponse[@"error"]){
                     if([createAlbumResponse[@"error"][@"error_code"] intValue] == 14){
                         if(!stopFlag){
@@ -119,15 +120,12 @@
                                     
                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                         createMultiAlbums(YES, albumNamesCounter, _captchaHandle.enterCode.stringValue, createAlbumResponse[@"error"][@"captcha_sid"]);
-                                       
                                     });
                                 }
                             });
                         }
                     }
-                    
                 }
-                
             }]resume];
             sleep(1);
 //            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
@@ -156,7 +154,6 @@
             createOneAlbum(NO, @"", @"");
         });
     }
-    
 }
 
 @end

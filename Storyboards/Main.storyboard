@@ -4529,7 +4529,7 @@ Gw
                                 </buttonCell>
                                 <connections>
                                     <action selector="createNewAlbum:" target="dYW-JZ-vid" id="iYs-bD-8HZ"/>
-                                    <segue destination="6Zy-XT-2bk" kind="popover" identifier="createVideoAlbumSeague" popoverAnchorView="pFw-hm-R7h" popoverBehavior="t" preferredEdge="maxY" id="t5K-KZ-6ny"/>
+                                    <segue destination="6Zy-XT-2bk" kind="sheet" identifier="createVideoAlbumSeague" id="t5K-KZ-6ny"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6JF-P0-Rsi">
@@ -4848,29 +4848,19 @@ Gw
             <objects>
                 <viewController id="6Zy-XT-2bk" customClass="createNewVideoAlbumController" sceneMemberID="viewController">
                     <view key="view" id="BXX-bl-dR0">
-                        <rect key="frame" x="0.0" y="0.0" width="179" height="172"/>
+                        <rect key="frame" x="0.0" y="0.0" width="341" height="186"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S8h-Pd-QaG">
-                                <rect key="frame" x="20" y="119" width="142" height="22"/>
+                                <rect key="frame" x="99" y="132" width="142" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="album name" drawsBackground="YES" id="HCF-vp-umZ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qk-Y0-SdR">
-                                <rect key="frame" x="50" y="-1" width="81" height="32"/>
-                                <buttonCell key="cell" type="push" title="Create" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vTU-QF-92o">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="createAlbum:" target="6Zy-XT-2bk" id="nIO-4A-3Lz"/>
-                                </connections>
-                            </button>
                             <box fixedFrame="YES" transparent="YES" title="Box" boxType="custom" borderType="none" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-cu-Eei">
-                                <rect key="frame" x="37" y="28" width="105" height="74"/>
+                                <rect key="frame" x="111" y="42" width="105" height="74"/>
                                 <view key="contentView" ambiguous="YES" id="pwb-4b-UEs">
                                     <rect key="frame" x="0.0" y="0.0" width="105" height="74"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4911,7 +4901,7 @@ Gw
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </box>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MPm-R3-mfn">
-                                <rect key="frame" x="21" y="143" width="141" height="26"/>
+                                <rect key="frame" x="100" y="156" width="141" height="26"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ca8-n5-t4T" id="4Us-Qe-G1C">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -4928,11 +4918,24 @@ Gw
                                 </connections>
                             </popUpButton>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D4f-Er-P7k">
-                                <rect key="frame" x="21" y="99" width="71" height="18"/>
+                                <rect key="frame" x="128" y="113" width="71" height="18"/>
                                 <buttonCell key="cell" type="check" title="multiple" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="DSi-CQ-sGh">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                            </button>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="bia-zF-puM">
+                                <rect key="frame" x="48" y="25" width="256" height="20"/>
+                            </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qk-Y0-SdR">
+                                <rect key="frame" x="130" y="1" width="81" height="32"/>
+                                <buttonCell key="cell" type="push" title="Create" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vTU-QF-92o">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="createAlbum:" target="6Zy-XT-2bk" id="nIO-4A-3Lz"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
@@ -4941,6 +4944,7 @@ Gw
                         <outlet property="groupsByAdminPopupSelector" destination="MPm-R3-mfn" id="60t-Ol-GzI"/>
                         <outlet property="multiple" destination="D4f-Er-P7k" id="jAa-HJ-v2X"/>
                         <outlet property="newAlbumTitle" destination="S8h-Pd-QaG" id="2En-ht-os7"/>
+                        <outlet property="progressBar" destination="bia-zF-puM" id="34n-QB-ie1"/>
                         <outlet property="radioAll" destination="1Ea-qP-wNk" id="8JN-x5-6bH"/>
                         <outlet property="radioBox" destination="EhU-cu-Eei" id="8kd-96-t5F"/>
                         <outlet property="radioFriends" destination="mgs-HM-SDd" id="tvI-0f-8U6"/>
@@ -4949,7 +4953,7 @@ Gw
                 </viewController>
                 <customObject id="plD-aV-7qG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1433.5" y="8404"/>
+            <point key="canvasLocation" x="1592.5" y="8421"/>
         </scene>
         <!--Sidebar Outline View Controller-->
         <scene sceneID="GIV-75-8kn">
@@ -6469,7 +6473,7 @@ Gw
                 <customObject id="MUF-ff-KFA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <arrayController id="VEr-a9-NN2"/>
             </objects>
-            <point key="canvasLocation" x="1689" y="8558.5"/>
+            <point key="canvasLocation" x="1901" y="8547.5"/>
         </scene>
     </scenes>
     <resources>

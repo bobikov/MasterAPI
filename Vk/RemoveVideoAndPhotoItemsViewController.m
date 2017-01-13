@@ -173,21 +173,17 @@
         if(_receivedData){
             if([_mediaType isEqual:@"video"] && [_itemType isEqual:@"album"]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    titleLabel.stringValue=@"Remove video albums";
+                    titleLabel.stringValue=@"Removing video albums";
                     self.title=@"Remove video albums";
                 });
                 removeVideoAlbumsBlock(NO, @"", @"");
-                
-             
-               
             }
             else if([_mediaType isEqual:@"photo"] && [_itemType isEqual:@"album"]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    titleLabel.stringValue=@"Remove photo albums";
+                    titleLabel.stringValue=@"Removing photo albums";
                     self.title=@"Remove photo albums";
                 });
                 removePhotoAlbumsBlock();
-            
             };
         }
     });
