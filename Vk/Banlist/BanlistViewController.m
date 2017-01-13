@@ -766,7 +766,7 @@
                                     loading=NO;
                                 }
                                 NSLog(@"%li", offsetLoadBanlist);
-                                 NSLog(@"%li", offsetCounter);
+                                NSLog(@"%li", offsetCounter);
                             });
                         }
                     }] resume];
@@ -858,7 +858,6 @@
         if([cachedImage count]>0 && cachedImage[banlistData[row]] && cachedStatus[banlistData[row]]){
             cell.userPhoto.image=cachedImage[banlistData[row]];
             cell.status.attributedStringValue = cachedStatus[banlistData[row]];
-            
             
         }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

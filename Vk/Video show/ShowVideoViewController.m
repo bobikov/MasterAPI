@@ -170,7 +170,6 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
         //    NSLog(@"%@", countInAlbum);
     });
 }
-
 - (void)loadMembershipGroupAlbum:(NSNotification *)notification{
     publicIdFrom=nil;
     ownerId = [NSString stringWithFormat:@"-%@", notification.userInfo[@"id"]];
@@ -270,7 +269,6 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
         [friendsListDropdown addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
     }
 }
-
 - (IBAction)groupsPopupAction:(id)sender {
     ownerId =[groupsPopupData objectAtIndex:[groupsPopupList indexOfSelectedItem]];
     [self loadAlbums:NO :nil];
@@ -349,7 +347,6 @@ NSInteger floatSort(id num1, id num2, void *context){
     else
         return NSOrderedSame;
 }
-
 
 - (void)loadAlbums:(BOOL)makeOffset :(id)albums {
     ownerId = ownerId == nil ? _app.person : ownerId;
@@ -590,14 +587,12 @@ NSInteger floatSort(id num1, id num2, void *context){
          
      }
 }
-
-
-
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
-    NSInteger selectedItemIndex = [indexPaths allObjects][0].item;
-    [albumsDropdownList selectItemAtIndex:selectedItemIndex];
+
     if(!albumLoaded){
+        NSInteger selectedItemIndex = [indexPaths allObjects][0].item;
+        [albumsDropdownList selectItemAtIndex:selectedItemIndex];
         NSLog(@"%@", [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
         selectedAlbum= [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"id"] ;
         countInAlbum =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"count"];
@@ -625,8 +620,6 @@ NSInteger floatSort(id num1, id num2, void *context){
         }
     }
 }
-
-
 
 - (BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event{
     return YES;
@@ -661,7 +654,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     indexPathsOfItemsBeingDragged = [indexPaths copy];
     NSLog(@"%@", indexPaths);
 }
-
 //-(void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint dragOperation:(NSDragOperation)operation{
 //    NSPasteboardItem *pitem = [[NSPasteboard generalPasteboard]pasteboardItems][0];
 //    NSString *urlString = [pitem stringForType:(NSString *)kUTTypeUTF8PlainText];
@@ -683,7 +675,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     }
 //    return NSDragOperationMove;
 }
-
 - (BOOL)collectionView:(NSCollectionView *)collectionView acceptDrop:(id<NSDraggingInfo>)draggingInfo indexPath:(NSIndexPath *)indexPath dropOperation:(NSCollectionViewDropOperation)dropOperation{
     __block NSInteger toItemIndex = indexPath.item;
     [indexPathsOfItemsBeingDragged enumerateIndexPathsWithOptions:0 usingBlock:^(NSIndexPath *fromIndexPath, BOOL *stop) {
@@ -739,10 +730,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 
     return YES;
 }
-
-
-
-
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
 
     return [videoAlbums count];
@@ -838,10 +825,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
     
     
 }
-
-
-
-
 static NSString *StringFromCollectionViewDropOperation(NSCollectionViewDropOperation dropOperation) {
     switch (dropOperation) {
         case NSCollectionViewDropBefore:

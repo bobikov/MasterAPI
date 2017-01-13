@@ -184,7 +184,12 @@
     
 }
 - (IBAction)albumsListDropdownAction:(id)sender {
-    [self loadSelectedAlbum:albumsData2[[albumsListDropdown indexOfSelectedItem]][@"id"]] ;
+      albumTitle = albumsData[[albumsListDropdown indexOfSelectedItem]][@"title"];
+    [self loadSelectedAlbum:albumsData[[albumsListDropdown indexOfSelectedItem]][@"id"]] ;
+  
+//    NSLog(@"%@", albumsData[[albumsListDropdown indexOfSelectedItem]][@"id"]);
+//    NSLog(@"%@", albumsData[[albumsListDropdown indexOfSelectedItem]]);
+    
 }
 - (IBAction)friendsListDropdownAction:(id)sender {
     friendId = friends[[friendsListDropdown indexOfSelectedItem]][@"id"];
@@ -192,8 +197,10 @@
     [self loadAlbums];
 }
 - (void)loadSelectedAlbum:(id)albumId{
+    
     nameSelectedObject = @"album";
-      [albumsData removeAllObjects];
+    [albumsData removeAllObjects];
+    NSLog(@"%@", albumTitle);
     NSString *url;
    __block NSInteger index=0;
     if(friendId!=nil){
@@ -203,31 +210,38 @@
         url=[NSString stringWithFormat:@"https://api.vk.com/method/photos.get?owner_id=%@&album_id=%@&rev=1&v=%@&access_token=%@", ownerId==nil ? _app.person : ownerId, albumId, _app.version, _app.token];
     }
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
-            index++;
-            NSString *bigPhoto;
-            if(i[@"photo_807"]){
-                bigPhoto = i[@"photo_807"];
+        if(data){
+            NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//            NSLog(@"%@", getAlbumResponse);
+            for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
+                index++;
+                NSString *bigPhoto;
+                if(i[@"photo_807"] && i[@"photo_807"]!=nil ){
+                    bigPhoto = i[@"photo_807"];
+                }
+                else if(i[@"photo_604"] && !i[@"photo_807"]){
+                    bigPhoto = i[@"photo_604"];
+                }
+                else if(!i[@"photo_604"]){
+                    bigPhoto = i[@"photo_130"];
+                }
+                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"]}}];
+                [albumsData addObject:object];
             }
-            else if(i[@"photo_604"] && !i[@"photo_807"]){
-                bigPhoto = i[@"photo_604"];
-            }
-            NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?ownerId=_app.person:ownerId, @"items":@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"], @"photoBig":bigPhoto, @"caption":i[@"text"]}}];
-            [albumsData addObject:object];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                albumLoaded=YES;
+                [collectionViewListAlbums setContent:albumsData];
+                [collectionViewListAlbums reloadData];
+                
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            albumLoaded=YES;
-            [collectionViewListAlbums setContent:albumsData];
-            [collectionViewListAlbums reloadData];
-   
-        });
-        
     }] resume];
 }
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
     if(!albumLoaded){
+        NSInteger selectedItemIndex = [indexPaths allObjects][0].item;
+        [albumsListDropdown selectItemAtIndex:selectedItemIndex];
         NSLog(@"%@", [albumsData objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
         if(!([currentEvent modifierFlags] & NSCommandKeyMask) && [[collectionViewListAlbums selectionIndexes]count]==1){
             albumTitle =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"title"];
@@ -238,7 +252,6 @@
     else{
         if(!loadForAttachments && !([currentEvent modifierFlags] & NSCommandKeyMask) && [[collectionViewListAlbums selectionIndexes]count]==1){
             myWindowContr = [self.storyboard instantiateControllerWithIdentifier:@"PhotoController"];
-            
             [myWindowContr showWindow:self];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"ShowPhotoSlider" object:nil userInfo:@{@"data":albumsData, @"current":[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"items"][@"index"]}];
             [collectionView deselectItemsAtIndexPaths:indexPaths];
