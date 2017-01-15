@@ -349,6 +349,7 @@
                                 NSString *deactivated;
                                 NSString *relation;
                                 NSString *domain;
+                                NSString *verified;
                                 int blacklisted;
                                 int blacklisted_by_me;
                                 if([getUsersResponse[@"response"] count]>0){
@@ -364,6 +365,7 @@
                                         deactivated = a[@"deactivated"] && a[@"deactivated"]!=nil ? a[@"deactivated"] : @"";
                                         blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
                                         blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
+                                        verified = a[@"verified"] && a[@"verified"]!=nil ? a[@"verified"] : @"";
                                         if(a[@"bdate"] && a[@"bdate"]!=nil){
                                             bdate=a[@"bdate"];
                                             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -416,7 +418,7 @@
                                         schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
                                         relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
                                         quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
-                                        object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"user_photo_big":photoBig,@"country":countryName, @"bdate":bdate, @"online":online, @"last_seen":last_seen, @"sex":sex, @"site":site, @"mobile":mobilePhone, @"about":about, @"books":books, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated, @"blacklisted":[NSNumber numberWithInt:blacklisted], @"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain};
+                                        object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"user_photo_big":photoBig,@"country":countryName, @"bdate":bdate, @"online":online, @"last_seen":last_seen, @"sex":sex, @"site":site, @"mobile":mobilePhone, @"about":about, @"books":books, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated, @"blacklisted":[NSNumber numberWithInt:blacklisted], @"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain,@"verified":verified};
                                         
                                         if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
                                             
@@ -649,8 +651,6 @@
         cell.fullName.stringValue = favesUsersData[row][@"full_name"];
 //        cell.status.stringValue = favesUsersData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-       
-      
         cell.bdate.stringValue = favesUsersData[row][@"bdate"];
         cell.lastSeen.stringValue = favesUsersData[row][@"last_seen"];
         cell.sex.stringValue = favesUsersData[row][@"sex"];
@@ -658,6 +658,7 @@
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=40;
         cell.photo.layer.masksToBounds=TRUE;
+        cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
         if([favesUsersData[row][@"deactivated"] isEqual:@""]){
             cell.deactivatedStatus.hidden=YES;
         }else{

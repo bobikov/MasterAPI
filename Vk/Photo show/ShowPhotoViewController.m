@@ -200,6 +200,7 @@
     
     nameSelectedObject = @"album";
     [albumsData removeAllObjects];
+//    [collectionViewListAlbums setContent:albumsData];
     NSLog(@"%@", albumTitle);
     NSString *url;
    __block NSInteger index=0;
@@ -312,6 +313,7 @@
     [albumsData removeAllObjects];
      [albumsData2 removeAllObjects];
     [albumsListDropdown removeAllItems];
+     [collectionViewListAlbums setContent:albumsData];
     nameSelectedObject = @"albums";
     __block NSString *url;
      NSMutableArray *itemTitles=[[NSMutableArray alloc]init];
@@ -343,14 +345,13 @@
 
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if([albumsData count]>0){
-        return [albumsData count];
-    }
-    return 0;
+
+    return [albumsData count];
 }
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
-    customViewCollectionItem *videoAlbumsItem = (customViewCollectionItem *)[collectionView makeItemWithIdentifier:@"ShowPhotoViewController" forIndexPath:indexPath];
+    customViewCollectionItem *videoAlbumsItem;
     if([albumsData count]>0){
+        videoAlbumsItem = (customViewCollectionItem *)[collectionView makeItemWithIdentifier:@"ShowPhotoViewController" forIndexPath:indexPath];
         NSAttributedString *attrTitle;
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
         paragraphStyle.alignment=NSTextAlignmentCenter;

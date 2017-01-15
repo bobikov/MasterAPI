@@ -8,7 +8,8 @@
 
 #import "SearchViewController.h"
 #import "FullUserInfoPopupViewController.h"
-@interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
+#import "SearchGroupsCellView.h"
+@interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate,NSComboBoxDelegate>
 
 @end
 
@@ -18,12 +19,17 @@
     foundList.delegate = self;
     foundList.dataSource = self;
     searchBar.delegate = self;
+  
     cachedImage = [[NSMutableDictionary alloc]init];
     cachedStatus = [[NSMutableDictionary alloc]init];
     foundListData = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     [addBut setEnabled:NO];
     countries = [[NSMutableArray alloc]init];
+    cities = [[NSMutableArray alloc]init];
+
+    NSNib *nib = [[NSNib alloc] initWithNibNamed:@"SearchGroupsCellView" bundle:nil];
+    [foundList registerNib:nib forIdentifier: @"SearchGroupsCellView"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPage:) name:@"VisitUserPage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addUserToFaves:) name:@"addUserToFaves" object:nil];
     _stringHighlighter = [[StringHighlighter alloc]init];
@@ -31,9 +37,60 @@
     [[searchListScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     [countriesList removeAllItems];
+    [citiesList removeAllItems];
+    [religionsList removeAllItems];
     [self loadCountries];
-   
+    [self loadReligions];
+ 
 }
+-(void)controlTextDidChange:(NSNotification *)obj{
+ 
+    if([obj.object isEqual:citiesList]){
+//           NSLog(@"f333");
+        if([citiesList.stringValue length]==0){
+            [cities removeAllObjects];
+        }
+    }else if([obj.object isEqual:religionsList]){
+//        NSLog(@"%@", religionsList.stringValue);
+        if([religionsList.stringValue length]==0){
+            
+        }else{
+            religion=[religionsList.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+        }
+    }
+}
+-(void)loadReligions{
+    NSArray *religions = @[@"Иудаизм", @"Христианство", @"Католицизм", @"Православие", @"Протестантизм", @"Гностицизм", @"Ислам", @"Бабизм", @"Вера Бахаи", @"Растафарианство", @"Айявари", @"Буддизм", @"Индуизм", @"Джайнизм", @"Сикхизм", @"Даосизм", @"Конфуцианство", @"Синтоизм", @"Неоязычество", @"Современные религии, духовные и мистические учения", @"Нью-эйдж", @"Эзотеризм и мистицизм"];
+    [religionsList addItemsWithObjectValues:religions];
+}
+- (IBAction)selectCountry:(id)sender {
+    if(![countriesList.stringValue isEqual:@""] && ![countriesList.stringValue isEqual:nil]){
+        countryID = countries[[countriesList indexOfSelectedItem]];
+        [self loadCities];
+    }
+    
+}
+- (IBAction)selectCity:(id)sender {
+    if(![citiesList.stringValue isEqual:@""] && ![citiesList.stringValue isEqual:nil]){
+        //    NSLog(@"%li", [cities count]);
+        //    NSLog(@"%@", citiesList.stringValue );
+        if([cities count]==0 ){
+            cityQuery = [citiesList.stringValue length]>0 ? [citiesList.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] : nil;
+            
+            [self loadCities];
+            NSLog(@"A");
+        }else{
+            NSLog(@"B");
+            if([citiesList indexOfSelectedItem]<[cities count]){
+                cityID = cities[[citiesList indexOfSelectedItem]];
+            }
+            NSLog(@"%@", countriesList.stringValue);
+            NSLog(@"%@", cityID);
+        }
+    }
+}
+
+
 - (void)viewDidAppear{
     self.view.window.title=@"Global search";
     //    self.view.wantsLayer = YES;
@@ -87,7 +144,7 @@
 
 
 - (void)loadResults:(BOOL)useParams{
-    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    queryString = [searchBar.stringValue length]>0? [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]:nil;
     switch(searchType.selectedSegment){
         case 0:
             selectedSourceName = @"group";
@@ -114,6 +171,26 @@
                 
             }
         }
+    }]resume];
+}
+- (void)loadCities{
+    [cities removeAllObjects];
+    [citiesList removeAllItems];
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/database.getCities?country_id=%@&%@need_all=1&count=1000&access_token=%@&v=%@", countryID, cityQuery ? [NSString stringWithFormat:@"q=%@&",cityQuery] : @"", _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary *countriesResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            //NSLog(@"%@", countriesResp);
+            for(NSDictionary *i in countriesResp[@"response"][@"items"]){
+                [cities addObject:i[@"id"]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [citiesList addItemWithObjectValue:i[@"title"]];
+                });
+                
+            }
+            dispatch_async(dispatch_get_main_queue(),^{
+//
+            });
+        }      
     }]resume];
 }
 - (IBAction)searchWithParams:(id)sender {
@@ -255,26 +332,40 @@
         [foundList reloadData];
     }
     
-    queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    queryString = [searchBar.stringValue length]>0?[searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]:nil;
     if(useParams){
-        NSString *fullQuery = queryString ? [NSString stringWithFormat:@"q=%@&", queryString] : nil;
-        
-        NSString *countryParam = countryID ? [NSString stringWithFormat:@"country=%@&", countryID] : nil;
-        
-        url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&%@count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@",  fullQuery ? fullQuery : @"", countryParam ? countryParam : @"", searchOffsetCounter, _app.version, _app.token];
+        NSURLComponents *paramsComponents = [[NSURLComponents alloc]init];
+        NSMutableArray *mutableParams = [NSMutableArray array];
+        NSURLQueryItem *countryParam =  [NSURLQueryItem queryItemWithName:@"country" value:[NSString stringWithFormat:@"%@",countryID]] ;
+        NSURLQueryItem *cityParam = [NSURLQueryItem queryItemWithName:@"city" value:[NSString stringWithFormat:@"%@",cityID]];
+        NSURLQueryItem *religionParam = [NSURLQueryItem queryItemWithName:@"religion" value:[NSString stringWithFormat:@"%@",religion]] ;
+        NSURLQueryItem *fullQueryParam = [NSURLQueryItem queryItemWithName:@"q" value:[NSString stringWithFormat:@"%@",queryString]] ;
+       
+        if(cityID){
+            [mutableParams addObject:cityParam];
+        }
+        if(countryID){
+            [mutableParams addObject:countryParam];
+        }
+        if(religion){
+            [mutableParams addObject:religionParam];
+        }
+        if(queryString){
+            [mutableParams addObject:fullQueryParam];
+        }
+        paramsComponents.queryItems = mutableParams;
+        NSLog(@"%@", paramsComponents.query);
+        NSLog(@"%@", mutableParams);
+        NSLog(@"%@", countryParam);
+        url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@", [paramsComponents.query stringByAppendingString:@"&"], searchOffsetCounter, _app.version, _app.token];
     
     }else{
-        
         if(byId.state==1){
-            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
         }else{
-            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters&v=%@&access_token=%@",  queryString, searchOffsetCounter, _app.version, _app.token];
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@",  queryString, searchOffsetCounter, _app.version, _app.token];
         }
     }
-   
-    
-
-    
     __block NSInteger totalCountPeople;
 //    __block NSInteger startInsertIndex = [foundListData count];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -402,6 +493,7 @@
 }
 - (void)loadGroups:(BOOL)makeOffset useParams:(BOOL)useParams{
     if(makeOffset){
+        
         searchOffsetCounter = searchOffsetCounter + 100;
     }else{
         searchOffsetCounter = 0;
@@ -482,20 +574,13 @@
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([foundListData count]>0){
-        CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
-        cell.photo.wantsLayer=YES;
-        cell.photo.layer.cornerRadius=60/2;
-        cell.photo.layer.masksToBounds=YES;
-      
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
-     
-   
         if(searchType.selectedSegment==1){
-            cell.country.hidden=NO;
-            cell.age.hidden=NO;
-            cell.city.hidden=NO;
-        
+            CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
+            cell.photo.wantsLayer=YES;
+            cell.photo.layer.cornerRadius=60/2;
+            cell.photo.layer.masksToBounds=YES;
             if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
                 cell.blacklisted.hidden=NO;
             }else{
@@ -504,7 +589,7 @@
             [cell.userStatus setAllowsEditingTextAttributes:YES];
             cell.lastSeen.stringValue = foundListData[row][@"last_seen"];
             cell.country.stringValue = foundListData[row][@"country"];
-            cell.verified.hidden = [foundListData[row][@"verified"] intValue] ? NO : YES;
+            cell.verified.hidden = ![foundListData[row][@"verified"] intValue];
             cell.age.stringValue = foundListData[row][@"bdate"];
             cell.city.stringValue = foundListData[row][@"city"];
             cell.name.stringValue = foundListData[row][@"full_name"];
@@ -532,25 +617,31 @@
             }else{
                 [cell.status setImage:[NSImage imageNamed:NSImageNameStatusNone]];
             }
+            return cell;
         }
         else if(searchType.selectedSegment==0){
-            cell.country.hidden=YES;
-            cell.age.hidden=YES;
-            cell.verified.hidden=YES;
-            cell.city.hidden=YES;
-            cell.blacklisted.hidden=YES;
-            cell.name.stringValue = foundListData[row][@"name"];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"photo"]]]];
-                NSSize imSize=NSMakeSize(60, 60);
-                image.size=imSize;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.photo setImage:image];
+            SearchGroupsCellView *cell = (SearchGroupsCellView*)[tableView makeViewWithIdentifier:@"SearchGroupsCellView" owner:self];
+            cell.groupAvatar.wantsLayer=YES;
+            cell.groupAvatar.layer.cornerRadius=60/2;
+            cell.groupAvatar.layer.masksToBounds=YES;
+            cell.groupName.stringValue = foundListData[row][@"name"];
+            cell.groupCountry.stringValue = foundListData[row][@"country"];
+            if([cachedImage count]>0 && cachedImage[foundListData[row]] && cachedStatus[foundListData[row]]){
+                [cell.groupAvatar setImage:cachedImage[foundListData[row]]];
+//                cell.groupAvatar.attributedStringValue = cachedStatus[foundListData[row]];
+            }else{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"photo"]]]];
+                    NSSize imSize=NSMakeSize(60, 60);
+                    image.size=imSize;
+                    cachedImage[foundListData[row]] = image;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell.groupAvatar setImage:image];
+                    });
                 });
-            });
-            
+            }
+             return cell;
         }
-        return cell;
     }
     return nil;
 }

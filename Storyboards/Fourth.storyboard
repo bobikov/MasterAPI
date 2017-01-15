@@ -91,7 +91,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="MainCell" width="579" minWidth="40" maxWidth="1000" id="bdE-o4-AyC">
+                                                <tableColumn identifier="" width="579" minWidth="40" maxWidth="1000" id="bdE-o4-AyC">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -104,7 +104,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="whx-dn-wQL" customClass="CustomSearchCell">
+                                                        <tableCellView identifier="MainCell" id="whx-dn-wQL" customClass="CustomSearchCell">
                                                             <rect key="frame" x="1" y="1" width="579" height="65"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -282,13 +282,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QeF-NC-Gdx">
-                                <rect key="frame" x="597" y="401" width="116" height="26"/>
+                            <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QeF-NC-Gdx">
+                                <rect key="frame" x="590" y="401" width="143" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="6Mr-nq-u09"/>
-                                    <constraint firstAttribute="width" constant="113" id="eDP-XX-7SY"/>
+                                    <constraint firstAttribute="width" constant="140" id="SWC-bi-jEq"/>
+                                    <constraint firstAttribute="height" constant="20" id="VyI-A3-Pkn"/>
                                 </constraints>
-                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Country" drawsBackground="YES" numberOfVisibleItems="5" id="keg-JH-KUB">
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" focusRingType="none" placeholderString="Country" drawsBackground="YES" buttonBordered="NO" numberOfVisibleItems="5" id="keg-JH-KUB">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -298,6 +298,10 @@
                                         <string>Item 3</string>
                                     </objectValues>
                                 </comboBoxCell>
+                                <connections>
+                                    <action selector="selectCountry:" target="b6a-z0-5Dr" id="ksp-rX-QlA"/>
+                                    <outlet property="delegate" destination="b6a-z0-5Dr" id="Hfa-LU-fb2"/>
+                                </connections>
                             </comboBox>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GJ8-yQ-cC6">
                                 <rect key="frame" x="612" y="78" width="83" height="32"/>
@@ -355,6 +359,47 @@
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
                             </button>
+                            <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="45b-u8-do1">
+                                <rect key="frame" x="590" y="353" width="143" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="DYV-35-Wlb"/>
+                                    <constraint firstAttribute="height" constant="20" id="f7g-zi-Rgf"/>
+                                </constraints>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" focusRingType="none" placeholderString="City" drawsBackground="YES" buttonBordered="NO" numberOfVisibleItems="5" id="67z-hu-hdo">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <objectValues>
+                                        <string>Item 1</string>
+                                        <string>Item 2</string>
+                                        <string>Item 3</string>
+                                    </objectValues>
+                                </comboBoxCell>
+                                <connections>
+                                    <action selector="selectCity:" target="b6a-z0-5Dr" id="o7Z-jj-uIf"/>
+                                    <outlet property="delegate" destination="b6a-z0-5Dr" id="p5G-id-2jM"/>
+                                </connections>
+                            </comboBox>
+                            <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3rL-Ag-0Jl">
+                                <rect key="frame" x="590" y="280" width="143" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Qvf-4J-wZL"/>
+                                    <constraint firstAttribute="width" constant="140" id="k2c-NP-agW"/>
+                                </constraints>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" focusRingType="none" placeholderString="Religion" drawsBackground="YES" buttonBordered="NO" numberOfVisibleItems="5" id="aUS-NR-byG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <objectValues>
+                                        <string>Item 1</string>
+                                        <string>Item 2</string>
+                                        <string>Item 3</string>
+                                    </objectValues>
+                                </comboBoxCell>
+                                <connections>
+                                    <outlet property="delegate" destination="b6a-z0-5Dr" id="S1Q-wb-L5A"/>
+                                </connections>
+                            </comboBox>
                         </subviews>
                         <constraints>
                             <constraint firstItem="GJ8-yQ-cC6" firstAttribute="leading" secondItem="HeZ-If-axR" secondAttribute="trailing" constant="36" id="00p-dx-qY9"/>
@@ -362,31 +407,40 @@
                             <constraint firstItem="0EC-i0-qSf" firstAttribute="top" secondItem="nYa-zK-For" secondAttribute="top" constant="26" id="7Tf-AR-g0w"/>
                             <constraint firstItem="HeZ-If-axR" firstAttribute="top" secondItem="nYa-zK-For" secondAttribute="top" constant="54" id="7p7-8P-k0d"/>
                             <constraint firstItem="HeZ-If-axR" firstAttribute="top" secondItem="0EC-i0-qSf" secondAttribute="bottom" constant="12" id="87J-5U-o3l"/>
-                            <constraint firstItem="QeF-NC-Gdx" firstAttribute="leading" secondItem="HeZ-If-axR" secondAttribute="trailing" constant="15" id="9w0-T6-NHa"/>
-                            <constraint firstItem="QeF-NC-Gdx" firstAttribute="top" secondItem="nYa-zK-For" secondAttribute="top" constant="54" id="AYk-li-APg"/>
+                            <constraint firstItem="QeF-NC-Gdx" firstAttribute="top" secondItem="nYa-zK-For" secondAttribute="top" constant="54" id="8yc-C1-mYj"/>
+                            <constraint firstAttribute="trailing" secondItem="QeF-NC-Gdx" secondAttribute="trailing" id="DPk-fZ-0Fg"/>
                             <constraint firstItem="Qdx-fE-zf5" firstAttribute="leading" secondItem="Mts-r0-khN" secondAttribute="trailing" constant="25" id="I8q-fc-o2g"/>
+                            <constraint firstItem="45b-u8-do1" firstAttribute="leading" secondItem="HeZ-If-axR" secondAttribute="trailing" constant="8" id="NT0-Uh-jnu"/>
                             <constraint firstItem="Mts-r0-khN" firstAttribute="centerX" secondItem="XLT-p2-7f3" secondAttribute="centerX" id="P5J-S3-LBx"/>
+                            <constraint firstItem="QeF-NC-Gdx" firstAttribute="leading" secondItem="HeZ-If-axR" secondAttribute="trailing" constant="8" id="Pvo-hD-9an"/>
                             <constraint firstItem="XLT-p2-7f3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nYa-zK-For" secondAttribute="leading" constant="70" id="Sp0-oQ-h72"/>
                             <constraint firstItem="HeZ-If-axR" firstAttribute="leading" secondItem="nYa-zK-For" secondAttribute="leading" id="ULZ-cw-7Hs"/>
-                            <constraint firstAttribute="trailing" secondItem="QeF-NC-Gdx" secondAttribute="trailing" constant="20" id="Uia-8P-scz"/>
                             <constraint firstItem="Mts-r0-khN" firstAttribute="top" secondItem="XLT-p2-7f3" secondAttribute="bottom" constant="3" id="Ycl-jB-VC6"/>
+                            <constraint firstItem="GJ8-yQ-cC6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3rL-Ag-0Jl" secondAttribute="bottom" constant="178" id="YiK-kR-lvZ"/>
                             <constraint firstAttribute="bottom" secondItem="HeZ-If-axR" secondAttribute="bottom" id="ZjU-xk-hCH"/>
+                            <constraint firstItem="45b-u8-do1" firstAttribute="top" secondItem="QeF-NC-Gdx" secondAttribute="bottom" constant="28" id="ar8-Tj-zgm"/>
                             <constraint firstItem="Mts-r0-khN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nYa-zK-For" secondAttribute="leading" constant="74" id="daU-s3-eqe"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XLT-p2-7f3" secondAttribute="trailing" constant="109" id="e4v-YX-hJ3"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Mts-r0-khN" secondAttribute="trailing" constant="113" id="fZz-mp-eNZ"/>
+                            <constraint firstAttribute="trailing" secondItem="3rL-Ag-0Jl" secondAttribute="trailing" id="fqN-OW-BUO"/>
+                            <constraint firstAttribute="trailing" secondItem="45b-u8-do1" secondAttribute="trailing" id="gHr-WY-iCt"/>
                             <constraint firstItem="0EC-i0-qSf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nYa-zK-For" secondAttribute="leading" constant="20" id="n29-6R-VeN"/>
                             <constraint firstAttribute="trailing" secondItem="GJ8-yQ-cC6" secondAttribute="trailing" constant="41" id="o8t-zJ-fwz"/>
+                            <constraint firstItem="3rL-Ag-0Jl" firstAttribute="leading" secondItem="HeZ-If-axR" secondAttribute="trailing" constant="8" id="q4t-Es-3l3"/>
                             <constraint firstItem="HeZ-If-axR" firstAttribute="top" secondItem="Mts-r0-khN" secondAttribute="bottom" constant="8" id="sRI-L3-Ath"/>
                             <constraint firstItem="Qdx-fE-zf5" firstAttribute="top" secondItem="nYa-zK-For" secondAttribute="top" constant="29" id="tEN-XZ-yxQ"/>
+                            <constraint firstItem="3rL-Ag-0Jl" firstAttribute="top" secondItem="45b-u8-do1" secondAttribute="bottom" constant="53" id="uuA-T6-qsm"/>
                             <constraint firstItem="Mts-r0-khN" firstAttribute="leading" secondItem="0EC-i0-qSf" secondAttribute="trailing" constant="11" id="xs6-T0-1Kx"/>
                             <constraint firstItem="XLT-p2-7f3" firstAttribute="centerX" secondItem="nYa-zK-For" secondAttribute="centerX" constant="-84" id="zL9-9F-aeV"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="byId" destination="Qdx-fE-zf5" id="riu-hx-I9m"/>
-                        <outlet property="countriesList" destination="QeF-NC-Gdx" id="qId-Hh-o5T"/>
+                        <outlet property="citiesList" destination="45b-u8-do1" id="dav-Jt-WbG"/>
+                        <outlet property="countriesList" destination="QeF-NC-Gdx" id="Cpl-Yn-5mj"/>
                         <outlet property="foundList" destination="GMq-iS-O28" id="Mpn-l5-J2W"/>
                         <outlet property="loadedCountResults" destination="0EC-i0-qSf" id="uSp-9m-nuc"/>
+                        <outlet property="religionsList" destination="3rL-Ag-0Jl" id="Nh7-09-URl"/>
                         <outlet property="searchBar" destination="Mts-r0-khN" id="tPi-Nh-c6O"/>
                         <outlet property="searchListClipView" destination="LgQ-CJ-wyo" id="5DQ-sm-fyj"/>
                         <outlet property="searchListScrollView" destination="HeZ-If-axR" id="3LH-HB-FNx"/>
@@ -801,7 +855,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="hl2-xw-0tD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1245,7 +1299,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="4ct-3f-af7">
-                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

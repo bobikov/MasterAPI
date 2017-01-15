@@ -270,7 +270,7 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent{
-    
+  
 //    [[NSCursor pointingHandCursor]set];
     //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
     //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
@@ -293,6 +293,15 @@
         if(self.representedObject[@"items"][@"photoBig"]){
             _removeItem.hidden=NO;
         }
+        else{
+            overAlbumId = [self.representedObject[@"id"] intValue];
+            NSLog(@"%li", overAlbumId);
+            if(overAlbumId==-7 || overAlbumId==-6 || overAlbumId==-15){
+                _uploadPhoto.hidden=YES;
+                _removeItem.hidden=YES;
+                _uploadByURLsButton.hidden=YES;
+            }
+        }
         
         
     }else{
@@ -301,6 +310,7 @@
         _removeItem.hidden=YES;
         _uploadByURLsButton.hidden=YES;
     }
+ 
     
 }
 - (void)mouseExited:(NSEvent *)theEvent{

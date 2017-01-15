@@ -361,6 +361,7 @@ NSInteger floatSort(id num1, id num2, void *context){
         
         [videoAlbums removeAllObjects];
         [albumsDropdownList removeAllItems];
+        [collectionViewListAlbums setContent:videoAlbums];
         
         offset = 0;
     }
@@ -736,11 +737,12 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 }
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
-    CustomVideoCollectionItem *item1 = (CustomVideoCollectionItem*)[collectionView makeItemWithIdentifier:@"CustomVideoCollectionItem" forIndexPath:indexPath];
+    CustomVideoCollectionItem *item1;
     NSAttributedString *attrTitle;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.alignment=NSTextAlignmentCenter;
     if([videoAlbums count]>0){
+        item1 = (CustomVideoCollectionItem*)[collectionView makeItemWithIdentifier:@"CustomVideoCollectionItem" forIndexPath:indexPath];
         NSString *coverAlbum = [videoAlbums objectAtIndex:indexPath.item][@"cover"];
         NSString *itemTitle = [videoAlbums objectAtIndex:indexPath.item][@"title"];
         countInAlbum = [videoAlbums objectAtIndex:indexPath.item][@"count"];

@@ -17,6 +17,7 @@
     __weak IBOutlet NSSearchField *searchBar;
    
    
+    __weak IBOutlet NSComboBox *religionsList;
     __weak IBOutlet NSButton *addBut;
     __weak IBOutlet NSTableView *foundList;
     __weak IBOutlet NSSegmentedControl *searchType;
@@ -28,13 +29,18 @@
     NSString *queryString;
     __weak IBOutlet NSButton *byId;
     NSMutableArray *countries;
+    NSMutableArray *cities;
     __weak IBOutlet NSComboBox *countriesList;
+    __weak IBOutlet NSComboBox *citiesList;
     __weak IBOutlet NSScrollView *searchListScrollView;
 
     __weak IBOutlet NSButton *loadedCountResults;
     __weak IBOutlet NSClipView *searchListClipView;
     NSInteger searchOffsetCounter;
     NSString *countryID;
+    NSString *cityID;
+    NSString *cityQuery;
+    NSString *religion;
     BOOL usedParams;
     NSString *selectedSourceName;
     NSMutableDictionary *cachedImage;

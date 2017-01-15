@@ -128,7 +128,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="82" viewBased="YES" id="Rmi-xl-ADr" customClass="CustomFaveritesTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="548" height="546"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="548" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="1"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -233,6 +233,10 @@
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
+                                                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oa1-i6-Z55">
+                                                                                <rect key="frame" x="414" y="52" width="18" height="18"/>
+                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="verified_2" id="9pU-lO-znF"/>
+                                                                            </imageView>
                                                                         </subviews>
                                                                         <connections>
                                                                             <outlet property="bdate" destination="bG7-Q5-vIi" id="KLn-Tf-e3h"/>
@@ -246,6 +250,7 @@
                                                                             <outlet property="profile" destination="x6B-Uw-JYb" id="i4i-no-j9Z"/>
                                                                             <outlet property="sex" destination="de0-im-XSL" id="kDd-kE-DWf"/>
                                                                             <outlet property="status" destination="fan-f6-T2v" id="Ong-Wz-VK9"/>
+                                                                            <outlet property="verified" destination="oa1-i6-Z55" id="6Zl-rf-Eqk"/>
                                                                         </connections>
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
@@ -530,7 +535,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="Wa2-lZ-34k">
-                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="550"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1886,7 +1891,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="TNV-iU-jGp">
-                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="587"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2131,7 +2136,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="60" viewBased="YES" id="asM-Nt-90V">
-                                                        <rect key="frame" x="0.0" y="0.0" width="392" height="525"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="392" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2294,7 +2299,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="40" viewBased="YES" id="Iot-6R-cZT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="546"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3696,5 +3701,6 @@
         <image name="download2" width="1000" height="1000"/>
         <image name="mark1" width="30" height="30"/>
         <image name="onAir" width="700" height="700"/>
+        <image name="verified_2" width="90" height="90"/>
     </resources>
 </document>

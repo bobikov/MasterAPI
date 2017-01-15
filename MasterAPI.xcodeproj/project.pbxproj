@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */; };
+		2B1914CC1E28FC8C00FB714E /* SearchGroupsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -287,6 +289,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchGroupsCellView.xib; sourceTree = "<group>"; };
+		2B1914CA1E28FC8C00FB714E /* SearchGroupsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchGroupsCellView.h; sourceTree = "<group>"; };
+		2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchGroupsCellView.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -1510,12 +1515,15 @@
 		2B41FB621E02D3F60013AC86 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				2B41FB641E02D3F60013AC86 /* CustomSearchCell.m */,
 				2B41FB631E02D3F60013AC86 /* CustomSearchCell.h */,
+				2B41FB641E02D3F60013AC86 /* CustomSearchCell.m */,
 				2B41FB651E02D3F60013AC86 /* SearchCustomTableView.h */,
 				2B41FB661E02D3F60013AC86 /* SearchCustomTableView.m */,
 				2B41FB671E02D3F60013AC86 /* SearchViewController.h */,
 				2B41FB681E02D3F60013AC86 /* SearchViewController.m */,
+				2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */,
+				2B1914CA1E28FC8C00FB714E /* SearchGroupsCellView.h */,
+				2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1763,6 +1771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B41FCD51E03E61E0013AC86 /* Fifth.storyboard in Resources */,
+				2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */,
 				2B41FC3D1E02D3F60013AC86 /* video_min.png in Resources */,
 				2B41FC1A1E02D3F60013AC86 /* docs10.png in Resources */,
 				2B41FC301E02D3F60013AC86 /* remove15px.png in Resources */,
@@ -1970,6 +1979,7 @@
 				2B41FC641E02D3F70013AC86 /* EditAudioAlbumViewController.m in Sources */,
 				2B41FCAD1E02D3F70013AC86 /* VideoPlayerViewController.m in Sources */,
 				2B41FBE71E02D3F60013AC86 /* InstagramLoginViewController.m in Sources */,
+				2B1914CC1E28FC8C00FB714E /* SearchGroupsCellView.m in Sources */,
 				2B41FCC51E02D3F70013AC86 /* YoutubeVideoPlayerController.m in Sources */,
 				2B41FC901E02D3F70013AC86 /* keyHandler.m in Sources */,
 				2B41FCC71E02D3F70013AC86 /* YoutubeVideosCollectionItem.m in Sources */,

@@ -425,12 +425,9 @@
         cell.country.stringValue = outRequestsData[row][@"country"];
         cell.bdate.stringValue = outRequestsData[row][@"bdate"];
         cell.sex.stringValue = outRequestsData[row][@"sex"];
-        if([outRequestsData[row][@"verified"] intValue]==1){
-            cell.verified.hidden=NO;
-            
-        }else{
-            cell.verified.hidden=YES;
-        }
+
+        cell.verified.hidden=![outRequestsData[row][@"verified"] intValue];
+       
         if([cachedImage count]>0 && cachedImage[outRequestsData[row]] && cachedStatus[outRequestsData[row]]){
             cell.photo.image=cachedImage[outRequestsData[row]];
             cell.status.attributedStringValue = cachedStatus[outRequestsData[row]];

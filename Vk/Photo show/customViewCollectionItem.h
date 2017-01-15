@@ -38,6 +38,7 @@
     double expectedBytes;
     BOOL proccessGoing;
     NSMenu *theDropdownContextMenu;
+    NSInteger overAlbumId;
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;
