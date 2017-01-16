@@ -36,6 +36,8 @@
     StringHighlighter *stringHighlighter;
     NSMutableDictionary *cachedImage;
     NSMutableDictionary *cachedStatus;
+    NSInteger totalCount;
+    BOOL loading;
 }
 @property(nonatomic, readwrite)appInfo *app;
 @end

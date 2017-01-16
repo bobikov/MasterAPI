@@ -5662,7 +5662,6 @@ Gw
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="arrayController" destination="8gk-yO-NIQ" id="hmJ-LB-P7E"/>
                         <outlet property="filterActive" destination="LJh-5G-a9V" id="R3p-e0-3jN"/>
                         <outlet property="filterDeactivated" destination="zCe-AQ-Kya" id="lhe-6c-m9h"/>
                         <outlet property="groupsList" destination="d7Z-8a-xvX" id="Nkv-lz-rM7"/>
@@ -5679,11 +5678,6 @@ Gw
                     </connections>
                 </viewController>
                 <customObject id="WHP-io-94V" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController id="8gk-yO-NIQ">
-                    <connections>
-                        <binding destination="pNE-bj-q4S" name="contentArray" keyPath="value" id="5Gx-4J-b4T"/>
-                    </connections>
-                </arrayController>
             </objects>
             <point key="canvasLocation" x="942.5" y="10435"/>
         </scene>

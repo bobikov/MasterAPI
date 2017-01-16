@@ -285,7 +285,7 @@
         offsetLoadFaveGroups=offsetLoadFaveGroups+50;
     }else{
         [favesGroupsData removeAllObjects];
-        //
+        [favesGroupsList reloadData];
         offsetLoadFaveGroups=0;
         offsetCounter=0;
     }

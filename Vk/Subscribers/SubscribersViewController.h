@@ -42,6 +42,5 @@
 @property (nonatomic,readwrite) NSDictionary *userDataFromFullUserInfo;
 @property (nonatomic,readwrite) NSString *ownerId;
 @property(nonatomic,readwrite) BOOL loadFromFullUserInfo;
-@property (nonatomic) NSMutableArray *value;
 @property (nonatomic) StringHighlighter *stringHighlighter;
 @end

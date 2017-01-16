@@ -127,7 +127,7 @@
 }
 
 - (IBAction)uploadButtonAction:(id)sender {
-    [self removeDownloadAndUploadStatuOver];
+//    [self removeDownloadAndUploadStatuOver];
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     albumToUploadTo = selectedObject[@"id"] ;
@@ -159,7 +159,8 @@
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
         customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         selectedObject[@"busy"]=@0;
-        albumItem.downloadAndUploadStatusOver.hidden=YES;
+//        albumItem.downloadAndUploadStatusOver.hidden=YES;
+        [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
     }
 }
 

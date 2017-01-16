@@ -14,7 +14,7 @@
 @end
 
 @implementation SubscribersViewController
-@synthesize value, ownerId;
+@synthesize  ownerId;
 - (void)viewDidLoad {
     [super viewDidLoad];
     subscribersList.delegate = self;
@@ -27,7 +27,7 @@
     offsetCounter = 0;
     foundData = [[NSMutableArray alloc]init];
     friendsListPopupData = [[NSMutableArray alloc]init];
-    value=[[NSMutableArray alloc]init];
+
     selectedUsers = [[NSMutableArray alloc]init];
     _stringHighlighter = [[StringHighlighter alloc]init];
     [friendsListPopup removeAllItems];
@@ -40,7 +40,7 @@
     [self loadSubscribers:NO :NO];
     
 }
--(void)viewDidScroll:(NSNotification *)notification{
+- (void)viewDidScroll:(NSNotification *)notification{
     if([notification.object isEqual:subscribersClipView]){
         NSInteger scrollOrigin = [[subscribersScrollView contentView]bounds].origin.y+NSMaxY([subscribersScrollView visibleRect]);
         //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
@@ -59,7 +59,7 @@
         //
     }
 }
--(void)VisitUserPageFromSubscribers:(NSNotification*)notification{
+- (void)VisitUserPageFromSubscribers:(NSNotification*)notification{
     
         NSInteger row = [notification.userInfo[@"row"] intValue];
         NSLog(@"%@", subscribersData[row]);
