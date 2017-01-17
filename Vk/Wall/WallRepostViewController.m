@@ -179,8 +179,6 @@
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
     [temporaryContext performBlock:^{
-        
-        
         NSFetchRequest *request = [ NSFetchRequest fetchRequestWithEntityName:@"VKUserRepostGroupsNames"];
         NSError *readError;
         NSError *deleteError;

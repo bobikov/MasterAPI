@@ -15,6 +15,7 @@
 		2B1914D41E2D043100FB714E /* to-top28.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914D21E2D043100FB714E /* to-top28.png */; };
 		2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */; };
 		2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */; };
+		2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -306,6 +307,10 @@
 		2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramMediaPostsTableView.m; sourceTree = "<group>"; };
 		2B1914D81E2E169A00FB714E /* SidebarOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarOutlineView.h; sourceTree = "<group>"; };
 		2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarOutlineView.m; sourceTree = "<group>"; };
+		2B1914DB1E2E466800FB714E /* CreateFavesGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFavesGroupController.h; sourceTree = "<group>"; };
+		2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFavesGroupController.m; sourceTree = "<group>"; };
+		2B1914DE1E2E4F4300FB714E /* CoreDataMain 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataMain 17.xcdatamodel"; sourceTree = "<group>"; };
+		2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataMain 18.xcdatamodel"; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -1428,6 +1433,8 @@
 				2B41FB1B1E02D3F50013AC86 /* FavoritesTabController.m */,
 				2B41FB1C1E02D3F50013AC86 /* FavoritesUsersViewController.h */,
 				2B41FB1D1E02D3F50013AC86 /* FavoritesUsersViewController.m */,
+				2B1914DB1E2E466800FB714E /* CreateFavesGroupController.h */,
+				2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -1619,8 +1626,8 @@
 			children = (
 				2B41FBA01E02D3F60013AC86 /* WallPostViewController.h */,
 				2B41FBA11E02D3F60013AC86 /* WallPostViewController.m */,
-				2B41FB961E02D3F60013AC86 /* AddRepostGroupController.m */,
 				2B41FB951E02D3F60013AC86 /* AddRepostGroupController.h */,
+				2B41FB961E02D3F60013AC86 /* AddRepostGroupController.m */,
 				2B41FB971E02D3F60013AC86 /* PostAttachmentsCustomItem.h */,
 				2B41FB981E02D3F60013AC86 /* PostAttachmentsCustomItem.m */,
 				2B41FB991E02D3F60013AC86 /* PostAttachmentsCustomItem.xib */,
@@ -2061,6 +2068,7 @@
 				2B41FBE01E02D3F60013AC86 /* CustomTabItem.m in Sources */,
 				2B41FBF21E02D3F60013AC86 /* HTMLElement.m in Sources */,
 				2B41FC541E02D3F60013AC86 /* TwitterRWData.m in Sources */,
+				2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */,
 				2B41FC841E02D3F70013AC86 /* OutRequestsCustomCell.m in Sources */,
 				2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */,
 				2B41FC5D1E02D3F70013AC86 /* AudioAlbumRemoveViewController.m in Sources */,
@@ -2259,6 +2267,8 @@
 		2B41F9DE1E02D3F50013AC86 /* CoreDataMain.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */,
+				2B1914DE1E2E4F4300FB714E /* CoreDataMain 17.xcdatamodel */,
 				2B41F9DF1E02D3F50013AC86 /* CoreDataMain 10.xcdatamodel */,
 				2B41F9E01E02D3F50013AC86 /* CoreDataMain 11.xcdatamodel */,
 				2B41F9E11E02D3F50013AC86 /* CoreDataMain 12.xcdatamodel */,
@@ -2276,7 +2286,7 @@
 				2B41F9ED1E02D3F50013AC86 /* CoreDataMain 9.xcdatamodel */,
 				2B41F9EE1E02D3F50013AC86 /* CoreDataMain.xcdatamodel */,
 			);
-			currentVersion = 2B41F9E51E02D3F50013AC86 /* CoreDataMain 16.xcdatamodel */;
+			currentVersion = 2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */;
 			path = CoreDataMain.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

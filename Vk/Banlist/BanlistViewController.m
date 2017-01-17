@@ -30,7 +30,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     [dateFilterOptionsPopup removeAllItems];
     [dateFilterOptionsPopup addItemsWithTitles:dateFilterItems];
     value = [[NSMutableArray alloc]init];
-    selectedUsers=[[NSMutableArray alloc]init];
+    selectedUsers = [[NSMutableArray alloc]init];
     cachedImage = [[NSMutableDictionary alloc]init];
     cachedStatus = [[NSMutableDictionary alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromBanlist:) name:@"VisitUserPageFromBanlist" object:nil];

@@ -28,9 +28,9 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(copyImageURL:) name:@"Copy instagram image URL" object:nil];
     cellMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Search Menu", @"Search Menu title")];
-     [self searchFieldMenu];
+    [self searchFieldMenu];
 }
--(void)copyImageURL:(NSNotification*)obj{
+- (void)copyImageURL:(NSNotification*)obj{
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     [pasteBoard setString:mediaURLS[[obj.userInfo[@"row"] intValue]] forType:NSStringPboardType];
@@ -54,7 +54,7 @@
 //    [NSMenu popUpContextMenu:cellMenu withEvent:event forView:searchField];
 //    
 //}
--(void)viewDidScroll:(NSNotification*)notification{
+- (void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[mediaPostsScroll contentView]bounds].origin.y+NSMaxY([mediaPostsScroll visibleRect]);
     //    NSInteger numberRowHeights = [collectionViewListAlbums numberOfItemsInSection:0];
     NSInteger boundsHeight = mediaPostsList.bounds.size.height;
@@ -67,7 +67,7 @@
 - (IBAction)showMedia:(id)sender {
     
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     postID = nil;
     [mediaURLS removeAllObjects];
     [postsData removeAllObjects];
@@ -84,10 +84,10 @@
     //user info https://www.instagram.com/kevin/?__a=1
     //post info  https://www.instagram.com/p/BGBgSw0tpHQ/?__a=1
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
 }
--(void)searchFieldMenu{
+- (void)searchFieldMenu{
     
     NSMenuItem *item;
     
@@ -111,7 +111,7 @@
     [cellMenu insertItem:item atIndex:3];
     [searchField setSearchMenuTemplate:cellMenu];
 }
--(void)loadProfileInfo:(NSString*)username{
+- (void)loadProfileInfo:(NSString*)username{
     NSString *profileIinfoHTML = [[NSString alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@", username]] encoding:NSUTF8StringEncoding error:nil];
     HTMLDocument *doc=[HTMLDocument documentWithString:profileIinfoHTML];
     NSArray *script = [doc nodesMatchingSelector:@"script"];
@@ -131,7 +131,6 @@
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     [pasteBoard setString:[[mediaURLS objectsAtIndexes:[mediaPostsList selectedRowIndexes]] componentsJoinedByString:@"\n"]   forType:NSStringPboardType];
-    
 }
 - (IBAction)selectOnlyImages:(id)sender {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
@@ -142,7 +141,7 @@
     }
     [mediaPostsList selectRowIndexes:indexes byExtendingSelection:NO];
 }
--(void)loadMediaPosts:(NSString*)username{
+- (void)loadMediaPosts:(NSString*)username{
     [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
@@ -160,10 +159,10 @@
         });
     }]resume];
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [postsData count];
 }
--(void)loadMediaPostsByTag:(NSString*)tag{
+- (void)loadMediaPostsByTag:(NSString*)tag{
     [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@/?__a=1", tag]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *tagSearchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
@@ -173,7 +172,7 @@
 
 
 }
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     MediaPostsCustomCell *cell = (MediaPostsCustomCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
     cell.caption.stringValue = postsData[row][@"caption"];
     cell.date.stringValue = postsData[row][@"date"];
@@ -185,7 +184,7 @@
     });
     return cell;
 }
--(NSString *)formatDate:(NSString*)timestamp{
+ -(NSString *)formatDate:(NSString*)timestamp{
     NSString *date;
     NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: [timestamp intValue]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];

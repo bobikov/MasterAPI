@@ -22,18 +22,23 @@
     
     if (theEvent.type==NSRightMouseDown) {
         
-        NSMenu *menu=[[NSMenu alloc] initWithTitle:@"List of dialogs menu"];
-        NSString *userInfoInBrowserText = @"Visit user page";
-        NSString *userBanAndDeleteDialogText = @"Ban this user and delete dialog";
-        NSMenuItem *userInfoInBrowserItem = [[NSMenuItem alloc] initWithTitle:userInfoInBrowserText action:@selector(openUserInfoInBrowser:) keyEquivalent:@""];
+        NSMenu *menu=[[NSMenu alloc] initWithTitle:@"Favorite users context menu"];
+        [menu setAutoenablesItems:NO];
+//      NSString *userBanAndDeleteDialogText = @"Ban this user and delete dialog";
+        NSMenuItem *userInfoInBrowserItem = [[NSMenuItem alloc] initWithTitle:@"Visit user page" action:@selector(openUserInfoInBrowser:) keyEquivalent:@""];
+        NSMenuItem *createGroupsFromSelectedUsers = [[NSMenuItem alloc] initWithTitle:@"Create group from selected" action:@selector(createGroupWithSelectedUsers) keyEquivalent:@""];
 //        NSMenuItem *userBanAndDeleteDialogItem = [[NSMenuItem alloc] initWithTitle:userBanAndDeleteDialogText action:@selector(userBanAndDeleteDialog) keyEquivalent:@""];
-        [menu addItem:userInfoInBrowserItem];
-        //        [menu addItem:userBanAndDeleteDialogItem];
+        [menu insertItem:createGroupsFromSelectedUsers atIndex:0];
+        [createGroupsFromSelectedUsers setEnabled:[[self selectedRowIndexes]count]];
+        [menu insertItem:userInfoInBrowserItem atIndex:1];
+        //[menu addItem:userBanAndDeleteDialogItem];
         return menu;
     }
     return nil;
 }
-
+-(void)createGroupWithSelectedUsers{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateGroupFromSelectedFavesUsers" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];
+}
 -(void)userBanAndDeleteDialog{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"userBanAndDeleteDialog" object:self userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];
 }

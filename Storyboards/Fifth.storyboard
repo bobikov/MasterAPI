@@ -629,6 +629,42 @@
             </objects>
             <point key="canvasLocation" x="1571.5" y="2022.5"/>
         </scene>
+        <!--Create Faves Group Controller-->
+        <scene sceneID="4ne-uD-iHd">
+            <objects>
+                <viewController storyboardIdentifier="CreateFavesGroupView" id="zJS-OL-VQt" customClass="CreateFavesGroupController" sceneMemberID="viewController">
+                    <view key="view" id="vgL-Ng-vq4">
+                        <rect key="frame" x="0.0" y="0.0" width="204" height="111"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sxy-6A-Yn6">
+                                <rect key="frame" x="61" y="20" width="81" height="32"/>
+                                <buttonCell key="cell" type="push" title="Create" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="n7c-nh-l01">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="create:" target="zJS-OL-VQt" id="RT7-Ev-S88"/>
+                                </connections>
+                            </button>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ob3-eg-LcO">
+                                <rect key="frame" x="53" y="69" width="96" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="group name" drawsBackground="YES" id="h66-GL-uUL">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="groupNameField" destination="Ob3-eg-LcO" id="aay-HV-13i"/>
+                    </connections>
+                </viewController>
+                <customObject id="Mna-HW-05i" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1486" y="2221.5"/>
+        </scene>
         <!--Video Privacy View Controller-->
         <scene sceneID="qPT-ca-G2c">
             <objects>

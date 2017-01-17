@@ -11,7 +11,7 @@
 #import "FriendsMessageSendViewController.h"
 #import "FavesUsersCustomCell.h"
 #import "FriendsStatController.h"
-
+#import "CreateFavesGroupController.h"
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -31,19 +31,168 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     favesUsersTemp = [[NSMutableArray alloc]init];
     cachedImage = [[NSMutableDictionary alloc]init];
     cachedStatus = [[NSMutableDictionary alloc]init];
+    restoredUserIDs = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
       [self loadFavesUsers:NO :NO];
     stringHighlighter = [[StringHighlighter alloc]init];
     [[favesScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(VisitUserPageFromFavoriteUsers:) name:@"VisitUserPageFromFavoriteUsers" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(createGroupFromSelectedUsers:) name:@"CreateGroupFromSelectedFavesUsers" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(CreateFavesGroup:) name:@"CreateFavesGroup" object:nil];
     offsetLoadFaveUsers=0;
+    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    [favesUserGroups removeAllItems];
+    
+    [self loadFavesUserGroups];
+    [self loadUserFavesGroupsPrefs];
 }
 - (void)VisitUserPageFromFavoriteUsers:(NSNotification *)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
     NSLog(@"%@", favesUsersData[row]);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@", favesUsersData[row][@"id"]]]];
 }
+-(void)createGroupFromSelectedUsers:(NSNotification *)notification{
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    CreateFavesGroupController *contr = [story instantiateControllerWithIdentifier:@"CreateFavesGroupView"];
+    [self presentViewControllerAsSheet:contr];
+    
+}
+- (void)loadUserFavesGroupsPrefs{
+    [userFavesGroupsPrefs removeItemAtIndex:1];
+    [userFavesGroupsPrefs removeItemAtIndex:1];
+    [userFavesGroupsPrefs insertItemWithTitle:@"Remove group" atIndex:1];
+   
+}
+- (IBAction)userFavesGroupsPrefsSelect:(id)sender {
+    [self deleteUserFavesGroup];
+}
+
+- (IBAction)selectUserFavesGroup:(id)sender {
+    [restoredUserIDs removeAllObjects];
+    if([[[favesUserGroups selectedItem]title] isEqual:@"No group"]){
+        [self loadFavesUsers:NO :NO];
+    }else{
+        NSFetchRequest *fetchGroupsRequest = [NSFetchRequest fetchRequestWithEntityName:@"VKFavesUserGroupsNames"];
+        [fetchGroupsRequest setReturnsObjectsAsFaults:NO];
+        [fetchGroupsRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", [[favesUserGroups selectedItem]title]]];
+        NSArray *fetchedGroups = [moc executeFetchRequest:fetchGroupsRequest error:nil];
+        for(NSManagedObject *i in fetchedGroups ){
+            for(NSManagedObject *a in [[i valueForKey:@"userFavesGroups"] allObjects]){
+                //NSLog(@"%@", [a valueForKey:@"name"]);
+                [restoredUserIDs addObject:[a valueForKey:@"id"]];
+            }
+        }
+        [self loadFavesUsers:NO :NO];
+    }
+}
+- (void)CreateFavesGroup:(NSNotification*)obj{
+    NSLog(@"New group name %@", obj.userInfo[@"group_name"]);
+    userFavesNewGroupName = obj.userInfo[@"group_name"];
+    [self storeNewCreatedGroup];
+}
+
+- (void)loadFavesUserGroups{
+    [favesUserGroups removeAllItems];
+    NSMenuItem *item;
+    NSMenu *favesUserGroupsMenu = [[NSMenu alloc]initWithTitle:@"Faves user groups menu"];
+    item = [[NSMenuItem alloc]initWithTitle:@"No group" action:nil keyEquivalent:@""];
+    [favesUserGroupsMenu insertItem:item atIndex:0];
+    item = [NSMenuItem separatorItem];
+    [favesUserGroupsMenu insertItem:item atIndex:1];
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext=moc;
+    NSFetchRequest *fetchGroupsRequest = [NSFetchRequest fetchRequestWithEntityName:@"VKFavesUserGroupsNames"];
+    [fetchGroupsRequest setReturnsObjectsAsFaults:NO];
+    [fetchGroupsRequest setResultType:NSDictionaryResultType];
+    NSArray *fetchedGroups = [moc executeFetchRequest:fetchGroupsRequest error:nil];
+    for(NSDictionary *i in fetchedGroups){
+        item = [[NSMenuItem alloc]initWithTitle:i[@"name"] action:NULL keyEquivalent:@""];
+        [favesUserGroupsMenu addItem:item];
+    }
+    [favesUserGroups setMenu:favesUserGroupsMenu];
+}
+- (void)storeNewCreatedGroup{
+   
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext=moc;
+    [temporaryContext performBlock:^{
+        NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKFavesUserGroupsNames" inManagedObjectContext:moc];
+        //    NSError *saveError;
+        //    NSError *saveError2;
+        NSError *saveError3;
+        NSMutableArray *objects = [[NSMutableArray alloc]init];
+        
+        NSManagedObject *object = [[NSManagedObject alloc]initWithEntity:entityDesc1 insertIntoManagedObjectContext:temporaryContext];
+        [object setValue:userFavesNewGroupName forKey:@"name"];
+        //    if(![moc save:&saveError]){
+        //        NSLog(@"Error save name of repost group.");
+        //    }else{
+        //        NSLog(@"Repost name of group successfully saved.");
+        for(NSDictionary *i in [favesUsersData objectsAtIndexes:[favesUsersList selectedRowIndexes]]){
+            NSEntityDescription *entityDesc2 = [NSEntityDescription entityForName:@"VKFavesUserItemsInGroup" inManagedObjectContext:temporaryContext];
+            NSManagedObject *object2 = [[NSManagedObject alloc] initWithEntity:entityDesc2 insertIntoManagedObjectContext:temporaryContext];
+            [object2 setValue:[NSString stringWithFormat:@"%@",i[@"id"]] forKey:@"id"];
+            // NSLog(@"%@",i[@"name"]);
+            //[seet addObject:object2];
+            [objects addObject:object2];
+        }
+        [object setValue:[NSSet setWithArray:objects] forKey:@"userFavesGroups"];
+        if(![temporaryContext save:&saveError3]){
+            NSLog(@"Error save items in group.");
+        }
+        [moc performBlockAndWait:^{
+            NSError *error=nil;
+            if (![moc save:&error]) {
+                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
+                abort();
+            }else{
+                NSLog(@"Items in group successfully saved.");
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadListUserRepostGroups" object:nil];
+                [self loadFavesUserGroups];
+            }
+        }];
+    }];
+}
+- (void)soreItemsInGroup{
+    
+    
+}
+- (void)deleteUserFavesGroup{
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext=moc;
+    [temporaryContext performBlock:^{
+        NSFetchRequest *request = [ NSFetchRequest fetchRequestWithEntityName:@"VKFavesUserGroupsNames"];
+        NSError *readError;
+        NSError *deleteError;
+        [request setReturnsObjectsAsFaults:NO];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@",[[favesUserGroups selectedItem]title]]];
+        NSArray *data = [temporaryContext executeFetchRequest:request error:&readError];
+//        NSLog(@"%@", data);
+        if(!readError){
+            for(NSManagedObject *object in data){
+                [temporaryContext deleteObject:object];
+                if(![temporaryContext save:&deleteError]){
+                    NSLog(@"Error delete epost group \"%@\"",  [[favesUserGroups selectedItem]title]);
+                }
+                [moc performBlockAndWait:^{
+                    NSError *error=nil;
+                    if(![moc save:&error]){
+                        NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
+                        abort();
+                    }else{
+                        NSLog(@"Repost group \"%@\" successfully removed",  [[favesUserGroups selectedItem]title]);
+                    }
+                }];
+            }
+            [self loadFavesUserGroups];
+        }else{
+            NSLog(@"Error read repost groups.");
+        }
+    }];
+}
+
+
 - (void)viewDidAppear{
    
     
@@ -68,22 +217,28 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     }
 
 }
+
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if(getFavesUsersResponse[@"error"]){
-                NSLog(@"%@", getFavesUsersResponse[@"error"]);
-            }else{
-                totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
-                [favesUsersTemp removeAllObjects];
-                for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
-                    [favesUsersTemp addObject:i[@"id"]];
+    if([restoredUserIDs count]>0){
+        completion(restoredUserIDs);
+    }else{
+        
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(data){
+                NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                if(getFavesUsersResponse[@"error"]){
+                    NSLog(@"%@", getFavesUsersResponse[@"error"]);
+                }else{
+                    totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
+                    [favesUsersTemp removeAllObjects];
+                    for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
+                        [favesUsersTemp addObject:i[@"id"]];
+                    }
+                    completion(favesUsersTemp);
                 }
-                completion(favesUsersTemp);
             }
-        }
-    }]resume];
+        }]resume];
+    }
 }
 - (IBAction)showFavesUsersStatBut:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
@@ -296,7 +451,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
        
            
     
-        __block NSInteger startInsertRowIndex = [favesUsersData count];
+//        __block NSInteger startInsertRowIndex = [favesUsersData count];
         
         [self getFaveUsers:^(NSMutableArray *faveUsers) {
             if(faveUsers){
@@ -611,7 +766,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                         [favesUsersList reloadData];
                                     }
                                     [progressSpin stopAnimation:self];
-                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && !loading){
+                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && !loading && [restoredUserIDs count]==0){
                                         loading=YES;
                                         loadFavesBlock(YES);
                                     }
@@ -643,7 +798,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([favesUsersData count]>0 && favesUsersData[row]!=nil && favesUsersData[row]!=[NSNull null]) {
+    if ([favesUsersData count]>0 && [favesUsersData lastObject] && favesUsersData[row]!=[NSNull null]) {
         
         FavesUsersCustomCell *cell=[[FavesUsersCustomCell  alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
@@ -689,10 +844,10 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         }
         if([favesUsersData[row][@"online"] isEqual:@"1"]){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-            //             cell.lastOnline.stringValue = @"";
+            //cell.lastOnline.stringValue = @"";
         }
         else{
-            //             cell.lastOnline.stringValue = favesUsersData[row][@"last_seen"];
+            //cell.lastOnline.stringValue = favesUsersData[row][@"last_seen"];
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
         }
         return cell;

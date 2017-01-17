@@ -352,6 +352,17 @@
                                                 <action selector="filterOnlineAction:" target="EbH-s5-e3E" id="G6c-PH-Iwk"/>
                                             </connections>
                                         </button>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gpC-Mz-vuz">
+                                            <rect key="frame" x="688" y="251" width="20" height="18"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="7UD-4C-dXJ"/>
+                                                <constraint firstAttribute="height" constant="18" id="IM1-4q-ZXl"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="smallSquare" title="D" bezelStyle="smallSquare" image="to-down28" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="CYh-Vq-txK">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XrY-nL-FPf">
                                             <rect key="frame" x="632" y="593" width="52" height="17"/>
                                             <constraints>
@@ -405,17 +416,40 @@
                                                 <action selector="showFavesUsersStatBut:" target="EbH-s5-e3E" id="i81-TJ-xGK"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gpC-Mz-vuz">
-                                            <rect key="frame" x="688" y="251" width="20" height="18"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="20" id="7UD-4C-dXJ"/>
-                                                <constraint firstAttribute="height" constant="18" id="IM1-4q-ZXl"/>
-                                            </constraints>
-                                            <buttonCell key="cell" type="smallSquare" title="D" bezelStyle="smallSquare" image="to-down28" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="CYh-Vq-txK">
+                                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1e2-DO-qGO">
+                                            <rect key="frame" x="28" y="545" width="105" height="26"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="jXX-TU-srf" id="XkO-Xg-1Xj">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="jzT-p6-dL6">
+                                                    <items>
+                                                        <menuItem title="Item 1" state="on" id="jXX-TU-srf"/>
+                                                        <menuItem title="Item 2" id="uy7-ix-NLG"/>
+                                                        <menuItem title="Item 3" id="QF2-sK-9XO"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="selectUserFavesGroup:" target="EbH-s5-e3E" id="Ma6-hV-bcD"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jii-Rb-zlh">
+                                            <rect key="frame" x="5" y="549" width="24" height="21"/>
+                                            <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="Dys-ak-jGW" id="wFt-VL-acB">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="AEV-yA-eDj">
+                                                    <items>
+                                                        <menuItem title="Item 1" state="on" image="NSAdvanced" hidden="YES" id="Dys-ak-jGW"/>
+                                                        <menuItem title="Item 2" id="TBr-Fa-FPE"/>
+                                                        <menuItem title="Item 3" id="a4z-j5-0K8"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="userFavesGroupsPrefsSelect:" target="EbH-s5-e3E" id="gVE-b8-lNP"/>
+                                            </connections>
+                                        </popUpButton>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="5Ef-Hc-lNN" firstAttribute="leading" secondItem="uba-U9-d5v" secondAttribute="trailing" constant="21" id="2De-4y-exs"/>
@@ -489,6 +523,7 @@
                         <outlet property="deleteFromFaves" destination="tQM-WK-2na" id="rze-yp-CEc"/>
                         <outlet property="favesClipView" destination="PAX-1U-pUd" id="SGp-oL-10a"/>
                         <outlet property="favesScrollView" destination="SUQ-tj-Cco" id="FZC-nt-WsA"/>
+                        <outlet property="favesUserGroups" destination="1e2-DO-qGO" id="to7-CP-JvO"/>
                         <outlet property="favesUsersList" destination="Rmi-xl-ADr" id="rIe-uC-YG6"/>
                         <outlet property="filterActive" destination="XrY-nL-FPf" id="FDi-AE-VUz"/>
                         <outlet property="filterMen" destination="jb5-cb-5gF" id="dhh-Kt-d1T"/>
@@ -500,6 +535,7 @@
                         <outlet property="searchCount" destination="Frf-9d-QS0" id="3hF-h1-mat"/>
                         <outlet property="sendMessage" destination="9aw-B3-nCQ" id="Lxn-pi-Ogh"/>
                         <outlet property="showFavesUsersStatBut" destination="Cds-Kc-6dF" id="gD5-KN-9wW"/>
+                        <outlet property="userFavesGroupsPrefs" destination="Jii-Rb-zlh" id="kpW-ya-89g"/>
                     </connections>
                 </viewController>
                 <customObject id="3Wb-Yr-60U" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -3696,6 +3732,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NSAdvanced" width="32" height="32"/>
         <image name="download2" width="1000" height="1000"/>
         <image name="mark1" width="30" height="30"/>
         <image name="onAir" width="700" height="700"/>
