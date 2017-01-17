@@ -26,11 +26,15 @@
     instaClient = [[InstagramClient alloc]initWithTokensFromCoreData];
     [[mediaPostsScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
-   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(copyImageURL:) name:@"Copy instagram image URL" object:nil];
     cellMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Search Menu", @"Search Menu title")];
      [self searchFieldMenu];
 }
-
+-(void)copyImageURL:(NSNotification*)obj{
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+    [pasteBoard setString:mediaURLS[[obj.userInfo[@"row"] intValue]] forType:NSStringPboardType];
+}
 //-(void)controlTextDidEndEditing:(NSNotification *)obj{
 //
 //

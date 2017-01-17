@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */; };
 		2B1914CC1E28FC8C00FB714E /* SearchGroupsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */; };
+		2B1914CE1E2CF79000FB714E /* back-to-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914CD1E2CF79000FB714E /* back-to-top.png */; };
+		2B1914D01E2CF8DC00FB714E /* go_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914CF1E2CF8DC00FB714E /* go_down.png */; };
+		2B1914D31E2D043100FB714E /* to-down28.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914D11E2D043100FB714E /* to-down28.png */; };
+		2B1914D41E2D043100FB714E /* to-top28.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914D21E2D043100FB714E /* to-top28.png */; };
+		2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */; };
+		2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -292,6 +298,14 @@
 		2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchGroupsCellView.xib; sourceTree = "<group>"; };
 		2B1914CA1E28FC8C00FB714E /* SearchGroupsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchGroupsCellView.h; sourceTree = "<group>"; };
 		2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchGroupsCellView.m; sourceTree = "<group>"; };
+		2B1914CD1E2CF79000FB714E /* back-to-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-to-top.png"; sourceTree = "<group>"; };
+		2B1914CF1E2CF8DC00FB714E /* go_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = go_down.png; sourceTree = "<group>"; };
+		2B1914D11E2D043100FB714E /* to-down28.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "to-down28.png"; sourceTree = "<group>"; };
+		2B1914D21E2D043100FB714E /* to-top28.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "to-top28.png"; sourceTree = "<group>"; };
+		2B1914D51E2D1F9E00FB714E /* InstagramMediaPostsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramMediaPostsTableView.h; sourceTree = "<group>"; };
+		2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramMediaPostsTableView.m; sourceTree = "<group>"; };
+		2B1914D81E2E169A00FB714E /* SidebarOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarOutlineView.h; sourceTree = "<group>"; };
+		2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarOutlineView.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -892,6 +906,8 @@
 				2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */,
 				2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */,
 				2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */,
+				2B1914D51E2D1F9E00FB714E /* InstagramMediaPostsTableView.h */,
+				2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -937,6 +953,8 @@
 			children = (
 				2B41FA201E02D3F50013AC86 /* SidebarOutlineViewController.h */,
 				2B41FA211E02D3F50013AC86 /* SidebarOutlineViewController.m */,
+				2B1914D81E2E169A00FB714E /* SidebarOutlineView.h */,
+				2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -1089,6 +1107,10 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2B1914D11E2D043100FB714E /* to-down28.png */,
+				2B1914D21E2D043100FB714E /* to-top28.png */,
+				2B1914CF1E2CF8DC00FB714E /* go_down.png */,
+				2B1914CD1E2CF79000FB714E /* back-to-top.png */,
 				2BCE662F1E095B7600364A80 /* queue1_30.png */,
 				2B41FA661E02D3F50013AC86 /* add_plus40.png */,
 				2B41FA671E02D3F50013AC86 /* audio.png */,
@@ -1773,6 +1795,7 @@
 				2B41FCD51E03E61E0013AC86 /* Fifth.storyboard in Resources */,
 				2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */,
 				2B41FC3D1E02D3F60013AC86 /* video_min.png in Resources */,
+				2B1914CE1E2CF79000FB714E /* back-to-top.png in Resources */,
 				2B41FC1A1E02D3F60013AC86 /* docs10.png in Resources */,
 				2B41FC301E02D3F60013AC86 /* remove15px.png in Resources */,
 				2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */,
@@ -1781,6 +1804,8 @@
 				2B41FC2D1E02D3F60013AC86 /* pressed_button.png in Resources */,
 				2B41FC0C1E02D3F60013AC86 /* audio_min.png in Resources */,
 				2B41FCCD1E02D3F70013AC86 /* Assets.xcassets in Resources */,
+				2B1914D31E2D043100FB714E /* to-down28.png in Resources */,
+				2B1914D01E2CF8DC00FB714E /* go_down.png in Resources */,
 				2B41FC1B1E02D3F60013AC86 /* docs_min.png in Resources */,
 				2B41FC351E02D3F60013AC86 /* tasks.png in Resources */,
 				2B41FC411E02D3F60013AC86 /* youtube-icon.png in Resources */,
@@ -1808,6 +1833,7 @@
 				2B41FC031E02D3F60013AC86 /* SmilesCollectionViewItem.xib in Resources */,
 				2B41FC2F1E02D3F60013AC86 /* profile.png in Resources */,
 				2B41FC391E02D3F60013AC86 /* upload15px.png in Resources */,
+				2B1914D41E2D043100FB714E /* to-top28.png in Resources */,
 				2B41FC261E02D3F60013AC86 /* pause.png in Resources */,
 				2B41FC1F1E02D3F60013AC86 /* empty_album.png in Resources */,
 				2B41FC2E1E02D3F60013AC86 /* prev.png in Resources */,
@@ -1868,6 +1894,7 @@
 				2B41FC8C1E02D3F70013AC86 /* GroupsFromFileViewController.m in Sources */,
 				2B41FC801E02D3F70013AC86 /* FriendsStatGraphs.m in Sources */,
 				2B41FCB31E02D3F70013AC86 /* AddRepostGroupController.m in Sources */,
+				2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */,
 				2B41FBD31E02D3F60013AC86 /* VKPrefsInfo.m in Sources */,
 				2B41FC9A1E02D3F70013AC86 /* URLsViewController.m in Sources */,
 				2B41FCC31E02D3F70013AC86 /* YoutubeSubscriptionsCustomCell.m in Sources */,
@@ -1942,6 +1969,7 @@
 				2B41FBE41E02D3F60013AC86 /* FollowsViewController.m in Sources */,
 				2B41FCB11E02D3F70013AC86 /* VKCaptchaHandler.m in Sources */,
 				2B41FC751E02D3F70013AC86 /* EditDocsViewController.m in Sources */,
+				2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */,
 				2B41FBD51E02D3F60013AC86 /* AppStartSettingsMainViewController.m in Sources */,
 				2B41FC5C1E02D3F70013AC86 /* AddAudiosViewController.m in Sources */,
 				2B41FBF91E02D3F60013AC86 /* HTMLSelector.m in Sources */,

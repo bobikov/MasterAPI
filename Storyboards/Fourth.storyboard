@@ -854,7 +854,7 @@
                                                 <rect key="frame" x="1" y="1" width="542" height="593"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="hl2-xw-0tD">
+                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="hl2-xw-0tD" customClass="InstagramMediaPostsTableView">
                                                         <rect key="frame" x="0.0" y="0.0" width="542" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -1737,7 +1737,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jQi-ro-g43">
-                                                                                <rect key="frame" x="0.0" y="3" width="492" height="58"/>
+                                                                                <rect key="frame" x="0.0" y="3" width="470" height="58"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="58" id="118-20-5go"/>
                                                                                 </constraints>
@@ -1764,7 +1764,7 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="bottom" secondItem="fRu-lA-Qag" secondAttribute="bottom" constant="46" id="2Bs-8T-jaN"/>
                                                                             <constraint firstItem="fRu-lA-Qag" firstAttribute="top" secondItem="0Gq-KA-uIh" secondAttribute="top" constant="6" id="BFF-dq-zGC"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="jQi-ro-g43" secondAttribute="trailing" constant="-2" id="BwW-ey-6lt"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="jQi-ro-g43" secondAttribute="trailing" constant="20" id="BwW-ey-6lt"/>
                                                                             <constraint firstItem="jQi-ro-g43" firstAttribute="leading" secondItem="0Gq-KA-uIh" secondAttribute="leading" constant="2" id="aeJ-XZ-bl1"/>
                                                                             <constraint firstAttribute="bottom" secondItem="jQi-ro-g43" secondAttribute="bottom" constant="3" id="gZU-ee-2fE"/>
                                                                             <constraint firstAttribute="trailing" secondItem="fRu-lA-Qag" secondAttribute="trailing" constant="8" id="rCL-aV-5eQ"/>

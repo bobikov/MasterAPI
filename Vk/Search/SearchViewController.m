@@ -600,7 +600,7 @@
             }else{
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
-                    cachedStatus[foundListData[row]] = [attrStatusString copy];
+                    cachedStatus[foundListData[row]] = attrStatusString;
                     NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
                     NSSize imSize=NSMakeSize(60, 60);
                     image.size=imSize;

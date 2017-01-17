@@ -315,8 +315,9 @@
         offsetLoadSubscribers=offsetLoadSubscribers+500;
     }else{
         [subscribersData removeAllObjects];
+        [subscribersList reloadData];
         offsetLoadSubscribers=0;
-         offsetCounter=0;
+        offsetCounter=0;
     }
     ownerId = ownerId ? ownerId : _app.person;
      [progressSpin startAnimation:self];
@@ -640,7 +641,7 @@
     return 0;
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([subscribersData count]>0){
+    if([subscribersData count]>0 && subscribersData[row]!=nil && subscribersData[row]!=[NSNull null]){
         SubscribersCustomCell *cell = [[SubscribersCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = subscribersData[row][@"full_name"];

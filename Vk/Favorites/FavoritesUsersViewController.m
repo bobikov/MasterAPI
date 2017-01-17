@@ -14,7 +14,7 @@
 
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
--(void)getFaveUsers:(OnFaveUsersGetComplete)completion;
+- (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
 @end
 
 @implementation FavoritesUsersViewController
@@ -39,16 +39,16 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(VisitUserPageFromFavoriteUsers:) name:@"VisitUserPageFromFavoriteUsers" object:nil];
     offsetLoadFaveUsers=0;
 }
--(void)VisitUserPageFromFavoriteUsers:(NSNotification *)notification{
+- (void)VisitUserPageFromFavoriteUsers:(NSNotification *)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
     NSLog(@"%@", favesUsersData[row]);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@", favesUsersData[row][@"id"]]]];
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
    
     
 }
--(void)viewDidScroll:(NSNotification*)notification{
+- (void)viewDidScroll:(NSNotification*)notification{
     if([notification.object isEqual:favesClipView]){
         NSInteger scrollOrigin = [[favesScrollView contentView]bounds].origin.y+NSMaxY([favesScrollView visibleRect]);
         //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
@@ -68,7 +68,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     }
 
 }
--(void)getFaveUsers:(OnFaveUsersGetComplete)completion{
+- (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -597,9 +597,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                             }
                                         }
                                     }
-//                                    dispatch_async(dispatch_get_main_queue(),^{
-//                                        [favesUsersList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[favesUsersData count]==1?0:[favesUsersData count]] withAnimation:NSTableViewAnimationEffectNone];
-//                                    });
                                 }
                             }
                             dispatch_async(dispatch_get_main_queue(), ^{
@@ -613,19 +610,14 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                     }else{
                                         [favesUsersList reloadData];
                                     }
-                                    
+                                    [progressSpin stopAnimation:self];
+                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && !loading){
+                                        loading=YES;
+                                        loadFavesBlock(YES);
+                                    }
                                 }
-                                
-                                
-                                [progressSpin stopAnimation:self];
-                                if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && !loading){
-                                    loading=YES;
-                                    loadFavesBlock(YES);
-                                }
-                                
                             });
                         }
-                        
                     }
                 }]resume];
             }
@@ -637,7 +629,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         loadFavesBlock(NO);
     }
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[favesUsersList selectedRowIndexes]count]>0){
         row = [favesUsersList selectedRow];
@@ -646,12 +638,12 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
 }
 
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [favesUsersData count];
 }
 
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([favesUsersData count]>0) {
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    if ([favesUsersData count]>0 && favesUsersData[row]!=nil && favesUsersData[row]!=[NSNull null]) {
         
         FavesUsersCustomCell *cell=[[FavesUsersCustomCell  alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
@@ -695,8 +687,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                 });
             });
         }
-        
-        
         if([favesUsersData[row][@"online"] isEqual:@"1"]){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
             //             cell.lastOnline.stringValue = @"";
@@ -705,10 +695,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
             //             cell.lastOnline.stringValue = favesUsersData[row][@"last_seen"];
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
         }
-        
         return cell;
     }
-    
     return nil;
 }
 
