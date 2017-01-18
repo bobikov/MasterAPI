@@ -19,7 +19,7 @@
     
 }
 - (IBAction)create:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateFavesGroup" object:nil userInfo:@{@"group_name":groupNameField.stringValue}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateFavesGroup" object:nil userInfo:@{@"group_name":groupNameField.stringValue, @"only_create":[NSNumber numberWithInteger:_onlyCreate]}];
     [self dismissController:self];
     
 }

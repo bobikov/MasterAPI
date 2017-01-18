@@ -46,6 +46,7 @@
     saveRepostGroup.hidden=YES;
     itemsToSaveInSelectedRepostGroup = [[NSMutableArray alloc]init];
 }
+
 - (IBAction)removeItemFromRepostGroup:(id)sender {
     saveRepostGroup.hidden=NO;
     NSInteger row = [groupsList2 rowForView:[sender superview]];
@@ -89,15 +90,15 @@
     
 }
 
--(void)viewDidAppear{
+- (void)viewDidAppear{
      [self loadGroups1];
     countGroups.title=[NSString stringWithFormat:@"%li",[groupsData1 count]];
 //     NSLog(@"%@", groupsData1[0][@"name"]);
 }
--(void)reloadListUserRepostGroups:(NSNotification*)notification{
+- (void)reloadListUserRepostGroups:(NSNotification*)notification{
     [self getListOfUserRepostGroupsFromData];
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     AddRepostGroupController *contr = (AddRepostGroupController*)segue.destinationController;
     contr.receivedData = [[NSMutableArray alloc] initWithArray:groupsData2];
     
@@ -128,11 +129,9 @@
                 [object2 setValue:b[@"deactivated"] forKey:@"deactivated"];
                 [object2 setValue:b[@"desc"] forKey:@"desc"];
                 [object2 setValue:b[@"name"] forKey:@"name"];
-                //            NSLog(@"%@",b[@"name"]);
-                //            [seet addObject:object2];
-                
+                //NSLog(@"%@",b[@"name"]);
+                //[seet addObject:object2];
                 [objects addObject:object2];
-                
             }
             
             [i setValue:[NSSet setWithArray:objects] forKey:@"userRepostGroups"];
@@ -159,11 +158,9 @@
                     }else{
                         
                         NSLog(@"Item successfully removed from repost group \"%@\"", [[repostUserGroups selectedItem]title]);
-                       
                     }
                 }
             }
-            
         }
          [itemsToRemoveInSelectedRepostGroup removeAllObjects];
     }
@@ -249,7 +246,7 @@
     
     
 }
--(void)getListOfUserRepostGroupsFromData{
+- (void)getListOfUserRepostGroupsFromData{
     [repostUserGroups removeAllItems];
     NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
@@ -266,14 +263,15 @@
     
 }
 
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadGroupsList1Search];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     groupsData1 = groupsData1Copy;
     [groupsList1 reloadData];
 }
--(void)loadGroupsList1Search{
+
+- (void)loadGroupsList1Search{
     
     NSInteger counter=0;
 //    NSMutableArray *groupsData1Temp=[[NSMutableArray alloc]init];
@@ -330,8 +328,6 @@
 - (IBAction)addSelectedObjectsAction:(id)sender {
     NSIndexSet *rows;
     rows=[groupsList1 selectedRowIndexes];
-    
-   
         for (NSInteger i = [rows firstIndex]; i != NSNotFound; i = [rows indexGreaterThanIndex: i]){
             if(![groupsData2 containsObject:groupsData1[i]]){
                 [groupsData2 addObject:groupsData1[i]] ;
@@ -340,7 +336,6 @@
 
 //    NSLog(@"%@", selectedGroups);
     selectedGroups = groupsData2;
-    
     [groupsList2 insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [groupsData2 count]) ] withAnimation:NSTableViewAnimationSlideLeft];
     countGroups2.title = [NSString stringWithFormat:@"%li", [groupsData2 count] ];
 //    [groupsList2 reloadData];
@@ -387,7 +382,7 @@
     });
     
 }
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -398,7 +393,7 @@
         }
     }]resume];
 }
--(void)loadGroups1{
+- (void)loadGroups1{
 //    if([groupsData1 count]==0){
 //        _groupsHandle = [[groupsHandler alloc] init];
 //        //    NSLog(@"%@", [_groupsHandle readFromFile]);
@@ -426,7 +421,11 @@
         [groupsList1 reloadData];
     }
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+
+
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
+    
     
     if([notification.object isEqual: groupsList1]){
         
@@ -437,7 +436,7 @@
         }
     }
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if([tableView isEqual: groupsList1]){
         if([groupsData1 count]>0){
             
@@ -451,7 +450,7 @@
     }
     return 0;
 }
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
   
     
     if([tableView isEqual: groupsList1]){

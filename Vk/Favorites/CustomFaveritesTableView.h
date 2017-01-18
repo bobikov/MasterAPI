@@ -10,4 +10,5 @@
 
 @interface CustomFaveritesTableView : NSTableView
 @property(nonatomic,readwrite)NSUInteger row;
+@property(nonatomic)NSArray *favesUserGroupsNames;
 @end

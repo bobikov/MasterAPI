@@ -7,13 +7,21 @@
 //
 
 #import "CustomFaveritesTableView.h"
-
 @implementation CustomFaveritesTableView
+- (void)awakeFromNib{
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUserFavesGroups:) name:@"getUserFavesGroupsForContextMenu" object:nil];
+   
+}
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
-    // Drawing code here.
+    
+}
+-(void)getUserFavesGroups:(NSNotification*)notification{
+//    NSLog(@"%@", notification.userInfo[@"groups"]);
+    _favesUserGroupsNames = notification.userInfo[@"groups"];
+    
 }
 -(NSMenu*)menuForEvent:(NSEvent*)theEvent
 {
@@ -31,10 +39,29 @@
         [menu insertItem:createGroupsFromSelectedUsers atIndex:0];
         [createGroupsFromSelectedUsers setEnabled:[[self selectedRowIndexes]count]];
         [menu insertItem:userInfoInBrowserItem atIndex:1];
-        //[menu addItem:userBanAndDeleteDialogItem];
+        NSMenuItem *userGroupsMenuItem = [[NSMenuItem alloc]initWithTitle:@"Add to user group" action:NULL keyEquivalent:@""];
+        
+        [menu insertItem:userGroupsMenuItem atIndex:2];
+        [userGroupsMenuItem setEnabled:[[self selectedRowIndexes]count]];
+    
+        if(userGroupsMenuItem.isEnabled){
+            NSMenu *userGroupsMenu = [[NSMenu alloc]init];
+            [userGroupsMenu setAutoenablesItems:NO];
+            for(NSString *i in _favesUserGroupsNames){
+                NSMenuItem *item = [[NSMenuItem alloc]initWithTitle:i action:@selector(selectUserGroup:) keyEquivalent:@""];
+                [item setEnabled:YES];
+                [userGroupsMenu addItem:item];
+              
+            }
+            [userGroupsMenuItem setSubmenu:userGroupsMenu];
+        }
         return menu;
     }
     return nil;
+}
+-(void)selectUserGroup:(NSMenuItem*)obj{
+//    NSLog(@"%@", obj.title);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AddFavesUserGroupsItemIntoGroup" object:nil userInfo:@{@"group_name":obj.title}];
 }
 -(void)createGroupWithSelectedUsers{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateGroupFromSelectedFavesUsers" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];

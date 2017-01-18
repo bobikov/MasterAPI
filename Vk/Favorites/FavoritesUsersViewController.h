@@ -38,12 +38,16 @@
     NSMutableDictionary *cachedStatus;
     NSInteger totalCount;
     BOOL loading;
+    BOOL loadFromUserGroup;
     __weak IBOutlet NSPopUpButton *favesUserGroups;
     
     __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
     NSManagedObjectContext *moc;
     NSString *userFavesNewGroupName;
     NSMutableArray *restoredUserIDs;
+    __weak IBOutlet NSButton *loadedCount;
+    __weak IBOutlet NSButton *totalCountLabel;
 }
+
 @property(nonatomic, readwrite)appInfo *app;
 @end
