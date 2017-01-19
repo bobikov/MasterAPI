@@ -14,11 +14,12 @@
 
 @implementation ApiSourceSelectorItem
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+
     
-    [self createTrackingArea];
+//    [self createTrackingArea];
 }
 - (void)createTrackingArea
 {
@@ -37,7 +38,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.alignment=NSTextAlignmentCenter;
     if(selected){
-        NSLog(@"SSSSS");
+//        NSLog(@"SSSSS");
         //        if(self.highlightState==0){
         //            self.view.layer.backgroundColor=[[NSColor whiteColor] CGColor];
         //        }
@@ -51,7 +52,7 @@
         CustomView *view = (CustomView*)self.view;
 //        view.layer.backgroundColor=[[NSColor whiteColor] CGColor];
         [view setSelectedBackground];
-        
+        prevSelectedItemHeight = self.view.frame.size.height+3;
         self.view.frame = NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height+3);
        
         //            self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.30 green:0.70 blue:0.90 alpha:0.8]CGColor];
@@ -63,8 +64,8 @@
         //        }
     }
     else{
-        self.view.frame = NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-3);
-        NSAttributedString *attrTitle = [[NSAttributedString alloc]initWithString:_sourceName.stringValue attributes:@{NSForegroundColorAttributeName:[NSColor blackColor],NSParagraphStyleAttributeName:paragraphStyle}];
+        self.view.frame = NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, prevSelectedItemHeight ? prevSelectedItemHeight-3 : self.view.frame.size.height);
+//        NSAttributedString *attrTitle = [[NSAttributedString alloc]initWithString:_sourceName.stringValue attributes:@{NSForegroundColorAttributeName:[NSColor blackColor],NSParagraphStyleAttributeName:paragraphStyle}];
 //        _sourceName.attributedStringValue=attrTitle;
 //        self.view.layer.backgroundColor=[[NSColor windowBackgroundColor] CGColor];
          CustomView *view = (CustomView*)self.view;

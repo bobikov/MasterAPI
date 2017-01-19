@@ -12,7 +12,7 @@
 #import "YoutubeRWData.h"
 #import "TumblrRWData.h"
 #import "InstagramRWD.h"
-@interface ViewController : NSViewController<NSCollectionViewDelegate, NSCollectionViewDataSource>{
+@interface ViewController : NSViewController<NSCollectionViewDelegate, NSCollectionViewDataSource,NSCollectionViewDelegateFlowLayout>{
     
     __weak IBOutlet NSCollectionView *apiSourceSelectorCollectionView;
     NSArray *apiSourceListData;
@@ -20,6 +20,7 @@
 //    CALayer *border;
 //    CALayer *backG;
     BOOL loaded;
+    NSInteger selectedItem;
    
 }
 @property(nonatomic)keyHandler *VKKeyHandler;

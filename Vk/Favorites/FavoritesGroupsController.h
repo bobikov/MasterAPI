@@ -23,7 +23,7 @@
     __weak IBOutlet NSButton *filterActive;
     __weak IBOutlet NSButton *searchCount;
     __weak IBOutlet NSProgressIndicator *progressSpin;
-    __weak IBOutlet NSButton *totalCount;
+  
     NSDictionary *receiverDataForMessage;
     NSMutableArray *favesGroupsTemp;
     NSMutableArray *selectedGroups;
@@ -34,6 +34,15 @@
     NSString *extURL;
     NSMutableArray *favesGroupsDataTemp;
     NSMutableArray *groupDataById;
+    BOOL loading;
+    BOOL loadFromUserGroup;
+    __weak IBOutlet NSPopUpButton *favesUserGroups;
+    __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
+    NSManagedObjectContext *moc;
+    NSString *userFavesNewGroupName;
+    NSMutableArray *restoredUserIDs;
+    __weak IBOutlet NSButton *loadedCount;
+    __weak IBOutlet NSButton *totalCount;
     
 }
 @property(nonatomic, readwrite)appInfo *app;

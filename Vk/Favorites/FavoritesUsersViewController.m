@@ -32,7 +32,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     restoredUserIDs = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     loadFromUserGroup=NO;
-      [self loadFavesUsers:NO :NO];
+    [self loadFavesUsers:NO :NO];
     stringHighlighter = [[StringHighlighter alloc]init];
     [[favesScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];

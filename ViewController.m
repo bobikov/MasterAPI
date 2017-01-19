@@ -14,12 +14,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    selectedItem=0;
     apiSourceListData = @[@"vkontakte", @"youtube", @"twitter", @"tumblr", @"instagram"];
     apiSourceSelectorCollectionView.delegate=self;
     apiSourceSelectorCollectionView.dataSource=self;
     apiSourceSelectorCollectionView.content=apiSourceListData;
     apiSourceSelectorCollectionView.wantsLayer=YES;
-//     [apiSourceSelectorCollectionView reloadData];
+    [apiSourceSelectorCollectionView reloadData];
 //    self.view.wantsLayer=YES;
 //    apiSelectorScrollview.wantsLayer=YES;
     
@@ -42,6 +43,10 @@
     [apiSelectorScrollview addSubview:border positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
     [apiSelectorScrollview addSubview:backG positioned:NSWindowBelow relativeTo:apiSelectorScrollview];
     
+   
+    
+      [self setDefaultSelectedAPISource];
+  
 //    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:backG.frame];
 //    vibrantView.material=NSVisualEffectMaterialTitlebar;
 //    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
@@ -53,11 +58,21 @@
 //    [backG addSubview:vibrantView positioned:NSWindowBelow relativeTo:backG];
 
     
-    [self setDefaultSelectedAPISource];
+//    [self setDefaultSelectedAPISource];
 }
 
 -(void)setDefaultSelectedAPISource{
-    [apiSourceSelectorCollectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+  
+    [apiSourceSelectorCollectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:selectedItem]];
+ 
+ 
+}
+
+-(void)viewDidLayout{
+    
+        [apiSourceSelectorCollectionView reloadData];
+        [apiSourceSelectorCollectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:selectedItem]];
+    
 }
 
 
@@ -150,6 +165,7 @@
 
 -(void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSInteger selectedSource = [indexPaths allObjects][0].item;
+    selectedItem = selectedSource;
 //    NSRect selectedSourceFrame = [collectionView itemAtIndexPath:[indexPaths allObjects][0]].view.frame;
 //    ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView itemAtIndexPath:[indexPaths allObjects][0]];
     
@@ -175,13 +191,16 @@
     }
 //    [collectionView deselectItemsAtIndexPaths:indexPaths];
 }
+-(NSSize)collectionView:(NSCollectionView *)collectionView layout:(NSCollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return NSMakeSize((collectionView.frame.size.width/[apiSourceListData count]), 24);
+}
+
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [apiSourceListData count];
 }
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView makeItemWithIdentifier:@"ApiSourceSelectorItem" forIndexPath:indexPath];
     item.sourceName.stringValue = apiSourceListData[indexPath.item];
-
     return item;
 }
 @end

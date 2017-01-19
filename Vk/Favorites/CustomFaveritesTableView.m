@@ -61,10 +61,20 @@
 }
 -(void)selectUserGroup:(NSMenuItem*)obj{
 //    NSLog(@"%@", obj.title);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AddFavesUserGroupsItemIntoGroup" object:nil userInfo:@{@"group_name":obj.title}];
+    if([self.identifier isEqual:@"FavesGroups"]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AddFavesGroupsUserGroupsItemIntoGroup" object:nil userInfo:@{@"group_name":obj.title}];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AddFavesUserGroupsItemIntoGroup" object:nil userInfo:@{@"group_name":obj.title}];
+    }
 }
 -(void)createGroupWithSelectedUsers{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateGroupFromSelectedFavesUsers" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];
+    if([self.identifier isEqual:@"FavesGroups"]){
+         [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateGroupFromSelectedFavesGroups" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row],@"source":@"groups"}];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateGroupFromSelectedFavesUsers" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row],@"source":@"users"}];
+    }
+
 }
 -(void)userBanAndDeleteDialog{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"userBanAndDeleteDialog" object:self userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];

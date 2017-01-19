@@ -13,4 +13,5 @@
     __weak IBOutlet NSTextField *groupNameField;
 }
 @property(nonatomic)BOOL onlyCreate;
+@property(nonatomic)NSString *source;
 @end

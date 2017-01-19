@@ -13,7 +13,7 @@
     NSColor *borderColor;
     BOOL selected;
 
-    
+    BOOL loaded;
 }
 -(void)setUnselectedBackground;
 -(void)setSelectedBackground;

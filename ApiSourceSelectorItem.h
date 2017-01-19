@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ApiSourceSelectorItem : NSCollectionViewItem
+@interface ApiSourceSelectorItem : NSCollectionViewItem{
+    NSInteger prevSelectedItemHeight;
+}
 @property (weak) IBOutlet NSTextField *sourceName;
 @property(nonatomic)NSTrackingArea *trackingArea;
 @end

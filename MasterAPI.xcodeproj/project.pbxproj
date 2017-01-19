@@ -16,6 +16,8 @@
 		2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D61E2D1F9E00FB714E /* InstagramMediaPostsTableView.m */; };
 		2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914D91E2E169A00FB714E /* SidebarOutlineView.m */; };
 		2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */; };
+		2B1914E31E30AFDE00FB714E /* ApiSourceSelecterCustomLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */; };
+		2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -311,6 +313,11 @@
 		2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFavesGroupController.m; sourceTree = "<group>"; };
 		2B1914DE1E2E4F4300FB714E /* CoreDataMain 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataMain 17.xcdatamodel"; sourceTree = "<group>"; };
 		2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataMain 18.xcdatamodel"; sourceTree = "<group>"; };
+		2B1914E01E2FC22500FB714E /* CoreDataMain 19.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataMain 19.xcdatamodel"; sourceTree = "<group>"; };
+		2B1914E11E30AFDC00FB714E /* ApiSourceSelecterCustomLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelecterCustomLayout.h; sourceTree = "<group>"; };
+		2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelecterCustomLayout.m; sourceTree = "<group>"; };
+		2B1914E41E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelectorCustomFlowLayout.h; sourceTree = "<group>"; };
+		2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelectorCustomFlowLayout.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -883,6 +890,10 @@
 				2B41FA031E02D3F50013AC86 /* CustomTextField.m */,
 				2B41FA041E02D3F50013AC86 /* CustomView.h */,
 				2B41FA051E02D3F50013AC86 /* CustomView.m */,
+				2B1914E11E30AFDC00FB714E /* ApiSourceSelecterCustomLayout.h */,
+				2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */,
+				2B1914E41E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.h */,
+				2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */,
 			);
 			path = CustomStyles;
 			sourceTree = "<group>";
@@ -1895,6 +1906,7 @@
 				2B41FBF11E02D3F60013AC86 /* HTMLDocumentType.m in Sources */,
 				2B41FBFD1E02D3F60013AC86 /* HTMLTokenizer.m in Sources */,
 				2B41FBDA1E02D3F60013AC86 /* CustomScroller.m in Sources */,
+				2B1914E31E30AFDE00FB714E /* ApiSourceSelecterCustomLayout.m in Sources */,
 				2B41FC471E02D3F60013AC86 /* TumblrClient.m in Sources */,
 				2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */,
 				2B41FBE11E02D3F60013AC86 /* CustomTextField.m in Sources */,
@@ -2002,6 +2014,7 @@
 				2B41FC961E02D3F70013AC86 /* MyPhotoWindowController.m in Sources */,
 				2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */,
 				2B41FC661E02D3F70013AC86 /* AudioPlaylist.m in Sources */,
+				2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */,
 				2B41FC811E02D3F70013AC86 /* FriendsTabbarViewController.m in Sources */,
 				2B41FC871E02D3F70013AC86 /* GroupInvitesCustomCell.m in Sources */,
 				2B41FBDF1E02D3F60013AC86 /* CustomTab.m in Sources */,
@@ -2267,6 +2280,7 @@
 		2B41F9DE1E02D3F50013AC86 /* CoreDataMain.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2B1914E01E2FC22500FB714E /* CoreDataMain 19.xcdatamodel */,
 				2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */,
 				2B1914DE1E2E4F4300FB714E /* CoreDataMain 17.xcdatamodel */,
 				2B41F9DF1E02D3F50013AC86 /* CoreDataMain 10.xcdatamodel */,
@@ -2286,7 +2300,7 @@
 				2B41F9ED1E02D3F50013AC86 /* CoreDataMain 9.xcdatamodel */,
 				2B41F9EE1E02D3F50013AC86 /* CoreDataMain.xcdatamodel */,
 			);
-			currentVersion = 2B1914DF1E2E5D5500FB714E /* CoreDataMain 18.xcdatamodel */;
+			currentVersion = 2B1914E01E2FC22500FB714E /* CoreDataMain 19.xcdatamodel */;
 			path = CoreDataMain.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

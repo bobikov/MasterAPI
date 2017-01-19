@@ -42,6 +42,7 @@
     __weak IBOutlet NSPopUpButton *favesUserGroups;
     
     __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
+    
     NSManagedObjectContext *moc;
     NSString *userFavesNewGroupName;
     NSMutableArray *restoredUserIDs;
