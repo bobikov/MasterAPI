@@ -294,11 +294,9 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 }
 -(void)loadBanlist:(BOOL)searchByName :(BOOL)makeOffset{
     __block void(^getBannedBlock)(BOOL);
-    
     loading=YES;
     getBannedBlock = ^void(BOOL offset){
         searchMode=NO;
-        
         [progressSpin startAnimation:self];
         if(offset){
             offsetLoadBanlist=offsetLoadBanlist+200;
@@ -309,475 +307,476 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
             offsetCounter=0;
         }
         __block NSDictionary *object;
-      
-//        __block NSInteger startInsertRowIndex = [banlistData count];
-        [self getBanned:^(NSMutableArray *bannedUsers) {
-            if(bannedUsers){
-                [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                    
-                    NSString *city;
-                    NSString *status;
-                    NSString *bdate;
-                    NSString *online;
-                    NSString *firstName;
-                    NSString *lastName;
-                    NSString *fullName;
-                    NSString *countryName;
-                    NSString *last_seen;
-                    NSString *sex;
-                    NSString *books;
-                    NSString *site;
-                    NSString *mobilePhone;
-                    // NSString *phone;
-                    NSString *photoBig;
-                    NSString *photo;
-                    NSString *about;
-                    NSString *music;
-                    NSString *schools;
-                    NSString *education;
-                    NSString *quotes;
-                    NSString *deactivated;
-                    NSString *relation;
-                    NSString *domain;
-                    __block int blacklisted;
-                    int blacklisted_by_me;
-                    if(data){
-                        NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        if([banList numberOfRows]==0 || loading){
+            //__block NSInteger startInsertRowIndex = [banlistData count];
+            [self getBanned:^(NSMutableArray *bannedUsers) {
+                if(bannedUsers){
+                    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
-                        for(NSDictionary *a in userGetResponse[@"response"]){
+                        NSString *city;
+                        NSString *status;
+                        NSString *bdate;
+                        NSString *online;
+                        NSString *firstName;
+                        NSString *lastName;
+                        NSString *fullName;
+                        NSString *countryName;
+                        NSString *last_seen;
+                        NSString *sex;
+                        NSString *books;
+                        NSString *site;
+                        NSString *mobilePhone;
+                        // NSString *phone;
+                        NSString *photoBig;
+                        NSString *photo;
+                        NSString *about;
+                        NSString *music;
+                        NSString *schools;
+                        NSString *education;
+                        NSString *quotes;
+                        NSString *deactivated;
+                        NSString *relation;
+                        NSString *domain;
+                        __block int blacklisted;
+                        int blacklisted_by_me;
+                        if(data){
+                            NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             
-                            firstName = a[@"first_name"];
-                            lastName=a[@"last_name"];
-                            fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-                            city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
-                            status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
-                            blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
-                            blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
-                            domain = a[@"domain"] && a[@"domain"]!=nil ? a[@"domain"] : @"";
-                            if(a[@"bdate"] && a[@"bdate"] && a[@"bdate"]!=nil){
-                                bdate=a[@"bdate"];
-                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                NSString *templateLateTime2= @"yyyy";
-                                NSString *templateLateTime1= @"d.M.yyyy";
-                                //                            NSString *todayTemplate =@"d",
-                                [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                                [formatter setDateFormat:templateLateTime1];
-                                NSDate *date = [formatter dateFromString:bdate];
-                                [formatter setDateFormat:templateLateTime2];
-                                if(![bdate isEqual:@""]){
-                                    bdate = [NSString stringWithFormat:@"%d лет", 2016 - [[formatter stringFromDate:date] intValue]];
+                            for(NSDictionary *a in userGetResponse[@"response"]){
+                                
+                                firstName = a[@"first_name"];
+                                lastName=a[@"last_name"];
+                                fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+                                city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
+                                status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
+                                blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
+                                blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
+                                domain = a[@"domain"] && a[@"domain"]!=nil ? a[@"domain"] : @"";
+                                if(a[@"bdate"] && a[@"bdate"] && a[@"bdate"]!=nil){
+                                    bdate=a[@"bdate"];
+                                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                    NSString *templateLateTime2= @"yyyy";
+                                    NSString *templateLateTime1= @"d.M.yyyy";
+                                    //                            NSString *todayTemplate =@"d",
+                                    [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
+                                    [formatter setDateFormat:templateLateTime1];
+                                    NSDate *date = [formatter dateFromString:bdate];
+                                    [formatter setDateFormat:templateLateTime2];
+                                    if(![bdate isEqual:@""]){
+                                        bdate = [NSString stringWithFormat:@"%d лет", 2016 - [[formatter stringFromDate:date] intValue]];
+                                    }
+                                    if([bdate isEqual:@"2016 лет" ]){
+                                        bdate=@"";
+                                    }
                                 }
-                                if([bdate isEqual:@"2016 лет" ]){
+                                else{
                                     bdate=@"";
                                 }
-                            }
-                            else{
-                                bdate=@"";
-                            }
-                            online = [NSString stringWithFormat:@"%@", a[@"online"]];
-                            if(a[@"last_seen"] && a[@"last_seen"]!=nil){
-                                double timestamp = [a[@"last_seen"][@"time"] intValue];
-                                NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: timestamp];
-                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                NSString *templateLateTime= @"dd.MM.yy HH:mm";
-                                //                            NSString *todayTemplate =@"d",
-                                [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                                [formatter setDateFormat:templateLateTime];
-                                last_seen = [NSString stringWithFormat:@"%@", [formatter stringFromDate:gotDate]];
-                                
-                            }
-                            else{
-                                last_seen = @"";
-                            }
-                            if([online intValue] == 1){
-                                last_seen=@"";
-                            }
-                            countryName = a[@"country"] && a[@"country"]!=nil ? a[@"country"][@"title"] : @"";
-                            site = a[@"site"] && a[@"site"]!=nil ? a[@"site"] :  @"";
-                            photoBig = a[@"photo_200"] ? a[@"photo_200"] : a[@"photo_200_orig"] ? a[@"photo_200_orig"] : a[@"photo_100"];
-                            photo = a[@"photo_100"];
-                            mobilePhone = a[@"mobile_phone"] && a[@"mobile_phone"]!=nil ? a[@"mobile_phone"] : @"";
-                            sex = a[@"sex"] && [a[@"sex"] intValue]==1 ? @"W" :[a[@"sex"] intValue]==2 ?  @"M" : [a[@"sex"] intValue]==0 ? @"n/a" : @"";
-                            books = a[@"books"] && a[@"books"]!=nil ? a[@"books"] : @"";
-                            about = a[@"about"] && a[@"about"]!=nil ? a[@"about"] : @"";
-                            music = a[@"music"] && a[@"music"]!=nil ? a[@"music"] : @"";
-                            education = a[@"university_name"] && a[@"university_name"]!=nil ? a[@"university_name"] : @"";
-                            schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
-                            quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
-                            relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
-                            deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
-                            object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"timestamp":a[@"last_seen"][@"time"] && a[@"last_seen"][@"time"]!=nil?a[@"last_seen"][@"time"]:@"", @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"sex":sex, @"relation":relation, @"domain":domain};
-                            
-                            if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
-                                //[FriendsData removeAllObjects];
-                                if (!a[@"deactivated"]){
-                                    if(filterWomen.state==1 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==1){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==0){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else if(filterOnline.state==0 && filterOffline.state ==1 && filterActive.state == 1 ) {
-                                
-                                
-                                if (![online  isEqual: @"1"]){
-                                    if(filterWomen.state==1 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }                                }
-                                    }
-                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==1){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==0){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                            else if(filterOnline.state==1 && filterOffline.state ==0 && filterActive.state == 1) {
-                                
-                                if ([online  isEqual: @"1"]){
-                                    if(filterWomen.state==1 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==1){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==0){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                            else if(filterOnline.state==0 && filterOffline.state == 1 && filterActive.state == 0) {
-                                
-                                if (a[@"deactivated"]){
-                                    if(filterWomen.state==1 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==1){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==0){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
+                                online = [NSString stringWithFormat:@"%@", a[@"online"]];
+                                if(a[@"last_seen"] && a[@"last_seen"]!=nil){
+                                    double timestamp = [a[@"last_seen"][@"time"] intValue];
+                                    NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: timestamp];
+                                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                    NSString *templateLateTime= @"dd.MM.yy HH:mm";
+                                    //                            NSString *todayTemplate =@"d",
+                                    [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
+                                    [formatter setDateFormat:templateLateTime];
+                                    last_seen = [NSString stringWithFormat:@"%@", [formatter stringFromDate:gotDate]];
                                     
                                 }
-                            }
-                            else if(filterOnline.state==1 && filterOffline.state == 1 && filterActive.state == 0) {
+                                else{
+                                    last_seen = @"";
+                                }
+                                if([online intValue] == 1){
+                                    last_seen=@"";
+                                }
+                                countryName = a[@"country"] && a[@"country"]!=nil ? a[@"country"][@"title"] : @"";
+                                site = a[@"site"] && a[@"site"]!=nil ? a[@"site"] :  @"";
+                                photoBig = a[@"photo_200"] ? a[@"photo_200"] : a[@"photo_200_orig"] ? a[@"photo_200_orig"] : a[@"photo_100"];
+                                photo = a[@"photo_100"];
+                                mobilePhone = a[@"mobile_phone"] && a[@"mobile_phone"]!=nil ? a[@"mobile_phone"] : @"";
+                                sex = a[@"sex"] && [a[@"sex"] intValue]==1 ? @"W" :[a[@"sex"] intValue]==2 ?  @"M" : [a[@"sex"] intValue]==0 ? @"n/a" : @"";
+                                books = a[@"books"] && a[@"books"]!=nil ? a[@"books"] : @"";
+                                about = a[@"about"] && a[@"about"]!=nil ? a[@"about"] : @"";
+                                music = a[@"music"] && a[@"music"]!=nil ? a[@"music"] : @"";
+                                education = a[@"university_name"] && a[@"university_name"]!=nil ? a[@"university_name"] : @"";
+                                schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
+                                quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
+                                relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
+                                deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
+                                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"timestamp":a[@"last_seen"][@"time"] && a[@"last_seen"][@"time"]!=nil?a[@"last_seen"][@"time"]:@"", @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"sex":sex, @"relation":relation, @"domain":domain};
                                 
-                                if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
-                                    if(filterWomen.state==1 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==1){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
+                                if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
+                                    //[FriendsData removeAllObjects];
+                                    if (!a[@"deactivated"]){
+                                        if(filterWomen.state==1 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                        if([a[@"sex"] intValue]==2){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
-                                                }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
+                                        else if(filterWomen.state==1 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==1){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
                                                 }
                                             }
                                         }
-                                        
-                                    }
-                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                        if([a[@"sex"] intValue]==0){
-                                            if(filterInUserBlacklist.state==1){
-                                                if(blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
+                                        else if(filterWomen.state==0 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
                                                 }
-                                            }else{
-                                                if(!blacklisted){
-                                                    offsetCounter++;
-                                                    [banlistData addObject:object];
+                                            }
+                                            
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==0){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            
-                            //                [banlistData addObject:@{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":a[@"photo_100"], @"country":countryName, @"bdate":bdate, @"online":online}];
-                            
-                            //                offsetCounter++;
-                            //
-                        }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            //                arrayController.content = banlistData;
-                            loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
-                            NSLog(@"%li", [banlistData count]);
-                            [self setFiltersEnabled];
-                            if(makeOffset){
-                                //                                    [banList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex, [banlistData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
-                                [banList reloadData];
+                                else if(filterOnline.state==0 && filterOffline.state ==1 && filterActive.state == 1 ) {
+                                    
+                                    
+                                    if (![online  isEqual: @"1"]){
+                                        if(filterWomen.state==1 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }                                }
+                                        }
+                                        else if(filterWomen.state==1 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==1){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==0){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                else if(filterOnline.state==1 && filterOffline.state ==0 && filterActive.state == 1) {
+                                    
+                                    if ([online  isEqual: @"1"]){
+                                        if(filterWomen.state==1 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==1 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==1){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==0){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                else if(filterOnline.state==0 && filterOffline.state == 1 && filterActive.state == 0) {
+                                    
+                                    if (a[@"deactivated"]){
+                                        if(filterWomen.state==1 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==1 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==1){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==0){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                }
+                                else if(filterOnline.state==1 && filterOffline.state == 1 && filterActive.state == 0) {
+                                    
+                                    if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
+                                        if(filterWomen.state==1 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==1 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==1){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==1){
+                                            if([a[@"sex"] intValue]==2){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                        else if(filterWomen.state==0 && filterMen.state==0){
+                                            if([a[@"sex"] intValue]==0){
+                                                if(filterInUserBlacklist.state==1){
+                                                    if(blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }else{
+                                                    if(!blacklisted){
+                                                        offsetCounter++;
+                                                        [banlistData addObject:object];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                                 
-                            }else{
-                                [banList reloadData];
+                                //                [banlistData addObject:@{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":a[@"photo_100"], @"country":countryName, @"bdate":bdate, @"online":online}];
+                                
+                                //                offsetCounter++;
+                                //
                             }
-                            [progressSpin stopAnimation:self];
-                            if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned){
-                                loading=YES;
-                                getBannedBlock(YES);
-                            }else if ([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist >= totalCountBanned){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                arrayController.content = banlistData;
+                                loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
+                                NSLog(@"%li", [banlistData count]);
+                                [self setFiltersEnabled];
+                                if(makeOffset){
+                                    //                                    [banList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex, [banlistData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
+                                    [banList reloadData];
+                                    
+                                }else{
+                                    [banList reloadData];
+                                }
                                 [progressSpin stopAnimation:self];
-                                loading=NO;
-                            }else{
-                                [progressSpin stopAnimation:self];
-                                loading=NO;
-                            }
-                            NSLog(@"%li", offsetLoadBanlist);
-                            NSLog(@"%li", offsetCounter);
-                        });
-                    }
-                }] resume];
-            }
-        }];
+                                if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned){
+                                    loading=YES;
+                                    getBannedBlock(YES);
+                                }else if ([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist >= totalCountBanned){
+                                    [progressSpin stopAnimation:self];
+                                    loading=NO;
+                                }else{
+                                    [progressSpin stopAnimation:self];
+                                    loading=NO;
+                                }
+                                NSLog(@"%li", offsetLoadBanlist);
+                                NSLog(@"%li", offsetCounter);
+                            });
+                        }
+                    }] resume];
+                }
+            }];
+        }
     };
     if(makeOffset){
         getBannedBlock(YES);
@@ -830,7 +829,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     return [banlistData count];
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([banlistData count]>0){
+    if([banlistData count]>0 && [banlistData lastObject] && row <= [banlistData count]){
         BanlistCustomCell *cell = [[BanlistCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = banlistData[row][@"full_name"];
@@ -855,7 +854,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         cell.userPhoto.wantsLayer=YES;
         cell.userPhoto.layer.masksToBounds=YES;
         cell.userPhoto.layer.cornerRadius=80/2;
-        if([cachedImage count]>0 && cachedImage[banlistData[row]] && cachedStatus[banlistData[row]]){
+        if([cachedImage count]>0 && cachedImage[banlistData[row]]!=nil && cachedStatus[banlistData[row]]!=nil){
             cell.userPhoto.image=cachedImage[banlistData[row]];
             cell.status.attributedStringValue = cachedStatus[banlistData[row]];
             

@@ -31,6 +31,7 @@
     __weak IBOutlet NSButton *filterWomen;
     NSMutableDictionary *cachedImage;
     NSMutableDictionary *cachedStatus;
+    int counter;
 }
 
 

@@ -9,7 +9,7 @@
 #import "CustomFaveritesTableView.h"
 @implementation CustomFaveritesTableView
 - (void)awakeFromNib{
-
+    if(self)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUserFavesGroups:) name:@"getUserFavesGroupsForContextMenu" object:nil];
    
 }
@@ -20,7 +20,9 @@
 }
 -(void)getUserFavesGroups:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo[@"groups"]);
+  
     _favesUserGroupsNames = notification.userInfo[@"groups"];
+
     
 }
 -(NSMenu*)menuForEvent:(NSEvent*)theEvent

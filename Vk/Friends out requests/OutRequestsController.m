@@ -99,12 +99,13 @@
 }
 -(void)loadOutRequests:(BOOL)makeOffset{
     if(makeOffset){
-        offsetRequests = 1000;
+        offsetRequests = offsetRequests+500;
     }else{
         offsetRequests = 0;
+        counter=0;
     }
     [progressSpin startAnimation:self];
-    __block int counter=0;
+  
     NSMutableArray *requests=[[NSMutableArray alloc]init];
     __block NSDictionary *object;
     [outRequestsData removeAllObjects];
@@ -118,21 +119,18 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [progressSpin stopAnimation:self];
                 });
-                
             }else{
                 for(NSString *i in getOutRequestsResponse[@"response"][@"items"]){
                     [requests addObject:i];
-                    //                NSLog(@"%@", i);
-                    
+                    //NSLog(@"%@", i);
                 }
-                
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,domain,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,relation&access_token=%@&v=%@", [requests componentsJoinedByString:@","], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                     if(data){
                         NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                         if(getUsersResponse[@"error"]){
                             
                         }else{
-                            //                    NSLog(@"%@", getUsersResponse);
+                            //NSLog(@"%@", getUsersResponse);
                             NSString *city;
                             NSString *status;
                             NSString *bdate;
@@ -146,7 +144,7 @@
                             NSString *books;
                             NSString *site;
                             NSString *mobilePhone;
-                            //                        NSString *phone;
+                            //NSString *phone;
                             NSString *photoBig;
                             NSString *photo;
                             NSString *about;
@@ -179,7 +177,6 @@
                                 }else{
                                     last_seen = @"";
                                 }
-                                
                                 if(a[@"bdate"] && a[@"bdate"]!=nil){
                                     bdate=a[@"bdate"];
                                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -393,7 +390,6 @@
                             }
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [outRequestsList reloadData];
-                                
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     [progressSpin stopAnimation:self];
                                     loadedCount.title = [NSString stringWithFormat:@"%i",counter];
@@ -413,7 +409,7 @@
     return 0;
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([outRequestsData count]>0){
+    if([outRequestsData count]==counter && [outRequestsData lastObject]){
         OutRequestsCustomCell *cell = [[OutRequestsCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = outRequestsData[row][@"full_name"];
