@@ -12,7 +12,7 @@
     NSColor* bgColr;
     NSColor *borderColor;
     BOOL selected;
-
+    NSGradient *bgGradient;
     BOOL loaded;
 }
 -(void)setUnselectedBackground;

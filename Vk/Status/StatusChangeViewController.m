@@ -30,14 +30,14 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(doScheduledStatus:) name:@"DoScheduledStatus" object:nil];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
-    [self loadCurrentStatus];
+//    [self loadCurrentStatus];
     [self ReadStatusList];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
     
 }
 - (void)viewDidAppear{
-//    [self loadCurrentStatus];
+    [self loadCurrentStatus];
  
 }
 

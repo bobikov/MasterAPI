@@ -24,7 +24,7 @@
     userGroupsByAdminData = [[NSMutableArray alloc]init];
     [self loadGroupsByAdminPopup];
 }
--(void)loadGroupsByAdminPopup{
+- (void)loadGroupsByAdminPopup{
     __block NSMenuItem *menuItem;
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     [userGroupsByAdminPopup removeAllItems];
@@ -59,7 +59,7 @@
         });
     }]resume];
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     
     [self loadCurrentPhoto];
 }
@@ -70,7 +70,7 @@
         fieldWithURL.hidden=YES;
     }
 }
--(void)loadCurrentPhoto{
+- (void)loadCurrentPhoto{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=crop_photo&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *photoGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -82,14 +82,14 @@
                 NSLog(@"%f %f",imageSize.width, imageSize.height);
                 photoI.size=imageSize;
 //                photoI = [self imageResize:photoI newSize:NSMakeSize(imageSize.width/2.5, imageSize.height/2.5)];
-                photoI = [self resizedImage:photoI toPixelDimensions:NSMakeSize(imageSize.width/2.5, imageSize.height/2.5)];
+                photoI = [self resizedImage:photoI toPixelDimensions:NSMakeSize(imageSize.width/(imageSize.width/currentPhoto.frame.size.width), imageSize.height/(imageSize.height/currentPhoto.frame.size.height))];
                 currentPhoto.wantsLayer=YES;
                 currentPhoto.layer.masksToBounds=YES;
                 
-                int deltaSize =  imageSize.height/2.5 - currentPhoto.frame.size.height;
+                int deltaSize =  imageSize.height/(imageSize.width/currentPhoto.frame.size.width) - currentPhoto.frame.size.height;
                 dispatch_async(dispatch_get_main_queue(), ^{
 //                    [currentPhoto setImageScaling:NSImageScaleProportionallyUpOrDown];
-                      currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, imageSize.width/2.5, imageSize.height/2.5);
+                      currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, imageSize.width/(imageSize.width/currentPhoto.frame.size.width), imageSize.height/(imageSize.height/currentPhoto.frame.size.height));
                  
                     //                currentPhoto.frame = NSMakeRect([photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"width"] intValue], [photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"heigth"] intValue], 0,0);
                     [currentPhoto setImage:photoI];
@@ -155,7 +155,6 @@
     }
 }
 - (IBAction)uploadFile:(id)sender {
-    
     uploadByURLCheck.state ? nil : [self selectedPhoto];
     if(filePath || uploadByURLCheck.state ){
          owner=[userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] isEqual:_app.person] || userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] == nil ? _app.person : userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]];
@@ -177,10 +176,9 @@
     }
 }
 - (IBAction)userGroupsByAdminSelect:(id)sender {
-    
     [self loadCurrentPhotoUserGroupByAdmin:[NSString stringWithFormat:@"%i", abs([userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] intValue ])]];
 }
--(void)loadCurrentPhotoUserGroupByAdmin:(NSString*)groupId{
+- (void)loadCurrentPhotoUserGroupByAdmin:(NSString*)groupId{
     if([groupId isEqual:_app.person]){
         [self loadCurrentPhoto];
     }else{
@@ -193,6 +191,8 @@
                         NSImageRep *rep = [[image representations] objectAtIndex:0];
                         NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                         image.size=imageSize;
+                        
+                        NSLog(@"%f %f",imageSize.width, imageSize.height);
 //                        image = [self imageResize:image newSize:NSMakeSize(imageSize.width, imageSize.height)];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
@@ -214,7 +214,7 @@
 //        [self getServerUrl:owner];
     }
 }
--(NSString*)createRandomName{
+- (NSString*)createRandomName{
     NSString *alphabetPlusDigits = @"0123456789abcdefghijklmopqrstuvwxyz";
     int length =  (int) [alphabetPlusDigits length];
     
@@ -226,7 +226,7 @@
     }
     return [nonceString stringByAppendingPathExtension:@"jpg"];
 }
--(void)uploadPhoto:(NSString *)file{
+- (void)uploadPhoto:(NSString *)file{
     if(file){
         NSLog(@"%@", file);
         NSURLSessionConfiguration *backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"myBackgroundSessionIdentifier2"];
@@ -277,7 +277,7 @@
         }
     }
 }
--(void)getServerUrl:(NSString *)ownerId completion:(OnComplete)completion{
+- (void)getServerUrl:(NSString *)ownerId completion:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.getOwnerPhotoUploadServer?owner_id=%@&v=%@&access_token=%@", ownerId, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
        
@@ -286,7 +286,7 @@
 
 }
 
--(void)selectedPhoto{
+- (void)selectedPhoto{
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:YES];
     [openDlg setCanChooseDirectories:YES];
@@ -298,7 +298,7 @@
         filePath=nil;
     }
 }
--(void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
+- (void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
     NSData *contents;
     if(uploadByURLCheck.state){
         contents =  [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:fieldWithURL.stringValue ]];
@@ -349,6 +349,9 @@
     }] resume];
 }
 
+
+
+
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     completionHandler(NSURLSessionResponseAllow);
     
@@ -356,7 +359,7 @@
     progressUploadBar.hidden=YES;
     filePathLabel.hidden=YES;
 }
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
    didReceiveData:(NSData *)data {
     
     NSDictionary *uplData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -365,7 +368,7 @@
     [self saveOwnerPhoto:uplData[@"server"] :uplData[@"hash"] :uplData[@"photo"]];
     
 }
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     progressUploadBar.maxValue = totalBytesExpectedToSend;
     progressUploadBar.doubleValue = totalBytesSent;
     

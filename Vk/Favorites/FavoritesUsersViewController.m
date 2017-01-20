@@ -547,6 +547,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         if(offset){
             offsetLoadFaveUsers=offsetLoadFaveUsers+50;
         }else{
+            [favesUsersList scrollToBeginningOfDocument:self];
             [favesUsersData removeAllObjects];
             [favesUsersList reloadData];
             offsetLoadFaveUsers=0;
