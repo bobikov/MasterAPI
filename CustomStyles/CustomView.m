@@ -17,31 +17,33 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     NSBezierPath *path = [NSBezierPath bezierPath];
-    int minX = NSMinX(dirtyRect);
+    int minX = NSMinX(dirtyRect)+10;
     int midX = NSMidX(dirtyRect);
-    int maxX = NSMaxX(dirtyRect);
+    int maxX = NSMaxX(dirtyRect)-10;
     int minY = NSMinY(dirtyRect);
     int midY = NSMidY(dirtyRect);
     int maxY = NSMaxY(dirtyRect);
 
-    NSPoint leftBottomPoint = NSMakePoint(minX, minY);
-    NSPoint leftMiddlePoint = NSMakePoint(minX + deltaXfromLeftAndRight, midY);
+    NSPoint leftBottomPoint = NSMakePoint(minX-10, minY);
+    NSPoint leftMiddlePoint = NSMakePoint(minX+5 + deltaXfromLeftAndRight, midY);
+    
     NSPoint topMiddlePoint = NSMakePoint(midX, maxY);
-    NSPoint rightMiddlePoint = NSMakePoint(maxX - deltaXfromLeftAndRight, midY);
-    NSPoint rightBottomPoint = NSMakePoint(maxX, minY);
+    
+    NSPoint rightMiddlePoint = NSMakePoint(maxX+3 - deltaXfromLeftAndRight, midY);
+    NSPoint rightBottomPoint = NSMakePoint(maxX+10, minY);
 
-     [path moveToPoint:leftBottomPoint];
+    [path moveToPoint:leftBottomPoint];
 
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX + deltaXfromLeftAndRight, minY) toPoint:leftMiddlePoint radius:0.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX + deltaXfromLeftAndRight, minY) toPoint:leftMiddlePoint radius:selected ? 15.0 : 10.0];
     
     // left middle to top middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX-0 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:4.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX+10 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:10.0];
     
     // top middle to right middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX-0 - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:4.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:10.0];
     
     // right middle to right bottom
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:0.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX+10 - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:selected ? 15.0 : 10.0];
     
     //left bottom to right bottom -- line
     //[path lineToPoint:leftBottomPoint];
@@ -98,7 +100,7 @@
     bgGradient = [[NSGradient alloc] initWithColorsAndLocations:
 //                  [NSColor  colorWithWhite:0.70 alpha:1.0],0.0,
 //                  [NSColor  colorWithWhite:0.75 alpha:1.0],0.1,
-                  [NSColor  colorWithWhite:0.80 alpha:1.0],0.0,
+                  [NSColor  colorWithWhite:0.78 alpha:1.0],0.0,
                   [NSColor colorWithWhite:0.82 alpha:1.0],1.1,
                   nil];
     selected = NO;

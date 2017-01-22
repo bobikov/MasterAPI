@@ -628,7 +628,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EHC-R7-WDM">
-                                                                                <rect key="frame" x="3" y="56" width="343" height="17"/>
+                                                                                <rect key="frame" x="3" y="57" width="343" height="17"/>
                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="r87-Nc-R2f">
                                                                                     <font key="font" metaFont="systemBold"/>
                                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -646,18 +646,8 @@
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92n-Uy-vlq">
-                                                                                <rect key="frame" x="360" y="-4" width="81" height="32"/>
-                                                                                <buttonCell key="cell" type="push" title="browser" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zrb-yP-geH">
-                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                    <font key="font" metaFont="system"/>
-                                                                                </buttonCell>
-                                                                                <connections>
-                                                                                    <action selector="showGroupInBrowser:" target="EE9-vs-Mm3" id="HZZ-jx-v9e"/>
-                                                                                </connections>
-                                                                            </button>
                                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eWI-J2-mWT">
-                                                                                <rect key="frame" x="305" y="-4" width="63" height="32"/>
+                                                                                <rect key="frame" x="383" y="-5" width="63" height="32"/>
                                                                                 <buttonCell key="cell" type="push" title="info" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sla-op-k3M">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
@@ -668,13 +658,13 @@
                                                                             </button>
                                                                         </subviews>
                                                                         <constraints>
-                                                                            <constraint firstItem="EHC-R7-WDM" firstAttribute="top" secondItem="St1-CP-hmM" secondAttribute="top" constant="1" id="1PQ-k6-XnN"/>
+                                                                            <constraint firstItem="EHC-R7-WDM" firstAttribute="top" secondItem="St1-CP-hmM" secondAttribute="top" id="1PQ-k6-XnN"/>
                                                                             <constraint firstItem="EHC-R7-WDM" firstAttribute="leading" secondItem="St1-CP-hmM" secondAttribute="leading" constant="5" id="32g-L6-hms"/>
                                                                             <constraint firstItem="EHC-R7-WDM" firstAttribute="leading" secondItem="U30-aw-Akp" secondAttribute="leading" id="Aes-oA-mAp"/>
                                                                             <constraint firstItem="U30-aw-Akp" firstAttribute="top" secondItem="80k-0s-bPF" secondAttribute="bottom" id="BZ7-mr-iHE"/>
                                                                             <constraint firstAttribute="trailing" secondItem="U30-aw-Akp" secondAttribute="trailing" constant="87" id="D9Z-oz-xtl"/>
                                                                             <constraint firstItem="gD6-k2-iPZ" firstAttribute="leading" secondItem="80k-0s-bPF" secondAttribute="trailing" constant="6" id="cVb-5f-GLC"/>
-                                                                            <constraint firstItem="EHC-R7-WDM" firstAttribute="baseline" secondItem="80k-0s-bPF" secondAttribute="baseline" id="gIa-9S-SPo"/>
+                                                                            <constraint firstItem="EHC-R7-WDM" firstAttribute="baseline" secondItem="80k-0s-bPF" secondAttribute="baseline" constant="-1" id="gIa-9S-SPo"/>
                                                                             <constraint firstItem="80k-0s-bPF" firstAttribute="top" secondItem="gD6-k2-iPZ" secondAttribute="top" id="hh0-v5-NBz"/>
                                                                             <constraint firstAttribute="bottom" secondItem="gD6-k2-iPZ" secondAttribute="bottom" constant="3" id="qeE-zX-Xsj"/>
                                                                             <constraint firstItem="80k-0s-bPF" firstAttribute="leading" secondItem="EHC-R7-WDM" secondAttribute="trailing" constant="5" id="t9j-6X-WoC"/>
@@ -1014,7 +1004,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="446" height="239"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llh-OF-50J">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llh-OF-50J">
                                             <rect key="frame" x="0.0" y="-1" width="446" height="240"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vLl-CF-7cF">

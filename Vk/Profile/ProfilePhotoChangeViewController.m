@@ -36,27 +36,29 @@
     [menuItem setView:[viewControllerItem view]];
     [menu1 addItem:menuItem];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
-            [userGroupsByAdminData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-            viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-            [viewControllerItem loadView];
-            menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-            viewControllerItem.photo.wantsLayer=YES;
-            viewControllerItem.photo.layer.masksToBounds=YES;
-            viewControllerItem.photo.layer.cornerRadius=39/2;
-            [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-            image.size=NSMakeSize(30,30);
-            [menuItem setImage:image];
-            viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
-            [viewControllerItem.photo setImage:image];
-            [menuItem setView:[viewControllerItem view]];
-            [menu1 addItem:menuItem];
+        if(data) {
+            NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
+                [userGroupsByAdminData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
+                viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                [viewControllerItem loadView];
+                menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
+                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                viewControllerItem.photo.wantsLayer=YES;
+                viewControllerItem.photo.layer.masksToBounds=YES;
+                viewControllerItem.photo.layer.cornerRadius=39/2;
+                [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                image.size=NSMakeSize(30,30);
+                [menuItem setImage:image];
+                viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
+                [viewControllerItem.photo setImage:image];
+                [menuItem setView:[viewControllerItem view]];
+                [menu1 addItem:menuItem];
+            }
+            dispatch_async(dispatch_get_main_queue(),^{
+                [userGroupsByAdminPopup setMenu:menu1];
+            });
         }
-        dispatch_async(dispatch_get_main_queue(),^{
-            [userGroupsByAdminPopup setMenu:menu1];
-        });
     }]resume];
 }
 - (void)viewDidAppear{
@@ -183,25 +185,27 @@
         [self loadCurrentPhoto];
     }else{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%@&access_token=%@&v=%@", groupId, _app.token, _app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *getGroupCurrentPhotoResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if(getGroupCurrentPhotoResp[@"response"]){
-                for(NSDictionary *i in getGroupCurrentPhotoResp[@"response"]){
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:i[@"photo_200"]?i[@"photo_200"]:i[@"photo_100"]?i[@"photo_100"]:i[@"photo_50"]]];
-                        NSImageRep *rep = [[image representations] objectAtIndex:0];
-                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                        image.size=imageSize;
-                        
-                        NSLog(@"%f %f",imageSize.width, imageSize.height);
-//                        image = [self imageResize:image newSize:NSMakeSize(imageSize.width, imageSize.height)];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
-                            [currentPhoto setImage:image];
+            if(data){
+                NSDictionary *getGroupCurrentPhotoResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                if(getGroupCurrentPhotoResp[@"response"]){
+                    for(NSDictionary *i in getGroupCurrentPhotoResp[@"response"]){
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:i[@"photo_200"]?i[@"photo_200"]:i[@"photo_100"]?i[@"photo_100"]:i[@"photo_50"]]];
+                            NSImageRep *rep = [[image representations] objectAtIndex:0];
+                            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                            image.size=imageSize;
+                            
+                            NSLog(@"%f %f",imageSize.width, imageSize.height);
+                            //                        image = [self imageResize:image newSize:NSMakeSize(imageSize.width, imageSize.height)];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
+                                [currentPhoto setImage:image];
+                            });
                         });
-                    });
+                    }
+                }else{
+                    NSLog(@"Error get current group photo %@", groupId);
                 }
-            }else{
-                NSLog(@"Error get current group photo %@", groupId);
             }
         }]resume];
     }

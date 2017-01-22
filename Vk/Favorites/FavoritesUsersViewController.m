@@ -559,7 +559,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         // __block NSInteger startInsertRowIndex = [favesUsersData count];
         if([favesUsersList numberOfRows]==0 || loading){
             [self getFaveUsers:^(NSMutableArray *faveUsers) {
-                if([faveUsers count]>0){
+                if([faveUsers count]>0 && offsetCounter <= [favesUsersData count]){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,photo_200_orig,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,quotes,blacklisted,domain,blacklisted_by_me,relation&access_token=%@&v=%@" , [faveUsers componentsJoinedByString:@","],  _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         if(data){
                             if (error){
@@ -932,14 +932,18 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
             cell.deactivatedStatus.hidden=NO;
         }
         if([cachedImage count]>0 && cachedImage[favesUsersData[row]]!=nil && cachedStatus[favesUsersData[row]]!=nil){
+          
             
-            cell.status.attributedStringValue = cachedStatus[favesUsersData[row]];
-            cell.photo.image = cachedImage[favesUsersData[row]];
+                cell.status.attributedStringValue = cachedStatus[favesUsersData[row]];
+                cell.photo.image = cachedImage[favesUsersData[row]];
+           
             
         }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSAttributedString *attrStatusString = [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"] Emails:YES fontSize:12];
-                cachedStatus[favesUsersData[row]] = attrStatusString;
+                if(attrStatusString){
+                    cachedStatus[favesUsersData[row]] = attrStatusString;
+                }
                 NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]]];
                 NSImageRep *rep = [[imagePhoto representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);

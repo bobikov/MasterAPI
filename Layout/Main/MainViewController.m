@@ -34,7 +34,7 @@
     privacyPhotoAlbumsView = [story5 instantiateControllerWithIdentifier:@"PrivacyPhotoAlbums"];
     changeStatusView = [story4 instantiateControllerWithIdentifier:@"StatusChange"];
     dialogsView = [story instantiateControllerWithIdentifier:@"DialogsView"];
-    subscribersView = [story instantiateControllerWithIdentifier:@"SubscribersView"];
+    subscribersView = [story5 instantiateControllerWithIdentifier:@"SubscribersView"];
     videoPrivacyView = [ story5 instantiateControllerWithIdentifier:@"VideoPrivacy"];
     audioCopyView = [ story3 instantiateControllerWithIdentifier:@"AudioCopy"];
     audioMoveView = [ story3 instantiateControllerWithIdentifier:@"AudioMove"];

@@ -9,7 +9,8 @@
 #import "OutRequestsController.h"
 #import "FullUserInfoPopupViewController.h"
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
-
+typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
+-(void)getRequests:(OnGetRequestsComplete)completion;
 @end
 
 @implementation OutRequestsController
@@ -101,29 +102,19 @@
     if(makeOffset){
         offsetRequests = offsetRequests+500;
     }else{
+        [outRequestsData removeAllObjects];
         offsetRequests = 0;
         counter=0;
     }
     [progressSpin startAnimation:self];
   
-    NSMutableArray *requests=[[NSMutableArray alloc]init];
+ 
     __block NSDictionary *object;
-    [outRequestsData removeAllObjects];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.getRequests?offset=%lu&count=500&out=1&access_token=%@&v=%@", offsetRequests, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *getOutRequestsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                totalCount.title = [NSString stringWithFormat:@"%@",getOutRequestsResponse[@"response"][@"count"]];
-            });
-            if(getOutRequestsResponse[@"error"]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [progressSpin stopAnimation:self];
-                });
-            }else{
-                for(NSString *i in getOutRequestsResponse[@"response"][@"items"]){
-                    [requests addObject:i];
-                    //NSLog(@"%@", i);
-                }
+ 
+ 
+    if(outRequestsList){
+        [self getRequests:^(NSMutableArray *requests) {
+            if([requests count] > 0 && offsetRequests <= [outRequestsData count]){
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,domain,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,relation&access_token=%@&v=%@", [requests componentsJoinedByString:@","], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                     if(data){
                         NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -399,7 +390,31 @@
                     }
                 }]resume];
             }
+        }];
     }
+    
+}
+-(void)getRequests:(OnGetRequestsComplete)completion{
+    NSMutableArray *requests=[[NSMutableArray alloc]init];
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.getRequests?offset=%lu&count=500&out=1&access_token=%@&v=%@", offsetRequests, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary *getOutRequestsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                totalCount.title = [NSString stringWithFormat:@"%@",getOutRequestsResponse[@"response"][@"count"]];
+            });
+            if(getOutRequestsResponse[@"error"]){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [progressSpin stopAnimation:self];
+                });
+            }else{
+                for(NSString *i in getOutRequestsResponse[@"response"][@"items"]){
+                    [requests addObject:i];
+                    //NSLog(@"%@", i);
+                }
+                completion(requests);
+            }
+        }
+        
     }]resume];
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
@@ -409,7 +424,7 @@
     return 0;
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([outRequestsData count]==counter && [outRequestsData lastObject]){
+    if([outRequestsData count]==counter && [outRequestsData lastObject] && row <= [outRequestsData count]){
         OutRequestsCustomCell *cell = [[OutRequestsCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = outRequestsData[row][@"full_name"];

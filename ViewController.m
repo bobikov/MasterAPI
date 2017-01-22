@@ -15,7 +15,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     selectedItem=0;
-    apiSourceListData = @[@"vkontakte", @"youtube", @"twitter", @"tumblr", @"instagram"];
+    apiSourceListData = @[@"Vkontakte", @"Youtube", @"Twitter", @"Tumblr", @"Instagram"];
     apiSourceSelectorCollectionView.delegate=self;
     apiSourceSelectorCollectionView.dataSource=self;
     apiSourceSelectorCollectionView.content=apiSourceListData;

@@ -411,10 +411,12 @@
                     NSImageRep *rep = [[image representations] objectAtIndex:0];
                     NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                     image.size=imageSize;
-                    cachedImage[[albumsData objectAtIndex:indexPath.item]]=image;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        videoAlbumsItem.albumsCover.image=image;
-                    });
+                    if(image){
+                        cachedImage[[albumsData objectAtIndex:indexPath.item]]=image;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            videoAlbumsItem.albumsCover.image=image;
+                        });
+                    }
                 });
             }
         }

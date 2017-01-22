@@ -663,7 +663,7 @@
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([FriendsData count]>0) {
+    if ([FriendsData count]>0 && [FriendsData lastObject] && row <= [FriendsData count]) {
        
         FriendsCustomCellView *cell=[[FriendsCustomCellView alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];

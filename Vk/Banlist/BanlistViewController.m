@@ -100,6 +100,8 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         //
     }
 }
+
+
 - (IBAction)filterByDate:(id)sender {
     switch ([dateFilterOptionsPopup indexOfSelectedItem]){
         case 1:
@@ -310,7 +312,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         if([banList numberOfRows]==0 || loading){
             //__block NSInteger startInsertRowIndex = [banlistData count];
             [self getBanned:^(NSMutableArray *bannedUsers) {
-                if(bannedUsers){
+                if([bannedUsers count]>0 && offsetCounter <= [bannedUsers count]){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
                         NSString *city;

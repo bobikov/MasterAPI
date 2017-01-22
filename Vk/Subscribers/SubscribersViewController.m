@@ -641,7 +641,7 @@
     return 0;
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([subscribersData count]>0 && subscribersData[row]!=nil && subscribersData[row]!=[NSNull null]){
+    if([subscribersData count]>0 && [subscribersData lastObject] && row <= [subscribersData count]){
         SubscribersCustomCell *cell = [[SubscribersCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = subscribersData[row][@"full_name"];
