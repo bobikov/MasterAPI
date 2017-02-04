@@ -11,7 +11,7 @@
 #import "ShowNamesController.h"
 @interface CustomVideoCollectionItem : NSCollectionViewItem{
     
-    NSDictionary *selectedObject;
+    NSMutableDictionary *selectedObject;
     NSString *albumToUploadTo;
     NSArray *filesForUpload;
     NSString *ownerId;

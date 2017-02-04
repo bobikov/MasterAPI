@@ -247,35 +247,37 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if(!_loadFromFullUserInfo){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
-                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
-                    [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
-                    ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                    [viewControllerItem loadView];
-                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                if(data){
+                    NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     
-                    
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                    
-                    image.size=NSMakeSize(30,30);
-                    viewControllerItem.photo.wantsLayer=YES;
-                    viewControllerItem.photo.layer.masksToBounds=YES;
-                    viewControllerItem.photo.layer.cornerRadius=39/2;
-                    [menuItem setImage:image];
-                    //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
-                    //                     viewControllerItem.photo.layer.borderWidth = 2.0;
-                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
-                    [viewControllerItem.photo setImage:image];
-                    [menuItem setView:[viewControllerItem view]];
-                    [menu1 addItem:menuItem];
+                    for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                        [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                        ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                        [viewControllerItem loadView];
+                        menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                        
+                        
+                        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                        
+                        image.size=NSMakeSize(30,30);
+                        viewControllerItem.photo.wantsLayer=YES;
+                        viewControllerItem.photo.layer.masksToBounds=YES;
+                        viewControllerItem.photo.layer.cornerRadius=39/2;
+                        [menuItem setImage:image];
+                        //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+                        //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+                        [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                        viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                        [viewControllerItem.photo setImage:image];
+                        [menuItem setView:[viewControllerItem view]];
+                        [menu1 addItem:menuItem];
+                    }
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        //[friendsListDropdown setPullsDown:YES];
+                        [friendsListPopup removeAllItems];
+                        [friendsListPopup setMenu:menu1];
+                    });
                 }
-                dispatch_async(dispatch_get_main_queue(),^{
-                    //[friendsListDropdown setPullsDown:YES];
-                    [friendsListPopup removeAllItems];
-                    [friendsListPopup setMenu:menu1];
-                });
             }]resume];
         }else{
             [friendsListPopupData removeAllObjects];

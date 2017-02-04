@@ -10,6 +10,8 @@
 #import "moveToAlbumViewController.h"
 #import "URLsViewController.h"
 #import "RemoveVideoAndPhotoItemsViewController.h"
+#import "NSImage+Resizing.h"
+#import "EditVideoPhotoAlbumViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -150,14 +152,12 @@
     contr.mediaType=@"photo";
     [self presentViewControllerAsModalWindow:contr];
     [self setProgress];
-
-  
 }
 
 - (void)removeDownloadAndUploadStatuOver{
     if(selectedObject){
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
-        customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+//        customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         selectedObject[@"busy"]=@0;
 //        albumItem.downloadAndUploadStatusOver.hidden=YES;
         [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
@@ -252,7 +252,7 @@
     NSLog(@"%@", self.representedObject);
 }
 
--(void)createTrackingArea{
+- (void)createTrackingArea{
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.bounds options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
     [self.view addTrackingArea:_trackingArea];
     
@@ -295,12 +295,14 @@
             _removeItem.hidden=NO;
         }
         else{
+            [self.view setToolTip:self.representedObject[@"desc"]];
             overAlbumId = [self.representedObject[@"id"] intValue];
             NSLog(@"%li", overAlbumId);
             if(overAlbumId==-7 || overAlbumId==-6 || overAlbumId==-15){
                 _uploadPhoto.hidden=YES;
                 _removeItem.hidden=YES;
                 _uploadByURLsButton.hidden=YES;
+                
             }
         }
         
@@ -329,10 +331,13 @@
 - (void)rightMouseDown:(NSEvent *)theEvent{
     theDropdownContextMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
     NSMenuItem *removeItemsItem = [[NSMenuItem alloc]initWithTitle:@"Remove items" action:@selector(removeItems) keyEquivalent:@""];
+     NSMenuItem *editItemsItem = [[NSMenuItem alloc]initWithTitle:@"Edit items" action:@selector(editItems) keyEquivalent:@""];
     [theDropdownContextMenu setAutoenablesItems:NO];
     
     [theDropdownContextMenu insertItem:removeItemsItem atIndex:0];
+    [theDropdownContextMenu insertItem:editItemsItem atIndex:1];
     [removeItemsItem setEnabled:[[self.collectionView selectionIndexes]count]];
+    [editItemsItem setEnabled:YES];
 //    [theDropdownContextMenu insertItemWithTitle:@"Show album names" action:@selector(showAlbumNames) keyEquivalent:@"" atIndex:1];
 //    [theDropdownContextMenu insertItemWithTitle:@"Move item to the end" action:@selector(MoveItemToTheEnd) keyEquivalent:@"" atIndex:2];
 //    [theDropdownContextMenu insertItemWithTitle:@"Move item to the beginning" action:@selector(MoveItemToTheBeginning) keyEquivalent:@"" atIndex:2];
@@ -341,8 +346,26 @@
     
     return [super rightMouseDown:theEvent];
 }
-
--(void)removeItems{
+- (void)editAlbumReload:(NSNotification*)obj{
+    NSLog(@"Reload album here");
+    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
+    customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+//    NSLog(@"%@", selectedObject);
+    albumItem.representedObject[@"title"] = obj.userInfo[@"title"];
+    albumItem.representedObject[@"desc"] = obj.userInfo[@"desc"];
+    [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+}
+- (void)editItems{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"editPhotoAblumReload" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editAlbumReload:) name:@"editPhotoAblumReload" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    EditVideoPhotoAlbumViewController *contr = [story instantiateControllerWithIdentifier:@"editVideoPhotoAlbumView"];
+    selectedObject = self.representedObject;
+    contr.mediaType = @"photo";
+    contr.receivedData=selectedObject;
+    [self presentViewControllerAsSheet:contr];
+}
+- (void)removeItems{
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
     contr.mediaType=@"photo";
@@ -662,7 +685,7 @@
 
 
 
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
     
     
     NSString *destinationURL;
@@ -694,16 +717,14 @@
         
     }
 }
-
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     completionHandler(NSURLSessionResponseAllow);
     
 //    progressUploadBar.doubleValue=0;
 //    progressUploadBar.hidden=YES;
 //    filePathLabel.hidden=YES;
 }
-
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
     NSDictionary *uploadPhotoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //      NSLog(@"%@", uploadPhotoResponse);
         if(![uploadPhotoResponse[@"photos_list"] isEqual:@"[]"]){
@@ -764,8 +785,7 @@
             }
         }
 }
-
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
     if(!albumItem.downloadAndUploadStatusOver.hidden){
@@ -775,7 +795,6 @@
     }
     
 }
-
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
     //    _downloadAndUploadProgress.maxValue = (double)totalBytesExpectedToWrite;
     //    _downloadAndUploadProgress.doubleValue = (double)totalBytesWritten;
@@ -783,8 +802,7 @@
         
     }
 }
-
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes{
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes{
     //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"PDFDownloader" message:@"Download is resumed successfully" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     //    [alert show];
 }

@@ -23,8 +23,9 @@
     int minY = NSMinY(dirtyRect);
     int midY = NSMidY(dirtyRect);
     int maxY = NSMaxY(dirtyRect);
-
+   
     NSPoint leftBottomPoint = NSMakePoint(minX-10, minY);
+    
     NSPoint leftMiddlePoint = NSMakePoint(minX+5 + deltaXfromLeftAndRight, midY);
     
     NSPoint topMiddlePoint = NSMakePoint(midX, maxY);
@@ -34,16 +35,20 @@
 
     [path moveToPoint:leftBottomPoint];
 
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX + deltaXfromLeftAndRight, minY) toPoint:leftMiddlePoint radius:selected ? 15.0 : 10.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX + deltaXfromLeftAndRight, minY) toPoint:leftMiddlePoint radius:selected ? 14.0 : 10.0];
     
     // left middle to top middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX+10 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:10.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(minX+8 + deltaXfromLeftAndRight, maxY) toPoint:topMiddlePoint radius:14.0];
     
     // top middle to right middle
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:10.0];
-    
+   
+//    NSPoint point = NSMakePoint(maxX+6, minY+5);
+//    NSPoint point2 = NSMakePoint(maxX+6, minY+5);
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX - deltaXfromLeftAndRight, maxY) toPoint:rightMiddlePoint radius:14.0];
+//    [path appendBezierPathWithPoints:&rightMiddlePoint count:1];
+//    [path appendBezierPathWithPoints:&point count:1];
     // right middle to right bottom
-    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX+10 - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:selected ? 15.0 : 10.0];
+    [path appendBezierPathWithArcFromPoint:NSMakePoint(maxX+8 - deltaXfromLeftAndRight, minY) toPoint:rightBottomPoint radius:selected ? 14.0 : 10.0];
     
     //left bottom to right bottom -- line
     //[path lineToPoint:leftBottomPoint];
@@ -54,8 +59,8 @@
 
     [path setLineWidth:2];
 
- 
-       [bgColr setFill];
+
+    [bgColr setFill];
     
     
     
@@ -72,6 +77,8 @@
     }
     [borderColor set];
     [path stroke];
+    
+
 }
 
 -(void)setSelectedBackground{

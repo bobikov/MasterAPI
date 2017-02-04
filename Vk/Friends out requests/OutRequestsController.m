@@ -120,7 +120,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                         NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                         if(getUsersResponse[@"error"]){
                             
-                        }else{
+                        }else if(getUsersResponse[@"response"]){
                             //NSLog(@"%@", getUsersResponse);
                             NSString *city;
                             NSString *status;
@@ -418,10 +418,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     }]resume];
 }
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    if([outRequestsData count]>0){
-        return [outRequestsData count];
-    }
-    return 0;
+    return [outRequestsData count];
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([outRequestsData count]==counter && [outRequestsData lastObject] && row <= [outRequestsData count]){

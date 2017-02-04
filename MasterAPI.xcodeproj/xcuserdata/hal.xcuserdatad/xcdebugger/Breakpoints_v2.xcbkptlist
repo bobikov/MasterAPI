@@ -625,11 +625,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Subscribers/SubscribersViewController.m"
-            timestampString = "505127201.558272"
+            timestampString = "507909049.123615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "-loadSubscribersPopup"
             landmarkType = "5">
          </BreakpointContent>
@@ -757,6 +757,22 @@
             startingLineNumber = "356"
             endingLineNumber = "356"
             landmarkName = "-loadPeople:useParams:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vk/Profile/ProfilePhotoChangeViewController.m"
+            timestampString = "507819685.516619"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "-prepareImageForProfile:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

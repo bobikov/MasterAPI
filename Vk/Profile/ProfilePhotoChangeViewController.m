@@ -7,7 +7,7 @@
 //
 
 #import "ProfilePhotoChangeViewController.h"
-
+#import "NSImage+Resizing.h"
 @interface ProfilePhotoChangeViewController () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -22,8 +22,17 @@
     intervalField.enabled=NO;
     filePathLabel.hidden=YES;
     userGroupsByAdminData = [[NSMutableArray alloc]init];
+    currentPhoto.wantsLayer=YES;
+    currentPhoto.layer.masksToBounds=YES;
+    currentPhoto.layer.cornerRadius=4;
     [self loadGroupsByAdminPopup];
 }
+
+- (void)viewDidAppear{
+    
+    [self loadCurrentPhoto];
+}
+
 - (void)loadGroupsByAdminPopup{
     __block NSMenuItem *menuItem;
     __block NSMenu *menu1 = [[NSMenu alloc]init];
@@ -61,10 +70,6 @@
         }
     }]resume];
 }
-- (void)viewDidAppear{
-    
-    [self loadCurrentPhoto];
-}
 - (IBAction)loadByURLCheckAction:(id)sender {
     if(uploadByURLCheck.state){
         fieldWithURL.hidden=NO;
@@ -77,32 +82,64 @@
         if(data){
             NSDictionary *photoGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(photoGetResponse[@"response"]){
-                NSImage *photoI = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"photo_604"]]];
-                
-                NSImageRep *rep = [[photoI representations] objectAtIndex:0];
-                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                NSLog(@"%f %f",imageSize.width, imageSize.height);
-                photoI.size=imageSize;
-//                photoI = [self imageResize:photoI newSize:NSMakeSize(imageSize.width/2.5, imageSize.height/2.5)];
-                photoI = [self resizedImage:photoI toPixelDimensions:NSMakeSize(imageSize.width/(imageSize.width/currentPhoto.frame.size.width), imageSize.height/(imageSize.height/currentPhoto.frame.size.height))];
-                currentPhoto.wantsLayer=YES;
-                currentPhoto.layer.masksToBounds=YES;
-                
-                int deltaSize =  imageSize.height/(imageSize.width/currentPhoto.frame.size.width) - currentPhoto.frame.size.height;
+                NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"photo_604"]]];
+                ownerPhoto = [self prepareImageForProfile:ownerPhoto];
+
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    [currentPhoto setImageScaling:NSImageScaleProportionallyUpOrDown];
-                      currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, imageSize.width/(imageSize.width/currentPhoto.frame.size.width), imageSize.height/(imageSize.height/currentPhoto.frame.size.height));
-                 
-                    //                currentPhoto.frame = NSMakeRect([photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"width"] intValue], [photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"heigth"] intValue], 0,0);
-                    [currentPhoto setImage:photoI];
+                    [currentPhoto setImage:ownerPhoto];
                     [progressSpin stopAnimation:self];
-                  
-                    currentPhoto.layer.cornerRadius=4;
+//                    if(currentPhoto.frame.origin.y<15){
+//                        wraper.frame = NSMakeRect(wraper.frame.origin.x, wraper.frame.origin.y, wraper.frame.size.width, wraper.frame.size.height+15-currentPhoto.frame.origin.y);
+//                        
+//                    }
                 });
                 
             }
         }
     }] resume];
+}
+- (NSImage*)prepareImageForProfile:(NSImage*)imageForProfile{
+ 
+    NSImage *preparedImage = imageForProfile;
+    NSImageRep *rep = [[preparedImage representations] objectAtIndex:0];
+    NSSize realImageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+    realImageHeight = realImageSize.height;
+    realImageWidth = realImageSize.width;
+    double frameWidth = currentPhoto.frame.size.width;
+    double frameHeight = currentPhoto.frame.size.height;
+   
+   
+    NSLog(@"RealImageWidth: %f RealImageHeight: %f", realImageWidth, realImageHeight);
+    NSLog(@"ImageFrameWidth: %f ImageFrameHeight: %f", frameWidth, frameHeight);
+    preparedImage.size=realImageSize;
+    if (realImageWidth>realImageHeight){
+         double deltaSize =  realImageHeight/(realImageHeight/current_photo_frame_size_width) - currentPhoto.frame.size.height;
+         double deltaHeight = realImageHeight/realImageHeight;
+        preparedImage = [preparedImage cropImageToSize:NSMakeSize(realImageHeight, realImageHeight) fromPoint:NSMakePoint(realImageHeight*0.15, 0)];
+        NSImageRep *rep = [[preparedImage representations] objectAtIndex:0];
+        NSSize realImageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+        realImageHeight = realImageSize.height;
+        realImageWidth = realImageSize.width;
+        double frameWidth = currentPhoto.frame.size.width;
+        double frameHeight = currentPhoto.frame.size.height;
+        preparedImage = [self resizedImage:preparedImage toPixelDimensions:NSMakeSize(realImageHeight/(realImageHeight/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, realImageHeight/(realImageHeight/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight);
+        });
+    }else{
+         double deltaSize =  realImageHeight/(realImageWidth/current_photo_frame_size_width) - currentPhoto.frame.size.height;
+         double deltaHeight = realImageHeight/realImageWidth;
+        NSLog(@"Delta height: %f", deltaHeight);
+        preparedImage = [self resizedImage:preparedImage toPixelDimensions:NSMakeSize(realImageWidth/(realImageWidth/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, realImageWidth/(realImageWidth/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight);
+            NSLog(@"%f",currentPhoto.frame.origin.y);
+           
+        });
+    }
+   
+    return preparedImage;
+   
 }
 - (NSImage *)resizedImage:(NSImage *)sourceImage toPixelDimensions:(NSSize)newSize
 {
@@ -157,9 +194,9 @@
     }
 }
 - (IBAction)uploadFile:(id)sender {
-    uploadByURLCheck.state ? nil : [self selectedPhoto];
+    uploadByURLCheck.state ? nil : [self selectPhotoDialog];
     if(filePath || uploadByURLCheck.state ){
-         owner=[userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] isEqual:_app.person] || userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] == nil ? _app.person : userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]];
+        owner=[userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] isEqual:_app.person] || userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] == nil ? _app.person : userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]];
         [self getServerUrl:owner completion:^(NSData *data) {
             if(data){
                 NSDictionary *getServerResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -182,6 +219,7 @@
 }
 - (void)loadCurrentPhotoUserGroupByAdmin:(NSString*)groupId{
     if([groupId isEqual:_app.person]){
+        
         [self loadCurrentPhoto];
     }else{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%@&access_token=%@&v=%@", groupId, _app.token, _app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -198,7 +236,7 @@
                             NSLog(@"%f %f",imageSize.width, imageSize.height);
                             //                        image = [self imageResize:image newSize:NSMakeSize(imageSize.width, imageSize.height)];
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
+//                                currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x, currentPhoto.bounds.origin.y+60, imageSize.width, imageSize.height);
                                 [currentPhoto setImage:image];
                             });
                         });
@@ -212,7 +250,7 @@
  
 }
 - (IBAction)selectFile:(id)sender {
-    [self selectedPhoto];
+    [self selectPhotoDialog];
     if(filePath){
         owner=[userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] isEqual:_app.person] || userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] == nil ? _app.person : userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]];
 //        [self getServerUrl:owner];
@@ -289,8 +327,7 @@
     }] resume];
 
 }
-
-- (void)selectedPhoto{
+- (void)selectPhotoDialog{
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:YES];
     [openDlg setCanChooseDirectories:YES];
@@ -302,6 +339,8 @@
         filePath=nil;
     }
 }
+
+
 - (void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
     NSData *contents;
     if(uploadByURLCheck.state){
@@ -313,6 +352,7 @@
     NSImageRep *rep = [[image representations] objectAtIndex:0];
     NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
     image.size=imageSize;
+    image = [self prepareImageForProfile:image];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.saveOwnerPhoto?server=%@&hash=%@&photo=%@&v=%@&access_token=%@", servera,hasha,photoa, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *savePhotoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -352,6 +392,10 @@
         }
     }] resume];
 }
+
+
+
+
 
 
 

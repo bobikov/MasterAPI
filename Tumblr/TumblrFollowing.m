@@ -61,24 +61,25 @@
         [followingData removeAllObjects];
     }
     [_tumblrClient APIRequest:@"user" rmethod:@"following" query:queryParams handler:^(NSData *data){
-        NSDictionary *followingResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            totalCount.title = [NSString stringWithFormat:@"%@", followingResponse[@"response"][@"total_blogs"]];
-        });
-        for(NSDictionary *i in followingResponse[@"response"][@"blogs"]){
-            NSURL *url = [NSURL URLWithString:i[@"url"]];
-//            NSLog(@"%@", i);
-            NSString *desc = i[@"description"] && i[@"description"]!=nil ? i[@"description"] : @"";
-            
-            [followingData addObject:@{@"title":i[@"title"], @"desc":desc, @"url":url.host, @"updated":[self getUpdatedDate:i[@"updated"]]}];
-            offsetCounter++;
+        if(data){
+            NSDictionary *followingResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                totalCount.title = [NSString stringWithFormat:@"%@", followingResponse[@"response"][@"total_blogs"]];
+            });
+            for(NSDictionary *i in followingResponse[@"response"][@"blogs"]){
+                NSURL *url = [NSURL URLWithString:i[@"url"]];
+                //            NSLog(@"%@", i);
+                NSString *desc = i[@"description"] && i[@"description"]!=nil ? i[@"description"] : @"";
+                
+                [followingData addObject:@{@"title":i[@"title"], @"desc":desc, @"url":url.host, @"updated":[self getUpdatedDate:i[@"updated"]]}];
+                offsetCounter++;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                loadedCount.title = [NSString stringWithFormat:@"%i", offsetCounter];
+                [progressLoad stopAnimation:self];
+                [followingList reloadData];
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            loadedCount.title = [NSString stringWithFormat:@"%i", offsetCounter];
-            [progressLoad stopAnimation:self];
-            [followingList reloadData];
-        });
-        
     }];
 }
 -(NSString*)getUpdatedDate:(NSString*)dateInSeconds{

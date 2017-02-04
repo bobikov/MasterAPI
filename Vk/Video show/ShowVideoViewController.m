@@ -21,6 +21,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     collectionViewListAlbums.dataSource=self;
     collectionViewListAlbums.delegate=self;
     searchBar.delegate=self;
@@ -30,7 +31,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     videoAlbums2= [[NSMutableArray alloc]init];
     [[scrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
-  
+    videoAlbumsCopy = [[NSMutableArray alloc]init];
     searchResultCount.hidden=YES;
     friends = [[NSMutableArray alloc]init];
     friendId=nil;
@@ -61,6 +62,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     loadForVKAddToAlbum = _addSelectedAlbumVKSocial[@"addSelectedAlbumVKSocial"] ? YES : NO;
    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showNamesController:) name:@"ShowNamesController" object:nil];
  
+
 }
 - (void)showNamesController:(NSNotification*)notification{
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
@@ -277,8 +279,8 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 }
 
 - (IBAction)albumsDropdownListAction:(id)sender {
-    selectedAlbum= videoAlbums[[albumsDropdownList indexOfSelectedItem]][@"id"];
-    countInAlbum =videoAlbums[[albumsDropdownList indexOfSelectedItem]][@"count"];
+    selectedAlbum= videoAlbumsCopy[[albumsDropdownList indexOfSelectedItem]][@"id"];
+    countInAlbum =videoAlbumsCopy[[albumsDropdownList indexOfSelectedItem]][@"count"];
     ownerId=ownerId==nil?_app.person : ownerId;
     NSLog(@"%@", selectedAlbum);
     [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil];
@@ -327,14 +329,11 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 }
 
 - (IBAction)backToAlbumsAction:(id)sender {
+    [self resetAlbumsDropdown];
     [self loadAlbums:NO :nil];
     ownerId=_app.person;
     friendId=nil;
     publicIdFrom = nil;
-    
-//     albumsLabel.stringValue = @"Albums";
-    
-    
 }
 
 NSInteger floatSort(id num1, id num2, void *context){
@@ -387,16 +386,14 @@ NSInteger floatSort(id num1, id num2, void *context){
                     else{
                         cover=@"";
                     }
-                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInt:index], @"id":i[@"id"], @"cover":cover, @"owner_id":i[@"owner_id"], @"title":i[@"title"], @"count":i[@"count"]}];
+                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithDictionary:@{@"index":[NSNumber numberWithInt:index], @"id":i[@"id"], @"cover":cover, @"owner_id":i[@"owner_id"], @"title":i[@"title"], @"count":i[@"count"], @"desc":i[@"description"]!=nil?i[@"description"]:@""}];
                     
                     [videoAlbums addObject:object];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [albumsDropdownList addItemWithTitle:i[@"title"]];
-                    });
+                  
                     
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                    [self loadAlbumsDropdown];
                     [collectionViewListAlbums setContent:videoAlbums];
                     [collectionViewListAlbums reloadData];
                     totalCount.title = [NSString stringWithFormat:@"%@", getAlbumsResponse[@"response"][@"count"]];
@@ -410,6 +407,17 @@ NSInteger floatSort(id num1, id num2, void *context){
         [collectionViewListAlbums reloadData];
         
     }
+}
+- (void)loadAlbumsDropdown{
+    if([videoAlbumsCopy count]==0){
+        videoAlbumsCopy = [videoAlbums mutableCopy];
+        for(NSDictionary *i in videoAlbumsCopy){
+            [albumsDropdownList addItemWithTitle:i[@"title"]];
+        }
+    }
+}
+- (void)resetAlbumsDropdown{
+    [videoAlbumsCopy removeAllObjects];
 }
 - (void)showAlbumsFromPublic{
     ownerId=[NSString stringWithFormat:@"%@", publicIdFromShow.stringValue];
@@ -525,7 +533,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     
 }
 - (void)loadSelectedAlbum:(id)albumId :(BOOL)makeOffset :(id)count :(id)videoData{
-     totalCount.title = [NSString stringWithFormat:@"%@", count];
+    
     nameSelectedObject = @"album";
     __block int index=0;
     if(makeOffset){
@@ -538,7 +546,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     NSString *url;
 
     if(videoData==nil){
-      
+       
         NSLog(@"OWNER SELECTED ALBUM %@", ownerId);
         
 //            if(friendId!=nil){
@@ -546,17 +554,15 @@ NSInteger floatSort(id num1, id num2, void *context){
 //                url =[NSString stringWithFormat:@"https://api.vk.com/method/video.get?owner_id=%@&album_id=%@&count=200&offset=%i&extended=1&v=%@&access_token=%@", friendId, albumId, selectedAlbumOffset, _app.version,  _app.token];
 //            }
 //            else{
-                url = [NSString stringWithFormat:@"https://api.vk.com/method/video.get?owner_id=%@&album_id=%@&count=200&offset=%i&extended=1&v=%@&access_token=%@", ownerId==nil ? _app.person : ownerId, albumId, selectedAlbumOffset, _app.version,  _app.token];
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/video.get?owner_id=%@&album_id=%@&count=200&offset=%i&extended=1&v=%@&access_token=%@", ownerId==nil ? _app.person : ownerId, albumId, selectedAlbumOffset, _app.version,  _app.token];
 //            }
-            if(publicIdFrom!=nil){
-
-                url = [NSString stringWithFormat:@"https://api.vk.com/method/video.get?owner_id=%@&album_id=%@&count=200&offset=%i&extended=1&v=%@&access_token=%@", publicIdFrom, albumId, selectedAlbumOffset, _app.version,  _app.token];
-            }
+        
             [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 
                 if(data){
-                    totalVideoInAlbum = [getAlbumResponse[@"count"] intValue];
+                    totalVideoInAlbum = [getAlbumResponse[@"response"][@"count"] intValue];
+                     NSLog(@"%i %li %@", selectedAlbumOffset, totalVideoInAlbum, countInAlbum);
                     for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
                         //            NSLog(@"%@", i);
                         index++;
@@ -573,12 +579,9 @@ NSInteger floatSort(id num1, id num2, void *context){
                         
                         [collectionViewListAlbums setContent:videoAlbums];
                         [collectionViewListAlbums reloadData];
-                        
                     });
                 }
             }] resume];
-    
-
     }
      else{
          NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
@@ -593,16 +596,20 @@ NSInteger floatSort(id num1, id num2, void *context){
 
     if(!albumLoaded){
         NSInteger selectedItemIndex = [indexPaths allObjects][0].item;
-        [albumsDropdownList selectItemAtIndex:selectedItemIndex];
-        NSLog(@"%@", [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
-        selectedAlbum= [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"id"] ;
-        countInAlbum =[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"count"];
-        ownerId=[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"owner_id"];
-        if(!loadForVKAddToAlbum && !([currentEvent modifierFlags] & NSCommandKeyMask) && [currentEvent type]!=NSLeftMouseDragged && [[collectionViewListAlbums selectionIndexes]count]==1){
-            [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil] ;
-        }else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectedVideoAlbumVK" object:nil userInfo:[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]];
+        if(selectedItemIndex <= [videoAlbums count]){
+            [albumsDropdownList selectItemAtIndex:selectedItemIndex];
+            NSLog(@"%@", [videoAlbums objectsAtIndexes:[collectionViewListAlbums selectionIndexes]]);
+            selectedAlbum= [[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"id"] ;
+            countInAlbum = [[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"count"] copy];
+            ownerId=[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject][@"owner_id"];
+            totalCount.title = [NSString stringWithFormat:@"%@", countInAlbum];
+            if(!loadForVKAddToAlbum && !([currentEvent modifierFlags] & NSCommandKeyMask) && [currentEvent type]!=NSLeftMouseDragged && [[collectionViewListAlbums selectionIndexes]count]==1){
+                [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil] ;
+            }else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"selectedVideoAlbumVK" object:nil userInfo:[[collectionViewListAlbums itemAtIndexPath:[indexPaths allObjects][0]] representedObject]];
+            }
         }
+ 
     }
     else{
         myWinContr = [[NSWindowController alloc]initWithWindowNibName:@"MyVideoWindowController"];

@@ -18,6 +18,10 @@
 		2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */; };
 		2B1914E31E30AFDE00FB714E /* ApiSourceSelecterCustomLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */; };
 		2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */; };
+		2B20F00B1E44715A00816124 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0071E44715A00816124 /* .gitignore */; };
+		2B20F00C1E44715A00816124 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0091E44715A00816124 /* NSImage+Resizing.m */; };
+		2B20F00D1E44715A00816124 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00A1E44715A00816124 /* README.md */; };
+		2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -318,6 +322,12 @@
 		2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelecterCustomLayout.m; sourceTree = "<group>"; };
 		2B1914E41E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelectorCustomFlowLayout.h; sourceTree = "<group>"; };
 		2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelectorCustomFlowLayout.m; sourceTree = "<group>"; };
+		2B20F0071E44715A00816124 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2B20F0081E44715A00816124 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
+		2B20F0091E44715A00816124 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
+		2B20F00A1E44715A00816124 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditVideoPhotoAlbumViewController.h; sourceTree = "<group>"; };
+		2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditVideoPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -827,6 +837,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B20F0061E44715A00816124 /* NSImage-Resizing-master */ = {
+			isa = PBXGroup;
+			children = (
+				2B20F0071E44715A00816124 /* .gitignore */,
+				2B20F0081E44715A00816124 /* NSImage+Resizing.h */,
+				2B20F0091E44715A00816124 /* NSImage+Resizing.m */,
+				2B20F00A1E44715A00816124 /* README.md */,
+			);
+			name = "NSImage-Resizing-master";
+			path = "RFOverlayScroller/NSImage-Resizing-master";
+			sourceTree = "<group>";
+		};
 		2B41F9C81E02D3F50013AC86 /* AppsPreferences  */ = {
 			isa = PBXGroup;
 			children = (
@@ -987,6 +1009,7 @@
 		2B41FA251E02D3F50013AC86 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				2B20F0061E44715A00816124 /* NSImage-Resizing-master */,
 				2B41FA261E02D3F50013AC86 /* HtmlParser */,
 				2B41FA501E02D3F50013AC86 /* RFOverlayScroller */,
 			);
@@ -1336,6 +1359,8 @@
 				2B41FB931E02D3F60013AC86 /* VKLoginViewController.m */,
 				2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */,
 				2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */,
+				2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */,
+				2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */,
 			);
 			path = Vk;
 			sourceTree = "<group>";
@@ -1874,6 +1899,7 @@
 				2B41FC291E02D3F60013AC86 /* play.png in Resources */,
 				2B41FC311E02D3F60013AC86 /* remove_transp_15.png in Resources */,
 				2B41FC371E02D3F60013AC86 /* twitter2.png in Resources */,
+				2B20F00B1E44715A00816124 /* .gitignore in Resources */,
 				2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */,
 				2B41FC2A1E02D3F60013AC86 /* plus.png in Resources */,
 				2B41FC281E02D3F60013AC86 /* photo_min.png in Resources */,
@@ -1934,6 +1960,7 @@
 				2B41FCBF1E02D3F70013AC86 /* YoutubeAddToPlaylistController.m in Sources */,
 				2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */,
 				2B41FC8A1E02D3F70013AC86 /* GroupsCustomTableView.m in Sources */,
+				2B20F00C1E44715A00816124 /* NSImage+Resizing.m in Sources */,
 				2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */,
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,
 				2B41FBE21E02D3F60013AC86 /* CustomView.m in Sources */,
@@ -1993,6 +2020,7 @@
 				2B41FC5C1E02D3F70013AC86 /* AddAudiosViewController.m in Sources */,
 				2B41FBF91E02D3F60013AC86 /* HTMLSelector.m in Sources */,
 				2B41FBFA1E02D3F60013AC86 /* HTMLSerialization.m in Sources */,
+				2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */,
 				2B41FC731E02D3F70013AC86 /* DocsTabController.m in Sources */,
 				2B41FCA61E02D3F70013AC86 /* createNewVideoAlbumController.m in Sources */,
 				2B41FC5B1E02D3F70013AC86 /* appInfo.m in Sources */,
@@ -2064,6 +2092,7 @@
 				2B41FCB91E02D3F70013AC86 /* WallPostViewController.m in Sources */,
 				2B41FBDC1E02D3F60013AC86 /* CustomSegment.m in Sources */,
 				2B41FCAA1E02D3F70013AC86 /* MyVideoWindowController.m in Sources */,
+				2B20F00D1E44715A00816124 /* README.md in Sources */,
 				2B41FC451E02D3F60013AC86 /* DownloadUploadMainViewController.m in Sources */,
 				2B41FC8F1E02D3F70013AC86 /* groupsHandler.m in Sources */,
 				2B41FBE91E02D3F60013AC86 /* MediaPostsCustomCell.m in Sources */,

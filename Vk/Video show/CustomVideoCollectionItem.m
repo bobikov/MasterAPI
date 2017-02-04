@@ -11,6 +11,7 @@
 #import "CustomAnimator.h"
 #import "URLsViewController.h"
 #import "RemoveVideoAndPhotoItemsViewController.h"
+#import "EditVideoPhotoAlbumViewController.h"
 @interface CustomVideoCollectionItem ()
 
 @end
@@ -19,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+
     [self createTrackingArea];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
@@ -32,6 +33,9 @@
     _countLabel.layer.masksToBounds=YES;
     _countLabel.layer.cornerRadius=5;
     _countLabel.layer.opacity=.8;
+    _albumCover.wantsLayer = YES;
+    _albumCover.layer.masksToBounds=YES;
+    _albumCover.layer.cornerRadius=4;
 //    _countLabel.layer.backgroundColor=[[NSColor clearColor] CGColor];
 //    if(self.representedObject[@"count"]){
 //        NSAttributedString *countAttrString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@", self.representedObject[@"count"] ]attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor]}];
@@ -244,7 +248,7 @@
 //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
 //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
 //    self.view.layer.borderWidth=1;
-//
+    [self.view setToolTip:self.representedObject[@"desc"]];
     int overAlbumId = [self.representedObject[@"id"] intValue];
 //       NSLog(@"%i", overAlbumId);
     if(overAlbumId!=-1 && overAlbumId!=-2){
@@ -284,7 +288,7 @@
     [theDropdownContextMenu insertItemWithTitle:@"Show album names" action:@selector(showAlbumNames) keyEquivalent:@"" atIndex:1];
     [theDropdownContextMenu insertItemWithTitle:@"Move item to the end" action:@selector(MoveItemToTheEnd) keyEquivalent:@"" atIndex:2];
     [theDropdownContextMenu insertItemWithTitle:@"Move item to the beginning" action:@selector(MoveItemToTheBeginning) keyEquivalent:@"" atIndex:2];
-
+    [theDropdownContextMenu insertItemWithTitle:@"Edit items" action:@selector(editItems) keyEquivalent:@"" atIndex:3];
     [NSMenu popUpContextMenu:theDropdownContextMenu withEvent:theEvent forView:self.view];
     
     return [super rightMouseDown:theEvent];
@@ -319,6 +323,27 @@
         });
         
     }] resume];
+}
+
+
+- (void)editAlbumReload:(NSNotification*)obj{
+    NSLog(@"Reload album here");
+    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
+    CustomVideoCollectionItem *albumItem =  (CustomVideoCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+    //    NSLog(@"%@", selectedObject);
+    albumItem.representedObject[@"title"] = obj.userInfo[@"title"];
+//    albumItem.representedObject[@"desc"] = obj.userInfo[@"desc"];
+    [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+}
+- (void)editItems{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"editVideoAblumReload" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editAlbumReload:) name:@"editVideoAblumReload" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    EditVideoPhotoAlbumViewController *contr = [story instantiateControllerWithIdentifier:@"editVideoPhotoAlbumView"];
+    selectedObject = self.representedObject;
+    contr.mediaType = @"video";
+    contr.receivedData=selectedObject;
+    [self presentViewControllerAsSheet:contr];
 }
 
 - (void)MoveItemToTheBeginning{

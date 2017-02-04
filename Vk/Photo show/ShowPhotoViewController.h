@@ -1,6 +1,5 @@
 //
 //  ShowPhotoViewController.h
-//  vkapp
 //
 //  Created by sim on 25.05.16.
 //  Copyright © 2016 sim. All rights reserved.
@@ -32,6 +31,7 @@ __weak IBOutlet NSCollectionView *collectionViewListAlbums;
     ViewControllerMenuItem *viewControllerItem;
     NSMutableDictionary *cachedImage;
     NSString *nameSelectedObject;
+    NSMutableArray *albumsDataCopy;
    
    
 }

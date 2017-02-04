@@ -19,6 +19,7 @@
     __weak IBOutlet NSCollectionView *collectionViewListAlbums;
     __weak IBOutlet NSSearchField *searchBar;
     NSMutableArray *videoAlbums;
+     NSMutableArray *videoAlbumsCopy;
     NSMutableArray *videoAlbums2;
     NSMutableArray *photoInAlbumData;
     BOOL albumLoaded;
@@ -58,7 +59,7 @@
     ViewControllerMenuItem *viewControllerItem;
     NSMutableDictionary *cachedImage;
     NSString *nameSelectedObject;
-     NSInteger totalVideoInAlbum;
+    NSInteger totalVideoInAlbum;
 }
 @property(nonatomic)appInfo *app;
 @property(strong) NSWindowController *myWinContr;

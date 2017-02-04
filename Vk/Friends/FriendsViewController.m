@@ -56,35 +56,37 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if(!_loadFromFullUserInfo){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
-                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
-                    [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
-                    ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                    [viewControllerItem loadView];
-                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                if(data){
+                    NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     
-                   
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                    
-                    image.size=NSMakeSize(30,30);
-                    viewControllerItem.photo.wantsLayer=YES;
-                    viewControllerItem.photo.layer.masksToBounds=YES;
-                    viewControllerItem.photo.layer.cornerRadius=39/2;
-                    [menuItem setImage:image];
-//                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
-//                     viewControllerItem.photo.layer.borderWidth = 2.0;
-                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
-                    [viewControllerItem.photo setImage:image];
-                    [menuItem setView:[viewControllerItem view]];
-                    [menu1 addItem:menuItem];
+                    for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                        [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                        ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                        [viewControllerItem loadView];
+                        menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                        
+                        
+                        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                        
+                        image.size=NSMakeSize(30,30);
+                        viewControllerItem.photo.wantsLayer=YES;
+                        viewControllerItem.photo.layer.masksToBounds=YES;
+                        viewControllerItem.photo.layer.cornerRadius=39/2;
+                        [menuItem setImage:image];
+                        //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+                        //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+                        [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                        viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                        [viewControllerItem.photo setImage:image];
+                        [menuItem setView:[viewControllerItem view]];
+                        [menu1 addItem:menuItem];
+                    }
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        //[friendsListDropdown setPullsDown:YES];
+                        [friendsListPopup removeAllItems];
+                        [friendsListPopup setMenu:menu1];
+                    });
                 }
-                dispatch_async(dispatch_get_main_queue(),^{
-                    //[friendsListDropdown setPullsDown:YES];
-                    [friendsListPopup removeAllItems];
-                    [friendsListPopup setMenu:menu1];
-                });
             }]resume];
         }else{
             [friendsListPopupData removeAllObjects];
@@ -122,7 +124,7 @@
     [FriendsTableView scrollRowToVisible:[FriendsTableView numberOfRows] - 1];
 }
 
--(void)viewDidAppear{
+- (void)viewDidAppear{
     if(_loadFromFullUserInfo || _loadFromWallPost){
         self.view.window.titleVisibility=NSWindowTitleHidden;
         self.view.window.titlebarAppearsTransparent = YES;
@@ -149,7 +151,7 @@
 //    [self presentViewControllerAsModalWindow:friendsStatController];
     [self presentViewController:friendsStatController asPopoverRelativeToRect:friendsStatBut.frame ofView:self.view preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 }
--(void)loadSearchFriendsList{
+- (void)loadSearchFriendsList{
     
     NSInteger counter=0;
     NSMutableArray *FriendsDataTemp=[[NSMutableArray alloc]init];
@@ -239,7 +241,7 @@
     
     [FriendsTableView selectAll:self];
 }
--(void)setButtonStyle:(id)button{
+- (void)setButtonStyle:(id)button{
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
@@ -263,7 +265,7 @@
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadUserFullInfo" object:self userInfo:dataForUserInfo];
 }
 
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"showDetailSegue"]){
         FriendsMessageSendViewController *controller = (FriendsMessageSendViewController *)segue.destinationController;
 
@@ -297,16 +299,16 @@
 //    }
     [self loadFriends:NO];
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadSearchFriendsList];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
     FriendsData = FriendsDataCopy;
     [FriendsTableView reloadData];
 }
 
--(void)cleanTable{
+- (void)cleanTable{
     NSIndexSet *index=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [FriendsData count])];
     
     [FriendsTableView removeRowsAtIndexes:index withAnimation:0];
@@ -322,7 +324,7 @@
   
 }
 
--(void)loadFriends:(BOOL)searchByName{
+- (void)loadFriends:(BOOL)searchByName{
     [progressSpin startAnimation:self];
     [FriendsData removeAllObjects];
     _ownerId = _ownerId == nil ? _app.person : _ownerId;
@@ -342,9 +344,8 @@
                     return;
                 }
                 else{
-          
+                    
                 }
-
             }
             
             NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -384,11 +385,7 @@
                 NSInteger blacklisted_by_me;
                 NSInteger counter=0;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     friendsTotalCount.title=[NSString stringWithFormat:@"%i",[jsonData[@"response"][@"count"] intValue]];
-                    
-                    
-                    
                 });
                 if([jsonData[@"response"][@"items"] count]>0){
                     
@@ -646,7 +643,7 @@
     [dataTask resume];
     
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[FriendsTableView selectedRowIndexes]count]>0){
         row = [FriendsTableView selectedRow];
@@ -655,14 +652,14 @@
  
 }
 
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([FriendsData count]>0) {
         return [FriendsData count];
     }
     return 0;
 }
 
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if ([FriendsData count]>0 && [FriendsData lastObject] && row <= [FriendsData count]) {
        
         FriendsCustomCellView *cell=[[FriendsCustomCellView alloc]init];

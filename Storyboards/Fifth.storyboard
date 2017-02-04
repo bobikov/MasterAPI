@@ -665,6 +665,68 @@
             </objects>
             <point key="canvasLocation" x="1486" y="2221.5"/>
         </scene>
+        <!--Edit Video Photo Album View Controller-->
+        <scene sceneID="jGc-1a-phA">
+            <objects>
+                <viewController id="lre-Hh-EB5" customClass="EditVideoPhotoAlbumViewController" sceneMemberID="viewController">
+                    <view key="view" id="ZAX-8E-9ql">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="207"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wwj-YP-YQw">
+                                <rect key="frame" x="20" y="40" width="374" height="117"/>
+                                <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="description" drawsBackground="YES" id="yxt-6o-5dv">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CYJ-o1-Zzx">
+                                <rect key="frame" x="20" y="170" width="332" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="title" drawsBackground="YES" id="Osz-g9-Toa">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="quy-OB-lOY">
+                                <rect key="frame" x="14" y="-2" width="88" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XsY-Bu-Dtn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="99K-9P-Tej" id="OLm-kI-5h3"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nfd-12-hkO">
+                                <rect key="frame" x="315" y="-2" width="85" height="32"/>
+                                <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1vh-4g-At1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="saveAction:" target="lre-Hh-EB5" id="qA9-If-t9p"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <string key="storyboardIdentifier" base64-UTF8="YES">
+ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
+</string>
+                    <connections>
+                        <outlet property="descField" destination="Wwj-YP-YQw" id="erx-j3-XGH"/>
+                        <outlet property="saveButton" destination="nfd-12-hkO" id="1xW-4k-Vmv"/>
+                        <outlet property="titleField" destination="CYJ-o1-Zzx" id="XD3-ak-iH0"/>
+                    </connections>
+                </viewController>
+                <customObject id="99K-9P-Tej" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1591" y="2422.5"/>
+        </scene>
         <!--Video Privacy View Controller-->
         <scene sceneID="qPT-ca-G2c">
             <objects>
@@ -1443,7 +1505,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="82" viewBased="YES" id="WLq-cs-XCB" customClass="CustomSubscribersTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="548" height="565"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="548" height="0.0"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="1"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

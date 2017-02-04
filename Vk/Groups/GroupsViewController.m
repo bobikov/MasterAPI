@@ -252,7 +252,7 @@
             
         }
         else if(filterDeactivated.state==1 && filterActive.state==0){
-            if([i[@"deactivated"] intValue]==1){
+            if([i[@"desc"] containsString:@"Данный материал"]){
                 [foundData addObject:i];
                 counter++;
             }

@@ -3999,7 +3999,7 @@ Gw
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1cz-X9-JWv">
-                                <rect key="frame" x="591" y="561" width="59" height="32"/>
+                                <rect key="frame" x="630" y="561" width="59" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="HVT-Gt-HMM"/>
                                     <constraint firstAttribute="height" constant="21" id="RKA-o0-dG0"/>
@@ -4013,7 +4013,7 @@ Gw
                                 </connections>
                             </button>
                             <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gyI-qd-1yr">
-                                <rect key="frame" x="505" y="568" width="89" height="20"/>
+                                <rect key="frame" x="544" y="568" width="89" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="89" id="fju-Y1-muX"/>
                                     <constraint firstAttribute="height" constant="20" id="k8U-Bq-SHn"/>
@@ -4025,10 +4025,10 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZNM-N0-ytZ">
-                                <rect key="frame" x="389" y="565" width="114" height="26"/>
+                                <rect key="frame" x="389" y="565" width="129" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="BpO-GR-aBM"/>
-                                    <constraint firstAttribute="width" constant="109" id="nv0-Jm-za1"/>
+                                    <constraint firstAttribute="width" constant="124" id="nv0-Jm-za1"/>
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="lhD-Wc-lJr">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -4106,7 +4106,7 @@ Gw
                             <constraint firstItem="pFw-hm-R7h" firstAttribute="top" secondItem="R8w-C5-gh1" secondAttribute="bottom" constant="1" id="0A9-5R-zFa"/>
                             <constraint firstItem="ZNM-N0-ytZ" firstAttribute="leading" secondItem="pFw-hm-R7h" secondAttribute="trailing" constant="74" id="3JC-iX-qAn"/>
                             <constraint firstItem="R8w-C5-gh1" firstAttribute="leading" secondItem="tmh-Bk-tls" secondAttribute="trailing" constant="18" id="3wp-PO-oCp"/>
-                            <constraint firstItem="EOZ-Gk-PiJ" firstAttribute="leading" secondItem="1cz-X9-JWv" secondAttribute="trailing" constant="54" id="5qV-WU-NHt"/>
+                            <constraint firstItem="EOZ-Gk-PiJ" firstAttribute="leading" secondItem="1cz-X9-JWv" secondAttribute="trailing" constant="15" id="5qV-WU-NHt"/>
                             <constraint firstItem="1cz-X9-JWv" firstAttribute="leading" secondItem="gyI-qd-1yr" secondAttribute="trailing" constant="3" id="68l-ex-vJq"/>
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="1cz-X9-JWv" secondAttribute="bottom" constant="1" id="8JN-dZ-IjN"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vk0-I7-K8Y" secondAttribute="trailing" constant="7" id="Bzk-93-Edq"/>
@@ -4134,7 +4134,7 @@ Gw
                             <constraint firstItem="lZ5-Cq-NJf" firstAttribute="leading" secondItem="OhC-UM-SZe" secondAttribute="leading" constant="12" id="ivN-ot-4OB"/>
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="8gv-u3-0dw" secondAttribute="bottom" constant="4" id="jIe-0V-h41"/>
                             <constraint firstItem="lZ5-Cq-NJf" firstAttribute="top" secondItem="yRk-YC-DN3" secondAttribute="bottom" constant="6" id="len-1H-aBy"/>
-                            <constraint firstItem="gyI-qd-1yr" firstAttribute="leading" secondItem="ZNM-N0-ytZ" secondAttribute="trailing" constant="5" id="m2X-gL-nst"/>
+                            <constraint firstItem="gyI-qd-1yr" firstAttribute="leading" secondItem="ZNM-N0-ytZ" secondAttribute="trailing" constant="29" id="m2X-gL-nst"/>
                             <constraint firstItem="oC6-JS-HD0" firstAttribute="top" secondItem="tmh-Bk-tls" secondAttribute="bottom" constant="1" id="sPE-7d-nrp"/>
                             <constraint firstItem="yRk-YC-DN3" firstAttribute="leading" secondItem="OhC-UM-SZe" secondAttribute="leading" constant="8" id="thA-Um-5lh"/>
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="lZ5-Cq-NJf" secondAttribute="bottom" constant="4" id="uTT-vL-INk"/>
@@ -4724,7 +4724,7 @@ Gw
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ocx-o9-zEV">
-                                <rect key="frame" x="397" y="564" width="104" height="26"/>
+                                <rect key="frame" x="371" y="564" width="130" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="B4D-Lf-7Wp">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>

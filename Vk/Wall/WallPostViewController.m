@@ -1044,12 +1044,14 @@
     [groupsList addItemWithTitle:@"Personal"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
-                [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [groupsList addItemWithTitle:i[@"name"]];
-                });
+            if(data){
+                NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
+                    [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [groupsList addItemWithTitle:i[@"name"]];
+                    });
+                }
             }
         }]resume];
     });
