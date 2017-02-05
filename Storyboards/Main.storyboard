@@ -13,14 +13,14 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="vkapp" id="1Xt-HY-uBw">
+                            <menuItem title="MasterAPI" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="vkapp" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="MasterAPI" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About vkapp" id="5kV-Vb-QxS">
+                                        <menuItem title="About " id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
+                                                <segue destination="p36-Cd-bJ2" kind="show" id="wSy-iL-aVI"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
@@ -669,6 +669,14 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="21.5" y="3"/>
+        </scene>
+        <!--AboutCustom-->
+        <scene sceneID="u5n-26-qvT">
+            <objects>
+                <controllerPlaceholder storyboardName="Fifth" referencedIdentifier="AboutCustom" id="p36-Cd-bJ2" sceneMemberID="viewController"/>
+                <customObject id="MXt-e2-b64" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-391" y="65"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">

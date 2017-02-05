@@ -385,7 +385,6 @@
     [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
     
 }
-
 - (IBAction)downloadButtonAction:(id)sender{
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
@@ -398,7 +397,6 @@
         [self chooseDirectoryForAlbumDownload:selectedObject[@"title"] :selectedObject[@"id"] :_app.person :self.representedObject[@"size"]];
     }
 }
-
 - (void)getUploadURL:(id)album_id completion:(OnComplete)completion{
 //   ownerId=[NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
 //    NSLog(@"%@", self.representedObject);
@@ -420,7 +418,6 @@
     }] resume];
     
 }
-
 - (void)chooseDirectoryToUpload{
     
     NSOpenPanel* openDlgUpload = [NSOpenPanel openPanel];

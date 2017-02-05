@@ -75,7 +75,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
 }
--(void)sessionNameDidChange:(NSNotification*)notification{
+- (void)sessionNameDidChange:(NSNotification*)notification{
 //    NSLog(@"hahaha");
 //    if([notification.object isEqual: newSessionNameField]){
     currentPostsSessionName = newSessionNameField.stringValue;
@@ -90,7 +90,7 @@
 }
 
 
--(void)viewDidAppear{
+- (void)viewDidAppear{
     if(![self parentViewController]){
         self.view.window.level = NSFloatingWindowLevel;
         self.view.window.titleVisibility=NSWindowTitleVisible;
@@ -103,7 +103,7 @@
 }
 
 
--(void)textDidChange:(NSNotification *)notification{
+- (void)textDidChange:(NSNotification *)notification{
     
     if(notification.object == newSessionNameField){
         
@@ -115,7 +115,7 @@
 }
 
 //Attachments actions
--(void)addToAttachments:(NSNotification *)notification{
+- (void)addToAttachments:(NSNotification *)notification{
     mediaAttachmentType = notification.userInfo[@"type"];
     [indexPaths removeAllObjects];
     NSDictionary *object = @{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]};
@@ -158,7 +158,7 @@
         //    [attachmentsCollectionView reloadData];
     }
 }
--(void)removeItemFromAttachments:(NSNotification*)notification{
+- (void)removeItemFromAttachments:(NSNotification*)notification{
     
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[attachmentsData indexOfObject:notification.userInfo[@"data"]] inSection:0];
     
@@ -266,7 +266,7 @@
         savePostsSessionBut.hidden=NO;
     }
 }
--(void)observeScheduledPost:(NSNotification*)object{
+- (void)observeScheduledPost:(NSNotification*)object{
     NSLog(@"%@", object.userInfo);
     NSMutableDictionary *object1 = [object.userInfo mutableCopy];
     postTargetSourceSelector = [NSMutableDictionary dictionaryWithDictionary:object1[@"postSources"]];
@@ -311,7 +311,7 @@
         afterPost.hidden=NO;
     }
 }
--(void)setSelectorsButtonsState{
+- (void)setSelectorsButtonsState{
     if([textView.string isEqualToString:@""]){
         [PostTwitter setEnabled:NO];
         
@@ -338,7 +338,7 @@
 }
 
 
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"videosForAttachments"]){
         ShowVideoViewController *controller = (ShowVideoViewController *)segue.destinationController;
         controller.loadFromWallPost=YES;
@@ -385,7 +385,7 @@
     
     
 }
--(NSArray*)ReadGroups{
+- (NSArray*)ReadGroups{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKGroupsToPost"];
@@ -396,7 +396,7 @@
     
     return array;
 }
--(void)writeGroup{
+- (void)writeGroup{
        NSMutableArray *tempArray = [[NSMutableArray alloc]init];
 //    [self removeAllGroups];
     if([self ReadGroups]!=nil){
@@ -473,7 +473,7 @@
         }
     });
     }
--(void)removeAllGroups{
+- (void)removeAllGroups{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc ] initWithEntityName:@"VKGroupsToPost"];
     NSError *error;
     NSArray *items = [moc executeFetchRequest:fetchRequest error:&error];
@@ -487,7 +487,7 @@
         }
     }
 }
--(NSArray *)ReadMessages{
+- (NSArray *)ReadMessages{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
@@ -502,7 +502,7 @@
     
     return array;
 }
--(void)writeMessage{
+- (void)writeMessage{
     NSMutableArray *tempArray = [[NSMutableArray alloc]init];
     if([self ReadMessages]!=nil){
         
@@ -545,11 +545,11 @@
       }
   }];
 }
--(void)reloadRecentGroups{
+- (void)reloadRecentGroups{
     groupsToPost = [[NSMutableArray alloc]initWithArray:[self ReadGroups]];
     [recentGroups reloadData];
 }
--(void)reloadMessages{
+- (void)reloadMessages{
     messagesToPost = [[NSMutableArray alloc]initWithArray:[self ReadMessages]];
     [listOfMessages reloadData];
 }
@@ -630,7 +630,7 @@
 //End Read and Write data
 
 //Post methods
--(void)prepareForPost:(NSString*)ownerID attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
+- (void)prepareForPost:(NSString*)ownerID attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
     
     alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     guId = [NSMutableString stringWithCapacity:20];
@@ -694,7 +694,7 @@
     }
     [self prepareForPost:nil attachs:nil msg:nil repeatPost:repeatState scheduled:NO];
 }
--(void)postWithRepeat{
+- (void)postWithRepeat{
     stopFlag = NO;
     while(1){
         if(!stopFlag){
@@ -760,7 +760,7 @@
     }
     
 }
--(void)addCommentWithoutRepeat{
+- (void)addCommentWithoutRepeat{
     __block NSString *post_id;
     NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", owner, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -790,7 +790,7 @@
     [getPostId resume];
 
 }
--(void)addCommentWithRepeat{
+- (void)addCommentWithRepeat{
     stopFlag=NO;
     __block NSString *post_id;
     NSString *afterPostFieldString = afterPostIdField.stringValue;
@@ -879,7 +879,7 @@
         }
     }
 }
--(void)postWithoutRepeat:(BOOL)scheduled{
+- (void)postWithoutRepeat:(BOOL)scheduled{
     if([postTargetSourceSelector[@"vk"] intValue]){
         NSString *vkURL;
         __block NSString *messageForVk;
@@ -1023,14 +1023,14 @@
 
 
 //Get info about new owner
--(void)getGroupInfo:(OnComplete)completion{
+- (void)getGroupInfo:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%i&access_token=%@&v=%@", abs([publicId.stringValue intValue]), _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
         
     }]resume];
     
 }
--(void)getUserInfo:(OnComplete)completion{
+- (void)getUserInfo:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_id=%i&fields=photo_50&access_token=%@&v=%@", [publicId.stringValue intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
         
@@ -1040,7 +1040,7 @@
 
 
 
--(void)loadGroups{
+- (void)loadGroups{
     [groupsList addItemWithTitle:@"Personal"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -1059,7 +1059,7 @@
 
 
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     if([notification.object isEqual:recentGroups]){
         NSInteger row = [recentGroups selectedRow] ?  [recentGroups selectedRow] : 0;
         if(row+1<=[groupsToPost count]){
@@ -1077,7 +1077,7 @@
 //        }
     }
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView isEqual:recentGroups]){
         if ([groupsToPost count]>0) {
             return [groupsToPost count];
@@ -1088,7 +1088,7 @@
     }
     return 0;
 }
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
      if ([tableView isEqual:recentGroups]){
          if ([groupsToPost count]>0) {
              WallPostRecentGroupsCustomCell*cell=[[WallPostRecentGroupsCustomCell alloc]init];
@@ -1114,13 +1114,13 @@
 }
 
 
--(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if([attachmentsData count]>0){
         return [attachmentsData count];
     }
     return 0;
 }
--(NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     PostAttachmentsCustomItem *item1 = [[PostAttachmentsCustomItem alloc]init];
     item1 = [collectionView makeItemWithIdentifier:@"PostAttachmentsCustomItem" forIndexPath:indexPath];

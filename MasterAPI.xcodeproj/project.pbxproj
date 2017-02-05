@@ -22,6 +22,9 @@
 		2B20F00C1E44715A00816124 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0091E44715A00816124 /* NSImage+Resizing.m */; };
 		2B20F00D1E44715A00816124 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00A1E44715A00816124 /* README.md */; };
 		2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */; };
+		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
+		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
+		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -328,6 +331,10 @@
 		2B20F00A1E44715A00816124 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditVideoPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditVideoPhotoAlbumViewController.m; sourceTree = "<group>"; };
+		2B20F0111E47144200816124 /* AboutAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutAppViewController.h; path = Storyboards/AboutAppViewController.h; sourceTree = "<group>"; };
+		2B20F0121E47144200816124 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutAppViewController.m; path = Storyboards/AboutAppViewController.m; sourceTree = "<group>"; };
+		2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_110x110.png; sourceTree = "<group>"; };
+		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -1146,6 +1153,8 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2B20F0201E47468500816124 /* masterapi_icon_about.png */,
+				2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */,
 				2B1914D11E2D043100FB714E /* to-down28.png */,
 				2B1914D21E2D043100FB714E /* to-top28.png */,
 				2B1914CF1E2CF8DC00FB714E /* go_down.png */,
@@ -1760,6 +1769,8 @@
 				2B41FBC91E02D3F60013AC86 /* Assets.xcassets */,
 				2B41FBCA1E02D3F60013AC86 /* Info.plist */,
 				2B41FBCB1E02D3F60013AC86 /* main.m */,
+				2B20F0111E47144200816124 /* AboutAppViewController.h */,
+				2B20F0121E47144200816124 /* AboutAppViewController.m */,
 				2B41FBCC1E02D3F60013AC86 /* ViewController.h */,
 				2B41FBCD1E02D3F60013AC86 /* ViewController.m */,
 				2BCBAA941E125A0C0083B95E /* ApiSourceSelectorItem.h */,
@@ -1847,6 +1858,7 @@
 				2B41FC2D1E02D3F60013AC86 /* pressed_button.png in Resources */,
 				2B41FC0C1E02D3F60013AC86 /* audio_min.png in Resources */,
 				2B41FCCD1E02D3F70013AC86 /* Assets.xcassets in Resources */,
+				2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */,
 				2B1914D31E2D043100FB714E /* to-down28.png in Resources */,
 				2B1914D01E2CF8DC00FB714E /* go_down.png in Resources */,
 				2B41FC1B1E02D3F60013AC86 /* docs_min.png in Resources */,
@@ -1861,6 +1873,7 @@
 				2B41FC321E02D3F60013AC86 /* remove_transp_25.png in Resources */,
 				2B41FC091E02D3F60013AC86 /* videojs-resolution-switcher.css in Resources */,
 				2B41FC161E02D3F60013AC86 /* deleted.png in Resources */,
+				2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */,
 				2B41FC381E02D3F60013AC86 /* twitter_icon.png in Resources */,
 				2B41FC221E02D3F60013AC86 /* logo_messages.png in Resources */,
 				2B41FC1D1E02D3F60013AC86 /* edit15px.png in Resources */,
@@ -2100,6 +2113,7 @@
 				2B41FC821E02D3F70013AC86 /* FriendsViewController.m in Sources */,
 				2B41FBDB1E02D3F60013AC86 /* CustomScrollView.m in Sources */,
 				2B41FC9E1E02D3F70013AC86 /* SearchViewController.m in Sources */,
+				2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */,
 				2B41FCA41E02D3F70013AC86 /* VideoCopyViewController.m in Sources */,
 				2B41FCB21E02D3F70013AC86 /* VKLoginViewController.m in Sources */,
 				2B41FC601E02D3F70013AC86 /* AudioListCustomCell.m in Sources */,
