@@ -17,13 +17,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
-    
+    NSStoryboard *story2 = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     vkController = [story instantiateControllerWithIdentifier:@"vkPrefs"];
     youtubeController = [story instantiateControllerWithIdentifier:@"youtubePrefs"];
     twitterController = [story instantiateControllerWithIdentifier:@"twitterPrefs"];
     tumblrController = [story instantiateControllerWithIdentifier:@"tumblrPrefs"];
     instaController = [story instantiateControllerWithIdentifier:@"instaPrefs"];
+    
+    vkSetupController = [story2 instantiateControllerWithIdentifier:@"VKLoginViewController"];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAppsSelector:) name:@"AppsPrefsSelect" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSetupAppsSelector:) name:@"AppsSetupPrefsSelect" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeBackToInfo:) name:@"backToInfo" object:nil];
+}
+-(void)observeBackToInfo:(NSNotification*)obj{
+    if([obj.userInfo[@"name"] isEqual:@"vkontakte"]){
+        [self switchControllers:vkController];
+    }
 }
 -(void)observeAppsSelector:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo[@"item"]);
@@ -46,6 +57,12 @@
     else if([notification.userInfo[@"item"]  isEqual: @"Instagram"]){
         //        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :photoCopyView ];
         [self switchControllers:instaController];
+    }
+}
+-(void)observeSetupAppsSelector:(NSNotification*)notification{
+    
+    if([notification.userInfo[@"name"] isEqual:@"vkontakte"]){
+        [self switchControllers:vkSetupController];
     }
 }
 -(void)switchControllers:(NSViewController*)controller{

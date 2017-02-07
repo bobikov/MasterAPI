@@ -44,6 +44,8 @@
                         <tabViewItem identifier="" id="RZe-Xa-c94"/>
                         <tabViewItem identifier="" id="7eg-KE-Vp3"/>
                         <tabViewItem id="F83-Yj-XMX"/>
+                        <tabViewItem id="G1V-Te-XXz"/>
+                        <tabViewItem id="SHP-7A-Kce"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="mR3-tD-qeK">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -55,6 +57,8 @@
                         <segue destination="EbH-s5-e3E" kind="relationship" relationship="tabItems" id="hH6-VY-5bE"/>
                         <segue destination="dNb-y9-REp" kind="relationship" relationship="tabItems" id="3xg-h9-5WQ"/>
                         <segue destination="EE9-vs-Mm3" kind="relationship" relationship="tabItems" id="gK4-Vx-kIz"/>
+                        <segue destination="iZh-D9-g4M" kind="relationship" relationship="tabItems" id="zS2-e9-fbm"/>
+                        <segue destination="C8T-uB-iiE" kind="relationship" relationship="tabItems" id="doJ-mL-klU"/>
                     </connections>
                 </tabViewController>
                 <customObject id="YM8-fm-1Fe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -556,6 +560,19 @@
                 <customObject id="3Wb-Yr-60U" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1026.5" y="812"/>
+        </scene>
+        <!--Video-->
+        <scene sceneID="dXz-rK-lcF">
+            <objects>
+                <viewController title="Video" id="iZh-D9-g4M" sceneMemberID="viewController">
+                    <view key="view" id="rxr-pO-gIX">
+                        <rect key="frame" x="0.0" y="0.0" width="723" height="612"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="BrF-tg-JJf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1782.5" y="1300"/>
         </scene>
         <!--Groups-->
         <scene sceneID="36J-VV-Lxa">
@@ -3288,6 +3305,19 @@
             </objects>
             <point key="canvasLocation" x="1001" y="1698.5"/>
         </scene>
+        <!--Photo-->
+        <scene sceneID="TDj-Gf-Xcp">
+            <objects>
+                <viewController title="Photo" id="C8T-uB-iiE" sceneMemberID="viewController">
+                    <view key="view" id="xQ8-Mx-dIT">
+                        <rect key="frame" x="0.0" y="0.0" width="723" height="612"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="dcI-w9-MXx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1775.5" y="1960"/>
+        </scene>
         <!--Tumblr API setup-->
         <scene sceneID="vUI-8e-PL9">
             <objects>
@@ -3349,18 +3379,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL3-My-xdm">
-                                <rect key="frame" x="153" y="143" width="100" height="32"/>
-                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82d-ji-Fis">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="addApp:" target="nDQ-0N-Bwr" id="tkI-pq-AEt"/>
-                                </connections>
-                            </button>
+                            <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGB-t4-zbJ">
+                                <rect key="frame" x="8" y="277" width="390" height="23"/>
+                                <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
+                                    <nil key="identifier"/>
+                                </webPreferences>
+                            </webView>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwS-xQ-D8t">
-                                <rect key="frame" x="148" y="214" width="100" height="22"/>
+                                <rect key="frame" x="150" y="215" width="100" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="appId" drawsBackground="YES" id="qKx-Ot-3ig">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -3368,7 +3394,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ie-yD-B1W">
-                                <rect key="frame" x="40" y="245" width="323" height="24"/>
+                                <rect key="frame" x="94" y="245" width="212" height="24"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter id of your VK application." id="XJ5-Hp-HY0">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3376,15 +3402,8 @@
                                 </textFieldCell>
                             </textField>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="OBw-bU-Eca">
-                                <rect key="frame" x="192" y="190" width="16" height="16"/>
+                                <rect key="frame" x="192" y="184" width="16" height="16"/>
                             </progressIndicator>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fbQ-dV-GIK">
-                                <rect key="frame" x="133" y="71" width="140" height="18"/>
-                                <buttonCell key="cell" type="check" title="Remember this app" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="NUg-tW-qeZ">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icd-Yg-vA3">
                                 <rect key="frame" x="142" y="100" width="123" height="26"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="5hC-Wl-p5O" id="dsI-eb-f5j">
@@ -3412,21 +3431,53 @@
                                     <action selector="loginAction:" target="nDQ-0N-Bwr" id="wXb-05-LaY"/>
                                 </connections>
                             </button>
-                            <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGB-t4-zbJ">
-                                <rect key="frame" x="8" y="277" width="390" height="23"/>
-                                <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
-                                    <nil key="identifier"/>
-                                </webPreferences>
-                            </webView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gHH-ob-tet">
+                                <rect key="frame" x="6" y="256" width="49" height="32"/>
+                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y7b-ON-s7j">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backToVkInfo:" target="nDQ-0N-Bwr" id="3hC-hr-7OU"/>
+                                </connections>
+                            </button>
+                            <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7RZ-LA-hPK">
+                                <rect key="frame" x="115" y="103" width="28" height="21"/>
+                                <popUpButtonCell key="cell" type="squareTextured" title="Item 1" bezelStyle="texturedSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="utI-lc-q2Y" id="n0W-hc-fC6">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="rHJ-bp-7qa">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" image="NSAdvanced" hidden="YES" id="utI-lc-q2Y"/>
+                                            <menuItem title="Item 2" id="6cL-o7-AZS"/>
+                                            <menuItem title="Item 3" id="t4k-on-tlm"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="selectAdvancedOptions:" target="nDQ-0N-Bwr" id="26l-wU-Cqb"/>
+                                </connections>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL3-My-xdm">
+                                <rect key="frame" x="150" y="143" width="100" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82d-ji-Fis">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="addApp:" target="nDQ-0N-Bwr" id="tkI-pq-AEt"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="WebView" destination="WGB-t4-zbJ" id="nEs-A9-IXz"/>
                         <outlet property="addApp" destination="ZL3-My-xdm" id="IEj-Ck-1QL"/>
+                        <outlet property="advancedOptions" destination="7RZ-LA-hPK" id="aoB-Nh-JUK"/>
                         <outlet property="appId" destination="VwS-xQ-D8t" id="NRY-b8-2z4"/>
                         <outlet property="appList" destination="Icd-Yg-vA3" id="wdY-kz-XmP"/>
+                        <outlet property="backToInfoButton" destination="gHH-ob-tet" id="Mo5-T1-TtN"/>
                         <outlet property="progressLoad" destination="OBw-bU-Eca" id="1f0-Wp-eF7"/>
-                        <outlet property="rememberApp" destination="fbQ-dV-GIK" id="359-Ka-flg"/>
                     </connections>
                 </viewController>
             </objects>

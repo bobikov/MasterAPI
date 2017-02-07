@@ -42,7 +42,7 @@
 - (void)viewDidAppear{
     NSLog(@"%@", self.view.window);
     self.view.window.delegate = self;
-    [self.view.window setLevel:NSFloatingWindowLevel];
+//    [self.view.window setLevel:NSFloatingWindowLevel];
 //    [self.view.window makeKeyAndOrderFront:self];
 //    [NSApp activateIgnoringOtherApps:NO];
     
@@ -60,7 +60,9 @@
 }
 - (void)windowDidResignKey:(NSNotification *)notification{
     NSLog(@"%@", notification.object);
-    [self.view.window close];
+    if(notification.object == self.view.window){
+        [self.view.window performClose:self];
+    }
 }
 - (void)windowDidBecomeKey:(NSNotification *)notification{
     NSLog(@"Active");

@@ -976,7 +976,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                                     <constraint firstAttribute="height" constant="17" id="dE0-Xu-0ul"/>
                                                                 </constraints>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="At6-FQ-tDf">
-                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <font key="font" metaFont="cellTitle"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -988,7 +988,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="i1x-w0-UFZ"/>
                                                                 </constraints>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="AwY-w8-BJF">
-                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <font key="font" metaFont="cellTitle"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -1013,7 +1013,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                                     <constraint firstAttribute="width" constant="60" id="gmw-hd-1ef"/>
                                                                 </constraints>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Version:" id="g1r-rs-h5L">
-                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <font key="font" metaFont="cellTitle"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -1025,7 +1025,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="fQV-bZ-DQ5"/>
                                                                 </constraints>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="Edw-2V-IOC">
-                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <font key="font" metaFont="cellTitle"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>

@@ -9,40 +9,86 @@
 #import "keyHandler.h"
 
 @implementation keyHandler
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        manager = [[NSFileManager alloc]init];
-    }
+- (id)init{
+    self = [super self];
+    manager = [[NSFileManager alloc]init];
+    moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     return self;
 }
--(id)writeAppInfo:(NSDictionary *)newData{
-  
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"VKAppInfo" inManagedObjectContext:moc];
+-(id)removeApp:(NSString*)appId appName:(NSString*)appName{
     NSError *saveError;
-    [object setValue:newData[@"appId"] forKey:@"appId"];
-    [object setValue:newData[@"id"] forKey:@"id"];
-    [object setValue:newData[@"version"] forKey:@"version"];
-    [object setValue:newData[@"token"] forKey:@"token"];
-    [object setValue:newData[@"selected"] forKey:@"selected"];
-    [object setValue:newData[@"title"] forKey:@"title"];
-    [object setValue:newData[@"author_url"] forKey:@"author_url"];
-    [object setValue:newData[@"desc"] forKey:@"desc"];
-    [object setValue:newData[@"icon"] forKey:@"icon"];
-    [object setValue:newData[@"screenName"] forKey:@"screenName"];
-    if(![moc save:&saveError]){
-        NSLog(@"Error");
-        return nil;
-    }else{
-        NSLog(@"App info saved");
-        return @"App info saved";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
+    [request setReturnsObjectsAsFaults:NO];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"appId==%@ && title==%@", appId, appName]];
+    NSArray *appsToRemove = [moc executeFetchRequest:request error:nil];
+    if([appsToRemove lastObject]){
+        for(NSManagedObject *object in appsToRemove){
+            [moc deleteObject:object];
+            if(![moc save:&saveError]){
+                NSLog(@"Error remove app");
+                return nil;
+            }else{
+                NSLog(@"App successfully removed");
+                return @"App sucessfully removed";
+                //            return @"App info saved";
+            }
+        }
     }
     return nil;
 }
+-(id)writeAppInfo:(NSDictionary *)newData{
+     NSError *saveError;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
+    [request setReturnsObjectsAsFaults:NO];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"appId==%@", newData[@"appId"]]];
+    NSArray *appSameAppId = [moc executeFetchRequest:request error:nil];
+    if([appSameAppId lastObject]){
+        for(NSManagedObject *object in appSameAppId){
+            [object setValue:newData[@"appId"] forKey:@"appId"];
+            [object setValue:newData[@"id"] forKey:@"id"];
+            [object setValue:newData[@"version"] forKey:@"version"];
+            [object setValue:newData[@"token"] forKey:@"token"];
+            [object setValue:newData[@"selected"] forKey:@"selected"];
+            [object setValue:newData[@"title"] forKey:@"title"];
+            [object setValue:newData[@"author_url"] forKey:@"author_url"];
+            [object setValue:newData[@"desc"] forKey:@"desc"];
+            [object setValue:newData[@"icon"] forKey:@"icon"];
+            [object setValue:newData[@"screenName"] forKey:@"screenName"];
+            if(![moc save:&saveError]){
+                NSLog(@"Error");
+                return nil;
+            }else{
+                NSLog(@"App info saved");
+                return @"App info saved";
+            }
+        }
+        
+    }else{
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"VKAppInfo" inManagedObjectContext:moc];
+       
+        [object setValue:newData[@"appId"] forKey:@"appId"];
+        [object setValue:newData[@"id"] forKey:@"id"];
+        [object setValue:newData[@"version"] forKey:@"version"];
+        [object setValue:newData[@"token"] forKey:@"token"];
+        [object setValue:newData[@"selected"] forKey:@"selected"];
+        [object setValue:newData[@"title"] forKey:@"title"];
+        [object setValue:newData[@"author_url"] forKey:@"author_url"];
+        [object setValue:newData[@"desc"] forKey:@"desc"];
+        [object setValue:newData[@"icon"] forKey:@"icon"];
+        [object setValue:newData[@"screenName"] forKey:@"screenName"];
+        if(![moc save:&saveError]){
+            NSLog(@"Error");
+            return nil;
+        }else{
+            NSLog(@"App info saved");
+            return @"App info saved";
+        }
+    }
+
+    return nil;
+}
 -(void)clearAppInfo{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+
     NSFetchRequest *request  = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
     [request setReturnsObjectsAsFaults:NO];
     NSError *readError;
@@ -59,7 +105,7 @@
     NSLog(@"AppInfo cleaned");
 }
 -(BOOL)VKTokensEcxistsInCoreData{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+
     NSError *readError;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
     [request setReturnsObjectsAsFaults:NO];
@@ -71,8 +117,54 @@
     }
     return NO;
 }
+-(void)updateAppInfo{
+    
+}
+-(void)storeSelectedAppInfo:(NSDictionary*)app{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"appId==%@", app[@"appId"]]];
+    [request setReturnsObjectsAsFaults:NO];
+    NSError *readError;
+    NSArray *appsToSelect = [moc executeFetchRequest:request error:&readError];
+    
+    NSError *saveError;
+    if(appsToSelect!=nil){
+        [[appsToSelect objectAtIndex:0] setValue:@YES forKey:@"selected"];
+        
+        if(![moc save:&saveError]){
+            NSLog(@"App %@ is not selected", app[@"title"]);
+        }else{
+            
+            NSLog(@"App %@ is selected successfully", app[@"title"]);;
+        }
+        NSFetchRequest *request3 = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
+        [request3 setReturnsObjectsAsFaults:NO];
+        [request3 setPredicate:[NSPredicate predicateWithFormat:@"appId!=%@", app[@"appId"]]];
+        NSError *readError3;
+        NSError *saveError3;
+        NSArray *appsToUnselect = [moc executeFetchRequest:request3 error:&readError3];
+        for(NSManagedObject *managedObject in appsToUnselect){
+            [managedObject setValue:@NO forKey:@"selected"];
+            if(![moc save:&saveError3]){
+                NSLog(@"Set selected to 0 error");
+            }else{
+                NSLog(@"Set selected to 0 sucessfull");
+            }
+        }
+    }
+}
+-(NSArray*)readApps{
+
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
+    [request setReturnsObjectsAsFaults:NO];
+    [request setResultType:NSDictionaryResultType];
+    NSError *readError;
+    NSArray *array = [moc executeFetchRequest:request error:&readError];
+
+    return array;
+}
 -(id)readAppInfo:(id)appId{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+
     if(appId != nil){
         NSFetchRequest *request  = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];

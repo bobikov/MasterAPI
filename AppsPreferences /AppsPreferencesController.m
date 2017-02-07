@@ -37,7 +37,8 @@
     //    vibrantView.wantsLayer=YES;
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    
+    [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
+    [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
 }
 -(void)viewWillAppear{

@@ -122,7 +122,7 @@
                 <controllerPlaceholder storyboardName="Second" referencedIdentifier="VKLoginViewController" id="Z8U-yB-pFT" sceneMemberID="viewController"/>
                 <customObject id="NC1-og-61X" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="57.5" y="685"/>
+            <point key="canvasLocation" x="17" y="641"/>
         </scene>
         <!--Prefs Info-->
         <scene sceneID="01g-0G-Py0">
@@ -329,7 +329,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="Z8U-yB-pFT" kind="modal" id="N3C-Zz-4Nt"/>
+                                    <action selector="setupVKPrefs:" target="1Rh-ZF-ct7" id="eoE-1P-tQ8"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -343,7 +343,7 @@
                 </viewController>
                 <customObject id="hOo-Te-2Y2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-113" y="907"/>
+            <point key="canvasLocation" x="-131" y="871"/>
         </scene>
         <!--YoutubeLoginViewController-->
         <scene sceneID="pva-vv-qL2">

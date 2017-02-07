@@ -143,14 +143,13 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         for(NSManagedObject *i in fetchedGroups ){
             for(NSManagedObject *a in [[i valueForKey:@"userFavesGroups"] allObjects]){
                 if([[[i valueForKey:@"userFavesGroups"] allObjects] count]>0){
-                //NSLog(@"%@", [a valueForKey:@"name"]);
+//                    NSLog(@"%@", [a valueForKey:@"id"]);
                     [restoredUserIDs addObject:[a valueForKey:@"id"]];
-                }else{
-                    break;
                 }
             }
         }
         [self loadFavesUsers:NO :NO];
+//        NSLog(@"%@", restoredUserIDs);
     }
 }
 
@@ -296,7 +295,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                     [newObjectWithGroupItem setValue:[NSString stringWithFormat:@"%@",newItem[@"id"]] forKey:@"id"];
                     [allItemsInGroup addObject:newObjectWithGroupItem];
                 }
-                
             }
             
             [group setValue:[NSSet setWithArray:allItemsInGroup] forKey:@"userFavesGroups"];
@@ -559,6 +557,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         // __block NSInteger startInsertRowIndex = [favesUsersData count];
         if([favesUsersList numberOfRows]==0 || loading){
             [self getFaveUsers:^(NSMutableArray *faveUsers) {
+//                NSLog(@"%@", [faveUsers componentsJoinedByString:@","]);
                 if([faveUsers count]>0 && offsetCounter <= [favesUsersData count]){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,photo_200_orig,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,quotes,blacklisted,domain,blacklisted_by_me,relation&access_token=%@&v=%@" , [faveUsers componentsJoinedByString:@","],  _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         if(data){
@@ -697,7 +696,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                                 
                                                 if(!a[@"deactivated"] || a[@"deactivated"]){
                                                     if(filterWomen.state==1 && filterMen.state==1){
-                                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
+                                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue]==2){
                                                             offsetCounter++;
                                                             [favesUsersData addObject:object];
                                                         }
@@ -856,12 +855,18 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                     }
                                 }
                                 dispatch_async(dispatch_get_main_queue(), ^{
+//                                     NSLog(@"%@", favesUsersData);
+//                                     NSLog(@"%li", [favesUsersData count]);
+//                                    totalCount =  [favesUsersData count];
+//                                    totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+                                 
                                     if([favesUsersData count]>0 && offsetLoadFaveUsers<totalCount){
                                         NSLog(@"BAD END");
                                         loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounter];
                                         loading=NO;
                                         if(makeOffset){
                                             //[favesUsersList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex+1, [favesUsersData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
+                                           
                                             [favesUsersList reloadData];
                                         }else{
                                             [favesUsersList reloadData];
