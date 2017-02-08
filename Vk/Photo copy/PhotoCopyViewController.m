@@ -163,7 +163,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
 
 - (IBAction)copyAction:(id)sender {
     stopped=NO;
-    ownerID = ownerID ? ownerID : publicId.stringValue;
+    ownerID = publicId.stringValue;
     __block void (^copyFromWall)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
     __block void (^copyFromAlbum)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
     
@@ -657,7 +657,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
         }
     }
 }
--(void)setControlButtonsState{
+- (void)setControlButtonsState{
     stop.enabled=runPhotoCopy;
     copy.enabled=[fromTableView selectedRow]>=0?1:0;
 }

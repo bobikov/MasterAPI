@@ -20,6 +20,8 @@
     appsList.dataSource=self;
     appsData = @[@"Vkontakte",@"Youtube", @"Twitter", @"Tumblr", @"Instagram"];
     [appsList reloadData];
+   
+    
 }
 - (void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleHidden;
@@ -40,6 +42,8 @@
     [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
+     [appsList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:YES];
+    
 }
 -(void)viewWillAppear{
      [self.view.window setMinSize:self.view.window.frame.size];

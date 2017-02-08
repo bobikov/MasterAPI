@@ -23,7 +23,7 @@
                 </imageView>
                 <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BeQ-aQ-DcC">
                     <rect key="frame" x="135" y="114" width="20" height="20"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="remove_transp_25" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mJC-Q2-zl8">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mJC-Q2-zl8">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -102,10 +102,10 @@
         <arrayController id="h6E-D3-DKd"/>
     </objects>
     <resources>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="add_plus40" width="180" height="180"/>
         <image name="link1_15px" width="15" height="15"/>
         <image name="plus15px" width="15" height="15"/>
         <image name="prefs15px" width="15" height="15"/>
-        <image name="remove_transp_25" width="25" height="25"/>
     </resources>
 </document>

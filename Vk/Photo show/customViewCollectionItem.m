@@ -196,14 +196,24 @@
         }else{
             baseURL = [NSString stringWithFormat:@"https://api.vk.com/method/photos.deleteAlbum?owner_id=%@&album_id=%@&access_token=%@&v=%@",_app.person, self.representedObject[@"id"], _app.token, _app.version];
         }
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", photoDeleteResponse);
+        NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+        removeAlbumAlert.informativeText = [NSString stringWithFormat:@"Do you really want to delete photo album %@", self.representedObject[@"title"]];
+        removeAlbumAlert.messageText=@"Remove photo album";
+        [removeAlbumAlert addButtonWithTitle:@"OK"];
+        [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+        
+        if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", photoDeleteResponse);
+                
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"removePhotoAlbum" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:[self.collectionView.content indexOfObject:self.representedObject]]}];
+                
+            }] resume];
+        }else{
             
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"removePhotoAlbum" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:[self.collectionView.content indexOfObject:self.representedObject]]}];
-            
-        }] resume];
-        //        NSLog(@"%@", self.representedObject);
+        }
     }
 }
 
@@ -366,11 +376,34 @@
     [self presentViewControllerAsSheet:contr];
 }
 - (void)removeItems{
+    NSArray *itemsToDelete = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    NSString *messageText;
+    NSString *informativeText;
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
     contr.mediaType=@"photo";
-    contr.itemType=@"album";
-    contr.receivedData = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    if(!self.representedObject[@"photoBig"]){
+        contr.itemType=@"album";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li photo albums?", [itemsToDelete count]];
+        messageText = @"Remove photo albums";
+    }
+    else{
+        contr.itemType=@"item";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li photos?", [itemsToDelete count]];
+        messageText = @"Remove photos";
+    }
+    contr.receivedData = itemsToDelete;
+    NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+    removeAlbumAlert.informativeText = informativeText;
+    removeAlbumAlert.messageText = messageText;
+    [removeAlbumAlert addButtonWithTitle:@"OK"];
+    [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+    
+    if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+        [self presentViewControllerAsSheet:contr];
+    }else{
+        
+    }
     
     [self presentViewControllerAsSheet:contr];
 }

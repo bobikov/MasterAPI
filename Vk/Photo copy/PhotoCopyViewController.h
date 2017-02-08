@@ -57,6 +57,7 @@
     dispatch_semaphore_t semaphore;
     NSString *ownerID;
     NSString *albumFromTitle;
+    
 }
 
 

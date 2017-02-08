@@ -12,6 +12,7 @@
 #import "URLsViewController.h"
 #import "RemoveVideoAndPhotoItemsViewController.h"
 #import "EditVideoPhotoAlbumViewController.h"
+#import "HTMLReader.h"
 @interface CustomVideoCollectionItem ()
 
 @end
@@ -141,15 +142,24 @@
         }else{
             baseURL = [NSString stringWithFormat:@"https://api.vk.com/method/video.deleteAlbum?owner_id=%@&album_id=%@&access_token=%@&v=%@",_app.person, self.representedObject[@"id"], _app.token, _app.version];
         }
-       
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", photoDeleteResponse);
+        NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+        removeAlbumAlert.informativeText = [NSString stringWithFormat:@"Do you realy want to delete video album %@", self.representedObject[@"title"]];
+          removeAlbumAlert.messageText=@"Remove video album";
+        [removeAlbumAlert addButtonWithTitle:@"OK"];
+        [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+        
+        if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
             
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"removeVideoAlbum" object:nil userInfo:@{@"object":self.representedObject}];
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", photoDeleteResponse);
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"removeVideoAlbum" object:nil userInfo:@{@"object":self.representedObject}];
+                
+            }] resume];
+        }else{
             
-        }] resume];
-
+        }
     }
 }
 - (IBAction)addURL:(id)sender {
@@ -199,30 +209,39 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         
         for(NSString *videoURL in filesForUpload){
-            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%i&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], videoURL, [albumToUploadTo intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSLog(@"%@", uploadResp);
-                [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                    NSDictionary *saveResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"%@", saveResp);
-                    if([saveResp[@"response"] intValue] == 1){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            NSInteger index = [filesForUpload indexOfObject:videoURL];
-//                            i[@"success"]=@1;
-                            
-//                            [selectedVideosList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                            dispatch_semaphore_signal(semaphore);
-                            //                       selectedVideosList rowat
-                        });
-                    }
+            NSString *html = [NSString stringWithContentsOfURL:[NSURL URLWithString:videoURL] encoding:NSUTF8StringEncoding error:nil];
+            HTMLDocument *htmlDocument = [HTMLDocument documentWithString:html];
+            NSArray *titleElement = [htmlDocument nodesMatchingSelector:@".watch-title"];
+            
+            NSLog(@"%@", [(HTMLElement*)titleElement[0] textContent]);
+            NSString *newTitle = [[(HTMLElement*)titleElement[0] textContent] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+//            NSString *newTitle = [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            if(newTitle){
+                dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%i&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", newTitle, videoURL, [albumToUploadTo intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", uploadResp);
+                    [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                        NSDictionary *saveResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        NSLog(@"%@", saveResp);
+                        if([saveResp[@"response"] intValue] == 1){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                            NSInteger index = [filesForUpload indexOfObject:videoURL];
+                                //                            i[@"success"]=@1;
+                                
+                                //                            [selectedVideosList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                                dispatch_semaphore_signal(semaphore);
+                                //                       selectedVideosList rowat
+                            });
+                        }
+                    }]resume];
+                    sleep(1);
                 }]resume];
                 sleep(1);
-            }]resume];
-            sleep(1);
-            
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-            dispatch_semaphore_signal(semaphore);
+                
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                dispatch_semaphore_signal(semaphore);
+            }
         }
     });
 }
@@ -280,7 +299,7 @@
  
     
     theDropdownContextMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
-    NSMenuItem *removeAlbumsItem = [[NSMenuItem alloc]initWithTitle:@"Remove items" action:@selector(removeAlbums) keyEquivalent:@""];
+    NSMenuItem *removeAlbumsItem = [[NSMenuItem alloc]initWithTitle:@"Remove items" action:@selector(removeItems) keyEquivalent:@""];
     [theDropdownContextMenu setAutoenablesItems:NO];
   
     [theDropdownContextMenu insertItem:removeAlbumsItem atIndex:0];
@@ -294,14 +313,36 @@
     return [super rightMouseDown:theEvent];
     
 }
-- (void)removeAlbums{
+- (void)removeItems{
+    NSArray *itemsToDelete = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    NSString *messageText;
+    NSString *informativeText;
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
     contr.mediaType=@"video";
-    contr.itemType=@"album";
-    contr.receivedData = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    if(self.representedObject[@"cover"]){
+        contr.itemType=@"album";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li video albums?", [itemsToDelete count]];
+        messageText = @"Remove video albums";
+    }
+    else{
+        contr.itemType=@"item";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li videos?", [itemsToDelete count]];
+        messageText = @"Remove videos";
+    }
+    contr.receivedData = itemsToDelete;
+    NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+    removeAlbumAlert.informativeText = informativeText;
+    removeAlbumAlert.messageText = messageText;
+    [removeAlbumAlert addButtonWithTitle:@"OK"];
+    [removeAlbumAlert addButtonWithTitle:@"Cancel"];
     
-    [self presentViewControllerAsSheet:contr];
+    if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+            [self presentViewControllerAsSheet:contr];
+    }else{
+        
+    }
+
 }
 - (void)showAlbumNames{
 //    id animator = [[CustomAnimator alloc] init];

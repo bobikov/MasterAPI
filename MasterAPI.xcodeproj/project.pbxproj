@@ -302,6 +302,7 @@
 		2BCBAA981E125A0D0083B95E /* ApiSourceSelectorItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */; };
 		2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE662D1E07F2F500364A80 /* TasksCellView.m */; };
 		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
+		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -829,6 +830,8 @@
 		2BCE662C1E07F2F500364A80 /* TasksCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksCellView.h; sourceTree = "<group>"; };
 		2BCE662D1E07F2F500364A80 /* TasksCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksCellView.m; sourceTree = "<group>"; };
 		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
+		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
+		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -871,6 +874,8 @@
 				2B41F9D21E02D3F50013AC86 /* TwitterPrefsInfo.m */,
 				2B41F9D31E02D3F50013AC86 /* VKPrefsInfo.h */,
 				2B41F9D41E02D3F50013AC86 /* VKPrefsInfo.m */,
+				2BFB77641E4A0B86006D020F /* PrefsTableView.h */,
+				2BFB77651E4A0B86006D020F /* PrefsTableView.m */,
 			);
 			path = "AppsPreferences ";
 			sourceTree = "<group>";
@@ -1988,6 +1993,7 @@
 				2B41FC9C1E02D3F70013AC86 /* CustomSearchCell.m in Sources */,
 				2B41FCB71E02D3F70013AC86 /* WallPostRecentGroupsCustomCell.m in Sources */,
 				2B41FC971E02D3F70013AC86 /* PhotoCaptionView.m in Sources */,
+				2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */,
 				2B41FC7B1E02D3F70013AC86 /* FavoritesTabController.m in Sources */,
 				2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */,
 				2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */,

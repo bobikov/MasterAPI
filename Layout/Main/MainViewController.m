@@ -29,7 +29,7 @@
     friendsView = [story instantiateControllerWithIdentifier:@"Friends"];
     photoCopyView = [story5 instantiateControllerWithIdentifier:@"PhotoCopy"];
     welcomeView = [story instantiateControllerWithIdentifier:@"Welcome"];
-    videoCopyView = [story instantiateControllerWithIdentifier:@"VideoCopy"];
+    videoCopyView = [story5 instantiateControllerWithIdentifier:@"VideoCopy"];
     wallPostView = [story instantiateControllerWithIdentifier:@"WallPost"];
     privacyPhotoAlbumsView = [story5 instantiateControllerWithIdentifier:@"PrivacyPhotoAlbums"];
     changeStatusView = [story4 instantiateControllerWithIdentifier:@"StatusChange"];

@@ -538,7 +538,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="bSb-7H-j3E">
-                                    <rect key="frame" x="0.0" y="-15" width="0.0" height="15"/>
+                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="nZP-4O-5oQ">
@@ -547,7 +547,7 @@
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="5" height="306"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
@@ -620,11 +620,11 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="keh-bv-alp">
-                                    <rect key="frame" x="-8" y="-15" width="0.0" height="15"/>
+                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="M50-W6-mdo">
-                                    <rect key="frame" x="-15" y="-8" width="15" height="0.0"/>
+                                    <rect key="frame" x="-16" y="0.0" width="16" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -799,7 +799,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="txR-tE-ZK8">
-                                    <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
+                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="h35-of-pKQ" customClass="RFOverlayScroller">
@@ -1623,7 +1623,7 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="HJZ-pg-BBY">
-                                                <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
+                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="8bf-CF-5qP">
@@ -1863,7 +1863,7 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Cih-DV-hl2">
-                                                <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
+                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="rxb-qw-S26" customClass="RFOverlayScroller">

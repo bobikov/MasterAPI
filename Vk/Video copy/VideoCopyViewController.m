@@ -8,23 +8,36 @@
 
 #import "VideoCopyViewController.h"
 
-@interface VideoCopyViewController ()<NSTableViewDelegate, NSTableViewDataSource>
-
+@interface VideoCopyViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
+typedef void(^OnCompleteCreateAlbum)(BOOL isNewAlbumCreated);
+typedef void(^OnCompleteGetOwnerName)(NSString *ownerName);
+typedef void(^OnCompleteGetAlbumFromInfo)(NSString *albumFromName);
+typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
+-(void)createAlbum:(OnCompleteCreateAlbum)completion;
+//-(void)getAllPhotoInAlbum:(NSString*)album completion:(OnComplete)completion;
+//-(void)getOwnerName:(OnCompleteGetOwnerName)completion;
+-(void)createNewAlbumName:(OnCompleteCreateNewAlbumName)completion;
 @end
 
 @implementation VideoCopyViewController
 
+@synthesize  ArrayController1,ArrayController2;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
-    videoAlbums = [[NSMutableArray alloc]init];
-    videoAlbums2 = [[NSMutableArray alloc]init];
+    ids =[[NSMutableArray alloc]init];
+    personalAlbums = [[NSMutableArray alloc]init];
+    fromOwnerAlbums = [[NSMutableArray alloc]init];
+    _captchaHandler = [[VKCaptchaHandler alloc]init];
     _app = [[appInfo alloc]init];
     [progressSpin startAnimation:self];
     [privacyList selectItemAtIndex:2];
-    _captchaHandler = [[VKCaptchaHandler alloc]init];
-//    self.view.wantsLayer=YES;
-//    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
+    [self setControlButtonsState];
+    publicId.delegate=self;
+}
+-(void)controlTextDidChange:(NSNotification *)obj{
+    if(obj.object == publicId){
+        [self setControlButtonsState];
+    }
 }
 -(void)viewDidAppear{
       [self videoAlbumsLoad:@"copy" publicId:_app.person];
@@ -34,15 +47,20 @@
     [self videoAlbumsLoad:@"copy" publicId:publicId.stringValue];
 }
 - (IBAction)copyAction:(id)sender {
-    NSMutableArray *ids=[[NSMutableArray alloc]init];
-    NSString *selectedAlbumId = albumFromId.stringValue;
-    NSString *selectedPublicId = publicId.stringValue;
+
+    privacy =  privacyList.stringValue;
+    selectedAlbumId = albumFromId.stringValue;
+    selectedPublicId = publicId.stringValue;
     NSRegularExpression *regex=[NSRegularExpression regularExpressionWithPattern:@"[\\W0-9]" options:0 error:nil];
     __block void (^copyFromVideobox)(NSString *, BOOL, NSInteger, NSString *, NSString *);
     __block void (^copyFromWall)(NSString *, BOOL, NSInteger, NSString *, NSString *);
-    NSString *privacy =  privacyList.stringValue;
+ 
     __block NSMutableArray *Albums1000=[[NSMutableArray alloc]init];;
     __block NSMutableArray *AlbumsNo1000=[[NSMutableArray alloc]init];
+    
+    isCopying=YES;
+    [self setControlButtonsState];
+    
     copyFromWall=^(NSString *targetAlbum, BOOL captcha, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
       
         __block NSInteger step = 0;
@@ -69,6 +87,7 @@
         NSLog(@"Offset: %lu", step);
         NSLog(@"Captcha sid: %@", captcha_sid);
         NSLog(@"Captcha key: %@", captcha_key);
+  
         while (step<[countVar intValue]){
             if (!stopFlag){
                 if(nextLoop){
@@ -144,7 +163,7 @@
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                 dispatch_semaphore_signal(semaphore);
                 step++;
-                 sleep(1);
+                sleep(1);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     progress.doubleValue=(float)step;
                     progressLabel.stringValue = [NSString stringWithFormat:@"%lu / %@", step, countVar];
@@ -153,9 +172,11 @@
                
             }
             else{
+                isCopying=NO;
                 break;
             }
         }
+        isCopying=NO;
     };
     
     copyFromVideobox = ^void(NSString *targetAlbum, BOOL captcha, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
@@ -257,46 +278,31 @@
 //                sleep(1);
             }
             else{
+                isCopying=NO;
                 break;
             }
         }
+        isCopying=NO;
     };
    
-    void (^createAlbum)(NSString *)=^(NSString *title){
-        
-        NSURLSessionDataTask *createAlbum = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.addAlbum?owner_id=%@&title=%@&v=%@&access_token=%@&privacy=%@", _app.person, title, _app.version, _app.token, privacy]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            targetVideoAlbumId = jsonData[@"response"][@"album_id"];
-            
-        }];
-        [createAlbum resume];
-        sleep(1);
-        NSLog(@"Target album id: %@", targetVideoAlbumId);
-    };
+
     if (![albumToId.stringValue isEqual:@""]){
         targetVideoAlbumId = albumToId.stringValue;
         if([selectedAlbumId  isEqual: @"wall"]){
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+               
                 copyFromWall(targetVideoAlbumId, NO, 0, @"", @"");
             });
         }
         else if ([selectedAlbumId isEqual: @"videobox"]){
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
                 copyFromVideobox(targetVideoAlbumId, NO, 0, @"", @"");
             });
         }
     }else{
-        NSURLSessionDataTask *publicName = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%d&fields=description&v=%@&access_token=%@", abs([selectedPublicId intValue]), _app.version, _app.token]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            videoPublicTitleNewAlbum = jsonData[@"response"][0][@"name"];
-            title2 = [regex stringByReplacingMatchesInString:videoPublicTitleNewAlbum options:0 range:NSMakeRange(0, [videoPublicTitleNewAlbum length]) withTemplate:@""];
-            
-        }];
-        [publicName resume];
-        
-        sleep(1);
         //    NSLog(@"%@\n %@", videoPublicTitleNewAlbum, title2);
-        for (NSDictionary *i in videoAlbums){
+        for (NSDictionary *i in personalAlbums){
             
             title1 = [regex stringByReplacingMatchesInString:i[@"title"] options:0 range:NSMakeRange(0, [i[@"title"] length]) withTemplate:@""];
             
@@ -322,12 +328,14 @@
                 //                NSLog(@"%@", i);
                 if([selectedAlbumId  isEqual: @"wall"]){
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                       
                         copyFromWall(targetVideoAlbumId, NO, 0, @"", @"");
                         
                     });
                     
                 }
                 else if ([selectedAlbumId isEqual: @"videobox"]){
+                  
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         copyFromVideobox(targetVideoAlbumId, NO, 0, @"", @"");
                     });
@@ -335,8 +343,28 @@
             }
             else{
                 if(!targetVideoAlbumId){
-                    videoPublicTitleNewAlbum =  [[NSString stringWithFormat:@"%@ %lu", videoPublicTitleNewAlbum, [ids count]+1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-                    createAlbum(videoPublicTitleNewAlbum);
+                    [self createAlbum:^(BOOL isNewAlbumCreated) {
+                        if(isNewAlbumCreated){
+                            if([selectedAlbumId  isEqual: @"wall"]){
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                    copyFromWall(targetVideoAlbumId, NO, 0, @"", @"");
+                                });
+                            }
+                            else if ([selectedAlbumId isEqual: @"videobox"]){
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                    copyFromVideobox(targetVideoAlbumId, NO, 0, @"", @"");
+                                });
+                            }
+                        }
+                    }];
+                }
+            }
+        }
+        else{
+            [self createAlbum:^(BOOL isNewAlbumCreated) {
+                if(isNewAlbumCreated){
+                    title2 = [regex stringByReplacingMatchesInString:videoPublicTitleNewAlbum options:0 range:NSMakeRange(0, [videoPublicTitleNewAlbum length]) withTemplate:@""];
+                    NSLog(@"Ablum created. Now target album id: %@", targetVideoAlbumId );
                     if([selectedAlbumId  isEqual: @"wall"]){
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                             copyFromWall(targetVideoAlbumId, NO, 0, @"", @"");
@@ -348,25 +376,10 @@
                         });
                     }
                 }
-            }
-            //        }
-        }
-        else{
-            videoPublicTitleNewAlbum =  [[NSString stringWithFormat:@"%@ %@", videoPublicTitleNewAlbum, @1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-            createAlbum(videoPublicTitleNewAlbum);
-            NSLog(@"Ablum created. Now target album id: %@", targetVideoAlbumId );
-            if([selectedAlbumId  isEqual: @"wall"]){
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    copyFromWall(targetVideoAlbumId, NO, 0, @"", @"");
-                });
-            }
-            else if ([selectedAlbumId isEqual: @"videobox"]){
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    copyFromVideobox(targetVideoAlbumId, NO, 0, @"", @"");
-                });
-            }
+            }];
         }
     }
+    
     [self videoAlbumsLoad:@"copy" publicId:_app.person];
 
 }
@@ -382,7 +395,17 @@
     progressLabel.stringValue = @"0 / 0";
     progress.doubleValue=0.0;
 }
-
+-(void)setControlButtonsState{
+    if(isCopying){
+        stop.enabled=YES;
+        copy.enabled=NO;
+        reset.enabled=NO;
+    }else{
+        stop.enabled=NO;
+        copy.enabled=![publicId.stringValue isEqual:@""];
+        reset.enabled=YES;
+    }
+}
 -(void)videoAlbumsLoad:(NSString *)source publicId:(NSString *)public{
     fromTableView.delegate = self;
     fromTableView.dataSource = self;
@@ -391,12 +414,12 @@
 
     __block int step = 0;
     if (![public isEqual:_app.person]){
-        [videoAlbums2 removeAllObjects];
-        [videoAlbums2 addObject:@{@"title":@"videobox"}];
-        [videoAlbums2 addObject:@{@"title":@"wall"}];
+        [fromOwnerAlbums removeAllObjects];
+        [fromOwnerAlbums addObject:@{@"title":@"videobox"}];
+        [fromOwnerAlbums addObject:@{@"title":@"wall"}];
     }
     else{
-        [videoAlbums removeAllObjects];
+        [personalAlbums removeAllObjects];
         
     }
     void (^loadAlbums)()=^{
@@ -411,25 +434,25 @@
                         for (NSDictionary *i in jsonData[@"response"][@"items"]){
 
                             if(public == _app.person){
-                                [videoAlbums addObject:@{@"id": i[@"id"], @"title":i[@"title"], @"privacy":i[@"privacy"][0], @"count":i[@"count"]}];
+                                [personalAlbums addObject:@{@"id": i[@"id"], @"title":i[@"title"], @"privacy":i[@"privacy"][0], @"count":i[@"count"]}];
                             }
                             else{
-                                [videoAlbums2 addObject:@{@"id": i[@"id"], @"title":i[@"title"], @"count":i[@"count"]}];
+                                [fromOwnerAlbums addObject:@{@"id": i[@"id"], @"title":i[@"title"], @"count":i[@"count"]}];
                             }
                         }
 
                         dispatch_async(dispatch_get_main_queue(), ^{
                             if ([source  isEqual: @"copy"] && ![public isEqual:_app.person]){
+                                ArrayController2.content=fromOwnerAlbums;
                                 [fromTableView reloadData];
                             }
                             if([source isEqual:@"copy"] && [public isEqual:_app.person]){
+                                ArrayController1.content=personalAlbums;
                                 [toTableView reloadData];
                             }
-                      
-                        });
-                        dispatch_async(dispatch_get_main_queue(), ^{
                             [progressSpin stopAnimation:self];
                         });
+                     
                     }];
                     [getAlbums resume];
                     step+=100;
@@ -441,15 +464,15 @@
             else{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ([source  isEqual: @"copy"] && ![public isEqual:_app.person] ){
+                         ArrayController2.content=fromOwnerAlbums;
                         [fromTableView reloadData];
                     }
                     if([source isEqual:@"copy"] && [public isEqual:_app.person]){
+                        ArrayController1.content=personalAlbums;
                         [toTableView reloadData];
                         
                       
                     }
-                });
-                dispatch_async(dispatch_get_main_queue(), ^{
                     [progressSpin stopAnimation:self];
                 });
             }
@@ -465,61 +488,96 @@
     NSInteger row;
     NSString *item;
     if([notification.object isEqual: toTableView]){
-        row = [toTableView selectedRow];
-        item = [NSString stringWithFormat:@"%@", videoAlbums[row][@"id"]];
-        albumToId.stringValue = item;
-        title2=videoAlbums2[row][@"title"];
+        if([[toTableView selectedRowIndexes]count]>0){
+            row = [toTableView selectedRow];
+            item = [NSString stringWithFormat:@"%@", personalAlbums[row][@"id"]];
+            albumToId.stringValue = item;
+            title2=ArrayController1.content[row][@"title"];
+        }
     }
     else if([notification.object isEqual: fromTableView]){
-        row = [fromTableView selectedRow];
-        if (row == 0){
-            item=@"videobox";
-            
-        }
-        else if(row == 1){
-            item=@"wall";
-        }
-        else{
-       
-            item = [NSString stringWithFormat:@"%@", videoAlbums2[row][@"id"]];
-        }
-        albumFromId.stringValue = item;
-    }
-}
-
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    if([tableView isEqual:toTableView]){
-        if([videoAlbums count]>0){
-            return [videoAlbums count];
-        }
-    }
-    else if([tableView isEqual:fromTableView]){
-        if ([videoAlbums2 count]>0) {
-            return [videoAlbums2 count];
-        }
-    }
-    return 0;
-}
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:
-
-(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([tableView isEqual:toTableView]){
-        if ([videoAlbums count]>0){
-            NSTableCellView *cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
-            [cell.textField setStringValue:videoAlbums[row][@"title"] ];
-            return cell;
-        }
-    }
-    else if([tableView isEqual: fromTableView]){
-        if([videoAlbums2 count]>0) {
-            NSTableCellView *cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
-            [cell.textField setStringValue:videoAlbums2[row][@"title"]];
-            return cell;
+        if([[fromTableView selectedRowIndexes]count]>0){
+            row = [fromTableView selectedRow];
+            if (row == 0){
+                item=@"videobox";
+            }
+            else if(row == 1){
+                item=@"wall";
+            }
+            else{
+                
+                item = [NSString stringWithFormat:@"%@", fromOwnerAlbums[row][@"id"]];
+            }
+            albumFromId.stringValue = item;
         }
         
     }
-    return nil;
-    
-    return nil;
 }
+
+
+
+
+-(void)createNewAlbumName:(OnCompleteCreateNewAlbumName)completion{
+   [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%d&fields=description&v=%@&access_token=%@", abs([selectedPublicId intValue]), _app.version, _app.token]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        videoPublicTitleNewAlbum = jsonData[@"response"][0][@"name"];
+       if([ids count]!=0){
+           videoPublicTitleNewAlbum =  [[NSString stringWithFormat:@"%@ %lu", videoPublicTitleNewAlbum, [ids count]+1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+       }else{
+           videoPublicTitleNewAlbum =  [[NSString stringWithFormat:@"%@ %@", videoPublicTitleNewAlbum, @1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+       }
+       completion(videoPublicTitleNewAlbum);
+       
+    }]resume];
+   
+}
+-(void)createAlbum:(OnCompleteCreateAlbum)completion{
+    [self createNewAlbumName:^(NSString *albumName) {
+        if(albumName){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.addAlbum?owner_id=%@&title=%@&v=%@&access_token=%@&privacy=%@", _app.person, videoPublicTitleNewAlbum, _app.version, _app.token, privacy]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                targetVideoAlbumId = jsonData[@"response"][@"album_id"];
+                completion(targetVideoAlbumId?1:0);
+                NSLog(@"Target album id: %@", targetVideoAlbumId);
+            }]resume];
+        }
+    }];
+
+    
+}
+//-(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+//    if([tableView isEqual:toTableView]){
+//        if([personalAlbums count]>0){
+//            return [personalAlbums count];
+//        }
+//    }
+//    else if([tableView isEqual:fromTableView]){
+//        if ([fromOwnerAlbums count]>0) {
+//            return [fromOwnerAlbums count];
+//        }
+//    }
+//    return 0;
+//}
+//-(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:
+
+//(NSTableColumn *)tableColumn row:(NSInteger)row{
+//    if([tableView isEqual:toTableView]){
+//        if ([personalAlbums count]>0){
+//            NSTableCellView *cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
+//            [cell.textField setStringValue:personalAlbums[row][@"title"] ];
+//            return cell;
+//        }
+//    }
+//    else if([tableView isEqual: fromTableView]){
+//        if([fromOwnerAlbums count]>0) {
+//            NSTableCellView *cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
+//            [cell.textField setStringValue:fromOwnerAlbums[row][@"title"]];
+//            return cell;
+//        }
+//        
+//    }
+//    return nil;
+//    
+//    return nil;
+//}
 @end
