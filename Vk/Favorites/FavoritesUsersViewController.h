@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "StringHighlighter.h"
+
 @interface FavoritesUsersViewController : NSViewController{
     
     __weak IBOutlet NSButton *sendMessage;
@@ -34,8 +35,6 @@
     NSInteger offsetCounter;
     __weak IBOutlet NSButton *showFavesUsersStatBut;
     StringHighlighter *stringHighlighter;
-    NSMutableDictionary *cachedImage;
-    NSMutableDictionary *cachedStatus;
     NSInteger totalCount;
     BOOL loading;
     BOOL loadFromUserGroup;

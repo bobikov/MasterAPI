@@ -46,8 +46,7 @@
 @property (weak) IBOutlet NSButton *uploadPhoto;
 @property (weak) IBOutlet NSButton *removeItem;
 @property (weak) IBOutlet NSTextField *countInAlbum;
-typedef void (^OnComplete)(NSData *serverURL);
--(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
+
 @property (weak) IBOutlet NSProgressIndicator *downloadAndUploadProgress;
 @property (weak) IBOutlet NSTextField *downloadAndUploadProgressLabel;
 @property (weak) IBOutlet NSBox *downloadAndUploadStatusOver;

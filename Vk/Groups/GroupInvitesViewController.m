@@ -315,7 +315,7 @@
     cell.typeInvite.stringValue = GroupInvitesData[row][@"type"];
 //    cell.descriptionOfGroup.stringValue = GroupInvitesData[row][@"desc"];
     [cell.descriptionOfGroup setAllowsEditingTextAttributes:YES];
-    cell.descriptionOfGroup.attributedStringValue = [_stringHighlighter highlightStringWithURLs:GroupInvitesData[row][@"desc"] Emails:YES fontSize:12];
+//    cell.descriptionOfGroup.attributedStringValue = [_stringHighlighter highlightStringWithURLs:GroupInvitesData[row][@"desc"] Emails:YES fontSize:12];
     [cell.descriptionOfGroup setFont:[NSFont fontWithName:@"Helvetica" size:12]];
     cell.groupImage.wantsLayer=YES;
     cell.groupImage.layer.masksToBounds=YES;

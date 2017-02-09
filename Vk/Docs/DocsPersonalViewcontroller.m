@@ -11,6 +11,7 @@
 #import "ShowDocViewController.h"
 #import "DocsCustomTableCellViewPersonal.h"
 #import "addDocsByOwnerController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface DocsPersonalViewcontroller ()<NSSearchFieldDelegate, NSTableViewDelegate, NSTableViewDataSource, NSURLDownloadDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -628,15 +629,15 @@
         }else{
             cell.addToAttachments.hidden=YES;
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", docsData[row][@"photo"]]]];
+    
+        [cell.docsPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:docsData[row][@"photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];
             NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
             image.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.docsPhoto setImage:image];
-            });
-        });
+            [cell.docsPhoto setImage:image];
+        }];
         return cell;
     }
     return nil;

@@ -9,6 +9,7 @@
 #import "SubscribersViewController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -653,22 +654,27 @@
         cell.lastSeen.stringValue = subscribersData[row][@"last_seen"];
 //        cell.status.stringValue = subscribersData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:subscribersData[row][@"status"] Emails:YES fontSize:12];
         [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
         cell.sex.stringValue = subscribersData[row][@"sex"];
         cell.photo.wantsLayer=YES;
         cell.photo.layer.masksToBounds=YES;
         cell.photo.image.size = NSMakeSize(80, 80);
         cell.photo.layer.cornerRadius=80/2;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", subscribersData[row][@"user_photo"]]]];
+        
+        
+        [_stringHighlighter highlightStringWithURLs:subscribersData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", subscribersData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];
             NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
             image.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.photo setImage:image];
-            });
-        });
+            [cell.photo setImage:image];
+        }];
+        
         if([subscribersData[row][@"online"] intValue] == 1){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
 //            cell.lastOnline.stringValue = @"";

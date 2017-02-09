@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "SearchGroupsCellView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate,NSComboBoxDelegate>
 
 @end
@@ -594,28 +595,20 @@
             cell.city.stringValue = foundListData[row][@"city"];
             cell.name.stringValue = foundListData[row][@"full_name"];
             //cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
-            if([cachedImage count]>0 && cachedImage[foundListData[row]] && cachedStatus[foundListData[row]]){
-                [cell.photo setImage:cachedImage[foundListData[row]]];
-                cell.userStatus.attributedStringValue = cachedStatus[foundListData[row]];
-            }else{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12];
-                    if(attrStatusString){
-                        cachedStatus[foundListData[row]] = attrStatusString;
-                    }
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]]];
-                    NSSize imSize=NSMakeSize(60, 60);
-                    image.size=imSize;
-                    if(image){
-                        cachedImage[foundListData[row]] = image;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            cell.userStatus.attributedStringValue = attrStatusString;
-                            [cell.userStatus setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                            [cell.photo setImage:image];
-                        });
-                    }
-                });
-            }
+           
+            [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+                cell.userStatus.attributedStringValue = highlightedString;
+            }];
+            
+            
+            [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSSize imSize=NSMakeSize(60, 60);
+                image.size=imSize;
+                [cell.photo setImage:image];
+            }];
+            
             if([foundListData[row][@"online"] intValue]){
                 [cell.status setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
             }else{
@@ -630,21 +623,15 @@
             cell.groupAvatar.layer.masksToBounds=YES;
             cell.groupName.stringValue = foundListData[row][@"name"];
             cell.groupCountry.stringValue = foundListData[row][@"country"];
-            if([cachedImage count]>0 && cachedImage[foundListData[row]] && cachedStatus[foundListData[row]]){
-                [cell.groupAvatar setImage:cachedImage[foundListData[row]]];
-//                cell.groupAvatar.attributedStringValue = cachedStatus[foundListData[row]];
-            }else{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"photo"]]]];
-                    NSSize imSize=NSMakeSize(60, 60);
-                    image.size=imSize;
-                    cachedImage[foundListData[row]] = image;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell.groupAvatar setImage:image];
-                    });
-                });
-            }
-             return cell;
+            
+            [cell.groupAvatar sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:foundListData[row][@"photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSSize imSize=NSMakeSize(60, 60);
+                image.size=imSize;
+                [cell.groupAvatar setImage:image];
+            }];
+            return cell;
         }
     }
     return nil;

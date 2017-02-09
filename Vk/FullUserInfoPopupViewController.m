@@ -73,7 +73,10 @@
     
     if(_receivedData[@"site"]!=nil){
         [site setFont:[NSFont systemFontOfSize:11 weight:NSFontWeightRegular]];
-        site.attributedStringValue = [_stringHighlighter highlightStringWithURLs:[[_receivedData[@"site"]stringByReplacingOccurrencesOfString:@"(" withString:@" "]stringByReplacingOccurrencesOfString:@")" withString:@" "] Emails:YES fontSize:11];
+        [_stringHighlighter highlightStringWithURLs:[[_receivedData[@"site"]stringByReplacingOccurrencesOfString:@"(" withString:@" "]stringByReplacingOccurrencesOfString:@")" withString:@" "] Emails:YES fontSize:11 completion:^(NSMutableAttributedString *highlightedString) {
+            site.attributedStringValue=highlightedString;
+        }];
+//        site.attributedStringValue = [_stringHighlighter highlightStringWithURLs:[[_receivedData[@"site"]stringByReplacingOccurrencesOfString:@"(" withString:@" "]stringByReplacingOccurrencesOfString:@")" withString:@" "] Emails:YES fontSize:11];
         
     }else{
         site.stringValue=_receivedData[@"site"];
@@ -84,7 +87,9 @@
     mobile.stringValue = [NSString stringWithFormat:@"%@", _receivedData[@"mobile"]];
 //    about.stringValue = [NSString stringWithFormat:@"%@", _receivedData[@"about"]];
     [about setAllowsEditingTextAttributes:YES];
-    about.attributedStringValue = [_stringHighlighter highlightStringWithURLs:_receivedData[@"about"] Emails:YES fontSize:11];
+    [_stringHighlighter highlightStringWithURLs:_receivedData[@"about"] Emails:YES fontSize:11 completion:^(NSMutableAttributedString *highlightedString) {
+        about.attributedStringValue=highlightedString;
+    }];
     [about setFont:[NSFont systemFontOfSize:11 weight:NSFontWeightRegular]];
     books.stringValue = [NSString stringWithFormat:@"%@", _receivedData[@"books"]];
     Music.stringValue = [NSString stringWithFormat:@"%@", _receivedData[@"music"]];
@@ -94,7 +99,9 @@
     city.stringValue =  _receivedData[@"city"];
     country.stringValue = _receivedData[@"country"];
     age.stringValue = [NSString stringWithFormat:@"%@", _receivedData[@"bdate"]];
-    page.attributedStringValue = [_stringHighlighter highlightStringWithURLs:[NSString stringWithFormat:@"https://vk.com/%@", _receivedData[@"domain"]] Emails:YES fontSize:11];
+    [_stringHighlighter highlightStringWithURLs:[NSString stringWithFormat:@"https://vk.com/%@", _receivedData[@"domain"]] Emails:YES fontSize:11 completion:^(NSMutableAttributedString *highlightedString) {
+        page.attributedStringValue=highlightedString;
+    }];
     [page setFont:[NSFont systemFontOfSize:11 weight:NSFontWeightRegular]];
     blacklisted.stringValue = [NSString stringWithFormat:@"%@", [_receivedData[@"blacklisted"] intValue]==1 ? @"You banned by this user." : [_receivedData[@"blacklisted_by_me"] intValue]==1 ? @"User banned by you." : @""];
     if([blacklisted.stringValue isEqual:@""]){

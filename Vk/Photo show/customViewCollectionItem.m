@@ -13,7 +13,8 @@
 #import "NSImage+Resizing.h"
 #import "EditVideoPhotoAlbumViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
-
+typedef void (^OnComplete)(NSData *serverURL);
+-(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
 @end
 
 @implementation customViewCollectionItem

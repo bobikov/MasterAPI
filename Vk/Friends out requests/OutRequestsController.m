@@ -8,6 +8,7 @@
 
 #import "OutRequestsController.h"
 #import "FullUserInfoPopupViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 -(void)getRequests:(OnGetRequestsComplete)completion;
@@ -392,7 +393,6 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
             }
         }];
     }
-    
 }
 -(void)getRequests:(OnGetRequestsComplete)completion{
     NSMutableArray *requests=[[NSMutableArray alloc]init];
@@ -436,26 +436,20 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 
         cell.verified.hidden=![outRequestsData[row][@"verified"] intValue];
        
-        if([cachedImage count]>0 && cachedImage[outRequestsData[row]] && cachedStatus[outRequestsData[row]]){
-            cell.photo.image=cachedImage[outRequestsData[row]];
-            cell.status.attributedStringValue = cachedStatus[outRequestsData[row]];
+        [_stringHighlighter highlightStringWithURLs:outRequestsData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", outRequestsData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
-        }else{
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:outRequestsData[row][@"status"] Emails:YES fontSize:12];
-                cachedStatus[outRequestsData[row]] = attrStatusString;
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", outRequestsData[row][@"user_photo"]]]];
-                NSImageRep *rep = [[image representations] objectAtIndex:0];
-                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                image.size=imageSize;
-                cachedImage[outRequestsData[row]]=image;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.status.attributedStringValue = attrStatusString;
-                     [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                    [cell.photo setImage:image];
-                });
-            });
-        }
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            NSImageRep *rep = [[image representations] objectAtIndex:0];
+            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+            image.size=imageSize;
+            [cell.photo setImage:image];
+        }];
         if([outRequestsData[row][@"online"] intValue] == 1){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

@@ -9,6 +9,7 @@
 #import "BanlistViewController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "FriendsStatController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface BanlistViewController () <NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 - (void)getBanned:(OnGetBannedComplete)completion;
@@ -281,6 +282,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                 
             }else{
                 totalCountBanned = [getBannedResponse[@"response"][@"count"] intValue];
+                NSLog(@"TOTAL BANNED %li",totalCountBanned);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     totalCount.title=[NSString stringWithFormat:@"%@", getBannedResponse[@"response"][@"count"]];
                 });
@@ -304,15 +306,15 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
             offsetLoadBanlist=offsetLoadBanlist+200;
         }else{
             [banlistData removeAllObjects];
-            [banList reloadData];
+//            [banList reloadData];
             offsetLoadBanlist=0;
             offsetCounter=0;
         }
         __block NSDictionary *object;
-        if([banList numberOfRows]==0 || loading){
+    
             //__block NSInteger startInsertRowIndex = [banlistData count];
             [self getBanned:^(NSMutableArray *bannedUsers) {
-                if([bannedUsers count]>0 && offsetCounter <= [bannedUsers count]){
+                if([bannedUsers count]>0){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
                         NSString *city;
@@ -751,13 +753,15 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 //                arrayController.content = banlistData;
                                 loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
-                                NSLog(@"%li", [banlistData count]);
-                                [self setFiltersEnabled];
+//                                NSLog(@"%li", [banlistData count]);
+//                                [self setFiltersEnabled];
                                 if(makeOffset){
+                                    loading=NO;
                                     //                                    [banList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex, [banlistData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
                                     [banList reloadData];
                                     
                                 }else{
+                                    loading=NO;
                                     [banList reloadData];
                                 }
                                 [progressSpin stopAnimation:self];
@@ -771,14 +775,14 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                                     [progressSpin stopAnimation:self];
                                     loading=NO;
                                 }
-                                NSLog(@"%li", offsetLoadBanlist);
-                                NSLog(@"%li", offsetCounter);
+                                NSLog(@"OFFSET BANLIST %li", offsetLoadBanlist);
+                                NSLog(@"OFFSET COUNTer %li", offsetCounter);
                             });
                         }
                     }] resume];
                 }
             }];
-        }
+        
     };
     if(makeOffset){
         getBannedBlock(YES);
@@ -856,26 +860,23 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         cell.userPhoto.wantsLayer=YES;
         cell.userPhoto.layer.masksToBounds=YES;
         cell.userPhoto.layer.cornerRadius=80/2;
-        if([cachedImage count]>0 && cachedImage[banlistData[row]]!=nil && cachedStatus[banlistData[row]]!=nil){
-            cell.userPhoto.image=cachedImage[banlistData[row]];
-            cell.status.attributedStringValue = cachedStatus[banlistData[row]];
+        
+        [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        
+        [cell.userPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", banlistData[row][@"user_photo"]]]  placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
-        }else{
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", banlistData[row][@"user_photo"]]]];
-                NSImageRep *rep = [[image representations] objectAtIndex:0];
-                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                image.size=imageSize;
-                 NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12];
-                cachedStatus[banlistData[row]]=attrStatusString;
-                cachedImage[banlistData[row]]=image;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.status.attributedStringValue = attrStatusString;
-                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                    [cell.userPhoto setImage:image];
-                });
-            });
-        }
+     
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            NSImageRep *rep = [[image representations] objectAtIndex:0];
+            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+            image.size=imageSize;
+            [cell.userPhoto setImage:image];
+        }];
+
         if([banlistData[row][@"online"] intValue] == 1){
             [cell.onlineStatus setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

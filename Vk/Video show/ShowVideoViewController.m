@@ -10,7 +10,7 @@
 #import "createNewVideoAlbumController.h"
 #import "GroupsFromFileViewController.h"
 #import "ShowNamesController.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface ShowVideoViewController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -777,35 +777,43 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 ////                [item1.uploadByURLsButton removeFromSuperview];
 ////                [item1.downloadAndUploadStatusOver removeFromSuperview];
 //            }
-            if([cachedImage count]>0 && cachedImage[videoAlbums[indexPath.item]]){
-                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
-            }else{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSImage *image =[[NSImage alloc]init];
-                    if(![coverAlbum isEqual:@""]){
-                        image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:coverAlbum]];
-                        NSImageRep *rep = [[image representations] objectAtIndex:0];
-                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                        image.size=imageSize;
-                        cachedImage[videoAlbums[indexPath.item]]=image;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [item1.albumCover setImage:image];
-                        });
-                    }else{
-                        
-                        image = [NSImage imageNamed:@"video_album_def1.png"];
-                        NSImageRep *rep = [[image representations] objectAtIndex:0];
-                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                        image.size=imageSize;
-                        cachedImage[videoAlbums[indexPath.item]]=image;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [item1.albumCover setImage:image];
-                            
-                        });
-                        
-                    }
-                });
-            }
+//            if([cachedImage count]>0 && cachedImage[videoAlbums[indexPath.item]]){
+//                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
+//            }else{
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSImage *image =[[NSImage alloc]init];
+//                    if(![coverAlbum isEqual:@""]){
+//                        image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:coverAlbum]];
+//                        NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                        image.size=imageSize;
+//                        cachedImage[videoAlbums[indexPath.item]]=image;
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [item1.albumCover setImage:image];
+//                        });
+//                    }else{
+//                        
+//                        image = [NSImage imageNamed:@"video_album_def1.png"];
+//                        NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                        image.size=imageSize;
+//                        cachedImage[videoAlbums[indexPath.item]]=image;
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [item1.albumCover setImage:image];
+//                            
+//                        });
+//                        
+//                    }
+//                });
+//            }
+            [item1.albumCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:coverAlbum] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                [item1.albumCover setImage:image];
+            }];
         }
         else{
             item1.attachAlbum.hidden =  YES;
@@ -814,20 +822,25 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
             attrTitle = [[NSAttributedString alloc]initWithString:itemTitle attributes:@{NSForegroundColorAttributeName:item1.isSelected ? [NSColor whiteColor] : [NSColor blackColor], NSParagraphStyleAttributeName:paragraphStyle}];
             NSString *photo = [videoAlbums objectAtIndex:indexPath.item][@"photo"];
             item1.countLabel.hidden=YES;
-            if([cachedImage count]>0 && cachedImage[[videoAlbums objectAtIndex:indexPath.item]]!=nil){
-                item1.textLabel.attributedStringValue=attrTitle;
-                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
-            }else{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photo]];
-                    cachedImage[videoAlbums[indexPath.item]]=image;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        item1.textLabel.attributedStringValue=attrTitle;
-                        [item1.albumCover setImage:image];
-                    });
-                  
-                });
-            }
+            item1.textLabel.attributedStringValue=attrTitle;
+//            if([cachedImage count]>0 && cachedImage[[videoAlbums objectAtIndex:indexPath.item]]!=nil){
+//                item1.textLabel.attributedStringValue=attrTitle;
+//                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
+//            }else{
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photo]];
+//                    cachedImage[videoAlbums[indexPath.item]]=image;
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        item1.textLabel.attributedStringValue=attrTitle;
+//                        [item1.albumCover setImage:image];
+//                    });
+//                });
+//            }
+            [item1.albumCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:photo] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                [item1.albumCover setImage:image];
+            }];
         }
     }
     return item1;

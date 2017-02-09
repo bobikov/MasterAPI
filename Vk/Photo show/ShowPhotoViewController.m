@@ -9,6 +9,7 @@
 #import "CreateNewAlbumController.h"
 #import "GroupsFromFileViewController.h"
 #import "NSImage+Resizing.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface ShowPhotoViewController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -389,49 +390,70 @@
                 }
             }
             photoAlbumsItem.albumsCover.image = nil;
-            if([cachedImage count]>0 && cachedImage[[albumsData objectAtIndex:indexPath.item]]!=nil){
-                [photoAlbumsItem.albumsCover setImage:cachedImage[[albumsData objectAtIndex:indexPath.item]]];
-            }else{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:albumCover]];
-                    NSImageRep *rep = [[image representations] objectAtIndex:0];
-                    NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                    image.size=imageSize;
-//                    double realImageWidth = imageSize.width;
-//                    double realImageHeight = imageSize.height;
-//                    NSLog(@"%@", albumCover );
-//                    image = [image cropImageToSize:NSMakeSize(100, 100) fromPoint:NSZeroPoint];
-                    cachedImage[albumsData[indexPath.item]]=image;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [photoAlbumsItem.albumsCover setImage:image];
-                    });
-                });
-            }
+//            if([cachedImage count]>0 && cachedImage[[albumsData objectAtIndex:indexPath.item]]!=nil){
+//                [photoAlbumsItem.albumsCover setImage:cachedImage[[albumsData objectAtIndex:indexPath.item]]];
+//            }else{
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:albumCover]];
+//                    NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                    NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                    image.size=imageSize;
+////                    double realImageWidth = imageSize.width;
+////                    double realImageHeight = imageSize.height;
+////                    NSLog(@"%@", albumCover );
+////                    image = [image cropImageToSize:NSMakeSize(100, 100) fromPoint:NSZeroPoint];
+//                    cachedImage[albumsData[indexPath.item]]=image;
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [photoAlbumsItem.albumsCover setImage:image];
+//                    });
+//                });
+//            }
+         
+            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:albumCover]placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                photoAlbumsItem.albumsCover.image=image;
+                
+            }];
         }
         else{
             photoAlbumsItem.attachAlbum.hidden=YES;
             photoAlbumsItem.albumsCover.image = nil;
             photoAlbumsItem.textLabel.hidden=YES;
             photoAlbumsItem.countInAlbum.hidden=YES;
-            if([cachedImage count]>0 && cachedImage[[albumsData objectAtIndex:indexPath.item]]!=nil){
-                [photoAlbumsItem.albumsCover setImage:cachedImage[[albumsData objectAtIndex:indexPath.item]]];
-            }else{
-                NSString *photo = [albumsData objectAtIndex:indexPath.item][@"items"][@"photo"];
-                photoAlbumsItem.countInAlbum.hidden=YES;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photo]];
-                    NSImageRep *rep = [[image representations] objectAtIndex:0];
-                    NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                    image.size=imageSize;
-//                     image = [image cropImageToSize:NSMakeSize(photoAlbumsItem.albumsCover.frame.size.width, photoAlbumsItem.albumsCover.frame.size.height) fromPoint:NSZeroPoint];
-                    if(image){
-                        cachedImage[[albumsData objectAtIndex:indexPath.item]]=image;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            photoAlbumsItem.albumsCover.image=image;
-                        });
-                    }
-                });
-            }
+//            if([cachedImage count]>0 && cachedImage[[albumsData objectAtIndex:indexPath.item]]!=nil){
+//                [photoAlbumsItem.albumsCover setImage:cachedImage[[albumsData objectAtIndex:indexPath.item]]];
+//            }else{
+//                NSString *photo = [albumsData objectAtIndex:indexPath.item][@"items"][@"photo"];
+//                photoAlbumsItem.countInAlbum.hidden=YES;
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSImage *image = [[[NSImage alloc]initWithContentsOfURL:
+//                    NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                    NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                    image.size=imageSize;
+////                     image = [image cropImageToSize:NSMakeSize(photoAlbumsItem.albumsCover.frame.size.width, photoAlbumsItem.albumsCover.frame.size.height) fromPoint:NSZeroPoint];
+//                    if(image){
+//                        cachedImage[[albumsData objectAtIndex:indexPath.item]]=image;
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            photoAlbumsItem.albumsCover.image=image;
+//                        });
+//                    }
+//                });
+//            }
+            NSString *photo = [albumsData objectAtIndex:indexPath.item][@"items"][@"photo"];
+            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:photo]placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                photoAlbumsItem.albumsCover.image=image;
+                
+            }];
+            
         }
     }
     return photoAlbumsItem;

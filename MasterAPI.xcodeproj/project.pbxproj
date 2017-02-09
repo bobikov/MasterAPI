@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C04F8D1E2F6658BAA9F66F1 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */; };
 		2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */; };
 		2B1914CC1E28FC8C00FB714E /* SearchGroupsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */; };
 		2B1914CE1E2CF79000FB714E /* back-to-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1914CD1E2CF79000FB714E /* back-to-top.png */; };
@@ -18,9 +19,6 @@
 		2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */; };
 		2B1914E31E30AFDE00FB714E /* ApiSourceSelecterCustomLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */; };
 		2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */; };
-		2B20F00B1E44715A00816124 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0071E44715A00816124 /* .gitignore */; };
-		2B20F00C1E44715A00816124 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0091E44715A00816124 /* NSImage+Resizing.m */; };
-		2B20F00D1E44715A00816124 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00A1E44715A00816124 /* README.md */; };
 		2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */; };
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
@@ -296,6 +294,9 @@
 		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
 		2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */; };
 		2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */; };
+		2BCAC3871E4BC33000830583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2BCAC3831E4BC33000830583 /* .gitignore */; };
+		2BCAC3881E4BC33000830583 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */; };
+		2BCAC3891E4BC33000830583 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAC3861E4BC33000830583 /* README.md */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
@@ -306,6 +307,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchGroupsCellView.xib; sourceTree = "<group>"; };
 		2B1914CA1E28FC8C00FB714E /* SearchGroupsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchGroupsCellView.h; sourceTree = "<group>"; };
 		2B1914CB1E28FC8C00FB714E /* SearchGroupsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchGroupsCellView.m; sourceTree = "<group>"; };
@@ -326,10 +328,6 @@
 		2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelecterCustomLayout.m; sourceTree = "<group>"; };
 		2B1914E41E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelectorCustomFlowLayout.h; sourceTree = "<group>"; };
 		2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelectorCustomFlowLayout.m; sourceTree = "<group>"; };
-		2B20F0071E44715A00816124 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		2B20F0081E44715A00816124 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
-		2B20F0091E44715A00816124 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
-		2B20F00A1E44715A00816124 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditVideoPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditVideoPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		2B20F0111E47144200816124 /* AboutAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutAppViewController.h; path = Storyboards/AboutAppViewController.h; sourceTree = "<group>"; };
@@ -820,6 +818,11 @@
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
 		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
 		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
+		2BCAC3831E4BC33000830583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2BCAC3841E4BC33000830583 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
+		2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
+		2BCAC3861E4BC33000830583 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2BCACAFD1E4C683C00830583 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "../../../../Library/Developer/Xcode/DerivedData/MasterAPI-cmxdptazauuemicvegxdmflpbxdn/Build/Products/Debug/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -832,6 +835,8 @@
 		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
+		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
+		D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -841,24 +846,13 @@
 			files = (
 				2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */,
 				2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */,
+				0C04F8D1E2F6658BAA9F66F1 /* libPods-MasterAPI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B20F0061E44715A00816124 /* NSImage-Resizing-master */ = {
-			isa = PBXGroup;
-			children = (
-				2B20F0071E44715A00816124 /* .gitignore */,
-				2B20F0081E44715A00816124 /* NSImage+Resizing.h */,
-				2B20F0091E44715A00816124 /* NSImage+Resizing.m */,
-				2B20F00A1E44715A00816124 /* README.md */,
-			);
-			name = "NSImage-Resizing-master";
-			path = "RFOverlayScroller/NSImage-Resizing-master";
-			sourceTree = "<group>";
-		};
 		2B41F9C81E02D3F50013AC86 /* AppsPreferences  */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,7 +1015,7 @@
 		2B41FA251E02D3F50013AC86 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
-				2B20F0061E44715A00816124 /* NSImage-Resizing-master */,
+				2BCAC3821E4BC33000830583 /* NSImage-Resizing-master */,
 				2B41FA261E02D3F50013AC86 /* HtmlParser */,
 				2B41FA501E02D3F50013AC86 /* RFOverlayScroller */,
 			);
@@ -1742,8 +1736,10 @@
 		2B5946CC1D72B26100F3A93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2BCACAFD1E4C683C00830583 /* libSDWebImage.a */,
 				2B5946CA1D72B24D00F3A93D /* CoreData.framework */,
 				2B8FD92E1CF8225B002027ED /* WebKit.framework */,
+				D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1783,6 +1779,7 @@
 				2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */,
 				2B5946CC1D72B26100F3A93D /* Frameworks */,
 				2B9F40DC1CC67B0D005C4716 /* Products */,
+				5121C3838560FE90FDF8F5FE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1794,6 +1791,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2BCAC3821E4BC33000830583 /* NSImage-Resizing-master */ = {
+			isa = PBXGroup;
+			children = (
+				2BCAC3831E4BC33000830583 /* .gitignore */,
+				2BCAC3841E4BC33000830583 /* NSImage+Resizing.h */,
+				2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */,
+				2BCAC3861E4BC33000830583 /* README.md */,
+			);
+			path = "NSImage-Resizing-master";
+			sourceTree = "<group>";
+		};
+		5121C3838560FE90FDF8F5FE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */,
+				4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1801,9 +1818,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B9F40EF1CC67B0D005C4716 /* Build configuration list for PBXNativeTarget "MasterAPI" */;
 			buildPhases = (
+				AE61DAA80DBA9CDB0D31D24B /* [CP] Check Pods Manifest.lock */,
 				2B9F40D71CC67B0D005C4716 /* Sources */,
 				2B9F40D81CC67B0D005C4716 /* Frameworks */,
 				2B9F40D91CC67B0D005C4716 /* Resources */,
+				894F26DF230EB61E6ABED117 /* [CP] Embed Pods Frameworks */,
+				6040576A082B8AFAE730D78A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1861,6 +1881,7 @@
 				2B41FCA81E02D3F70013AC86 /* CustomVideoCollectionItem.xib in Resources */,
 				2B41FC151E02D3F60013AC86 /* close3.png in Resources */,
 				2B41FC2D1E02D3F60013AC86 /* pressed_button.png in Resources */,
+				2BCAC3871E4BC33000830583 /* .gitignore in Resources */,
 				2B41FC0C1E02D3F60013AC86 /* audio_min.png in Resources */,
 				2B41FCCD1E02D3F70013AC86 /* Assets.xcassets in Resources */,
 				2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */,
@@ -1917,7 +1938,6 @@
 				2B41FC291E02D3F60013AC86 /* play.png in Resources */,
 				2B41FC311E02D3F60013AC86 /* remove_transp_15.png in Resources */,
 				2B41FC371E02D3F60013AC86 /* twitter2.png in Resources */,
-				2B20F00B1E44715A00816124 /* .gitignore in Resources */,
 				2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */,
 				2B41FC2A1E02D3F60013AC86 /* plus.png in Resources */,
 				2B41FC281E02D3F60013AC86 /* photo_min.png in Resources */,
@@ -1942,6 +1962,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6040576A082B8AFAE730D78A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		894F26DF230EB61E6ABED117 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE61DAA80DBA9CDB0D31D24B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2B9F40D71CC67B0D005C4716 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1957,6 +2025,7 @@
 				2B41FC8C1E02D3F70013AC86 /* GroupsFromFileViewController.m in Sources */,
 				2B41FC801E02D3F70013AC86 /* FriendsStatGraphs.m in Sources */,
 				2B41FCB31E02D3F70013AC86 /* AddRepostGroupController.m in Sources */,
+				2BCAC3881E4BC33000830583 /* NSImage+Resizing.m in Sources */,
 				2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */,
 				2B41FBD31E02D3F60013AC86 /* VKPrefsInfo.m in Sources */,
 				2B41FC9A1E02D3F70013AC86 /* URLsViewController.m in Sources */,
@@ -1978,7 +2047,6 @@
 				2B41FCBF1E02D3F70013AC86 /* YoutubeAddToPlaylistController.m in Sources */,
 				2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */,
 				2B41FC8A1E02D3F70013AC86 /* GroupsCustomTableView.m in Sources */,
-				2B20F00C1E44715A00816124 /* NSImage+Resizing.m in Sources */,
 				2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */,
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,
 				2B41FBE21E02D3F60013AC86 /* CustomView.m in Sources */,
@@ -2081,6 +2149,7 @@
 				2B41FBF01E02D3F60013AC86 /* HTMLDocument.m in Sources */,
 				2B41FC4F1E02D3F60013AC86 /* TumblrPostCell.m in Sources */,
 				2B41FC781E02D3F70013AC86 /* CustomFaveritesTableView.m in Sources */,
+				2BCAC3891E4BC33000830583 /* README.md in Sources */,
 				2B41FC001E02D3F60013AC86 /* RFOverlayScroller.m in Sources */,
 				2B41FC8B1E02D3F70013AC86 /* GroupsFromFileCustomCell.m in Sources */,
 				2B41FC741E02D3F70013AC86 /* DocsWallViewController.m in Sources */,
@@ -2111,7 +2180,6 @@
 				2B41FCB91E02D3F70013AC86 /* WallPostViewController.m in Sources */,
 				2B41FBDC1E02D3F60013AC86 /* CustomSegment.m in Sources */,
 				2B41FCAA1E02D3F70013AC86 /* MyVideoWindowController.m in Sources */,
-				2B20F00D1E44715A00816124 /* README.md in Sources */,
 				2B41FC451E02D3F60013AC86 /* DownloadUploadMainViewController.m in Sources */,
 				2B41FC8F1E02D3F70013AC86 /* groupsHandler.m in Sources */,
 				2B41FBE91E02D3F60013AC86 /* MediaPostsCustomCell.m in Sources */,
@@ -2254,11 +2322,12 @@
 		};
 		2B9F40F01CC67B0D005C4716 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2268,22 +2337,23 @@
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.masterAPI;
 				PRODUCT_NAME = MasterAPI;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "/Users/hal/Library/Developer/Xcode/DerivedData/MyTumblrLibrary-gzbnaislwxricngkkowvtoudilyn/Build/Products/Debug/**";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		2B9F40F11CC67B0D005C4716 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2293,12 +2363,12 @@
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.masterAPI;
 				PRODUCT_NAME = MasterAPI;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "/Users/hal/Library/Developer/Xcode/DerivedData/MyTumblrLibrary-gzbnaislwxricngkkowvtoudilyn/Build/Products/Debug/**";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

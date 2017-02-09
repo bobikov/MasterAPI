@@ -682,13 +682,13 @@
             cell.status.attributedStringValue = cachedStatus[FriendsData[row]];
         }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
-                cachedStatus[FriendsData[row]]=attrStatusString;
+//                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
+//                cachedStatus[FriendsData[row]]=attrStatusString;
                 NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
                 imagePhoto.size=imSize;
                 cachedImage[FriendsData[row]] = imagePhoto;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.status.attributedStringValue = attrStatusString;
+//                    cell.status.attributedStringValue = attrStatusString;
                     [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
                     [cell.photo setImage:imagePhoto];
                 });
