@@ -943,36 +943,12 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
             cell.deactivatedStatus.stringValue = favesUsersData[row][@"deactivated"];
             cell.deactivatedStatus.hidden=NO;
         }
-//        if(row <= [cachedStatus count] && cachedStatus[favesUsersData[row]]!=nil){
-//          
-//            
-//                cell.status.attributedStringValue = cachedStatus[favesUsersData[row]];
-////                cell.photo.image = cachedImage[favesUsersData[row]];
-//           
-//            
-//        }else{
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+         [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"]  Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+             cell.status.attributedStringValue = highlightedString;
+         }];
+
         
-             [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"]  Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
-                 cell.status.attributedStringValue = highlightedString;
-             }];
-//                                if(attrStatusString){
-//                                    cachedStatus[favesUsersData[row]] = attrStatusString;
-//                                }
-                //                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]]];
-                
-                //                NSImageRep *rep = [[imagePhoto representations] objectAtIndex:0];
-                //                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                //                imagePhoto.size=imageSize;
-//                dispatch_async(dispatch_get_main_queue(), ^{
-////
-//                    if(attrStatusString){
-        
-//                    }
-//                });
-//        
-//            });
-//         }
         [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
         } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
