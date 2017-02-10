@@ -12,7 +12,8 @@
 #import "FavesUsersCustomCell.h"
 #import "FriendsStatController.h"
 #import "CreateFavesGroupController.h"
-#import <SDWebImage/UIView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
+#import <Quartz/Quartz.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
 
@@ -50,7 +51,15 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
     [favesUserGroups removeAllItems];
     
-  
+    NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    
+    
+    favesScrollView.wantsLayer = TRUE;
+    favesScrollView.layer.mask = layer;
+    
+    
 }
 
 - (void)viewDidAppear{
@@ -949,7 +958,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
          }];
 
         
-        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
         } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];

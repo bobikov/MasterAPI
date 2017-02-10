@@ -294,15 +294,20 @@
 		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
 		2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */; };
 		2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */; };
-		2BCAC3871E4BC33000830583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2BCAC3831E4BC33000830583 /* .gitignore */; };
-		2BCAC3881E4BC33000830583 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */; };
-		2BCAC3891E4BC33000830583 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAC3861E4BC33000830583 /* README.md */; };
+		2BCACB641E4DA1A400830583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2BCACB601E4DA1A400830583 /* .gitignore */; };
+		2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */; };
+		2BCACB661E4DA1A400830583 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB631E4DA1A400830583 /* README.md */; };
+		2BCACB6E1E4DA42D00830583 /* KBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB691E4DA42D00830583 /* KBButton.m */; };
+		2BCACB6F1E4DA42D00830583 /* KBButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */; };
+		2BCACB701E4DA42D00830583 /* NSColor+ColorExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
 		2BCBAA981E125A0D0083B95E /* ApiSourceSelectorItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */; };
 		2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCE662D1E07F2F500364A80 /* TasksCellView.m */; };
 		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
+		2BDB2B4A1E4DC3A00072B0B2 /* MXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB2B491E4DC3A00072B0B2 /* MXButton.m */; };
+		2BDB2B4C1E4DD4300072B0B2 /* placeholderImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 /* End PBXBuildFile section */
 
@@ -818,11 +823,20 @@
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
 		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
 		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
-		2BCAC3831E4BC33000830583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		2BCAC3841E4BC33000830583 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
-		2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
-		2BCAC3861E4BC33000830583 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2BCACAFD1E4C683C00830583 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "../../../../Library/Developer/Xcode/DerivedData/MasterAPI-cmxdptazauuemicvegxdmflpbxdn/Build/Products/Debug/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
+		2BCACB031E4CDAB100830583 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2BCACB051E4CDAB800830583 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		2BCACB071E4CDAFE00830583 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2BCACB601E4DA1A400830583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2BCACB611E4DA1A400830583 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
+		2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
+		2BCACB631E4DA1A400830583 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2BCACB681E4DA42D00830583 /* KBButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBButton.h; sourceTree = "<group>"; };
+		2BCACB691E4DA42D00830583 /* KBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBButton.m; sourceTree = "<group>"; };
+		2BCACB6A1E4DA42D00830583 /* KBButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBButtonCell.h; sourceTree = "<group>"; };
+		2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBButtonCell.m; sourceTree = "<group>"; };
+		2BCACB6C1E4DA42D00830583 /* NSColor+ColorExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+ColorExtensions.h"; sourceTree = "<group>"; };
+		2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+ColorExtensions.m"; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -833,6 +847,9 @@
 		2BCE662C1E07F2F500364A80 /* TasksCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksCellView.h; sourceTree = "<group>"; };
 		2BCE662D1E07F2F500364A80 /* TasksCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksCellView.m; sourceTree = "<group>"; };
 		2BCE662F1E095B7600364A80 /* queue1_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queue1_30.png; sourceTree = "<group>"; };
+		2BDB2B481E4DC3A00072B0B2 /* MXButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXButton.h; sourceTree = "<group>"; };
+		2BDB2B491E4DC3A00072B0B2 /* MXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXButton.m; sourceTree = "<group>"; };
+		2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholderImage.jpg; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
 		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -1015,7 +1032,10 @@
 		2B41FA251E02D3F50013AC86 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
-				2BCAC3821E4BC33000830583 /* NSImage-Resizing-master */,
+				2BDB2B481E4DC3A00072B0B2 /* MXButton.h */,
+				2BDB2B491E4DC3A00072B0B2 /* MXButton.m */,
+				2BCACB671E4DA42D00830583 /* KBButton */,
+				2BCACB5F1E4DA1A400830583 /* NSImage-Resizing-master */,
 				2B41FA261E02D3F50013AC86 /* HtmlParser */,
 				2B41FA501E02D3F50013AC86 /* RFOverlayScroller */,
 			);
@@ -1152,6 +1172,7 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */,
 				2B20F0201E47468500816124 /* masterapi_icon_about.png */,
 				2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */,
 				2B1914D11E2D043100FB714E /* to-down28.png */,
@@ -1736,6 +1757,9 @@
 		2B5946CC1D72B26100F3A93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2BCACB071E4CDAFE00830583 /* CoreGraphics.framework */,
+				2BCACB051E4CDAB800830583 /* Quartz.framework */,
+				2BCACB031E4CDAB100830583 /* QuartzCore.framework */,
 				2BCACAFD1E4C683C00830583 /* libSDWebImage.a */,
 				2B5946CA1D72B24D00F3A93D /* CoreData.framework */,
 				2B8FD92E1CF8225B002027ED /* WebKit.framework */,
@@ -1791,15 +1815,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2BCAC3821E4BC33000830583 /* NSImage-Resizing-master */ = {
+		2BCACB5F1E4DA1A400830583 /* NSImage-Resizing-master */ = {
 			isa = PBXGroup;
 			children = (
-				2BCAC3831E4BC33000830583 /* .gitignore */,
-				2BCAC3841E4BC33000830583 /* NSImage+Resizing.h */,
-				2BCAC3851E4BC33000830583 /* NSImage+Resizing.m */,
-				2BCAC3861E4BC33000830583 /* README.md */,
+				2BCACB601E4DA1A400830583 /* .gitignore */,
+				2BCACB611E4DA1A400830583 /* NSImage+Resizing.h */,
+				2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */,
+				2BCACB631E4DA1A400830583 /* README.md */,
 			);
 			path = "NSImage-Resizing-master";
+			sourceTree = "<group>";
+		};
+		2BCACB671E4DA42D00830583 /* KBButton */ = {
+			isa = PBXGroup;
+			children = (
+				2BCACB681E4DA42D00830583 /* KBButton.h */,
+				2BCACB691E4DA42D00830583 /* KBButton.m */,
+				2BCACB6A1E4DA42D00830583 /* KBButtonCell.h */,
+				2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */,
+				2BCACB6C1E4DA42D00830583 /* NSColor+ColorExtensions.h */,
+				2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */,
+			);
+			path = KBButton;
 			sourceTree = "<group>";
 		};
 		5121C3838560FE90FDF8F5FE /* Pods */ = {
@@ -1881,7 +1918,6 @@
 				2B41FCA81E02D3F70013AC86 /* CustomVideoCollectionItem.xib in Resources */,
 				2B41FC151E02D3F60013AC86 /* close3.png in Resources */,
 				2B41FC2D1E02D3F60013AC86 /* pressed_button.png in Resources */,
-				2BCAC3871E4BC33000830583 /* .gitignore in Resources */,
 				2B41FC0C1E02D3F60013AC86 /* audio_min.png in Resources */,
 				2B41FCCD1E02D3F70013AC86 /* Assets.xcassets in Resources */,
 				2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */,
@@ -1940,8 +1976,10 @@
 				2B41FC371E02D3F60013AC86 /* twitter2.png in Resources */,
 				2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */,
 				2B41FC2A1E02D3F60013AC86 /* plus.png in Resources */,
+				2BCACB641E4DA1A400830583 /* .gitignore in Resources */,
 				2B41FC281E02D3F60013AC86 /* photo_min.png in Resources */,
 				2B41FC191E02D3F60013AC86 /* docs1.png in Resources */,
+				2BDB2B4C1E4DD4300072B0B2 /* placeholderImage.jpg in Resources */,
 				2B41FC3F1E02D3F60013AC86 /* volume.png in Resources */,
 				2B41FC331E02D3F60013AC86 /* right.png in Resources */,
 				2B41FCB01E02D3F70013AC86 /* ViewControllerMenuItem.xib in Resources */,
@@ -2025,7 +2063,6 @@
 				2B41FC8C1E02D3F70013AC86 /* GroupsFromFileViewController.m in Sources */,
 				2B41FC801E02D3F70013AC86 /* FriendsStatGraphs.m in Sources */,
 				2B41FCB31E02D3F70013AC86 /* AddRepostGroupController.m in Sources */,
-				2BCAC3881E4BC33000830583 /* NSImage+Resizing.m in Sources */,
 				2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */,
 				2B41FBD31E02D3F60013AC86 /* VKPrefsInfo.m in Sources */,
 				2B41FC9A1E02D3F70013AC86 /* URLsViewController.m in Sources */,
@@ -2042,6 +2079,7 @@
 				2B41FC591E02D3F70013AC86 /* TwitterProfileController.m in Sources */,
 				2B41FCAC1E02D3F70013AC86 /* ShowVideoViewController.m in Sources */,
 				2B41FC951E02D3F70013AC86 /* customViewCollectionItem.m in Sources */,
+				2BDB2B4A1E4DC3A00072B0B2 /* MXButton.m in Sources */,
 				2B41FC7E1E02D3F70013AC86 /* FriendsMessageSendViewController.m in Sources */,
 				2B41FCA01E02D3F70013AC86 /* CustomSubscribersTableView.m in Sources */,
 				2B41FCBF1E02D3F70013AC86 /* YoutubeAddToPlaylistController.m in Sources */,
@@ -2050,6 +2088,7 @@
 				2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */,
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,
 				2B41FBE21E02D3F60013AC86 /* CustomView.m in Sources */,
+				2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */,
 				2B41FC571E02D3F60013AC86 /* TwitterLoginViewController.m in Sources */,
 				2B41FCAF1E02D3F70013AC86 /* ViewControllerMenuItem.m in Sources */,
 				2B41FCCA1E02D3F70013AC86 /* YoutubeVideosCustomCell.m in Sources */,
@@ -2068,6 +2107,7 @@
 				2B41FCC91E02D3F70013AC86 /* YoutubeVideosController.m in Sources */,
 				2B41FC721E02D3F70013AC86 /* DocsPersonalViewcontroller.m in Sources */,
 				2B41FC021E02D3F60013AC86 /* SmilesCollectionViewItem.m in Sources */,
+				2BCACB661E4DA1A400830583 /* README.md in Sources */,
 				2B41FC6E1E02D3F70013AC86 /* DialogsViewController.m in Sources */,
 				2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */,
 				2B41FCA11E02D3F70013AC86 /* SubscribersCustomCell.m in Sources */,
@@ -2093,6 +2133,7 @@
 				2B41FC9F1E02D3F70013AC86 /* StatusChangeViewController.m in Sources */,
 				2B41FC4B1E02D3F60013AC86 /* TumblrAvatar.m in Sources */,
 				2B41FC7A1E02D3F70013AC86 /* FavoritesGroupsController.m in Sources */,
+				2BCACB701E4DA42D00830583 /* NSColor+ColorExtensions.m in Sources */,
 				2B41FC861E02D3F70013AC86 /* FullGroupInfoViewController.m in Sources */,
 				2B41FC6F1E02D3F70013AC86 /* SelectedDialogCustomCellView.m in Sources */,
 				2B41FC8D1E02D3F70013AC86 /* GroupsViewController.m in Sources */,
@@ -2110,6 +2151,7 @@
 				2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */,
 				2B41FC731E02D3F70013AC86 /* DocsTabController.m in Sources */,
 				2B41FCA61E02D3F70013AC86 /* createNewVideoAlbumController.m in Sources */,
+				2BCACB6F1E4DA42D00830583 /* KBButtonCell.m in Sources */,
 				2B41FC5B1E02D3F70013AC86 /* appInfo.m in Sources */,
 				2B41FC891E02D3F70013AC86 /* GroupsCustomCellView.m in Sources */,
 				2B41FBEC1E02D3F60013AC86 /* MainViewController.m in Sources */,
@@ -2126,6 +2168,7 @@
 				2B41FBE81E02D3F60013AC86 /* InstagramRWD.m in Sources */,
 				2B41FCA51E02D3F70013AC86 /* VideoPrivacyViewController.m in Sources */,
 				2B41FCCC1E02D3F70013AC86 /* AppDelegate.m in Sources */,
+				2BCACB6E1E4DA42D00830583 /* KBButton.m in Sources */,
 				2B41FC961E02D3F70013AC86 /* MyPhotoWindowController.m in Sources */,
 				2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */,
 				2B41FC661E02D3F70013AC86 /* AudioPlaylist.m in Sources */,
@@ -2149,7 +2192,6 @@
 				2B41FBF01E02D3F60013AC86 /* HTMLDocument.m in Sources */,
 				2B41FC4F1E02D3F60013AC86 /* TumblrPostCell.m in Sources */,
 				2B41FC781E02D3F70013AC86 /* CustomFaveritesTableView.m in Sources */,
-				2BCAC3891E4BC33000830583 /* README.md in Sources */,
 				2B41FC001E02D3F60013AC86 /* RFOverlayScroller.m in Sources */,
 				2B41FC8B1E02D3F70013AC86 /* GroupsFromFileCustomCell.m in Sources */,
 				2B41FC741E02D3F70013AC86 /* DocsWallViewController.m in Sources */,

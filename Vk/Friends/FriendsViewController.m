@@ -11,6 +11,7 @@
 #import "FriendsStatController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface FriendsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -661,50 +662,45 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if ([FriendsData count]>0 && [FriendsData lastObject] && row <= [FriendsData count]) {
-       
+        
         FriendsCustomCellView *cell=[[FriendsCustomCellView alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.country.stringValue = FriendsData[row][@"country"];
         cell.city.stringValue = FriendsData[row][@"city" ];
         cell.fullName.stringValue = FriendsData[row][@"full_name"];
-//        cell.status.stringValue = FriendsData[row][@"status"];
+        //cell.status.stringValue = FriendsData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-       
+        
         cell.bdate.stringValue = FriendsData[row][@"bdate"];
         cell.lastSeen.stringValue = FriendsData[row][@"last_seen"];
         cell.sex.stringValue = FriendsData[row][@"sex"];
-        NSSize imSize=NSMakeSize(80, 80);
+        
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=40;
         cell.photo.layer.masksToBounds=TRUE;
-        if([cachedImage count]>0 && cachedImage[FriendsData[row]] && cachedStatus[FriendsData[row]]){
-            cell.photo.image=cachedImage[FriendsData[row]];
-            cell.status.attributedStringValue = cachedStatus[FriendsData[row]];
-        }else{
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                NSAttributedString *attrStatusString = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
-//                cachedStatus[FriendsData[row]]=attrStatusString;
-                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
-                imagePhoto.size=imSize;
-                cachedImage[FriendsData[row]] = imagePhoto;
-                dispatch_async(dispatch_get_main_queue(), ^{
-//                    cell.status.attributedStringValue = attrStatusString;
-                    [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
-                    [cell.photo setImage:imagePhoto];
-                });
-            });
-        }
-      
-
+        
+        
+        [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:FriendsData[row][@"user_photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            NSSize imSize=NSMakeSize(80, 80);
+            image.size=imSize;
+            [cell.photo setImage:image];
+        }];
+        
         if([FriendsData[row][@"online"] isEqual:@"1"]){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-//             cell.lastOnline.stringValue = @"";
+            //             cell.lastOnline.stringValue = @"";
         }
         else{
-//             cell.lastOnline.stringValue = FriendsData[row][@"last_seen"];
+            //             cell.lastOnline.stringValue = FriendsData[row][@"last_seen"];
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
         }
-       
+        
         return cell;
     }
     

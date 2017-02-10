@@ -8,6 +8,7 @@
 
 #import "GroupsViewController.h"
 #import "FullGroupInfoViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface GroupsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -435,14 +436,14 @@
         cell.groupImage.layer.masksToBounds=YES;
         cell.groupImage.layer.cornerRadius = 70/2;
   
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", groupsData[row][@"photo"]]]];
+
+        [cell.groupImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:groupsData[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSSize imSize=NSMakeSize(70, 70);
             image.size=imSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.groupImage setImage:image];
-            });
-        });
+            [cell.groupImage setImage:image];
+        }];
         return cell;
     }
     

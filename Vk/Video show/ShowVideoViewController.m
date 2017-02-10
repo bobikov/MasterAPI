@@ -21,7 +21,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+ 
     collectionViewListAlbums.dataSource=self;
     collectionViewListAlbums.delegate=self;
     searchBar.delegate=self;
@@ -41,7 +41,12 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 //    [collectionViewListAlbums registerNib:itemNib forItemWithIdentifier:@"ShowVideoItemPrototype"];
 //    [collectionViewListAlbums setItemPrototype:[self.storyboard instantiateControllerWithIdentifier:@"ShowVideoItemPrototype"]];
 //    [collectionViewListAlbums registerForDraggedTypes:@[@"KL_DRAG_TYPE"]];
-    cachedImage = [[NSMutableDictionary alloc]init];
+    [backToAlbums setKBButtonType:BButtonTypeDefault];
+//    backToAlbums.highlightColor=[NSColor redColor];
+//    backToAlbums.highlightTextColor=[NSColor whiteColor];
+//    backToAlbums.textColor=[NSColor blackColor];
+//    backToAlbums.cornerRadius=4;
+    
     [self loadFriends];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeObject:) name:@"removeObjectVideo" object:nil];

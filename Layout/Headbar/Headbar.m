@@ -30,7 +30,9 @@
     appIcon.layer.cornerRadius=30/2;
     appIcon.layer.masksToBounds=TRUE;
     isPlaying = NO;
-
+    [globalSearch setKBButtonType:BButtonTypePrimary];
+    [postButton setKBButtonType:BButtonTypePrimary];
+    [tasksButton setKBButtonType:BButtonTypeDefault];
 }
 -(void)viewWillAppear{
       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeControl:) name:@"audioVolume" object:nil];
@@ -266,6 +268,9 @@
             
         });
     }] resume];
+}
+- (IBAction)makePost:(id)sender {
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"post wall" object:self userInfo:@{@"currentSelectorName":@"vk"}];
 }
 
 -(void)setProfileImage:(NSNotification *)notification{

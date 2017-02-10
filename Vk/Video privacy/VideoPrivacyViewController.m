@@ -29,6 +29,8 @@
     foundData = [[NSMutableArray alloc]init];
     tempData = [[NSMutableArray alloc]init];
     _captchaHandler = [[VKCaptchaHandler alloc]init];
+//    videoAlbumsList.enclosingScrollView.wantsLayer=YES;
+//    videoAlbumsList.enclosingScrollView.layer.cornerRadius=6;
 }
 - (void)viewDidAppear{
     

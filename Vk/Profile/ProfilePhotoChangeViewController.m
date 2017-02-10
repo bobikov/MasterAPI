@@ -25,6 +25,7 @@
     currentPhoto.wantsLayer=YES;
     currentPhoto.layer.masksToBounds=YES;
     currentPhoto.layer.cornerRadius=4;
+    [uploadButton setKBButtonType:BButtonTypePrimary];
     [self loadGroupsByAdminPopup];
 }
 

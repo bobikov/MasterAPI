@@ -538,7 +538,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="bSb-7H-j3E">
-                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
+                                    <rect key="frame" x="0.0" y="-15" width="0.0" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="nZP-4O-5oQ">
@@ -547,7 +547,7 @@
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="5" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <font key="titleFont" metaFont="system"/>
@@ -620,11 +620,11 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="keh-bv-alp">
-                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
+                                    <rect key="frame" x="-8" y="-15" width="0.0" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="M50-W6-mdo">
-                                    <rect key="frame" x="-16" y="0.0" width="16" height="0.0"/>
+                                    <rect key="frame" x="-15" y="-8" width="15" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -799,7 +799,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="txR-tE-ZK8">
-                                    <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                                    <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="h35-of-pKQ" customClass="RFOverlayScroller">
@@ -1203,13 +1203,13 @@
                                             </constraints>
                                             <imageCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" alignment="left" id="our-UC-ryb"/>
                                         </imageView>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-FK-QPI">
-                                            <rect key="frame" x="20" y="32" width="84" height="32"/>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-FK-QPI" customClass="KBButton">
+                                            <rect key="frame" x="27" y="33" width="80" height="31"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="iPg-Lx-m2g"/>
-                                                <constraint firstAttribute="width" constant="72" id="urj-Xl-vqr"/>
+                                                <constraint firstAttribute="height" constant="31" id="iPg-Lx-m2g"/>
+                                                <constraint firstAttribute="width" constant="80" id="urj-Xl-vqr"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Iio-LU-AWh">
+                                            <buttonCell key="cell" type="square" title="Upload" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Iio-LU-AWh">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -1231,13 +1231,12 @@
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="fH1-Xf-RAC" secondAttribute="trailing" constant="192" id="2jO-iO-0Ax"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="9lg-xo-lTm" secondAttribute="trailing" constant="154" id="76K-P3-XNE"/>
                                         <constraint firstAttribute="trailing" secondItem="mAa-bU-XBd" secondAttribute="trailing" constant="165" id="8C8-Ag-viE"/>
-                                        <constraint firstItem="OIo-FK-QPI" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="26" id="FHb-hh-Yu2"/>
+                                        <constraint firstItem="OIo-FK-QPI" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="27" id="FHb-hh-Yu2"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="Yrn-dS-PD3" secondAttribute="trailing" constant="216" id="Gy6-LS-WK9"/>
                                         <constraint firstItem="fH1-Xf-RAC" firstAttribute="top" secondItem="9lg-xo-lTm" secondAttribute="bottom" constant="8" id="HQg-GE-syw"/>
-                                        <constraint firstItem="OIo-FK-QPI" firstAttribute="top" secondItem="NGR-QU-e0J" secondAttribute="bottom" constant="15" id="KAh-Pm-VMd"/>
+                                        <constraint firstItem="OIo-FK-QPI" firstAttribute="top" secondItem="NGR-QU-e0J" secondAttribute="bottom" constant="11" id="KAh-Pm-VMd"/>
                                         <constraint firstItem="wn3-JL-bcq" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="27" id="MSl-Nb-woZ"/>
                                         <constraint firstItem="9lg-xo-lTm" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="26" id="NSh-vU-gAA"/>
-                                        <constraint firstAttribute="trailing" secondItem="OIo-FK-QPI" secondAttribute="trailing" constant="429" id="Nw8-2a-3qo"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="wn3-JL-bcq" secondAttribute="trailing" constant="164" id="QGc-GD-GJ3"/>
                                         <constraint firstItem="NGR-QU-e0J" firstAttribute="top" secondItem="Yrn-dS-PD3" secondAttribute="bottom" constant="6" id="SVM-r2-ipj"/>
                                         <constraint firstItem="U97-lT-7Je" firstAttribute="leading" secondItem="thO-yO-RQh" secondAttribute="trailing" constant="95" id="WiQ-aa-JfJ"/>
@@ -1249,7 +1248,6 @@
                                         <constraint firstItem="mAa-bU-XBd" firstAttribute="top" secondItem="oiH-Xg-Qhs" secondAttribute="top" constant="24" id="esA-yd-alE"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3yn-qE-5VZ" secondAttribute="bottom" constant="14" id="imL-Bj-wN0"/>
                                         <constraint firstItem="thO-yO-RQh" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="26" id="j08-wQ-3hJ"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="OIo-FK-QPI" secondAttribute="bottom" constant="39" id="jfG-12-Psc"/>
                                         <constraint firstItem="thO-yO-RQh" firstAttribute="top" secondItem="oiH-Xg-Qhs" secondAttribute="top" constant="22" id="lS2-1E-rGf"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="top" secondItem="mAa-bU-XBd" secondAttribute="bottom" constant="7" id="mBn-5u-tt4"/>
                                         <constraint firstItem="mAa-bU-XBd" firstAttribute="leading" secondItem="U97-lT-7Je" secondAttribute="trailing" constant="22" id="nWx-5K-DVK"/>
@@ -1285,6 +1283,7 @@
                         <outlet property="progressSpin" destination="U97-lT-7Je" id="uFF-xP-9vd"/>
                         <outlet property="progressUploadBar" destination="fng-qN-xFg" id="f1Y-wc-YGf"/>
                         <outlet property="removeOld" destination="wn3-JL-bcq" id="gXu-iQ-15C"/>
+                        <outlet property="uploadButton" destination="OIo-FK-QPI" id="Ofp-pt-LTk"/>
                         <outlet property="uploadByURLCheck" destination="Yrn-dS-PD3" id="gHM-CH-BRo"/>
                         <outlet property="userGroupsByAdminPopup" destination="thO-yO-RQh" id="mcF-qK-1wE"/>
                         <outlet property="wraper" destination="3kb-g0-8bJ" id="aMl-eO-Bv7"/>
@@ -1623,7 +1622,7 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="HJZ-pg-BBY">
-                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                                                <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="8bf-CF-5qP">
@@ -1863,7 +1862,7 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Cih-DV-hl2">
-                                                <rect key="frame" x="1" y="-15" width="0.0" height="16"/>
+                                                <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="rxb-qw-S26" customClass="RFOverlayScroller">
