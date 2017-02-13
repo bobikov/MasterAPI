@@ -36,6 +36,15 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     cachedStatus = [[NSMutableDictionary alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromBanlist:) name:@"VisitUserPageFromBanlist" object:nil];
     _stringHighlighter = [[StringHighlighter alloc]init];
+//     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    banList.enclosingScrollView.wantsLayer = TRUE;
+    banList.enclosingScrollView.layer = layer;
+    
 }
 
 

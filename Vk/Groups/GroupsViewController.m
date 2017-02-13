@@ -9,6 +9,7 @@
 #import "GroupsViewController.h"
 #import "FullGroupInfoViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
 @interface GroupsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -33,7 +34,14 @@
     [self loadGroupsFromFile];
     groupsDataCopy = [[NSMutableArray alloc]init];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitGroupPageFromBanlist:) name:@"VisitGroupPageFromBanlist" object:nil];
- 
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    groupsList.enclosingScrollView.wantsLayer = TRUE;
+    groupsList.enclosingScrollView.layer = layer;
 }
 -(void)VisitGroupPageFromBanlist:(NSNotification*)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];

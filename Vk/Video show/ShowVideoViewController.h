@@ -19,50 +19,53 @@
     __weak IBOutlet NSButton *safeModeSearch;
     __weak IBOutlet NSCollectionView *collectionViewListAlbums;
     __weak IBOutlet NSSearchField *searchBar;
-    NSMutableArray *videoAlbums;
-     NSMutableArray *videoAlbumsCopy;
-    NSMutableArray *videoAlbums2;
-    NSMutableArray *photoInAlbumData;
-    BOOL albumLoaded;
-//    __weak IBOutlet NSButton *backToAlbums;
-    
-    __weak IBOutlet KBButton *backToAlbums;
-    NSString *selectedVideoURL;
-    NSString *selectedVideoTitle;
-    NSString *selectedVideoCover;
     __weak IBOutlet NSScrollView *scrollView;
-    NSInteger offset;
     __weak IBOutlet NSPopUpButton *groupsPopupList;
     __weak IBOutlet NSPopUpButton *albumsDropdownList;
     __weak IBOutlet NSSegmentedControl *searchSource;
-    
-//    NSMutableArray *finalSortedAlbums;
-    NSString *selectedAlbum;
-    NSString *countInAlbum;
+    //    NSMutableArray *finalSortedAlbums;
     __weak IBOutlet NSClipView *videoAlbumsClipView;
     __weak IBOutlet NSButton *totalCount;
     __weak IBOutlet NSButton *searchResultCount;
     __weak IBOutlet NSPopUpButton *friendsListDropdown;
-    NSMutableArray *friends;
-    NSString *friendId;
     __weak IBOutlet NSTextField *publicIdFromShow;
     __weak IBOutlet NSButton *showAlbumsFromButton;
-    NSString *publicIdFrom;
-    NSMutableArray *groupsPopupData;
+    //    __weak IBOutlet NSButton *backToAlbums;
+    __weak IBOutlet KBButton *backToAlbums;
     
-    BOOL loadForAttachments;
-    BOOL loadForVKAddToAlbum;
-    int selectedAlbumOffset;
-    BOOL searchGlobalMode;
-    BOOL searchUserVideoMode;
-    int offsetSearchCounter;
-    BOOL dragging;
+    NSMutableArray
+        *videoAlbums,
+        *videoAlbumsCopy,
+        *videoAlbums2,
+        *photoInAlbumData,
+        *indexPathss,
+        *groupsPopupData,
+        *friends;
+    NSString
+        *selectedVideoURL,
+        *selectedVideoTitle,
+        *selectedVideoCover,
+        *countInAlbum,
+        *selectedAlbum,
+        *friendId,
+        *publicIdFrom,
+        *nameSelectedObject;
+    BOOL
+        albumLoaded,
+        loadForAttachments,
+        loadForVKAddToAlbum,
+        searchGlobalMode,
+        searchUserVideoMode,
+        dragging;
+    int
+        selectedAlbumOffset,
+        offsetSearchCounter;
+    NSInteger
+        totalVideoInAlbum,
+        offset;
+    
     NSSet<NSIndexPath *> *indexPathsOfItemsBeingDragged;
-    NSMutableArray *indexPathss;
     ViewControllerMenuItem *viewControllerItem;
-    NSMutableDictionary *cachedImage;
-    NSString *nameSelectedObject;
-    NSInteger totalVideoInAlbum;
 }
 @property(nonatomic)appInfo *app;
 @property(strong) NSWindowController *myWinContr;

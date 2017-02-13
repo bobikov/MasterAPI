@@ -50,6 +50,14 @@
 //    [self setButtonStyle:mainSendMessage];
 //    [self setButtonStyle:deleteFromFriends];
 //    [self setButtonStyle:addToBlackList];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    FriendsTableView.enclosingScrollView.wantsLayer = TRUE;
+    FriendsTableView.enclosingScrollView.layer = layer;
 }
 -(void)loadFriendsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];

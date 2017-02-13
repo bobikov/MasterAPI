@@ -36,6 +36,14 @@
     _captchaHandler = [[VKCaptchaHandler alloc]init];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editDocs:) name:@"VKEditDocs" object:nil];
     [self setControlButtonsStoppedState];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    docsTableView.enclosingScrollView.wantsLayer = TRUE;
+    docsTableView.enclosingScrollView.layer = layer;
 }
 -(void)viewDidAppear{
      [self loadDocs];

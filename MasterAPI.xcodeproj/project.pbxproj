@@ -308,6 +308,10 @@
 		2BCE66301E095B7600364A80 /* queue1_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCE662F1E095B7600364A80 /* queue1_30.png */; };
 		2BDB2B4A1E4DC3A00072B0B2 /* MXButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDB2B491E4DC3A00072B0B2 /* MXButton.m */; };
 		2BDB2B4C1E4DD4300072B0B2 /* placeholderImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */; };
+		2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */; };
+		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
+		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
+		2BF10B921E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 /* End PBXBuildFile section */
 
@@ -850,6 +854,11 @@
 		2BDB2B481E4DC3A00072B0B2 /* MXButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXButton.h; sourceTree = "<group>"; };
 		2BDB2B491E4DC3A00072B0B2 /* MXButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXButton.m; sourceTree = "<group>"; };
 		2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholderImage.jpg; sourceTree = "<group>"; };
+		2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_color_icon_1.png; sourceTree = "<group>"; };
+		2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_color_icon_1.png; sourceTree = "<group>"; };
+		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
+		2BF10B901E4F7AE800FA7B86 /* NSString+MyNSStringCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MyNSStringCategory.h"; sourceTree = "<group>"; };
+		2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MyNSStringCategory.m"; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
 		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -1172,6 +1181,9 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */,
+				2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */,
+				2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */,
 				2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */,
 				2B20F0201E47468500816124 /* masterapi_icon_about.png */,
 				2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */,
@@ -1500,6 +1512,8 @@
 				2B41FB1D1E02D3F50013AC86 /* FavoritesUsersViewController.m */,
 				2B1914DB1E2E466800FB714E /* CreateFavesGroupController.h */,
 				2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */,
+				2BF10B901E4F7AE800FA7B86 /* NSString+MyNSStringCategory.h */,
+				2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -1909,6 +1923,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B41FCD51E03E61E0013AC86 /* Fifth.storyboard in Resources */,
+				2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */,
 				2B1914C91E28FC5900FB714E /* SearchGroupsCellView.xib in Resources */,
 				2B41FC3D1E02D3F60013AC86 /* video_min.png in Resources */,
 				2B1914CE1E2CF79000FB714E /* back-to-top.png in Resources */,
@@ -1965,6 +1980,7 @@
 				2B41FC421E02D3F60013AC86 /* video-js.css in Resources */,
 				2B41FC2B1E02D3F60013AC86 /* plus15px.png in Resources */,
 				2B41FC141E02D3F60013AC86 /* close15px2.png in Resources */,
+				2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */,
 				2B41FC181E02D3F60013AC86 /* dino_boys.png in Resources */,
 				2B41FC431E02D3F60013AC86 /* video.js in Resources */,
 				2B41FC071E02D3F60013AC86 /* Third.storyboard in Resources */,
@@ -1991,6 +2007,7 @@
 				2BCE66301E095B7600364A80 /* queue1_30.png in Resources */,
 				2B41FC0D1E02D3F60013AC86 /* banned.png in Resources */,
 				2B41FC341E02D3F60013AC86 /* smiles_min1.png in Resources */,
+				2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */,
 				2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */,
 				2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */,
 				2B41FC211E02D3F60013AC86 /* link1_15px.png in Resources */,
@@ -2203,6 +2220,7 @@
 				2B41FC941E02D3F70013AC86 /* CreateNewAlbumController.m in Sources */,
 				2B41FC4D1E02D3F60013AC86 /* TumblrFollowing.m in Sources */,
 				2B41FBF61E02D3F60013AC86 /* HTMLOrderedDictionary.m in Sources */,
+				2BF10B921E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m in Sources */,
 				2B41FCD31E03E59E0013AC86 /* TasksViewController.m in Sources */,
 				2B41FC7F1E02D3F70013AC86 /* FriendsStatController.m in Sources */,
 				2B41FCBD1E02D3F70013AC86 /* YoutubeClient.m in Sources */,

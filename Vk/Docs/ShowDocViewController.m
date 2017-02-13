@@ -24,6 +24,7 @@
 //    [self.view.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
 
      NSLog(@"%@", _receivedData);
+    
 }
 -(void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleVisible;

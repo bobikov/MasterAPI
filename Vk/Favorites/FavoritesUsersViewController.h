@@ -16,8 +16,6 @@
     __weak IBOutlet NSButton *deleteFromFaves;
     __weak IBOutlet NSButton *addToBun;
     __weak IBOutlet NSTableView *favesUsersList;
-    NSMutableArray *favesUsersData;
-    NSMutableArray *favesUsersDataCopy;
     __weak IBOutlet NSSearchField *searchBar;
     __weak IBOutlet NSButton *filterActive;
     __weak IBOutlet NSButton *filterOnline;
@@ -25,28 +23,25 @@
     __weak IBOutlet NSButton *filterWomen;
     __weak IBOutlet NSButton *filterMen;
     __weak IBOutlet NSButton *searchCount;
-    NSMutableArray *selectedUsers;
     __weak IBOutlet NSProgressIndicator *progressSpin;
-    NSDictionary *receiverDataForMessage;
-    NSMutableArray *favesUsersTemp;
     __weak IBOutlet NSClipView *favesClipView;
     __weak IBOutlet NSScrollView *favesScrollView;
-    NSInteger offsetLoadFaveUsers;
-    NSInteger offsetCounter;
     __weak IBOutlet NSButton *showFavesUsersStatBut;
-    StringHighlighter *stringHighlighter;
-    NSInteger totalCount;
-    BOOL loading;
-    BOOL loadFromUserGroup;
     __weak IBOutlet NSPopUpButton *favesUserGroups;
-    
     __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
+    __weak IBOutlet NSButton *loadedCount;
+    __weak IBOutlet NSButton *totalCountLabel;
     
+    StringHighlighter *stringHighlighter;
+    NSInteger offsetLoadFaveUsers,offsetCounter,totalCount;
+    NSDictionary *receiverDataForMessage;
+    NSMutableArray *favesUsersData,*favesUsersDataCopy,*favesUsersTemp,*selectedUsers;
     NSManagedObjectContext *moc;
     NSString *userFavesNewGroupName;
     NSMutableArray *restoredUserIDs;
-    __weak IBOutlet NSButton *loadedCount;
-    __weak IBOutlet NSButton *totalCountLabel;
+    
+    BOOL loading;
+    BOOL loadFromUserGroup;
 }
 
 @property(nonatomic, readwrite)appInfo *app;

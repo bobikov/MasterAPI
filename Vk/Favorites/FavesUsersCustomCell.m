@@ -9,7 +9,9 @@
 #import "FavesUsersCustomCell.h"
 
 @implementation FavesUsersCustomCell
-
+-(void)awakeFromNib{
+//    [_profile setKBButtonType:BButtonTypeSimple];
+}
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     

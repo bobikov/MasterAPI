@@ -16,6 +16,7 @@ typedef enum {
     BButtonTypeWarning,
     BButtonTypeDanger,
     BButtonTypeInverse,
+    BButtonTypeSimple,
 } BButtonType;
 
 @interface KBButtonCell : NSButtonCell {

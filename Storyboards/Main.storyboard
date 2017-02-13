@@ -312,7 +312,7 @@
                 <controllerPlaceholder storyboardName="Fifth" referencedIdentifier="AboutCustom" id="p36-Cd-bJ2" sceneMemberID="viewController"/>
                 <customObject id="MXt-e2-b64" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-391" y="65"/>
+            <point key="canvasLocation" x="-336" y="94"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -2276,7 +2276,7 @@ Gw
                                         </scrollView>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DAt-Ep-043">
                                             <rect key="frame" x="516" y="448" width="20" height="20"/>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="photo_min" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="UEy-ay-KPU">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="photo_color_icon_1" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="UEy-ay-KPU">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system" size="10"/>
                                             </buttonCell>
@@ -2285,8 +2285,8 @@ Gw
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rtI-51-P9o">
-                                            <rect key="frame" x="540" y="448" width="20" height="20"/>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="video_min" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Fif-W5-Cj1">
+                                            <rect key="frame" x="540" y="448" width="20" height="17"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="video_color_icon_1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Fif-W5-Cj1">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -2525,8 +2525,8 @@ Gw
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="9qR-a3-bX4"/>
                                         </imageView>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PdZ-gV-MtY">
-                                            <rect key="frame" x="490" y="448" width="20" height="20"/>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="docs1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="A6x-Nj-AHc">
+                                            <rect key="frame" x="490" y="448" width="20" height="18"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="docs_color_icon_1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="A6x-Nj-AHc">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -5337,11 +5337,11 @@ Gw
         <image name="close15px2" width="18" height="19"/>
         <image name="close3" width="1024" height="1024"/>
         <image name="close5" width="330" height="328"/>
-        <image name="docs1" width="256" height="256"/>
+        <image name="docs_color_icon_1" width="55" height="69"/>
         <image name="left" width="97" height="98"/>
         <image name="logo_messages" width="328" height="294"/>
         <image name="next" width="227" height="243"/>
-        <image name="photo_min" width="30" height="24"/>
+        <image name="photo_color_icon_1" width="72" height="59"/>
         <image name="play" width="218" height="236"/>
         <image name="prev" width="228" height="243"/>
         <image name="queue1_30" width="30" height="30"/>
@@ -5352,7 +5352,7 @@ Gw
         <image name="to-down28" width="28" height="28"/>
         <image name="to-top28" width="28" height="28"/>
         <image name="verified_2" width="90" height="90"/>
-        <image name="video_min" width="30" height="23"/>
+        <image name="video_color_icon_1" width="70" height="68"/>
         <image name="volume" width="95" height="140"/>
     </resources>
     <inferredMetricsTieBreakers>

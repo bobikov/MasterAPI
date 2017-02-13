@@ -9,6 +9,7 @@
 #import "WallRepostViewController.h"
 #import "WallRepostGroupsCustomCellView.h"
 #import "AddRepostGroupController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface WallRepostViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -462,13 +463,13 @@
             cell.groupPhoto.layer.masksToBounds=YES;
             cell.groupPhoto.layer.cornerRadius=38/2;
           
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", groupsData1[row][@"photo"]]]];
-                  imagePhoto.size=NSMakeSize(38, 38);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.groupPhoto setImage:imagePhoto];
-                });
-            });
+            [cell.groupPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString: groupsData1[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                image.size=NSMakeSize(38, 38);
+                [cell.groupPhoto setImage:image];
+            }];
+            
             return cell;
         }
     }
@@ -480,15 +481,16 @@
             cell.groupPhoto.wantsLayer=YES;
             cell.groupPhoto.layer.masksToBounds=YES;
             cell.groupPhoto.layer.cornerRadius=38/2;;
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", groupsData2[row][@"photo"]]]];
-                imagePhoto.size=NSMakeSize(38, 38);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.groupPhoto setImage:imagePhoto];
-                });
-            });
             cell.groupName.stringValue=groupsData2[row][@"name"];
+            
+            [cell.groupPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:groupsData2[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                image.size=NSMakeSize(38, 38);
+                [cell.groupPhoto setImage:image];
+            }];
+           
+            
             return cell;
         }
     }

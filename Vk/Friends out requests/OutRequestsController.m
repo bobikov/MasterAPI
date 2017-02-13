@@ -9,6 +9,7 @@
 #import "OutRequestsController.h"
 #import "FullUserInfoPopupViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 -(void)getRequests:(OnGetRequestsComplete)completion;
@@ -27,6 +28,14 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     _stringHighlighter = [[StringHighlighter alloc]init];
     cachedStatus = [[NSMutableDictionary alloc]init];
     cachedImage = [[NSMutableDictionary alloc]init];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    outRequestsList.enclosingScrollView.wantsLayer = TRUE;
+    outRequestsList.enclosingScrollView.layer = layer;
 }
 -(void)viewDidAppear{
     [self loadOutRequests:NO];

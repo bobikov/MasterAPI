@@ -10,6 +10,7 @@
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -32,13 +33,25 @@
     selectedUsers = [[NSMutableArray alloc]init];
     _stringHighlighter = [[StringHighlighter alloc]init];
     [friendsListPopup removeAllItems];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    subscribersList.enclosingScrollView.wantsLayer = TRUE;
+    subscribersList.enclosingScrollView.layer = layer;
+    
+    
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromSubscribers:) name:@"VisitUserPageFromSubscribers" object:nil];
     [self loadSubscribersPopup];
+    
 }
 - (void)viewDidAppear{
     [self loadSubscribers:NO :NO];
+    
     
 }
 - (void)viewDidScroll:(NSNotification *)notification{

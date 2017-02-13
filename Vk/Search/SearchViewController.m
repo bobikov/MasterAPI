@@ -10,6 +10,9 @@
 #import "FullUserInfoPopupViewController.h"
 #import "SearchGroupsCellView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <EventKit/EventKit.h>
+
+
 @interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate,NSComboBoxDelegate>
 
 @end
@@ -20,15 +23,12 @@
     foundList.delegate = self;
     foundList.dataSource = self;
     searchBar.delegate = self;
-  
-    cachedImage = [[NSMutableDictionary alloc]init];
-    cachedStatus = [[NSMutableDictionary alloc]init];
     foundListData = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     [addBut setEnabled:NO];
     countries = [[NSMutableArray alloc]init];
     cities = [[NSMutableArray alloc]init];
-
+    [searchWithParamsButton setKBButtonType:BButtonTypePrimary];
     NSNib *nib = [[NSNib alloc] initWithNibNamed:@"SearchGroupsCellView" bundle:nil];
     [foundList registerNib:nib forIdentifier: @"SearchGroupsCellView"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPage:) name:@"VisitUserPage" object:nil];
@@ -42,7 +42,20 @@
     [religionsList removeAllItems];
     [self loadCountries];
     [self loadReligions];
- 
+//    EKEventStore *store =[[EKEventStore alloc]init];
+//    [store calendarsForEntityType:EKEntityTypeEvent];
+//    NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+//    dayComponent.day = 1;
+//    
+//    NSCalendar *theCalendar = [NSCalendar currentCalendar];
+//    NSDate *nextDate = [theCalendar dateByAddingComponents:dayComponent toDate:[NSDate date] options:0];
+//    
+//    NSLog(@"nextDate: %@ ...", nextDate);
+    
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"testValue":@"test value"}];
+    
+//    [[NSUserDefaults standardUserDefaults] setObject:@{@"apps":@[@{@"app1":@{@"token":@"token app1"}}]} forKey:@"testValue"];
+//    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation] );
 }
 -(void)controlTextDidChange:(NSNotification *)obj{
  
@@ -156,8 +169,6 @@
             [self loadPeople:NO useParams:useParams];
             break;
     }
-
-
 }
 - (void)loadCountries{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/database.getCountries?need_all=1&count=1000&access_token=%@&v=%@", _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -169,7 +180,6 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [countriesList addItemWithObjectValue:i[@"title"]];
                 });
-                
             }
         }
     }]resume];
@@ -197,7 +207,7 @@
 - (IBAction)searchWithParams:(id)sender {
     usedParams=YES;
     countryID = nil;
-    countryID = ![countriesList.stringValue isEqual:@""]  ? countries[[countriesList indexOfSelectedItem]] : nil;
+    countryID = ![countriesList.stringValue isEqual:@""] && countriesList.stringValue!=nil ? countries[[countriesList indexOfSelectedItem]] : nil;
     [self loadResults:YES];
 }
 - (void)addUserToFaves:(NSNotification*)notification{
@@ -300,10 +310,7 @@
                 popuper.receivedData = object;
 //                NSLog(@"%@", object);
                 [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
-                
             });
-
-            
         }
     }]resume];
 }
@@ -357,7 +364,7 @@
         paramsComponents.queryItems = mutableParams;
         NSLog(@"%@", paramsComponents.query);
         NSLog(@"%@", mutableParams);
-        NSLog(@"%@", countryParam);
+//        NSLog(@"%@", countryParam);
         url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@", [paramsComponents.query stringByAppendingString:@"&"], searchOffsetCounter, _app.version, _app.token];
     
     }else{
@@ -562,7 +569,6 @@
 
 
 
-
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     
@@ -579,9 +585,7 @@
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         if(searchType.selectedSegment==1){
             CustomSearchCell *cell = (CustomSearchCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
-            cell.photo.wantsLayer=YES;
-            cell.photo.layer.cornerRadius=60/2;
-            cell.photo.layer.masksToBounds=YES;
+         
             if( [foundListData[row][@"blacklisted"] intValue] ||  [foundListData[row][@"blacklisted_by_me"] intValue]) {
                 cell.blacklisted.hidden=NO;
             }else{
@@ -594,8 +598,10 @@
             cell.age.stringValue = foundListData[row][@"bdate"];
             cell.city.stringValue = foundListData[row][@"city"];
             cell.name.stringValue = foundListData[row][@"full_name"];
+            cell.photo.wantsLayer=YES;
+            cell.photo.layer.cornerRadius=60/2;
+            cell.photo.layer.masksToBounds=YES;
             //cell.fieldId.stringValue = [NSString stringWithFormat:@"%@", foundListData[row][@"id"]];
-           
             [_stringHighlighter highlightStringWithURLs:foundListData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
                 cell.userStatus.attributedStringValue = highlightedString;
             }];
@@ -604,8 +610,10 @@
             [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 
             } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                NSSize imSize=NSMakeSize(60, 60);
-                image.size=imSize;
+
+//                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(60,60);
+                image.size=imageSize;
                 [cell.photo setImage:image];
             }];
             
@@ -623,7 +631,6 @@
             cell.groupAvatar.layer.masksToBounds=YES;
             cell.groupName.stringValue = foundListData[row][@"name"];
             cell.groupCountry.stringValue = foundListData[row][@"country"];
-            
             [cell.groupAvatar sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:foundListData[row][@"photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 
             } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {

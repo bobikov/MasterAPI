@@ -15,7 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Quartz/Quartz.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import "NSString+MyNSStringCategory.h"
 
 
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
@@ -51,15 +51,18 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
     [favesUserGroups removeAllItems];
     
-    NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    
+    
+//    NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
     CAShapeLayer * layer = [CAShapeLayer layer];
     
-    
-    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     favesScrollView.wantsLayer = TRUE;
-    favesScrollView.layer.mask = layer;
+    favesScrollView.layer = layer;
     
-    
+   
 }
 
 - (void)viewDidAppear{
@@ -944,7 +947,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 //        NSSize imSize=NSMakeSize(80, 80);
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=40;
-        cell.photo.layer.masksToBounds=TRUE;
+        cell.photo.layer.masksToBounds=YES;
         cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
         if([favesUsersData[row][@"deactivated"] isEqual:@""]){
             cell.deactivatedStatus.hidden=YES;

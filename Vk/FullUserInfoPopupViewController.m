@@ -11,6 +11,7 @@
 #import "ShowPhotoViewController.h"
 #import "FriendsViewController.h"
 #import "SubscribersViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface FullUserInfoPopupViewController ()
 
 @end
@@ -23,8 +24,7 @@
     profilePhoto.wantsLayer=YES;
     profilePhoto.layer.cornerRadius=8;
     profilePhoto.layer.masksToBounds=YES;
-     _stringHighlighter = [[StringHighlighter alloc]init];
-    
+    _stringHighlighter = [[StringHighlighter alloc]init];
 //    NSLog(@"%@",_receivedData);
     [self loadUserInfo];
 
@@ -178,20 +178,16 @@
     }
     [_receivedData[@"verified"] intValue]==1 ? [verified setImage:[NSImage imageNamed:@"verified_2.png"]] : nil;
 //    NSLog(@"%@", _receivedData);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", _receivedData[@"user_photo_big"]]]];
-        NSLog(@"%.0fx%.0f", image.size.width, image.size.height);
+
+    [profilePhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", _receivedData[@"user_photo_big"]]] completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         NSImageRep *rep = [[image representations] objectAtIndex:0];
         NSSize imageSize = NSMakeSize((CGFloat)rep.pixelsWide, (CGFloat)rep.pixelsHigh);
         image.size=imageSize;
-        NSLog(@"%.0fx%.0f", image.size.width, image.size.height);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [profilePhoto setImage:image];
-            [imageProgress stopAnimation:self];
-            imageProgress.hidden=YES;
-        });
-        
-    });
+         NSLog(@"%.0fx%.0f", image.size.width, image.size.height);
+        [profilePhoto setImage:image];
+        [imageProgress stopAnimation:self];
+        imageProgress.hidden=YES;
+    }];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_id=%@&fields=counters&access_token=%@&v=%@", _receivedData[@"id"], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if(data){
