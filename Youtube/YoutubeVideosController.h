@@ -29,6 +29,7 @@
     NSString *videoVkURL;
     NSDictionary *videoVkData;
     NSDictionary *dataForPlayer;
+    NSString *playlistID;
     BOOL playlistLoaded;
     int subsOffsetCounter;
     __weak IBOutlet NSScrollView *subscriptionsScroll;

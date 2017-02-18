@@ -286,9 +286,12 @@
 		2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD61E0428CB0013AC86 /* Header.xib */; };
 		2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */; };
 		2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */; };
+		2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B462FE91E5481910022E039 /* APIClientsProtocol.m */; };
 		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
+		2BB36A331E58496600764C6E /* video_placeholder-500x400.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A311E58496500764C6E /* video_placeholder-500x400.png */; };
+		2BB36A341E58496600764C6E /* video-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A321E58496500764C6E /* video-placeholder.png */; };
 		2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */; };
 		2BB8DD7D1E22BEED003E975A /* TasksVKStatusCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */; };
 		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
@@ -815,11 +818,15 @@
 		2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesHeaderView.m; sourceTree = "<group>"; };
 		2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramSearchByTagController.h; sourceTree = "<group>"; };
 		2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramSearchByTagController.m; sourceTree = "<group>"; };
+		2B462FE81E5481910022E039 /* APIClientsProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIClientsProtocol.h; path = Youtube/APIClientsProtocol.h; sourceTree = "<group>"; };
+		2B462FE91E5481910022E039 /* APIClientsProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIClientsProtocol.m; path = Youtube/APIClientsProtocol.m; sourceTree = "<group>"; };
 		2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramFeedViewController.h; sourceTree = "<group>"; };
 		2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramFeedViewController.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BB36A311E58496500764C6E /* video_placeholder-500x400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video_placeholder-500x400.png"; sourceTree = "<group>"; };
+		2BB36A321E58496500764C6E /* video-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-placeholder.png"; sourceTree = "<group>"; };
 		2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksVKStatusView.xib; sourceTree = "<group>"; };
 		2BB8DD7B1E22BEED003E975A /* TasksVKStatusCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksVKStatusCellView.h; sourceTree = "<group>"; };
 		2BB8DD7C1E22BEED003E975A /* TasksVKStatusCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksVKStatusCellView.m; sourceTree = "<group>"; };
@@ -1181,6 +1188,7 @@
 		2B41FA651E02D3F50013AC86 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				2BB36A301E58494400764C6E /* placeholders */,
 				2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */,
 				2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */,
 				2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */,
@@ -1244,7 +1252,6 @@
 				2B41FA951E02D3F50013AC86 /* upload15px.png */,
 				2B41FA961E02D3F50013AC86 /* verified_2.png */,
 				2B41FA971E02D3F50013AC86 /* video.png */,
-				2B41FA981E02D3F50013AC86 /* video_album_def1.png */,
 				2B41FA991E02D3F50013AC86 /* video_min.png */,
 				2B41FA9A1E02D3F50013AC86 /* vkontakte.png */,
 				2B41FA9B1E02D3F50013AC86 /* volume.png */,
@@ -1806,6 +1813,8 @@
 				2B41FBC71E02D3F60013AC86 /* AppDelegate.h */,
 				2B41FBC81E02D3F60013AC86 /* AppDelegate.m */,
 				2B41FBC91E02D3F60013AC86 /* Assets.xcassets */,
+				2B462FE81E5481910022E039 /* APIClientsProtocol.h */,
+				2B462FE91E5481910022E039 /* APIClientsProtocol.m */,
 				2B41FBCA1E02D3F60013AC86 /* Info.plist */,
 				2B41FBCB1E02D3F60013AC86 /* main.m */,
 				2B20F0111E47144200816124 /* AboutAppViewController.h */,
@@ -1827,6 +1836,16 @@
 				2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2BB36A301E58494400764C6E /* placeholders */ = {
+			isa = PBXGroup;
+			children = (
+				2B41FA981E02D3F50013AC86 /* video_album_def1.png */,
+				2BB36A311E58496500764C6E /* video_placeholder-500x400.png */,
+				2BB36A321E58496500764C6E /* video-placeholder.png */,
+			);
+			name = placeholders;
 			sourceTree = "<group>";
 		};
 		2BCACB5F1E4DA1A400830583 /* NSImage-Resizing-master */ = {
@@ -1928,6 +1947,7 @@
 				2B41FC3D1E02D3F60013AC86 /* video_min.png in Resources */,
 				2B1914CE1E2CF79000FB714E /* back-to-top.png in Resources */,
 				2B41FC1A1E02D3F60013AC86 /* docs10.png in Resources */,
+				2BB36A331E58496600764C6E /* video_placeholder-500x400.png in Resources */,
 				2B41FC301E02D3F60013AC86 /* remove15px.png in Resources */,
 				2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */,
 				2B41FCA81E02D3F70013AC86 /* CustomVideoCollectionItem.xib in Resources */,
@@ -1980,6 +2000,7 @@
 				2B41FC421E02D3F60013AC86 /* video-js.css in Resources */,
 				2B41FC2B1E02D3F60013AC86 /* plus15px.png in Resources */,
 				2B41FC141E02D3F60013AC86 /* close15px2.png in Resources */,
+				2BB36A341E58496600764C6E /* video-placeholder.png in Resources */,
 				2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */,
 				2B41FC181E02D3F60013AC86 /* dino_boys.png in Resources */,
 				2B41FC431E02D3F60013AC86 /* video.js in Resources */,
@@ -2181,6 +2202,7 @@
 				2B41FC691E02D3F70013AC86 /* BanlistCustomCell.m in Sources */,
 				2B41FBED1E02D3F60013AC86 /* SidebarOutlineViewController.m in Sources */,
 				2B41FC831E02D3F70013AC86 /* OutRequestsController.m in Sources */,
+				2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */,
 				2B41FBD81E02D3F60013AC86 /* CustomAnimator.m in Sources */,
 				2B41FBE81E02D3F60013AC86 /* InstagramRWD.m in Sources */,
 				2B41FCA51E02D3F70013AC86 /* VideoPrivacyViewController.m in Sources */,

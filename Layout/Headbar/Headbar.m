@@ -7,7 +7,11 @@
 //
 
 #import "Headbar.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "TwitterClient.h"
+#import "YoutubeClient.h"
+#import "TumblrClient.h"
+#import "InstagramClient.h"
 @interface Headbar () <AVAudioPlayerDelegate>
 
 @end
@@ -16,10 +20,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    protocol =[[APIClientsProtocol alloc]init];
     playlist = [[NSMutableDictionary alloc]init];
+    appPhotoURLs = [[NSMutableDictionary alloc]init];
     _app = [[appInfo alloc]init];
-    [self loadMainInfo];
+    [self loadVKMainInfo];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setProfileImage:) name:@"loadProfileImage" object:nil];
     
   
@@ -34,7 +39,7 @@
     [postButton setKBButtonType:BButtonTypePrimary];
     [tasksButton setKBButtonType:BButtonTypeDefault];
 }
--(void)viewWillAppear{
+- (void)viewWillAppear{
       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeControl:) name:@"audioVolume" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"PlayPause" object:nil];
 }
@@ -42,13 +47,13 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ShowTasksManager" object:nil];
 }
 
--(void)volumeControl:(NSNotification *)notification{
+- (void)volumeControl:(NSNotification *)notification{
     double vol = [notification.userInfo[@"volume"] doubleValue];
     [_player setVolume:vol];
 //    NSLog(@"%f", [_player volume]);
 //    NSLog(@"%f", vol);
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"VolumeAudioSegue"]){
         VolumeView *controller = (VolumeView *)segue.destinationController;
         NSDictionary *dataVolumeToController = @{@"c_volume":@([_player volume])};
@@ -81,7 +86,7 @@
     NSLog(@"%@", playlist[@"currentRow"]);
     [self PlayControl:playlist[@"playlist"][[newCurrentRow intValue]] :NO :YES];
 }
--(void)display:(NSNotification *)notification{
+- (void)display:(NSNotification *)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
     [self PlayControl:notification.userInfo[@"playlist"][row] :NO :NO];
     [playlist setObject:notification.userInfo[@"row"] forKey:@"currentRow"];
@@ -115,7 +120,7 @@
     }
 }
 
--(void)PlayControl:(id)contentData :(BOOL)pause :(BOOL)switchTrack{
+- (void)PlayControl:(id)contentData :(BOOL)pause :(BOOL)switchTrack{
     NSString *url;
     NSString *duration;
     if(!isPlaying && !switchTrack && !pause){
@@ -212,68 +217,151 @@
     [_player setVolume:0.2];
     
 }
--(void)setButtonStyle:(id)button{
+- (void)setButtonStyle:(id)button{
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
     NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:[button title] attributes:attrsDictionary];
     [button setAttributedTitle:attrString];
 }
--(void)loadMainInfo{
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,nickname&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(error){
-            NSLog(@"dataTaskWithUrl error: %@", error);
-            return;
+-(void)loadInstagramInfo{
+    if(appPhotoURLs[@"instagram"]){
+        [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+        mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
+    }else{
+        InstagramClient *client = [[InstagramClient alloc]init];
+        [client getUserInfo:^(NSData *userInfoData) {
+            NSDictionary *userDataResp = [NSJSONSerialization JSONObjectWithData:userInfoData options:0 error:nil];
+            appPhotoURLs[@"instagram"] = @{@"photo":[NSURL URLWithString:userDataResp[@"user"][@"profile_pic_url"]], @"name":userDataResp[@"user"][@"username"]};
+            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+            mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
+            NSLog(@"%@",userDataResp);
+        }];
+    }
+}
+- (void)loadTwitterInfo{
+    if(appPhotoURLs[@"twitter"]){
+        [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"twitter"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+        mainProfilePhoto.toolTip=appPhotoURLs[@"twitter"][@"name"];
+    }else{
+        TwitterClient *client = [[TwitterClient alloc]initWithTokensFromCoreData];
+        [client APIRequest:@"account" rmethod:@"verify_credentials.json" query:@{} handler:^(NSData *data) {
+            NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", resp);
+            appPhotoURLs[@"twitter"] = @{@"photo":[NSURL URLWithString:resp[@"profile_image_url"] ], @"name":resp[@"name"]};
+            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"twitter"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+            mainProfilePhoto.toolTip = appPhotoURLs[@"twitter"][@"name"];
+            
+        }];
+    }
+}
+- (void)loadVKMainInfo{
+    if(appPhotoURLs[@"vk"]){
+        
+        NSLog(@"%@",appPhotoURLs[@"vk"] );
+        if(appPhotoURLs[@"vk"][@"photo"]){
+            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"vk"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
         }
-        else{
-            
-            
+        if(appPhotoURLs[@"vk"][@"name"]){
+     
+            mainProfilePhoto.toolTip=appPhotoURLs[@"vk"][@"name"];
         }
-        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-            
-            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-            
-            if (statusCode != 200) {
-                NSLog(@"dataTaskWithRequest HTTP status code: %lu", statusCode);
+    }else{
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,nickname&v=%@&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(error){
+                NSLog(@"dataTaskWithUrl error: %@", error);
                 return;
             }
             else{
                 
                 
             }
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                
+                if (statusCode != 200) {
+                    NSLog(@"dataTaskWithRequest HTTP status code: %lu", statusCode);
+                    return;
+                }
+                else{
+                    
+                    
+                }
+                
+                
+            }
+            NSString *resStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSDictionary *mainUserInfoResponse = [NSJSONSerialization JSONObjectWithData:[resStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
             
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                appPhotoURLs[@"vk"]=@{@"photo":[NSURL URLWithString:[NSString stringWithFormat:@"%@", mainUserInfoResponse[@"response"][0][@"photo_100"]]],@"name":[NSString stringWithFormat:@"%@ %@", mainUserInfoResponse[@"response"][0][@"first_name"], mainUserInfoResponse[@"response"][0][@"last_name"]]};
             
-        }
-
-        NSDictionary *mainUserInfoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-       
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image;
-            image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", mainUserInfoResponse[@"response"][0][@"photo_100"]]]];
-   
-//            NSSize imSize=NSMakeSize(66, 66);
-            
-//            image.size=imSize;
-            NSImageRep *rep = [[image representations] objectAtIndex:0];
-            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-            image.size=imageSize;
-            [mainProfilePhoto setImageScaling:NSImageScaleProportionallyUpOrDown];
-            [mainProfilePhoto setImage:image];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                mainProfilePhoto.wantsLayer=YES;
-                mainProfilePhoto.layer.cornerRadius=30/2;
-                mainProfilePhoto.layer.masksToBounds=TRUE;
+                
+                NSImage *image = [[NSImage alloc]initWithContentsOfURL: appPhotoURLs[@"vk"][@"photo"]];
+                //NSSize imSize=NSMakeSize(66, 66);
+                //image.size=imSize;
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                [mainProfilePhoto setImageScaling:NSImageScaleProportionallyUpOrDown];
                 [mainProfilePhoto setImage:image];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    mainProfilePhoto.wantsLayer=YES;
+                    mainProfilePhoto.layer.cornerRadius=30/2;
+                    mainProfilePhoto.layer.masksToBounds=TRUE;
+                    [mainProfilePhoto setImage:image];
+                });
+                
             });
-            
-        });
-    }] resume];
+        }] resume];
+    }
 }
 - (IBAction)makePost:(id)sender {
       [[NSNotificationCenter defaultCenter] postNotificationName:@"post wall" object:self userInfo:@{@"currentSelectorName":@"vk"}];
 }
-
--(void)setProfileImage:(NSNotification *)notification{
+- (void)loadTumblInfo{
+    TumblrClient *client = [[TumblrClient alloc]initWithTokensFromCoreData];
+//    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:@"https://api.tumblr.com/v2/blog/hfdui2134.tumblr.com/avatar/512"]];
+    [mainProfilePhoto sd_setImageWithURL:[NSURL URLWithString:@"https://api.tumblr.com/v2/blog/hfdui2134.tumblr.com/avatar/512"] placeholderImage:nil options:SDWebImageRefreshCached];
+    mainProfilePhoto.toolTip = @"hfdui2134";
+}
+- (void)loadYoutubeMainInfo{
+    YoutubeClient *client = [[YoutubeClient alloc]initWithTokensFromCoreData];
+    
+    if(appPhotoURLs[@"youtube"]){
+        NSLog(@"%@",appPhotoURLs[@"youtube"]);
+        if(appPhotoURLs[@"youtube"][@"photo"]){
+            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"youtube"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+        }
+        if(appPhotoURLs[@"youtube"][@"name"]){
+             mainProfilePhoto.toolTip=appPhotoURLs[@"youtube"][@"name"];
+        }
+    }else{
+        [client APIRequest:@"channels" query:@{@"part":@"snippet", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
+            if(data){
+                NSString *resStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+                
+                NSDictionary *channelsResp  = [NSJSONSerialization JSONObjectWithData:[resStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+                NSLog(@"%@", channelsResp);
+                if(!channelsResp[@"error"]){
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        //NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:channelsResp[@"items"][0][@"snippet"][@"thumbnails"][@"default"][@"url"]]];
+                        //mainProfilePhoto.image = image;
+                        appPhotoURLs[@"youtube"] = @{@"photo":[NSURL URLWithString:channelsResp[@"items"][0][@"snippet"][@"thumbnails"][@"default"][@"url"] ], @"name":channelsResp[@"items"][0][@"snippet"][@"title"] };
+      
+                        [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"youtube"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+                        
+                        mainProfilePhoto.toolTip=appPhotoURLs[@"youtube"][@"title"];
+                    });
+                }
+            }
+            
+        }];
+    }
+}
+- (void)setProfileImage:(NSNotification *)obj{
 //    NSData *contents = [[NSData alloc]initWithContentsOfFile:notification.userInfo[@"url"]];
 //    NSImage *image = [[NSImage alloc] initWithData:contents];
 ////    image.size=NSMakeSize(66, 66);
@@ -287,6 +375,30 @@
 //    mainProfilePhoto.layer.masksToBounds=TRUE;
 //    [mainProfilePhoto setImage:image];
 //    NSLog(@"IMAGE FROM %@", notification.userInfo[@"url"]);
-    [self loadMainInfo];
+    
+    if([obj.userInfo[@"source"] isEqual:@"vk"]){
+        [self loadVKMainInfo];
+        //NSLog(@"%@", appPhotoURLs[@"vk"]);
+    }
+    else if([obj.userInfo[@"source"] isEqual:@"youtube"]){
+        
+        [self loadYoutubeMainInfo];
+        //NSLog(@"%@", appPhotoURLs[@"youtube"]);
+    }
+    else if([obj.userInfo[@"source"] isEqual:@"twitter"]){
+        
+        [self loadTwitterInfo];
+        //NSLog(@"%@", appPhotoURLs[@"youtube"]);
+    }
+    else if([obj.userInfo[@"source"] isEqual:@"tumblr"]){
+        
+        [self loadTumblInfo];
+        //NSLog(@"%@", appPhotoURLs[@"youtube"]);
+    }
+    else if([obj.userInfo[@"source"] isEqual:@"instagram"]){
+        
+        [self loadInstagramInfo];
+        //NSLog(@"%@", appPhotoURLs[@"youtube"]);
+    }
 }
 @end

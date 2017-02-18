@@ -2586,6 +2586,16 @@
                                                 <action selector="loadMinePlaylists:" target="qA7-BF-Jbv" id="4vh-Zc-R4a"/>
                                             </connections>
                                         </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Iqg-Yf-Esd">
+                                            <rect key="frame" x="603" y="577" width="65" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Liked" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4XY-eS-Ccp">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="likedButtonAction:" target="qA7-BF-Jbv" id="UhT-Te-p80"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="tRV-6R-l4H" firstAttribute="top" secondItem="Qvn-zg-1o7" secondAttribute="bottom" constant="8" id="1Fz-px-CuH"/>

@@ -341,11 +341,12 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 }
 
 - (IBAction)backToAlbumsAction:(id)sender {
-    [self resetAlbumsDropdown];
-    [self loadAlbums:NO :nil];
+//    [self resetAlbumsDropdown];
     ownerId=_app.person;
     friendId=nil;
     publicIdFrom = nil;
+    [self loadAlbums:NO :nil];
+
 }
 
 NSInteger floatSort(id num1, id num2, void *context){
@@ -372,7 +373,7 @@ NSInteger floatSort(id num1, id num2, void *context){
         
         [videoAlbums removeAllObjects];
         [albumsDropdownList removeAllItems];
-        [collectionViewListAlbums setContent:videoAlbums];
+//        [collectionViewListAlbums setContent:videoAlbums];
         
         offset = 0;
     }
@@ -421,15 +422,28 @@ NSInteger floatSort(id num1, id num2, void *context){
     }
 }
 - (void)loadAlbumsDropdown{
-    if([videoAlbumsCopy count]==0){
-        videoAlbumsCopy = [videoAlbums mutableCopy];
-        for(NSDictionary *i in videoAlbumsCopy){
-            [albumsDropdownList addItemWithTitle:i[@"title"]];
+//    if(!albumLoaded){
+        [videoAlbumsCopy removeAllObjects];
+        [albumsDropdownList removeAllItems];
+        if([videoAlbumsCopy count]==0){
+            videoAlbumsCopy = [[NSMutableArray alloc]initWithArray:videoAlbums];
+            
+            
+            for(NSDictionary *i in videoAlbumsCopy){
+//                [albumsDropdownList addItemWithTitle:i[@"title"]];
+                NSMenuItem *menuItem = [[NSMenuItem alloc]initWithTitle:i[@"title"] action:nil keyEquivalent:@""];
+                [[albumsDropdownList menu] addItem:menuItem];
+            }
         }
-    }
+//    }
+//        for(NSDictionary *i in videoAlbums){
+//            [videoAlbumsCopy addObject:i];
+//            [albumsDropdownList addItemWithTitle:i[@"title"]];
+//        }
+//    }
 }
 - (void)resetAlbumsDropdown{
-    [videoAlbumsCopy removeAllObjects];
+    [self loadAlbumsDropdown];
 }
 - (void)showAlbumsFromPublic{
     ownerId=[NSString stringWithFormat:@"%@", publicIdFromShow.stringValue];
@@ -545,7 +559,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     
 }
 - (void)loadSelectedAlbum:(id)albumId :(BOOL)makeOffset :(id)count :(id)videoData{
-    
+    albumLoaded=YES;
     nameSelectedObject = @"album";
     __block int index=0;
     if(makeOffset){
@@ -585,10 +599,10 @@ NSInteger floatSort(id num1, id num2, void *context){
                         //                    });
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        albumLoaded=YES;
+                    
                         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
                         videoAlbums=[[NSMutableArray alloc]initWithArray:[videoAlbums sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]] ];
-                        
+                        totalCount.title = [NSString stringWithFormat:@"%li",totalVideoInAlbum];
                         [collectionViewListAlbums setContent:videoAlbums];
                         [collectionViewListAlbums reloadData];
                     });
@@ -764,9 +778,9 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
         item1 = (CustomVideoCollectionItem*)[collectionView makeItemWithIdentifier:@"CustomVideoCollectionItem" forIndexPath:indexPath];
         NSString *coverAlbum = [videoAlbums objectAtIndex:indexPath.item][@"cover"];
         NSString *itemTitle = [videoAlbums objectAtIndex:indexPath.item][@"title"];
-        countInAlbum = [videoAlbums objectAtIndex:indexPath.item][@"count"];
+       
         if([nameSelectedObject isEqualToString:@"albums"]){
-            
+             countInAlbum = [videoAlbums objectAtIndex:indexPath.item][@"count"];
             NSAttributedString *countAttrString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@", countInAlbum ]attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
             item1.countLabel.hidden=NO;
             item1.countLabel.attributedStringValue=countAttrString;
@@ -776,7 +790,6 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
             item1.textLabel.attributedStringValue=attrTitle;
 //            item1.textLabel.stringValue=itt2;
             //    NSLog(@"%@", itt);
-            item1.albumCover.image=nil;
             item1.textField.stringValue=@"";
             
             item1.attachAlbum.hidden =  YES;
@@ -789,43 +802,19 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
 ////                [item1.uploadByURLsButton removeFromSuperview];
 ////                [item1.downloadAndUploadStatusOver removeFromSuperview];
 //            }
-//            if([cachedImage count]>0 && cachedImage[videoAlbums[indexPath.item]]){
-//                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
-//            }else{
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                    NSImage *image =[[NSImage alloc]init];
-//                    if(![coverAlbum isEqual:@""]){
-//                        image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:coverAlbum]];
-//                        NSImageRep *rep = [[image representations] objectAtIndex:0];
-//                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-//                        image.size=imageSize;
-//                        cachedImage[videoAlbums[indexPath.item]]=image;
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            [item1.albumCover setImage:image];
-//                        });
-//                    }else{
-//                        
-//                        image = [NSImage imageNamed:@"video_album_def1.png"];
-//                        NSImageRep *rep = [[image representations] objectAtIndex:0];
-//                        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-//                        image.size=imageSize;
-//                        cachedImage[videoAlbums[indexPath.item]]=image;
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            [item1.albumCover setImage:image];
-//                            
-//                        });
-//                        
-//                    }
-//                });
-//            }
-            [item1.albumCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:coverAlbum] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                NSImageRep *rep = [[image representations] objectAtIndex:0];
-                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-                image.size=imageSize;
-                [item1.albumCover setImage:image];
-            }];
+            //SDWebImageProgressiveDownload
+            
+            if([countInAlbum intValue]==0){
+                [item1.albumCover setImage:[NSImage imageNamed:@"video_album_def1.png"]];
+            }else{
+                [item1.albumCover  sd_setImageWithURL:[NSURL URLWithString:coverAlbum] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                    NSImageRep *rep = [[image representations] objectAtIndex:0];
+                    NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                    image.size=imageSize;
+                    item1.albumCover.image=image;
+                }];
+            }
+
         }
         else{
             item1.attachAlbum.hidden =  YES;
@@ -835,23 +824,12 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
             NSString *photo = [videoAlbums objectAtIndex:indexPath.item][@"photo"];
             item1.countLabel.hidden=YES;
             item1.textLabel.attributedStringValue=attrTitle;
-//            if([cachedImage count]>0 && cachedImage[[videoAlbums objectAtIndex:indexPath.item]]!=nil){
-//                item1.textLabel.attributedStringValue=attrTitle;
-//                item1.albumCover.image=cachedImage[videoAlbums[indexPath.item]];
-//            }else{
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photo]];
-//                    cachedImage[videoAlbums[indexPath.item]]=image;
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        item1.textLabel.attributedStringValue=attrTitle;
-//                        [item1.albumCover setImage:image];
-//                    });
-//                });
-//            }
-            [item1.albumCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:photo] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                [item1.albumCover setImage:image];
+
+            [item1.albumCover  sd_setImageWithURL:[NSURL URLWithString:photo] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSImageRep *rep = [[image representations] objectAtIndex:0];
+                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+                image.size=imageSize;
+                item1.albumCover.image=image;
             }];
         }
     }

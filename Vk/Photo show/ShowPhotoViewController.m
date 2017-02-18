@@ -11,6 +11,7 @@
 #import "NSImage+Resizing.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
+#import <SDWebImage/UIImage+MultiFormat.h>
 @interface ShowPhotoViewController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -181,7 +182,7 @@
 - (IBAction)backToAlbumsAction:(id)sender {
     friendId=nil;
     ownerId=nil;
-    [self resetAlbumsDropDown];
+
     [self loadAlbums];
 }
 - (IBAction)showPhotoByOwner:(id)sender {
@@ -298,8 +299,8 @@
 - (void)loadAlbums{
     [albumsData removeAllObjects];
     [albumsData2 removeAllObjects];
-    [albumsListDropdown removeAllItems];
-    [collectionViewListAlbums setContent:albumsData];
+
+//    [collectionViewListAlbums setContent:albumsData];
     nameSelectedObject = @"albums";
     __block NSString *url;
 
@@ -323,16 +324,18 @@
     }] resume];
 }
 - (void)loadAlbumsDropDown{
+    [albumsListDropdown removeAllItems];
+    [albumsDataCopy removeAllObjects];
     if([albumsDataCopy count]==0){
         albumsDataCopy = [albumsData mutableCopy];
         for(NSDictionary *i in albumsDataCopy){
-            [albumsListDropdown addItemWithTitle:i[@"title"]];
+            NSMenuItem *menuItem = [[NSMenuItem alloc]initWithTitle:i[@"title"] action:nil keyEquivalent:@""];
+//            [albumsListDropdown addItemWithTitle:i[@"title"]];
+            [[albumsListDropdown menu] addItem:menuItem];
         }
     }
 }
-- (void)resetAlbumsDropDown{
-    [albumsDataCopy removeAllObjects];
-}
+
 
 
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
@@ -418,15 +421,25 @@
 //                });
 //            }
          
-            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:albumCover]placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:albumCover]placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+//                
+//            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//                NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                image.size=imageSize;
+//                photoAlbumsItem.albumsCover.image=image;
+//                
+//            }];
+            
+      
+            //|SDWebImageProgressiveDownload
+            [photoAlbumsItem.albumsCover  sd_setImageWithURL:[NSURL URLWithString:albumCover] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
                 photoAlbumsItem.albumsCover.image=image;
-                
             }];
+            
         }
         else{
             photoAlbumsItem.attachAlbum.hidden=YES;
@@ -453,14 +466,21 @@
 //                });
 //            }
             NSString *photo = [albumsData objectAtIndex:indexPath.item][@"items"][@"photo"];
-            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:photo]placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//            [photoAlbumsItem.albumsCover sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:photo]placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+//                
+//            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//                NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                image.size=imageSize;
+//                photoAlbumsItem.albumsCover.image=image;
+//                
+////            }];
+            //|SDWebImageProgressiveDownload
+            [photoAlbumsItem.albumsCover  sd_setImageWithURL:[NSURL URLWithString:photo] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
                 photoAlbumsItem.albumsCover.image=image;
-                
             }];
             
         }

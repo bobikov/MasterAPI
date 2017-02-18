@@ -174,18 +174,23 @@
     switch (selectedSource){
         case 0:
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectVKApi" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"source":@"vk"}];
             break;
         case 1:
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectYoutubeApi" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"source":@"youtube"}];
             break;
         case 2:
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectTwitterApi" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"source":@"twitter"}];
             break;
         case 3:
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectTumblrApi" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"source":@"tumblr"}];
             break;
         case 4:
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SelectInstagramApi" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"source":@"instagram"}];
             break;
             
     }

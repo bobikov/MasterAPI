@@ -8,7 +8,7 @@
 
 #import "YoutubeSubscriptions.h"
 #import "YoutubeSubscriptionsCustomCell.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface YoutubeSubscriptions ()<NSTableViewDelegate, NSTableViewDataSource>
 
 @end
@@ -193,13 +193,14 @@
     cell.photo.wantsLayer=YES;
     cell.photo.layer.masksToBounds=YES;
     cell.photo.layer.cornerRadius=64/2;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.photo setImage:image];
-        });
-    });
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]]];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [cell.photo setImage:image];
+//        });
+//    });
+    [cell.photo sd_setImageWithURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]] placeholderImage:nil options:SDWebImageRefreshCached];
     return cell;
 }
 @end

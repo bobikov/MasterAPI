@@ -360,7 +360,7 @@
             if(savePhotoResponse[@"response"]){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [currentPhoto setImage:image];
-                    [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"url":uploadByURLCheck.state ? fieldWithURL.stringValue : filePath}];
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"loadProfileImage" object:nil userInfo:@{@"url":uploadByURLCheck.state ? fieldWithURL.stringValue : filePath, @"source":@"vk"}];
                     if(removeOld.state==1){
                         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@", owner, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                             NSDictionary *wallGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];

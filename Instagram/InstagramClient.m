@@ -31,4 +31,9 @@
         completion(data);
     }] resume];
 }
+-(void)getUserInfo:(OnComplete)completion{
+    [[_session dataTaskWithURL:[NSURL URLWithString:@"https://instagram.com/kostyabobby/?__a=1"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        completion(data);
+    }]resume];
+}
 @end

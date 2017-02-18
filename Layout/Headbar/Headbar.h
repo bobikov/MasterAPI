@@ -14,30 +14,39 @@
 #import "appInfo.h"
 #import "keyHandler.h"
 #import "KBButton.h"
+#import "APIClientsProtocol.h"
 @interface Headbar : NSViewController{
-    
+    APIClientsProtocol *protocol;
     __weak IBOutlet NSImageView *appIcon;
     __weak IBOutlet KBButton *globalSearch;
 //    __weak IBOutlet NSButton *globalSearch;
-    BOOL isPlaying;
+    
     __weak IBOutlet NSButton *playImageButton;
     __weak IBOutlet NSImageView *mainProfilePhoto;
     __weak IBOutlet NSSlider *audioProgress;
     __weak IBOutlet NSTextField *nameOfCurrentTrack;
     __weak IBOutlet NSTextField *audioTimer;
     __weak IBOutlet KBButton *postButton;
-    NSString *currentUrl;
-    NSString *currentDuration;
-    NSString *elapsedTime;
-    NSTimer *playTimer;
-    NSString *nameOfCurrentPlaying;
-    NSMutableDictionary *playlist;
     __weak IBOutlet KBButton *tasksButton;
+    
+    NSString
+        *currentUrl,
+        *currentDuration,
+        *elapsedTime,
+        *nameOfCurrentPlaying;
+    
+    NSTimer *playTimer;
+    
+    BOOL isPlaying;
+    NSMutableDictionary
+        *playlist,
+        *appPhotoURLs;
+    
    
 }
 @property(nonatomic)appInfo *app;
 @property (strong, nonatomic) AVPlayer *player;
 @property (nonatomic) keyHandler *keyHandle;
--(void)loadMainInfo;
+-(void)loadVKMainInfo;
 -(void)setProfileImage:(id)url;
 @end
