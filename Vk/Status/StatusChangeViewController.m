@@ -6,7 +6,7 @@
 //
 
 #import "StatusChangeViewController.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @interface StatusChangeViewController ()<NSTextViewDelegate, NSTableViewDataSource, NSTableViewDelegate,NSTextFieldDelegate>
 
@@ -22,10 +22,10 @@
     _app=[[appInfo alloc]init];
     currentStatus.wantsLayer=YES;
     statusListData = [[NSMutableArray alloc]init];
-    currentStatus.layer.borderWidth=0.5f;
-    currentStatus.layer.borderColor = (__bridge CGColorRef _Nullable)([NSColor grayColor]);
-    currentStatus.layer.cornerRadius = 10.0f;
-    [currentStatus.layer setMasksToBounds:YES];
+//    currentStatus.layer.borderWidth=0.5f;
+//    currentStatus.layer.borderColor = (__bridge CGColorRef _Nullable)([NSColor grayColor]);
+//    currentStatus.layer.cornerRadius = 10.0f;
+//    [currentStatus.layer setMasksToBounds:YES];
     moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(doScheduledStatus:) name:@"DoScheduledStatus" object:nil];
 //    self.view.wantsLayer=YES;
@@ -34,6 +34,22 @@
     [self ReadStatusList];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
+    [textNewStatus setTextContainerInset:NSMakeSize(2, 2)];
+    textNewStatus.automaticTextReplacementEnabled=NO;
+    textNewStatus.enabledTextCheckingTypes=NO;
+    [currentStatus setTextContainerInset:NSMakeSize(2, 2)];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    CAShapeLayer * layer2 = [CAShapeLayer layer];
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    layer2.cornerRadius=4;
+    layer2.borderWidth=1;
+    layer2.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    textNewStatus.enclosingScrollView.wantsLayer = YES;
+    textNewStatus.enclosingScrollView.layer = layer;
+    currentStatus.enclosingScrollView.wantsLayer = YES;
+    currentStatus.enclosingScrollView.layer = layer2;
     
 }
 - (void)viewDidAppear{
@@ -122,15 +138,15 @@
     [self saveCurrentStatus];
 }
 - (void)saveCurrentStatus{
-    if([currentStatus.stringValue length]<=160 && [currentStatus.stringValue length]!=0){
+    if([currentStatus.string length]<=160 && [currentStatus.string length]!=0){
         
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];
         for(NSDictionary *i in [self ReadStatusList]){
             [tempArray addObject:i[@"status"]];
         }
-        if(![tempArray containsObject:currentStatus.stringValue]){
+        if(![tempArray containsObject:currentStatus.string]){
             NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"VKStatusList" inManagedObjectContext:moc];
-            [object setValue:currentStatus.stringValue forKey:@"status"];
+            [object setValue:currentStatus.string forKey:@"status"];
             NSError *saveError;
             if(![moc save:&saveError]){
                 NSLog(@"Error save current status.");
@@ -240,7 +256,7 @@
         if(data){
             NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             dispatch_async(dispatch_get_main_queue(), ^{
-                currentStatus.stringValue = jsonData[@"response"][@"text"];
+                currentStatus.string = jsonData[@"response"][@"text"];
             });
         }
     }] resume];
@@ -257,7 +273,7 @@
             if([jsonData[@"response"] intValue]){
                 NSLog(@"Sucessfuly status set.");
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    currentStatus.stringValue=textNewStatus.string;
+                    currentStatus.string=textNewStatus.string;
                     [self loadCurrentStatus];
                 });
             }

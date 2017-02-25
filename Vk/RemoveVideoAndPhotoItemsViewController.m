@@ -36,6 +36,7 @@
     __block void (^removeVideoAlbumsBlock)(BOOL captcha, NSString *captchaSid, NSString *captchaKey);
     __block void (^removePhotoAlbumsBlock)();
     
+    __block void (^removeVideoItemsBlock)();
     
     removeVideoAlbumsBlock = ^void(BOOL captcha, NSString *captchaSid, NSString *captchaKey){
         stopped=NO;
@@ -168,22 +169,82 @@
         }
     };
     
-    
+    removeVideoItemsBlock = ^void(){
+        stopped=NO;
+        
+        for (NSDictionary *i in _receivedData){
+            NSLog(@"%@", i);
+            if(!stopped){
+                url = [NSString stringWithFormat:@"https://api.vk.com/method/video.delete?video_id=%@&owner_id=%@&target_id=%@&v=%@&access_token=%@", i[@"id"], i[@"owner_id"], i[@"albumOwner"], app.version, app.token];
+              
+               [[app.session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if(data){
+                        if(error){
+                            NSLog(@"Connection error");
+                            return;
+                        }
+                        else{
+                            NSDictionary *deleteItemResponse=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                            if(deleteItemResponse[@"error"]){
+                                if([deleteItemResponse[@"error"][@"error_code"] intValue]==14){
+                                    stopped=YES;
+                                    NSLog(@"%@:%@", deleteItemResponse[@"error"][@"error_code"], deleteItemResponse[@"error"][@"error_msg"]);
+                                    
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                   
+                                    });
+                                }
+                                else{
+                                    NSLog(@"%@", deleteItemResponse[@"error"]);
+                                }
+                            }
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            currentRemovedItem = [_receivedData indexOfObject:i]+1;
+                            [self setProgressStatus];
+                        });
+                    }
+                }]resume];
+                sleep(1);
+                
+            }
+            else{
+                break;
+            }
+            
+        }
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //        if(!stopped && [rows count]>0){
+        //            [self loadAlbums:_app.person];
+        //        }
+        
+        
+        //        });
+
+        
+    };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if(_receivedData){
-            if([_mediaType isEqual:@"video"] && [_itemType isEqual:@"album"]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    titleLabel.stringValue=@"Removing video albums";
-                    self.title=@"Remove video albums";
-                });
-                removeVideoAlbumsBlock(NO, @"", @"");
+            if([_mediaType isEqual:@"video"] ){
+                if([_itemType isEqual:@"album"]){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        titleLabel.stringValue=@"Removing video albums";
+                        self.title=@"Remove video albums";
+                    });
+                    removeVideoAlbumsBlock(NO, @"", @"");
+                }
+                else if([_itemType isEqual:@"item"]){
+                    removeVideoItemsBlock();
+                }
             }
-            else if([_mediaType isEqual:@"photo"] && [_itemType isEqual:@"album"]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    titleLabel.stringValue=@"Removing photo albums";
-                    self.title=@"Remove photo albums";
-                });
-                removePhotoAlbumsBlock();
+            else if([_mediaType isEqual:@"photo"]){
+                if([_itemType isEqual:@"album"]){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        titleLabel.stringValue=@"Removing photo albums";
+                        self.title=@"Remove photo albums";
+                    });
+                    removePhotoAlbumsBlock();
+                }
             };
         }
     });

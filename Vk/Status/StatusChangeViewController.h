@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 @interface StatusChangeViewController : NSViewController{
-    __weak IBOutlet NSTextField *currentStatus;
+    
+    __unsafe_unretained IBOutlet NSTextView *currentStatus;
     __unsafe_unretained IBOutlet NSTextView *textNewStatus;
     __weak IBOutlet NSTableView *listOfStatus;
     __weak IBOutlet NSButton *setNewStatusButton;

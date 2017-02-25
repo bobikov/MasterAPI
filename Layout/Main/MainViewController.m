@@ -155,13 +155,13 @@
 }
 
 - (void)displayContentController:(NSViewController *)content {
-//    CATransition *transition = [CATransition animation];
-//    transition.duration = 0.25;
-//    transition.removedOnCompletion=YES;
-//    transition.fillMode=kCAFillModeBoth;
-//    transition.type = kCATransitionReveal;
-//    transition.subtype = kCATransitionFromTop;
-////    transition.delegate=self;
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.25;
+    transition.removedOnCompletion=NO;
+    transition.fillMode=kCAFillModeBoth;
+    transition.type = kCATransitionFade;
+//    transition.subtype = kCATransitionFromLeft;
+    transition.delegate=self;
 //
 //    [content.view.layer addAnimation:transition forKey:nil];
     [self addChildViewController:content];
@@ -171,13 +171,15 @@
     content.view.translatesAutoresizingMaskIntoConstraints = NO;
 //        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[view]-|" options:NSLayoutFormatAlignAllBaseline metrics:nil views:NSDictionaryOfVariableBindings(view)]];
     
-   
-    [self.view addSubview:content.view];
+   [self.view.layer addAnimation:transition forKey:nil];
+//    [self.view addSubview:content.view];
    
 //    [[self.view animator]addSubview:content.view];
+    [self.view addSubview:content.view];
+    
   
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[view]-0-|" options:NSLayoutFormatAlignAllTrailing metrics:nil views:NSDictionaryOfVariableBindings(view)]];
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-[view(==%f)]-|",content.view.frame.size.height] options:NSLayoutFormatAlignAllTrailing metrics:nil views:NSDictionaryOfVariableBindings(view)]];
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|" options:NSLayoutFormatAlignAllTrailing metrics:nil views:NSDictionaryOfVariableBindings(view)]];
    
     

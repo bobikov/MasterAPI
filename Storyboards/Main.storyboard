@@ -3888,6 +3888,9 @@ Gw
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <action selector="selectSidebarItemAction:" target="rpt-nf-let" id="whs-nC-kBh"/>
+                                            </connections>
                                         </outlineView>
                                     </subviews>
                                     <nil key="backgroundColor"/>

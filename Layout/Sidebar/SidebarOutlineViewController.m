@@ -180,50 +180,66 @@
 - (BOOL) outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
     return [_topLevelItems containsObject:item];
 }
-
--(void) outlineViewSelectionDidChange:(NSNotification *)notification{
+- (IBAction)selectSidebarItemAction:(id)sender {
     NSString *item;
     NSInteger row;
     NSString *parent;
     row = [OutlineSidebar selectedRow];
     item = [OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]];
-//    NSInteger counterChilds=0;
-//    NSInteger counterParents=0;
+    //    NSInteger counterChilds=0;
+    //    NSInteger counterParents=0;
     parent = [OutlineSidebar parentForItem:[OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]]];
-//    NSLog(@"%@",parent);
-//    NSLog(@"%lu", [OutlineSidebar selectedRow]);
+    //    NSLog(@"%@",parent);
+    //    NSLog(@"%lu", [OutlineSidebar selectedRow]);
     NSString *currentElem =item;
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
-//    NSLog(@"%lu", row);
-//    item = [OutlineSidebar parentForItem:];
-
-//    for(NSDictionary *i in _childrenDictionary){
-//        NSLog(@"%@", i);
-//        if([_childrenDictionary objectForKey:item] ){
-//            NSLog(@"this is boss - %@", _childrenDictionary[item]);
-//            for (NSString *i in _childrenDictionary){
-//                if(i == item) {
-//                    NSLog(@"%lu", [_childrenDictionary[item] count]);
-//                }
-//                else{
-////                    NSLog(@"%@", i);
-//                }
-//            }
-//        }
-//        else{
-//            for(NSString *i in _childrenDictionary){
-////                counter++;
-//                counterChilds += [_childrenDictionary[i] count];
-//                counterParents++;
-//            }
-//             NSLog(@"Children: %ld", counterChilds);
-//            NSLog(@"Parents: %ld", counterParents);
-//        }
-//    }
     
-//    NSLog(@"%@", item);
+    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
+    
 }
+
+//-(void) outlineViewSelectionDidChange:(NSNotification *)notification{
+//    NSString *item;
+//    NSInteger row;
+//    NSString *parent;
+//    row = [OutlineSidebar selectedRow];
+//    item = [OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]];
+////    NSInteger counterChilds=0;
+////    NSInteger counterParents=0;
+//    parent = [OutlineSidebar parentForItem:[OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]]];
+////    NSLog(@"%@",parent);
+////    NSLog(@"%lu", [OutlineSidebar selectedRow]);
+//    NSString *currentElem =item;
+//
+//    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
+////    NSLog(@"%lu", row);
+////    item = [OutlineSidebar parentForItem:];
+//
+////    for(NSDictionary *i in _childrenDictionary){
+////        NSLog(@"%@", i);
+////        if([_childrenDictionary objectForKey:item] ){
+////            NSLog(@"this is boss - %@", _childrenDictionary[item]);
+////            for (NSString *i in _childrenDictionary){
+////                if(i == item) {
+////                    NSLog(@"%lu", [_childrenDictionary[item] count]);
+////                }
+////                else{
+//////                    NSLog(@"%@", i);
+////                }
+////            }
+////        }
+////        else{
+////            for(NSString *i in _childrenDictionary){
+//////                counter++;
+////                counterChilds += [_childrenDictionary[i] count];
+////                counterParents++;
+////            }
+////             NSLog(@"Children: %ld", counterChilds);
+////            NSLog(@"Parents: %ld", counterParents);
+////        }
+////    }
+//    
+////    NSLog(@"%@", item);
+//}
 
 //- (BOOL)outlineView:(NSOutlineView *)outlineView shouldShowOutlineCellForItem:(id)item {
 //    // As an example, hide the "outline disclosure button" for FAVORITES. This hides the "Show/Hide" button and disables the tracking area for that row.

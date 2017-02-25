@@ -103,7 +103,8 @@
                 pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
                 for(NSDictionary *i in getVideosResp[@"items"]){
                     NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
-                    [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
+                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],thumb,i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
+                    [loadedItemsData addObject:object];
                     
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -124,7 +125,8 @@
                     pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
                     for(NSDictionary *i in getVideosResp[@"items"]){
                         NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
-                        [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
+                        NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],thumb,i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
+                        [loadedItemsData addObject:object];
                         
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -199,7 +201,7 @@
 - (void)loadLiveBroadcasts:(NSDictionary*)query offset:(BOOL)offset{
     
     if(offset){
-        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel, @"pageToken":pageToken};
+        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel,@"regionCode":@"RU", @"pageToken":pageToken};
         
     }
     else{
@@ -209,7 +211,7 @@
             }
         });
         queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50}
-      : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50,  @"channelId":channel};
+      : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50,  @"channelId":channel,@"regionCode":@"RU"};
         //        offsetCounter=0;
         [loadedItemsData removeAllObjects];
     }
