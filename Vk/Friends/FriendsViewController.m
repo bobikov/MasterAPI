@@ -126,6 +126,8 @@
     });
  
 }
+
+
 - (IBAction)goUp:(id)sender {
     [FriendsTableView scrollRowToVisible: 0];
 }
@@ -145,14 +147,12 @@
 
 }
 - (IBAction)friendsListPopupSelect:(id)sender {
-//
     _ownerId = [NSString stringWithFormat:@"%@", friendsListPopupData[[friendsListPopup indexOfSelectedItem]][@"id"]];
     NSLog(@"%@", _ownerId);
     [self loadFriends:NO];
 }
 
 - (IBAction)showFriendsStat:(id)sender {
-    
     NSStoryboard *secondStory = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     FriendsStatController *friendsStatController = [secondStory instantiateControllerWithIdentifier:@"FriendsStatController"];
     friendsStatController.receivedData = @{@"data":FriendsData};

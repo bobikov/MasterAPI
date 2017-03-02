@@ -3292,7 +3292,7 @@ Gw
                                     <font key="font" metaFont="cellTitle"/>
                                     <segments>
                                         <segment label="All videos" width="63"/>
-                                        <segment label="Album" width="50" tag="1"/>
+                                        <segment label="Local" tag="1"/>
                                         <segment label="Global" width="50" selected="YES"/>
                                     </segments>
                                 </segmentedCell>

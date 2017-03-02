@@ -179,7 +179,7 @@
     [_receivedData[@"verified"] intValue]==1 ? [verified setImage:[NSImage imageNamed:@"verified_2.png"]] : nil;
 //    NSLog(@"%@", _receivedData);
 
-    [profilePhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", _receivedData[@"user_photo_big"]]] completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [profilePhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", _receivedData[@"user_photo_big"]]]  completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         NSImageRep *rep = [[image representations] objectAtIndex:0];
         NSSize imageSize = NSMakeSize((CGFloat)rep.pixelsWide, (CGFloat)rep.pixelsHigh);
         image.size=imageSize;

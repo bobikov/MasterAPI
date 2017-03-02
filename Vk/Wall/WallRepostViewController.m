@@ -427,9 +427,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
-    
     if([notification.object isEqual: groupsList1]){
-        
         if([[groupsList1 selectedRowIndexes]count]>1){
             addSeletedObjects.hidden=NO;
         }else{
@@ -453,7 +451,6 @@
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
   
-    
     if([tableView isEqual: groupsList1]){
         WallRepostGroupsCustomCellView *cell = [[WallRepostGroupsCustomCellView alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
@@ -462,14 +459,10 @@
             cell.groupPhoto.wantsLayer=YES;
             cell.groupPhoto.layer.masksToBounds=YES;
             cell.groupPhoto.layer.cornerRadius=38/2;
-          
-            [cell.groupPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString: groupsData1[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            [cell.groupPhoto sd_setImageWithURL:[NSURL URLWithString:groupsData1[row][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 image.size=NSMakeSize(38, 38);
                 [cell.groupPhoto setImage:image];
             }];
-            
             return cell;
         }
     }
@@ -483,13 +476,10 @@
             cell.groupPhoto.layer.cornerRadius=38/2;;
             cell.groupName.stringValue=groupsData2[row][@"name"];
             
-            [cell.groupPhoto sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:groupsData2[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            [cell.groupPhoto sd_setImageWithURL:[NSURL URLWithString:groupsData2[row][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 image.size=NSMakeSize(38, 38);
                 [cell.groupPhoto setImage:image];
             }];
-           
             
             return cell;
         }

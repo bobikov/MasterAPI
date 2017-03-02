@@ -45,6 +45,7 @@
     updatesHandler *handleUpdate;
     BOOL captchaOpened;
     BOOL stoppedAttachLoop;
+    BOOL isCopying;
     VKCaptchaHandler *captchaHandler;
     NSString *privacy_view;
     int publicIdIntTemp;

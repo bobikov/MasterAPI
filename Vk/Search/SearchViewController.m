@@ -144,7 +144,7 @@
     if (scrollOrigin == boundsHeight) {
         //Refresh here
         //         NSLog(@"The end of table");
-        if([foundListData count] > 0){
+        if([foundListData count] > 0 && !byId.state){
             if([selectedSourceName isEqualToString:@"people"]){
                 [self loadPeople:YES useParams:usedParams];
             }else if([selectedSourceName isEqualToString:@"group"]){
@@ -152,8 +152,8 @@
             }
         }
     }
-    
-    
+//
+//    
 }
 
 
@@ -227,7 +227,7 @@
         NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
         FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
         NSPoint mouseLoc = [NSEvent mouseLocation];
-            int x = mouseLoc.x;
+        int x = mouseLoc.x;
         int y = mouseLoc.y;
         
         
@@ -235,7 +235,8 @@
         
         NSView *parentCell = [sender superview];
         NSInteger row = [foundList rowForView:parentCell];
-        CGRect rect=CGRectMake(x, y, 0, 0);
+//        CGRect rect=CGRectMake(x, y, 0, 0);
+         CGRect rect=CGRectMake(0, y, 0, 0);
         popuper.receivedData = foundListData[row];
         
         [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
@@ -368,6 +369,7 @@
         url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@", [paramsComponents.query stringByAppendingString:@"&"], searchOffsetCounter, _app.version, _app.token];
     
     }else{
+        
         if(byId.state==1){
             url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
         }else{
@@ -381,8 +383,8 @@
             
             NSDictionary *searchResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //            NSLog(@"%@", searchResponse);
-            totalCountPeople = [searchResponse[@"response"][@"count"] intValue];
-            searchResponse = byId.state==1? searchResponse[@"response"]: searchResponse[@"response"][@"items"];
+            totalCountPeople = byId.state==1 ? 0 : [searchResponse[@"response"][@"count"] intValue];
+            searchResponse = byId.state==1 ? searchResponse[@"response"] : searchResponse[@"response"][@"items"];
             for (NSDictionary *a in searchResponse){
                 
                 NSString *city;
@@ -477,7 +479,7 @@
 //                NSLog(@"%@", a[@"counters"] );
                 object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":[NSNumber numberWithInt:online], @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain, @"verified":[NSNumber numberWithInt:verified]};
 //                NSLog(@"%@", object);
-              
+
                 
                 [foundListData addObject:object];
                 dispatch_async(dispatch_get_main_queue(), ^{

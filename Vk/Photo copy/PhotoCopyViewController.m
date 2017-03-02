@@ -8,7 +8,7 @@
 
 #import "PhotoCopyViewController.h"
 #import "appInfo.h"
-@interface PhotoCopyViewController () <NSTableViewDataSource,NSTableViewDelegate>
+@interface PhotoCopyViewController () <NSTableViewDataSource,NSTableViewDelegate, NSTextFieldDelegate>
 typedef void(^OnComplete) (NSMutableArray *);
 typedef void(^OnCompleteCreateAlbum)(BOOL isNewAlbumCreated);
 typedef void(^OnCompleteGetOwnerName)(NSString *ownerName);
@@ -39,8 +39,15 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
     [groupsPopupList removeAllItems];
     [groupsPopupData addObject:_app.person];
     [groupsPopupList addItemWithTitle:@"Personal"];
+    publicId.delegate=self;
+    [self setControlButtonsState];
     [self loadGroupsPopup];
 
+}
+-(void)controlTextDidChange:(NSNotification *)obj{
+    if(obj.object == publicId){
+        [self setControlButtonsState];
+    }
 }
 - (void)viewDidAppear{
     [self photoAlbumsLoad:_app.person :NO];
@@ -54,6 +61,17 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
     ownerID=groupsPopupData[[groupsPopupList indexOfSelectedItem]];
     publicId.stringValue = ownerID;
     
+}
+-(void)setControlButtonsState{
+    if(isCopying){
+        stop.enabled=YES;
+        copy.enabled=NO;
+        reset.enabled=NO;
+    }else{
+        stop.enabled=NO;
+        copy.enabled=![publicId.stringValue isEqual:@""];
+        reset.enabled=YES;
+    }
 }
 - (void)loadGroupsPopup{
     
@@ -152,7 +170,8 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
     [self setControlButtonsState];
 }
 - (IBAction)resetAction:(id)sender {
-    
+    albumToCopyFrom = nil;
+    albumToCopyTo = nil;
     albumFromId.stringValue = @"";
     publicId.stringValue = @"";
     count.stringValue = @"";
@@ -164,9 +183,10 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
 - (IBAction)copyAction:(id)sender {
     stopped=NO;
     ownerID = publicId.stringValue;
+    isCopying=YES;
+    [self setControlButtonsState];
     __block void (^copyFromWall)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
     __block void (^copyFromAlbum)(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key);
-    
     
     copyFromWall = ^(NSString *source, id targetAlbum, BOOL captchaCopyPhoto, BOOL captchaEditPhoto, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
         
@@ -178,34 +198,27 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
         if(offset>0){
             step=offset;
         }
-        
-        
+
         if(![albumToId.stringValue isEqual:@""]){
-            
             targetAlbumId = albumToId.stringValue;
             NSLog(@"Target album id %@", targetAlbumId);
-            
         }
         
         publicIdFrom = publicId.stringValue;
         countPhotos = [count.stringValue intValue];
         runPhotoCopy = YES;
-        
-        
         NSString *url;
         progress.maxValue=countPhotos;
         privacy_view= privacyList.stringValue;
-        
-        
-        
+
         if(!captchaCopyPhoto && !captchaEditPhoto){
-            if([handleUpdate readFromFile:@"photo" source:source publicId:publicIdFrom]){
-                updateDate = [NSString stringWithFormat:@"%@", [handleUpdate readFromFile:@"photo" source:source publicId:publicIdFrom] ];
-                NSLog(@"Now update date %@", updateDate);
-            }
-            else{
-                NSLog(@"Update date did not set.");
-            }
+//            if([handleUpdate readFromFile:@"photo" source:source publicId:publicIdFrom]){
+//                updateDate = [NSString stringWithFormat:@"%@", [handleUpdate readFromFile:@"photo" source:source publicId:publicIdFrom] ];
+//                NSLog(@"Now update date %@", updateDate);
+//            }
+//            else{
+//                NSLog(@"Update date did not set.");
+//            }
             if ([publicIdFrom intValue]<0){
                 publicIdIntTemp = abs([publicIdFrom intValue]);
 //                publicIdPhotoFromPlus = [NSString stringWithFormat:@"%d", publicIdIntTemp];
@@ -218,35 +231,8 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                 
             }
             
-            NSURLSessionDataTask *getNameOfAlbum=[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:url, ownerID, _app.token, _app.version
-                                                                                                     ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                NSDictionary *getNameResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSString *nameGet;
-                
-                if ([publicIdFrom intValue]<0){
-                    nameGet = getNameResponse[@"response"][0][@"name"];
-                }
-                else{
-                    nameGet = [NSString stringWithFormat:@"%@ %@", getNameResponse[@"response"][0][@"first_name"], getNameResponse[@"response"][0][@"last_name"]];
-                }
-                newAlbumName =[[NSString stringWithFormat:@"%@", nameGet] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-                
-            }];
-            [getNameOfAlbum resume];
-            sleep(1);
-            NSLog(@"New album name: %@", [newAlbumName stringByRemovingPercentEncoding]);
-            if(!updateDate || [albumToId.stringValue isEqual:@""]){
-                NSURLSessionDataTask *createAlbum=[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.createAlbum?owner_id=%@&access_token=%@&v=%@&privacy_view=%@&title=%@", _app.person, _app.token, _app.version, privacy_view, newAlbumName]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    NSDictionary *createAlbumResponse=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    targetAlbumId = [NSString stringWithFormat:@"%@", createAlbumResponse[@"response"][@"id"]];
-                    NSLog(@"Album created. Target album %@", targetAlbumId);
-                }];
-                [createAlbum resume];
-                
-            }
         }
         
-        //        sleep(1);
         if(captchaEditPhoto || captchaCopyPhoto){
             targetAlbumId = targetAlbum;
             NSLog(@"Target album now:%@\nOffset:%lu\nCaptcha_sid:%@\nCaptcha_key:%@", targetAlbumId, step, captcha_sid, captcha_key);
@@ -276,8 +262,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
         
         while (step<countPhotos){
             if(!stopped){
-                
-                 semaphore = dispatch_semaphore_create(0);
+                semaphore = dispatch_semaphore_create(0);
                 NSURLSessionDataTask *getWall=[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=%d&offset=%ld&v=%@&access_token=%@", publicIdFrom, 1, step, _app.version, _app.token]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     for (NSDictionary *i in jsonData[@"response"][@"items"]){
@@ -295,7 +280,6 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                         if(captureText.state==1){
                             capturedText = i[@"text"];
                             capturedText = [capturedText stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-                            //                            capturedText = [@"Captured Text" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
                         }
                         if (i[@"attachments"]){
                             for (NSDictionary *a in i[@"attachments"]){
@@ -438,9 +422,11 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                 
             }
             else{
+                isCopying=NO;
                 break;
             }
         }
+        isCopying=NO;
         runPhotoCopy=NO;
         
     };
@@ -610,6 +596,9 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
             [self setControlButtonsState];
         });
     };
+    
+    
+    
     if (runPhotoCopy==YES){
         NSAlert *alert = [[NSAlert alloc]init];
         alert.messageText = [NSString stringWithFormat:@"%@", @"Copy photo"];
@@ -617,19 +606,6 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
         [alert runModal];
     }
     else{
-        //        if([albumFromId.stringValue isEqual:@"wall"] && ![publicId.stringValue isEqual:@""] && ![count.stringValue isEqual:@""]){
-        //            NSLog(@"copy started");
-        //            runPhotoCopy=YES;
-        //
-        //
-        //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //                        copyFromWall(@"wall", nil, NO, NO, 0, @"", @"");
-        //                   });
-        //
-        //        }
-        //        else{
-        //            NSLog(@"Some fields are empty.");
-        //        }
         if((albumToCopyFrom && ![albumToCopyFrom isEqual:@"wall"]) && ownerID){
             stop.enabled=YES;
             copy.enabled=NO;
@@ -652,15 +628,33 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
                 }];
             }
         }
+        else if((albumToCopyFrom && [albumToCopyFrom isEqual:@"wall"]) && ownerID){
+               if(albumToCopyTo){
+                   NSLog(@"ALBUM TO COPY TO %@", albumToCopyTo);
+                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                       copyFromWall(@"wall", nil, NO, NO, 0, @"", @"");
+                   });
+               }
+               else{
+                   [self createAlbum:^(BOOL isNewAlbumCreated){
+                       if(isNewAlbumCreated){
+                           NSLog(@"ALBUM TO COPY TO %@", albumToCopyTo);
+                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                               copyFromWall(@"wall", nil, NO, NO, 0, @"", @"");
+                           });
+                       }
+                   }];
+               }
+        }
         else{
             NSLog(@"Some fields are empty.");
         }
     }
 }
-- (void)setControlButtonsState{
-    stop.enabled=runPhotoCopy;
-    copy.enabled=[fromTableView selectedRow]>=0?1:0;
-}
+//- (void)setControlButtonsState{
+//    stop.enabled=runPhotoCopy;
+//    copy.enabled=[fromTableView selectedRow];
+//}
 
 - (void)getAllPhotoInAlbum:(NSString*)album completion:(OnComplete)completion{
     

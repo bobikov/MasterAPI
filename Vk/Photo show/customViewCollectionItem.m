@@ -383,7 +383,7 @@ typedef void (^OnComplete)(NSData *serverURL);
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
     contr.mediaType=@"photo";
-    if(!self.representedObject[@"photoBig"]){
+    if(!self.representedObject[@"items"][@"photoBig"]){
         contr.itemType=@"album";
         informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li photo albums?", [itemsToDelete count]];
         messageText = @"Remove photo albums";
@@ -406,7 +406,6 @@ typedef void (^OnComplete)(NSData *serverURL);
         
     }
     
-    [self presentViewControllerAsSheet:contr];
 }
 - (IBAction)closeProgressOver:(id)sender {
      [self.collectionView setSelectable:YES];

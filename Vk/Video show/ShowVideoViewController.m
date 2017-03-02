@@ -315,8 +315,8 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
             [self loadSearchUserVideos:NO];
             break;
         case 1:
-            
-            [self loadSearchAlbumVideo];
+            searchLocalVideo = YES;
+            [self loadSearchLocalVideo:NO];
             break;
         case 2:
              searchGlobalMode = YES;
@@ -328,6 +328,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 - (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     searchGlobalMode = NO;
     searchUserVideoMode = NO;
+    searchLocalVideo = NO;
 //    if(albumLoaded){
 //        [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :videoAlbums] ;
 //        searchResultCount.hidden=YES;
@@ -337,7 +338,9 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 //        [self loadAlbums:NO :videoAlbums];
 //        NSLog(@"%@", videoAlbums);
 //    }
-    
+    videoAlbums = [[NSMutableArray alloc]initWithArray:videoAlbumsTemp];
+    [collectionViewListAlbums setContent:videoAlbums];
+    [collectionViewListAlbums reloadData];
 }
 
 - (IBAction)backToAlbumsAction:(id)sender {
@@ -458,31 +461,8 @@ NSInteger floatSort(id num1, id num2, void *context){
 }
 - (void)loadSearchAlbumVideo{
     
-    if(albumLoaded){
-        NSInteger counter=0;
-        NSMutableArray *videoAlbumsTemp=[[NSMutableArray alloc]init];
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
-        for(NSDictionary *i in videoAlbums){
-            
-            NSArray *found = [regex matchesInString:i[@"title"]  options:0 range:NSMakeRange(0, [i[@"title"] length])];
-            if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
-                counter++;
-                [videoAlbumsTemp addObject:@{@"id":i[@"id"], @"photo":i[@"photo"], @"title":i[@"title"], @"player":i[@"player"], @"date":i[@"date"]}];
-            }
-            
-        }
-        if([videoAlbumsTemp count]>0){
-            //                NSLog(@"%@", videoAlbumsTemp);
-            NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
-            videoAlbums=[[NSMutableArray alloc]initWithArray:[videoAlbumsTemp sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]]];
-            
-            [collectionViewListAlbums setContent:videoAlbums];
-            [collectionViewListAlbums reloadData];
-            searchResultCount.hidden=NO;
-            searchResultCount.title = [NSString stringWithFormat:@"%lu", counter];
-            
-        }
-    }
+//    if(albumLoaded){
+      //    }
 
 }
 - (void)loadSearchUserVideos:(BOOL)makeOffset{
@@ -558,6 +538,38 @@ NSInteger floatSort(id num1, id num2, void *context){
     
     
 }
+- (void)loadSearchLocalVideo:(BOOL)makeOffset{
+    NSLog(@"Local search");
+    NSInteger counter=0;
+    videoAlbumsTemp=[[NSMutableArray alloc]initWithArray:videoAlbums];
+    if(albumLoaded){
+        nameSelectedObject=@"album";
+    }else{
+        nameSelectedObject=@"albums";
+    }
+    [videoAlbums removeAllObjects];
+    for(NSDictionary *i in videoAlbumsTemp){
+        
+        if([i[@"title"] containsString: searchBar.stringValue ]){
+       
+            counter++;
+            [videoAlbums addObject:i];
+            NSLog(@"%@",i);
+        }
+        
+    }
+
+        //                NSLog(@"%@", videoAlbumsTemp);
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
+        
+        
+        [collectionViewListAlbums setContent:videoAlbums];
+        [collectionViewListAlbums reloadData];
+        searchResultCount.hidden=NO;
+        searchResultCount.title = [NSString stringWithFormat:@"%lu", counter];
+    
+
+}
 - (void)loadSelectedAlbum:(id)albumId :(BOOL)makeOffset :(id)count :(id)videoData{
     albumLoaded=YES;
     nameSelectedObject = @"album";
@@ -617,6 +629,10 @@ NSInteger floatSort(id num1, id num2, void *context){
          
      }
 }
+
+
+
+
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
 

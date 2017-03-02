@@ -40,6 +40,7 @@
         *photoInAlbumData,
         *indexPathss,
         *groupsPopupData,
+        *videoAlbumsTemp,
         *friends;
     NSString
         *selectedVideoURL,
@@ -56,7 +57,8 @@
         loadForVKAddToAlbum,
         searchGlobalMode,
         searchUserVideoMode,
-        dragging;
+        dragging,
+        searchLocalVideo;
     int
         selectedAlbumOffset,
         offsetSearchCounter;
