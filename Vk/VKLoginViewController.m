@@ -78,9 +78,9 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
 }
 - (void)loadPopupAppList{
     apps = [_keyHandle readApps];
-    if(apps!=nil){
+    if(apps){
         NSLog(@"%@", apps);
-        
+        [appList removeAllItems];
         for(NSDictionary *i in apps){
             [appList addItemWithTitle:i[@"title"]];
             if([i[@"selected"] intValue]){
@@ -123,25 +123,25 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame{
     NSString *fullQuery = [[NSURL URLWithString:[[sender mainFrameURL] stringByReplacingOccurrencesOfString:@"#" withString:@"?"]]query];
     NSArray *queryComponents= [fullQuery componentsSeparatedByString:@"&"];
-    NSLog(@"%@", queryComponents);
-    if([queryComponents[0] containsString:@"access_token"]){
-        token = [queryComponents[0] stringByReplacingOccurrencesOfString:@"access_token=" withString:@""];
-         NSLog(@"token: %@  app_id:%@", token, app_id);
-        NSDictionary *objectAppInfo = @{@"appId":app_id, @"token":token, @"version":version, @"id":user_id, @"selected":[apps[[appList indexOfSelectedItem]][@"appId"] isEqual:app_id]?@YES:@NO, @"icon":icon, @"author_url":authorUrl, @"desc":desc, @"title":title, @"screenName":screenName};
-        
-        if([_keyHandle writeAppInfo:objectAppInfo]){
-            
+   
+    if(queryComponents){
+        if([queryComponents[0] containsString:@"access_token"]){
+            _WebView.hidden=YES;
+             NSLog(@"%@", queryComponents);
+            token = [queryComponents[0] stringByReplacingOccurrencesOfString:@"access_token=" withString:@""];
+//            NSLog(@"token: %@  app_id:%@", token, app_id);
+            NSDictionary *objectAppInfo = @{@"appId":app_id, @"token":token, @"version":version, @"id":user_id, @"selected": [[appList itemArray] count]>0 ? [apps[[appList indexOfSelectedItem]][@"appId"] isEqual:app_id] ? @YES:@NO:@NO, @"icon":icon, @"author_url":authorUrl, @"desc":desc, @"title":title, @"screenName":screenName};
+            if([_keyHandle writeAppInfo:objectAppInfo]){
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"updateVkAppInfo" object:nil];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"backToInfo" object:nil userInfo:@{@"name":@"vkontakte"}];
                 [self loadPopupAppList];
                 [progressLoad stopAnimation:self];
                 NSLog(@"App %@ authorized sucessfully", title);
-           
-         };
-    }else{
-        NSLog(@"Access token not found.");
+            };
+        }else{
+            NSLog(@"Access token not found.");
+        }
     }
-   
 }
 
 - (void)getAppInfo:(OnCompleteGetAppInfo)completion{
@@ -165,7 +165,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
         if(appData){
             authorUrl = appData[@"author_url"];
             title = appData[@"title"];
-            desc = appData[@"description"];
+            desc = appData[@"description"]!=[NSNull null] && ![appData[@"description"] isEqualToString:@""] ? appData[@"description"] : @"";
             user_id = [NSString stringWithFormat:@"%@", appData[@"author_id"]];
             screenName = appData[@"screen_name"];
             icon = appData[@"icon_150"];
@@ -175,8 +175,10 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
             dispatch_async(dispatch_get_main_queue(),^{
                 _WebView.hidden=YES;
                 url = [NSString stringWithFormat:@"https://oauth.vk.com/authorize?client_id=%@&scope=wall,offline,status,messages,ads,groups,notes,photos,video,docs,friends,audio&redirect_url=%@&response_type=token&v=%@&display=wap", app_id, @"https://oauth.vk.com/blank.html", version];
+                NSLog(@"%@", url);
                 [[_WebView mainFrame]loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
                 currentURL = [_WebView stringByEvaluatingJavaScriptFromString:@"window.location"];
+                _WebView.hidden=NO;
             });
         }
     }];

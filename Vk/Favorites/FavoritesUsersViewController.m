@@ -961,7 +961,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
          }];
 
         
-        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        [cell.photo sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
         } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];

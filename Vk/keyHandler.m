@@ -164,14 +164,14 @@
     return array;
 }
 -(id)readAppInfo:(id)appId{
-
+    NSArray *array ;
     if(appId != nil){
         NSFetchRequest *request  = [NSFetchRequest fetchRequestWithEntityName:@"VKAppInfo"];
         NSMutableArray *tempArray = [[NSMutableArray alloc]init];
         [request setReturnsObjectsAsFaults:NO];
         [request setResultType:NSDictionaryResultType];
         NSError *readError;
-        NSArray *array = [moc executeFetchRequest:request error:&readError];
+        array = [moc executeFetchRequest:request error:&readError];
         if(array != nil){
             for(NSDictionary *i in array){
                 [tempArray addObject:i[@"appId"]];
@@ -201,6 +201,6 @@
         }
     }
     NSLog(@"Something read wrong appinfogread");
-    return nil;
+    return array;
 }
 @end

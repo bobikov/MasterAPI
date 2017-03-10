@@ -35,13 +35,13 @@
     StringHighlighter *stringHighlighter;
     NSInteger offsetLoadFaveUsers,offsetCounter,totalCount;
     NSDictionary *receiverDataForMessage;
-    NSMutableArray *favesUsersData,*favesUsersDataCopy,*favesUsersTemp,*selectedUsers;
+    NSMutableArray *favesUsersData,*favesUsersDataCopy,*favesUsersTemp,*selectedUsers,*restoredUserIDs;
     NSManagedObjectContext *moc;
     NSString *userFavesNewGroupName;
-    NSMutableArray *restoredUserIDs;
+
     
-    BOOL loading;
-    BOOL loadFromUserGroup;
+    BOOL loading,loadFromUserGroup;
+ 
 }
 
 @property(nonatomic, readwrite)appInfo *app;

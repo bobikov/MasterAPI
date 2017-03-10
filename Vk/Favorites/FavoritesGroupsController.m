@@ -12,6 +12,7 @@
 #import "GroupsCustomCellView.h"
 #import "FullGroupInfoViewController.h"
 #import "CreateFavesGroupController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface FavoritesGroupsController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -668,63 +669,7 @@
 }
 
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification{
-    NSInteger row;
-    if([[favesGroupsList selectedRowIndexes]count]>0){
-        row = [favesGroupsList selectedRow];
-        receiverDataForMessage = favesGroupsData[row];
-    }
-    
-}
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    if ([favesGroupsData count]>0) {
-        return [favesGroupsData count];
-    }
-    return 0;
-}
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([favesGroupsData count]>0) {
-        
-        GroupsCustomCellView *cell=[[GroupsCustomCellView  alloc]init];
-        cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
-        cell.nameOfGroup.stringValue = favesGroupsData[row][@"name"];
-        cell.descriptionOfGroup.stringValue = favesGroupsData[row][@"desc"];
 
-        NSSize imSize=NSMakeSize(70, 70);
-        cell.groupImage.wantsLayer=YES;
-        cell.groupImage.layer.cornerRadius=70/2;
-        cell.groupImage.layer.masksToBounds=TRUE;
-//        if([favesGroupsData[row][@"deactivated"] isEqual:@""]){
-//            cell.deactivatedStatus.hidden=YES;
-//        }else{
-//            cell.deactivatedStatus.stringValue = favesGroupsData[row][@"deactivated"];
-//            cell.deactivatedStatus.hidden=NO;
-//        }
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesGroupsData[row][@"photo"]]]];
-            imagePhoto.size=imSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.groupImage setImage:imagePhoto];
-            });
-        });
-        
-        
-        
-//        if([favesGroupsData[row][@"online"] isEqual:@"1"]){
-//            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-//            //             cell.lastOnline.stringValue = @"";
-//        }
-//        else{
-//            //             cell.lastOnline.stringValue = favesGroupsData[row][@"last_seen"];
-//            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
-//        }
-        
-        return cell;
-    }
-    
-    return nil;
-}
 - (void)loadInfoByURLRequest:(id)sId{
     [groupDataById removeAllObjects];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_ids=%@&v=%@&access_token=%@&extended=1&fields=description,city,country,members_count,status,site,start_date,finish_date", sId,  _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -781,5 +726,61 @@
         });
     
     }]resume];
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
+    NSInteger row;
+    if([[favesGroupsList selectedRowIndexes]count]>0){
+        row = [favesGroupsList selectedRow];
+        receiverDataForMessage = favesGroupsData[row];
+    }
+    
+}
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+    if ([favesGroupsData count]>0) {
+        return [favesGroupsData count];
+    }
+    return 0;
+}
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    if ([favesGroupsData count]>0) {
+        
+        GroupsCustomCellView *cell=[[GroupsCustomCellView  alloc]init];
+        cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
+        cell.nameOfGroup.stringValue = favesGroupsData[row][@"name"];
+        cell.descriptionOfGroup.stringValue = favesGroupsData[row][@"desc"];
+        
+        NSSize imSize=NSMakeSize(70, 70);
+        cell.groupImage.wantsLayer=YES;
+        cell.groupImage.layer.cornerRadius=70/2;
+        cell.groupImage.layer.masksToBounds=TRUE;
+        //        if([favesGroupsData[row][@"deactivated"] isEqual:@""]){
+        //            cell.deactivatedStatus.hidden=YES;
+        //        }else{
+        //            cell.deactivatedStatus.stringValue = favesGroupsData[row][@"deactivated"];
+        //            cell.deactivatedStatus.hidden=NO;
+        //        }
+        
+
+        [cell.groupImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesGroupsData[row][@"photo"]]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            image.size=imSize;
+            [cell.groupImage setImage:image];
+        }];
+        
+        
+        
+        //        if([favesGroupsData[row][@"online"] isEqual:@"1"]){
+        //            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
+        //            //             cell.lastOnline.stringValue = @"";
+        //        }
+        //        else{
+        //            //             cell.lastOnline.stringValue = favesGroupsData[row][@"last_seen"];
+        //            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
+        //        }
+        
+        return cell;
+    }
+    
+    return nil;
 }
 @end

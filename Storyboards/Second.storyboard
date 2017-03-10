@@ -1021,7 +1021,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="461" height="254"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llh-OF-50J">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llh-OF-50J">
                                             <rect key="frame" x="0.0" y="14" width="446" height="240"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vLl-CF-7cF">
@@ -3386,73 +3386,24 @@
                 <customObject id="knZ-dk-J6t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Vkontakte API setup" storyboardIdentifier="VKLoginViewController" id="nDQ-0N-Bwr" customClass="VKLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="3aD-P7-Ima">
-                        <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="289"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGB-t4-zbJ">
-                                <rect key="frame" x="8" y="277" width="390" height="23"/>
-                                <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
-                                    <nil key="identifier"/>
-                                </webPreferences>
-                            </webView>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwS-xQ-D8t">
-                                <rect key="frame" x="150" y="215" width="100" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="appId" drawsBackground="YES" id="qKx-Ot-3ig">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ie-yD-B1W">
-                                <rect key="frame" x="94" y="245" width="212" height="24"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter id of your VK application." id="XJ5-Hp-HY0">
-                                    <font key="font" metaFont="systemSemibold" size="13"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="OBw-bU-Eca">
-                                <rect key="frame" x="192" y="184" width="16" height="16"/>
+                            <progressIndicator wantsLayer="YES" focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="OBw-bU-Eca">
+                                <rect key="frame" x="192" y="173" width="16" height="16"/>
                             </progressIndicator>
-                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icd-Yg-vA3">
-                                <rect key="frame" x="142" y="100" width="123" height="26"/>
-                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="5hC-Wl-p5O" id="dsI-eb-f5j">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="Tkb-Ke-lHF">
-                                        <items>
-                                            <menuItem title="Item 1" state="on" id="5hC-Wl-p5O"/>
-                                            <menuItem title="Item 2" id="Gad-Vm-LSX"/>
-                                            <menuItem title="Item 3" id="7g8-fg-epO"/>
-                                        </items>
-                                    </menu>
-                                </popUpButtonCell>
-                                <connections>
-                                    <action selector="popupAppsSelect:" target="nDQ-0N-Bwr" id="UHI-RW-gTp"/>
-                                </connections>
-                            </popUpButton>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iVf-Zd-BQC">
-                                <rect key="frame" x="148" y="13" width="111" height="32"/>
-                                <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jWg-wk-sXw">
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL3-My-xdm">
+                                <rect key="frame" x="150" y="132" width="100" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82d-ji-Fis">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="loginAction:" target="nDQ-0N-Bwr" id="wXb-05-LaY"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gHH-ob-tet">
-                                <rect key="frame" x="6" y="256" width="49" height="32"/>
-                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y7b-ON-s7j">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="backToVkInfo:" target="nDQ-0N-Bwr" id="3hC-hr-7OU"/>
+                                    <action selector="addApp:" target="nDQ-0N-Bwr" id="tkI-pq-AEt"/>
                                 </connections>
                             </button>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7RZ-LA-hPK">
-                                <rect key="frame" x="115" y="103" width="28" height="21"/>
+                                <rect key="frame" x="115" y="92" width="28" height="21"/>
                                 <popUpButtonCell key="cell" type="squareTextured" title="Item 1" bezelStyle="texturedSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="utI-lc-q2Y" id="n0W-hc-fC6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -3468,16 +3419,65 @@
                                     <action selector="selectAdvancedOptions:" target="nDQ-0N-Bwr" id="26l-wU-Cqb"/>
                                 </connections>
                             </popUpButton>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL3-My-xdm">
-                                <rect key="frame" x="150" y="143" width="100" height="32"/>
-                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82d-ji-Fis">
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gHH-ob-tet">
+                                <rect key="frame" x="6" y="245" width="49" height="32"/>
+                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y7b-ON-s7j">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="addApp:" target="nDQ-0N-Bwr" id="tkI-pq-AEt"/>
+                                    <action selector="backToVkInfo:" target="nDQ-0N-Bwr" id="3hC-hr-7OU"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iVf-Zd-BQC">
+                                <rect key="frame" x="148" y="2" width="111" height="32"/>
+                                <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jWg-wk-sXw">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="loginAction:" target="nDQ-0N-Bwr" id="wXb-05-LaY"/>
+                                </connections>
+                            </button>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icd-Yg-vA3">
+                                <rect key="frame" x="142" y="89" width="123" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="5hC-Wl-p5O" id="dsI-eb-f5j">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="Tkb-Ke-lHF">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="5hC-Wl-p5O"/>
+                                            <menuItem title="Item 2" id="Gad-Vm-LSX"/>
+                                            <menuItem title="Item 3" id="7g8-fg-epO"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="popupAppsSelect:" target="nDQ-0N-Bwr" id="UHI-RW-gTp"/>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ie-yD-B1W">
+                                <rect key="frame" x="94" y="234" width="212" height="24"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter id of your VK application." id="XJ5-Hp-HY0">
+                                    <font key="font" metaFont="systemSemibold" size="13"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwS-xQ-D8t">
+                                <rect key="frame" x="150" y="204" width="100" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="appId" drawsBackground="YES" id="qKx-Ot-3ig">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <webView hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGB-t4-zbJ">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="289"/>
+                                <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
+                                    <nil key="identifier"/>
+                                </webPreferences>
+                            </webView>
                         </subviews>
                     </view>
                     <connections>
@@ -3491,7 +3491,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-791" y="1368"/>
+            <point key="canvasLocation" x="-799" y="1362.5"/>
         </scene>
         <!--Youtube API setup-->
         <scene sceneID="4lS-WX-yRO">

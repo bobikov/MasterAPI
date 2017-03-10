@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7dy-L8-2lD">
-                                <rect key="frame" x="128" y="-1" width="336" height="329"/>
+                                <rect key="frame" x="131" y="0.0" width="333" height="306"/>
                                 <connections>
                                     <segue destination="VeH-uj-HEh" kind="embed" id="crs-qj-5Cj"/>
                                 </connections>
@@ -323,7 +323,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IO2-9o-aXv">
-                                <rect key="frame" x="20" y="5" width="76" height="32"/>
+                                <rect key="frame" x="20" y="13" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4wm-nW-N2a">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -343,7 +343,7 @@
                 </viewController>
                 <customObject id="hOo-Te-2Y2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-131" y="871"/>
+            <point key="canvasLocation" x="-131" y="855"/>
         </scene>
         <!--YoutubeLoginViewController-->
         <scene sceneID="pva-vv-qL2">

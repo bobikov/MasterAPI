@@ -26,15 +26,13 @@
 - (void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleHidden;
     self.view.window.titlebarAppearsTransparent = YES;
-    
     self.view.window.movableByWindowBackground=NO;
 //     self.preferredContentSize=self.view.frame.size;
     NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:wrapSideMenu.frame];
     vibrantView.material=NSVisualEffectMaterialSidebar;
     
     vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
-    
-    
+
     //    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
     //    vibrantView.wantsLayer=YES;
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
@@ -43,15 +41,11 @@
     [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
      [appsList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:YES];
+    [self.view.window setMinSize:self.view.window.frame.size];
+    [self.view.window setMaxSize:self.view.window.frame.size];
     
 }
--(void)viewWillAppear{
-     [self.view.window setMinSize:self.view.window.frame.size];
-    [self.view.window setMaxSize:self.view.window.frame.size];
-   
-//    [self setPreferredContentSize:self.view.window.frame.size];
-   
-}
+
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row = [appsList selectedRow];
     NSString *item = appsData[row];

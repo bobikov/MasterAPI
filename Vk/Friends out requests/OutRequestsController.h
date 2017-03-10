@@ -32,6 +32,7 @@
     NSMutableDictionary *cachedImage;
     NSMutableDictionary *cachedStatus;
     int counter;
+    BOOL loading;
 }
 
 
