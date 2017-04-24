@@ -1,2 +1,2 @@
 # MasterAPI
-<br /> VK, Youtube, Tumblr, Twitter, Instagram
+<br /> Supports: VK, Youtube, Tumblr, Twitter, Instagram
