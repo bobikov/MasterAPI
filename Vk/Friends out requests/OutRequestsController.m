@@ -113,8 +113,10 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     loading=YES;
     
     if(makeOffset){
+        NSLog(@"offset");
         offsetRequests = offsetRequests+500;
     }else{
+        NSLog(@"no offset");
         [outRequestsData removeAllObjects];
         offsetRequests = 0;
         counter=0;
@@ -127,7 +129,8 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     
     
     [self getRequests:^(NSMutableArray *requests) {
-        if([requests count] > 0){
+        NSLog(@"%li", [requests count]);
+        if(requests){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,domain,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,relation&access_token=%@&v=%@", [requests componentsJoinedByString:@","], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 if(data){
                     NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -394,6 +397,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             loading=NO;
+                            NSLog(@"%li",[outRequestsData count]);
                             [outRequestsList reloadData];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [progressSpin stopAnimation:self];
@@ -424,7 +428,9 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                     [requests addObject:i];
                     //NSLog(@"%@", i);
                 }
+                
                 completion(requests);
+                
             }
         }
         
@@ -434,7 +440,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     return [outRequestsData count];
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([outRequestsData count]==counter && [outRequestsData lastObject] && row <= [outRequestsData count]){
+    
         OutRequestsCustomCell *cell = [[OutRequestsCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = outRequestsData[row][@"full_name"];
@@ -471,9 +477,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
         }
         
         return cell;
-    }
 
-    return nil;
 }
 
 

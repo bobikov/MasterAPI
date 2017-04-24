@@ -609,7 +609,7 @@
             }];
             
             
-            [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            [cell.photo sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", foundListData[row][@"user_photo"]]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 
             } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
 
@@ -633,7 +633,7 @@
             cell.groupAvatar.layer.masksToBounds=YES;
             cell.groupName.stringValue = foundListData[row][@"name"];
             cell.groupCountry.stringValue = foundListData[row][@"country"];
-            [cell.groupAvatar sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:foundListData[row][@"photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            [cell.groupAvatar sd_setImageWithURL:[NSURL URLWithString:foundListData[row][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 
             } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 NSSize imSize=NSMakeSize(60, 60);

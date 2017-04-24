@@ -66,25 +66,19 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
     [self displayContentController:welcomeView];
     currentController = welcomeView;
-}
-
-- (void)showTasksManager:(NSNotification*)notification{
-   [self switchControllers:TasksView];
-}
-- (void)viewDidAppear{
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show friends" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"copy photo" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"welcome" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"copy video" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"post wall" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"privacy photo albums" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"change status" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show dialogs" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show subscribers" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"privacy video albums" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"copy audio" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"show audio" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(display:) name:@"profile photo change" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show friends" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"copy photo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"welcome" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"copy video" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"post wall" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"privacy photo albums" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"change status" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show dialogs" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show subscribers" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"privacy video albums" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"copy audio" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show audio" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"profile photo change" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show video" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show photo" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show banned" object:nil];
@@ -106,7 +100,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show follows" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show media" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"search media by tag" object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"user media feed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"user media feed" object:nil];
+    
+    
+    
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectVKApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTumblrApi" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SelectTwitterApi" object:nil];
@@ -116,9 +114,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectVKApi:) name:@"SelectVKApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectTwitterApi:) name:@"SelectTwitterApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectYoutubeApi:) name:@"SelectYoutubeApi" object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectInstagramApi:) name:@"SelectInstagramApi" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(preloadTasksView:) name:@"preloadTaskView" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCurrentController:) name:@"showCurrentMainController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectInstagramApi:) name:@"SelectInstagramApi" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preloadTasksView:) name:@"preloadTaskView" object:nil];
+}
+
+- (void)showTasksManager:(NSNotification*)notification{
+   [self switchControllers:TasksView];
+}
+- (void)viewDidAppear{
+    
 }
 - (void)preloadTasksView:(NSNotification*)notiifcation{
 //    [TasksView loadView];
