@@ -118,7 +118,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     [[NSNotificationCenter defaultCenter]postNotificationName:@"backToInfo" object:nil userInfo:@{@"name":@"vkontakte"}];
 }
 - (void)setAppVersion{
-    version = [NSString stringWithFormat:@"%.2f", 5.62];
+    version = [NSString stringWithFormat:@"%.2f", 5.63];
 }
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame{
     NSString *fullQuery = [[NSURL URLWithString:[[sender mainFrameURL] stringByReplacingOccurrencesOfString:@"#" withString:@"?"]]query];

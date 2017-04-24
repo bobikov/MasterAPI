@@ -445,7 +445,7 @@
         cell.groupImage.layer.cornerRadius = 70/2;
   
 
-        [cell.groupImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:groupsData[row][@"photo"]] placeholderImage:[NSImage imageNamed:@"placeholderImage.jpg"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        [cell.groupImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:groupsData[row][@"photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             
         } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSSize imSize=NSMakeSize(70, 70);
