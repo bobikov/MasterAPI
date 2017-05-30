@@ -560,7 +560,7 @@ NSInteger floatSort(id num1, id num2, void *context){
     }
 
         //                NSLog(@"%@", videoAlbumsTemp);
-        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
+        //NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"date"  ascending:NO];
         
         
         [collectionViewListAlbums setContent:videoAlbums];

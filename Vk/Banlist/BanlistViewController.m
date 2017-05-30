@@ -856,13 +856,13 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
        
 //        if(![banlistData[row][@"status"]isEqual:@""] && banlistData[row][@"status"]!=nil){
 //        cell.status.stringValue=banlistData[row][@"status"];
-        [cell.status setAllowsEditingTextAttributes:YES];
+//        [cell.status setAllowsEditingTextAttributes:YES];
        
        
 //        }else{
 //                    cell.status.stringValue = banlistData[row][@"status"];
 //        }
-//       cell.status.stringValue = banlistData[row][@"status"];
+//        cell.status.stringValue = banlistData[row][@"status"];
         cell.deactivated.stringValue = banlistData[row][@"deactivated"];
         cell.sex.stringValue = banlistData[row][@"sex"];
 
@@ -872,6 +872,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         
         [_stringHighlighter highlightStringWithURLs:banlistData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
             cell.status.attributedStringValue=highlightedString;
+          
         }];
         
         
