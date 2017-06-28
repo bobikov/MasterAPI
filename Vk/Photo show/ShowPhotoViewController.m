@@ -52,6 +52,8 @@
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     collectionViewListAlbums.enclosingScrollView.wantsLayer = TRUE;
     collectionViewListAlbums.enclosingScrollView.layer = layer;
+    
+    
 }
 - (void)viewDidAppear{
     //    if(!albumLoaded){
@@ -63,6 +65,7 @@
         self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
         self.view.window.movableByWindowBackground=NO;
     }
+   
 }
 
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
@@ -132,9 +135,7 @@
     });
 }
 - (void)removePhotoAlbum:(NSNotification*)notification{
-
     dispatch_async(dispatch_get_main_queue(),^{
-
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
         [albumsData removeObjectAtIndex:[notification.userInfo[@"index"] intValue]];
         [collectionViewListAlbums deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
@@ -157,7 +158,6 @@
 }
 - (void)loadSearchVideo{
     if(!albumLoaded){
-        
         NSInteger counter=0;
         NSMutableArray *photoAlbumsTemp=[[NSMutableArray alloc]init];
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
@@ -168,7 +168,6 @@
                 counter++;
                 [photoAlbumsTemp addObject:i];
             }
-            
         }
         if([photoAlbumsTemp count]>0){
             [albumsData removeAllObjects];
@@ -181,7 +180,7 @@
 
 - (IBAction)backToAlbumsAction:(id)sender {
     friendId=nil;
-    ownerId=nil;
+    //ownerId=nil;
 
     [self loadAlbums];
 }
@@ -297,6 +296,7 @@
     }
 }
 - (void)loadAlbums{
+    
     [albumsData removeAllObjects];
     [albumsData2 removeAllObjects];
 
@@ -305,7 +305,11 @@
     __block NSString *url;
 
     albumLoaded=NO;
-    ownerId = ownerId == nil ? _app.person : ownerId;
+    if(!_loadFromWallPost && !loadForAttachments && !_loadFromFullUserInfo){
+        ownerId = _app.person;
+    }
+    NSLog(@"%@", ownerId);
+    
     url =[NSString stringWithFormat:@"https://api.vk.com/method/photos.getAlbums?owner_id=%@&need_covers=1&need_system=1&v=%@&access_token=%@", ownerId, _app.version, _app.token];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
