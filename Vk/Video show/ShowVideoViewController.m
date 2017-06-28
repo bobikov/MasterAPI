@@ -345,7 +345,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 
 - (IBAction)backToAlbumsAction:(id)sender {
 //    [self resetAlbumsDropdown];
-    ownerId=_app.person;
+    //ownerId=_app.person;
     friendId=nil;
     publicIdFrom = nil;
     [self loadAlbums:NO :nil];
@@ -364,7 +364,10 @@ NSInteger floatSort(id num1, id num2, void *context){
 }
 
 - (void)loadAlbums:(BOOL)makeOffset :(id)albums {
-    ownerId = ownerId == nil ? _app.person : ownerId;
+    //ownerId = ownerId == nil ? _app.person : ownerId;
+    if( !_loadFromFullUserInfo && !_loadFromWallPost && !loadForAttachments){
+        ownerId = _app.person;
+    }
     __block NSString *url;
     nameSelectedObject = @"albums";
     albumLoaded=NO;
