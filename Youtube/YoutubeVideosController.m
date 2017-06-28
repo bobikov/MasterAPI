@@ -13,6 +13,7 @@
 #import "YoutubeVideosAddToSocialsController.h"
 #import "YoutubeAddToPlaylistController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+
 @interface YoutubeVideosController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -50,17 +51,23 @@
             //Refresh here
             //         NSLog(@"The end of table");
             if(pageToken!=nil){
-                if(lastAction==0){
+                if(lastAction==PLAYLIST_LOADED){
+                    [self loadPlaylist:YES];
+                }
+                else if(lastAction==CHANNEL_VIDEOS_LOADED){
                     [self loadVideos:YES];
                 }
-                else if(lastAction==1){
+                else if(lastAction==BROADCASTS_LOADED){
                     [self loadLiveBroadcasts:@{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50} offset:YES];
                 }
-                else if(lastAction==3){
+                else if(lastAction==GLOBAL_SEARCH_LOADED){
                     [self globalVideosSearch:YES string:[videosSearchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
                 }
-                else if(lastAction==2){
+                else if(lastAction==LIKED_LOADED){
                     [self loadLikedVideos:YES];
+                }
+                else if (lastAction==USER_PLAYLISTS_LOADED){
+                    return;
                 }
             }
         }
@@ -88,8 +95,7 @@
 
 }
 - (void)loadLikedVideos:(BOOL)offset{
-    lastAction = 2;
-
+    lastAction = LIKED_LOADED;
     if(playlistID){
         if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
             if(offset){
@@ -149,6 +155,7 @@
 - (IBAction)loadMinePlaylists:(id)sender {
     [loadedItemsData removeAllObjects];
     playlistLoaded=YES;
+    lastAction=USER_PLAYLISTS_LOADED;
     [_youtubeClient APIRequest:@"playlists" query:@{@"part":@"snippet", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
         NSDictionary *playlistsMineResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         for(NSDictionary *i in playlistsMineResp[@"items"]){
@@ -159,7 +166,6 @@
         });
     }];
 }
-
 - (IBAction)showPlaylistsByChannel:(id)sender {
     playlistLoaded=YES;
     [loadedItemsData removeAllObjects];
@@ -194,14 +200,15 @@
 }
 - (IBAction)showLiveBroadcasts:(id)sender {
     playlistLoaded=NO;
-     lastAction = 1;
+    lastAction = BROADCASTS_LOADED;
     [self loadLiveBroadcasts:@{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50} offset:NO];
    
+
 }
 - (void)loadLiveBroadcasts:(NSDictionary*)query offset:(BOOL)offset{
     
     if(offset){
-        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel,@"regionCode":@"RU", @"pageToken":pageToken};
+        queryParams = lastAction == BROADCASTS_LOADED ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel,@"regionCode":@"RU", @"pageToken":pageToken};
         
     }
     else{
@@ -210,7 +217,7 @@
                 [loadedItemsList removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [loadedItemsData count])] withAnimation:NSTableViewAnimationEffectNone];
             }
         });
-        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50}
+        queryParams = lastAction==BROADCASTS_LOADED ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50}
       : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50,  @"channelId":channel,@"regionCode":@"RU"};
         //        offsetCounter=0;
         [loadedItemsData removeAllObjects];
@@ -418,28 +425,43 @@
 }
 - (IBAction)openPlaylist:(id)sender {
     playlistLoaded=NO;
+    lastAction=PLAYLIST_LOADED;
     NSView *parentCell = [sender superview];
     NSInteger row = [loadedItemsList rowForView:parentCell];
 //    NSLog(@"%@", subscriptionsData[row][@"id"]);
-    NSString *playlist = loadedItemsData[row][@"playlist_id"];
-//    NSLog(@"%@", playlist);
-//    [loadedItemsData removeAllObjects];
-    [_youtubeClient APIRequest:@"playlistItems" query:@{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50} handler:^(NSData *data) {
-        NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        
-        for(NSDictionary *i in getVideosResp[@"items"]){
-            NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
-            [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
+    playlist = loadedItemsData[row][@"playlist_id"];
+    NSLog(@"PLAYLIST LOADED: %@", playlist);
+    [self loadPlaylist:NO];
+   
 
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [loadedItemsList reloadData];
-        });
-    }];
 }
-
+- (void)loadPlaylist:(BOOL)offset{
+   
+    if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
+        if(offset){
+            queryParams = @{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50, @"pageToken":pageToken};
+        }
+        else{
+            [loadedItemsData removeAllObjects];
+            queryParams = @{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50};
+        }
+        
+        [_youtubeClient APIRequest:@"playlistItems" query:queryParams handler:^(NSData *data) {
+            NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+            for(NSDictionary *i in getVideosResp[@"items"]){
+                NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
+                [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [loadedItemsList reloadData];
+            });
+        
+        }];
+    }
+}
 - (IBAction)loadVideosByChannel:(id)sender {
-  
     NSView *parentCell = [sender superview];
     NSInteger row = [subscriptionsList rowForView:parentCell];
     NSLog(@"%@", subscriptionsData[row][@"id"]);
@@ -447,9 +469,10 @@
     [self loadVideos:NO];
 }
 - (void)loadVideos:(BOOL)offset {
+    
     playlistLoaded=NO;
 //    [loadedItemsData removeAllObjects];
-    lastAction = 0;
+    lastAction = CHANNEL_VIDEOS_LOADED;
 //    offset ? nil :  [loadedItemsData removeAllObjects];
     [_youtubeClient APIRequest:@"channels" query:@{@"part":@"contentDetails", @"maxResults":@50, @"id":channel} handler:^(NSData *data) {
         if(data){
@@ -513,6 +536,7 @@
         }
         
     }];
+
 }
 - (void)loadSubscriptions:(BOOL)offset{
     
@@ -581,6 +605,9 @@
         [self loadSubscriptions:NO];
     }
 }
+
+
+
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSIndexSet *rows = [loadedItemsList selectedRowIndexes];
 //    videoVkData = loadedItemsData[row];
@@ -595,9 +622,6 @@
     
     
 }
-
-
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if(tableView == subscriptionsList){
         return [subscriptionsData count];
@@ -673,4 +697,6 @@
     }
     return nil;
 }
+
+
 @end

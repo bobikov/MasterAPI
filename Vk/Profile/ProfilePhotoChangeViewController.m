@@ -96,6 +96,9 @@
                 });
                 
             }
+            else{
+                NSLog(@"Error load current photo: %@", photoGetResponse);
+            }
         }
     }] resume];
 }

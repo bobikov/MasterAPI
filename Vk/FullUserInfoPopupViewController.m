@@ -117,7 +117,7 @@
                 relation.stringValue=@"not available";
                 break;
             case 1:
-                relation.stringValue=@"not maried";
+                relation.stringValue=@"not married";
                 break;
             case 2:
                 relation.stringValue=@"have a friend";

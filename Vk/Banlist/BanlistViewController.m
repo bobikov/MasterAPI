@@ -856,7 +856,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
        
 //        if(![banlistData[row][@"status"]isEqual:@""] && banlistData[row][@"status"]!=nil){
 //        cell.status.stringValue=banlistData[row][@"status"];
-//        [cell.status setAllowsEditingTextAttributes:YES];
+        [cell.status setAllowsEditingTextAttributes:YES];
        
        
 //        }else{
