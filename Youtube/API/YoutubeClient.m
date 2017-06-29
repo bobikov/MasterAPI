@@ -9,6 +9,7 @@
 #import "YoutubeClient.h"
 
 @implementation YoutubeClient
+
 -(id)init{
     self = [super self];
     _request_temp_token_url = @"https://accounts.google.com/o/oauth2/auth";
@@ -44,7 +45,7 @@
     
     return [self initWithToken:tokens[@"access_token"] client_id:tokens[@"client_id"] client_secret:tokens[@"client_secret"] token_type:tokens[@"token_type"]];
 }
--(void)APIRequest:(NSString*)method  query:(NSDictionary*)params handler:(OnComplete)completion{
+-(void)APIRequest:(NSString*)method  query:(NSDictionary*)params handler:(OnComplete3)completion{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
    
@@ -79,7 +80,7 @@
      });
     
 }
--(void)refreshToken:(OnComplete)completion{
+-(void)refreshToken:(OnComplete3)completion{
     _YoutubeRWD= [[YoutubeRWData alloc]init];
     NSDictionary *tokens=[_YoutubeRWD readYoutubeTokens];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];

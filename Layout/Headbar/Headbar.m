@@ -246,12 +246,17 @@
     }else{
         TwitterClient *client = [[TwitterClient alloc]initWithTokensFromCoreData];
         [client APIRequest:@"account" rmethod:@"verify_credentials.json" query:@{} handler:^(NSData *data) {
-            NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", resp);
-            appPhotoURLs[@"twitter"] = @{@"photo":[NSURL URLWithString:resp[@"profile_image_url"] ], @"name":resp[@"name"]};
-            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"twitter"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
-            mainProfilePhoto.toolTip = appPhotoURLs[@"twitter"][@"name"];
-            
+            if(data){
+                
+                NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", resp);
+                if(!resp[@"errors"]){
+                    appPhotoURLs[@"twitter"] = @{@"photo":[NSURL URLWithString:resp[@"profile_image_url"] ], @"name":resp[@"name"]};
+                    [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"twitter"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+                    mainProfilePhoto.toolTip = appPhotoURLs[@"twitter"][@"name"];
+                }
+         
+            }
         }];
     }
 }

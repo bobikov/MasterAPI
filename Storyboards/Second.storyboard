@@ -3331,7 +3331,7 @@
         <!--Tumblr API setup-->
         <scene sceneID="vUI-8e-PL9">
             <objects>
-                <viewController title="Tumblr API setup" id="DGT-lf-0h7" sceneMemberID="viewController">
+                <viewController title="Tumblr API setup" storyboardIdentifier="TumblrLoginViewController" id="DGT-lf-0h7" customClass="TumblrLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="1c7-k3-ggb">
                         <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3353,15 +3353,15 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-ux-nyh">
-                                <rect key="frame" x="146" y="43" width="103" height="32"/>
+                                <rect key="frame" x="146" y="19" width="103" height="32"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Mj-1Q-ath">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VEb-7z-Y0j">
-                                <rect key="frame" x="39" y="237" width="319" height="43"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret key of your Tumblr application." id="Xhr-eI-E7M">
+                                <rect key="frame" x="54" y="232" width="286" height="43"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret." id="Xhr-eI-E7M">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -3373,12 +3373,52 @@
                                     <nil key="identifier"/>
                                 </webPreferences>
                             </webView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-DR-hYj">
+                                <rect key="frame" x="5" y="253" width="49" height="32"/>
+                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fzs-QV-i0z">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backToTumblrPrefs:" target="DGT-lf-0h7" id="N8u-Pu-dFz"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="953-JM-T2i">
+                                <rect key="frame" x="140" y="139" width="114" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lst-Ys-ymi">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="removeAndAdd:" target="DGT-lf-0h7" id="i3h-5R-yXk"/>
+                                </connections>
+                            </button>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="BOT-ax-ic0">
+                                <rect key="frame" x="189" y="115" width="16" height="16"/>
+                            </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qQK-n2-Wmb">
+                                <rect key="frame" x="142" y="67" width="112" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fQO-LF-HbC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetToken:" target="DGT-lf-0h7" id="EaN-y2-gIO"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="consumerKey" destination="gKG-iH-URh" id="xtq-9F-BhU"/>
+                        <outlet property="consumerSecret" destination="88E-vf-gTe" id="drw-kP-NJp"/>
+                        <outlet property="progress" destination="BOT-ax-ic0" id="vHE-31-Vdg"/>
+                        <outlet property="removeAndAddButton" destination="953-JM-T2i" id="sgw-Sf-zzE"/>
+                        <outlet property="resetTokenButton" destination="qQK-n2-Wmb" id="oZy-rJ-uHP"/>
+                    </connections>
                 </viewController>
                 <customObject id="AW4-RT-NGN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-791" y="1734"/>
+            <point key="canvasLocation" x="-807" y="1734"/>
         </scene>
         <!--Vkontakte API setup-->
         <scene sceneID="95J-Cc-ARI">
@@ -3496,7 +3536,7 @@
         <!--Youtube API setup-->
         <scene sceneID="4lS-WX-yRO">
             <objects>
-                <viewController title="Youtube API setup" storyboardIdentifier="YoutubeLoginViewController" id="TFP-0V-PBp" sceneMemberID="viewController">
+                <viewController title="Youtube API setup" storyboardIdentifier="YoutubeLoginViewController" id="TFP-0V-PBp" customClass="YoutubeLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="g0r-Q1-08e">
                         <rect key="frame" x="0.0" y="0.0" width="379" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -3517,16 +3557,9 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3FM-Mo-Pfp">
-                                <rect key="frame" x="134" y="43" width="103" height="32"/>
-                                <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8TO-gw-Nu6">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Wm-pY-oGq">
-                                <rect key="frame" x="30" y="237" width="319" height="43"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Client id and Client secret of your Youtube application." id="dhf-xI-OdQ">
+                                <rect key="frame" x="52" y="237" width="267" height="43"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Client id and Client secret." id="dhf-xI-OdQ">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -3538,8 +3571,54 @@
                                     <nil key="identifier"/>
                                 </webPreferences>
                             </webView>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="JRZ-Lv-q36">
+                                <rect key="frame" x="177" y="104" width="16" height="16"/>
+                            </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GsM-0y-eOf">
+                                <rect key="frame" x="129" y="62" width="112" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="O8w-g3-yHv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetToken:" target="TFP-0V-PBp" id="8xD-es-Pf5"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3FM-Mo-Pfp">
+                                <rect key="frame" x="134" y="13" width="103" height="32"/>
+                                <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8TO-gw-Nu6">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="njp-9A-f3m">
+                                <rect key="frame" x="8" y="258" width="49" height="32"/>
+                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3vN-ff-awA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backToPrefsInfo:" target="TFP-0V-PBp" id="CI2-FU-fHI"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aDQ-5K-jQ5">
+                                <rect key="frame" x="129" y="133" width="114" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ja0-rT-yuv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="removeAndAdd:" target="TFP-0V-PBp" id="twc-fu-m8Z"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="clientId" destination="PMn-bL-ZHj" id="uKW-Ez-qHl"/>
+                        <outlet property="clientSecret" destination="3ma-1o-WLL" id="qQF-u0-ahb"/>
+                        <outlet property="progress" destination="JRZ-Lv-q36" id="GNZ-uT-jWo"/>
+                        <outlet property="removeAndAddButton" destination="aDQ-5K-jQ5" id="p5K-wM-xON"/>
+                    </connections>
                 </viewController>
                 <customObject id="ORN-Aj-XZR" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3570,7 +3649,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gCR-tu-fme">
-                                <rect key="frame" x="132" y="43" width="103" height="32"/>
+                                <rect key="frame" x="132" y="19" width="103" height="32"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8b-tW-qNk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3580,13 +3659,46 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgo-dW-6Ni">
-                                <rect key="frame" x="25" y="237" width="319" height="43"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret key of your Twitter application." id="lzK-n1-MSS">
+                                <rect key="frame" x="49" y="237" width="268" height="43"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret key." id="lzK-n1-MSS">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRy-MU-mld">
+                                <rect key="frame" x="8" y="253" width="49" height="32"/>
+                                <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zow-x6-Ksb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="backToPrefs:" target="V08-pl-iC6" id="Yuj-Un-wcc"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0C4-AR-HeA">
+                                <rect key="frame" x="132" y="133" width="114" height="32"/>
+                                <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bsw-Wt-TEx">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="removeAndAdd:" target="V08-pl-iC6" id="B82-H1-EQA"/>
+                                </connections>
+                            </button>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="qRr-oJ-4ac">
+                                <rect key="frame" x="175" y="104" width="16" height="16"/>
+                            </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63J-Vp-kQc">
+                                <rect key="frame" x="132" y="62" width="112" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="89T-3g-fmW">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetToken:" target="V08-pl-iC6" id="Tsy-Kg-kqd"/>
+                                </connections>
+                            </button>
                             <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shG-mS-VNb">
                                 <rect key="frame" x="0.0" y="0.0" width="379" height="300"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
@@ -3598,6 +3710,9 @@
                     <connections>
                         <outlet property="consumerKey" destination="d5m-Me-h1M" id="wb6-pP-24h"/>
                         <outlet property="consumerSecret" destination="Y8q-U4-wSR" id="sYp-TQ-xw6"/>
+                        <outlet property="progress" destination="qRr-oJ-4ac" id="fjQ-eJ-QHC"/>
+                        <outlet property="removeAndAddButton" destination="0C4-AR-HeA" id="f8w-yB-YLB"/>
+                        <outlet property="resetTokenButton" destination="63J-Vp-kQc" id="ny6-r5-8Nb"/>
                         <outlet property="webView" destination="shG-mS-VNb" id="htW-Zp-wYS"/>
                     </connections>
                 </viewController>

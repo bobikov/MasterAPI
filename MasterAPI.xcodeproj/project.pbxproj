@@ -80,7 +80,6 @@
 		2B41FC041E02D3F60013AC86 /* SmilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FA5A1E02D3F50013AC86 /* SmilesViewController.m */; };
 		2B41FC051E02D3F60013AC86 /* Fourth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */; };
 		2B41FC061E02D3F60013AC86 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA5D1E02D3F50013AC86 /* Second.storyboard */; };
-		2B41FC071E02D3F60013AC86 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA5E1E02D3F50013AC86 /* Third.storyboard */; };
 		2B41FC081E02D3F60013AC86 /* StringHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FA611E02D3F50013AC86 /* StringHighlighter.m */; };
 		2B41FC091E02D3F60013AC86 /* videojs-resolution-switcher.css in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA641E02D3F50013AC86 /* videojs-resolution-switcher.css */; };
 		2B41FC0A1E02D3F60013AC86 /* add_plus40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA661E02D3F50013AC86 /* add_plus40.png */; };
@@ -289,6 +288,9 @@
 		2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B462FE91E5481910022E039 /* APIClientsProtocol.m */; };
 		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
+		2B81D5641F040EAB00F1DEE6 /* YoutubeLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */; };
+		2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B81D5651F04177300F1DEE6 /* Third.storyboard */; };
+		2B81D5691F0520EA00F1DEE6 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
 		2BB36A331E58496600764C6E /* video_placeholder-500x400.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A311E58496500764C6E /* video_placeholder-500x400.png */; };
 		2BB36A341E58496600764C6E /* video-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A321E58496500764C6E /* video-placeholder.png */; };
@@ -475,7 +477,6 @@
 		2B41FA5A1E02D3F50013AC86 /* SmilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesViewController.m; sourceTree = "<group>"; };
 		2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Fourth.storyboard; sourceTree = "<group>"; };
 		2B41FA5D1E02D3F50013AC86 /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
-		2B41FA5E1E02D3F50013AC86 /* Third.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Third.storyboard; sourceTree = "<group>"; };
 		2B41FA601E02D3F50013AC86 /* StringHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHighlighter.h; sourceTree = "<group>"; };
 		2B41FA611E02D3F50013AC86 /* StringHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHighlighter.m; sourceTree = "<group>"; };
 		2B41FA641E02D3F50013AC86 /* videojs-resolution-switcher.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "videojs-resolution-switcher.css"; sourceTree = "<group>"; };
@@ -823,6 +824,11 @@
 		2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramFeedViewController.h; sourceTree = "<group>"; };
 		2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramFeedViewController.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		2B81D5621F040EAB00F1DEE6 /* YoutubeLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YoutubeLoginViewController.h; sourceTree = "<group>"; };
+		2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YoutubeLoginViewController.m; sourceTree = "<group>"; };
+		2B81D5651F04177300F1DEE6 /* Third.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Third.storyboard; sourceTree = "<group>"; };
+		2B81D5671F0520EA00F1DEE6 /* TumblrLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrLoginViewController.h; sourceTree = "<group>"; };
+		2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrLoginViewController.m; sourceTree = "<group>"; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB36A311E58496500764C6E /* video_placeholder-500x400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video_placeholder-500x400.png"; sourceTree = "<group>"; };
@@ -1151,7 +1157,7 @@
 			children = (
 				2B41F9DB1E02D3F50013AC86 /* Main.storyboard */,
 				2B41FA5D1E02D3F50013AC86 /* Second.storyboard */,
-				2B41FA5E1E02D3F50013AC86 /* Third.storyboard */,
+				2B81D5651F04177300F1DEE6 /* Third.storyboard */,
 				2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */,
 				2B41FCD41E03E61E0013AC86 /* Fifth.storyboard */,
 			);
@@ -1313,6 +1319,8 @@
 				2B41FABC1E02D3F50013AC86 /* TumblrPosts.m */,
 				2B41FABD1E02D3F50013AC86 /* TumblrSession.h */,
 				2B41FABE1E02D3F50013AC86 /* TumblrSession.m */,
+				2B81D5671F0520EA00F1DEE6 /* TumblrLoginViewController.h */,
+				2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */,
 			);
 			path = Tumblr;
 			sourceTree = "<group>";
@@ -1758,6 +1766,8 @@
 				2B41FBC21E02D3F60013AC86 /* YoutubeVideosController.m */,
 				2B41FBC31E02D3F60013AC86 /* YoutubeVideosCustomCell.h */,
 				2B41FBC41E02D3F60013AC86 /* YoutubeVideosCustomCell.m */,
+				2B81D5621F040EAB00F1DEE6 /* YoutubeLoginViewController.h */,
+				2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */,
 			);
 			path = Youtube;
 			sourceTree = "<group>";
@@ -1959,6 +1969,7 @@
 				2B1914D31E2D043100FB714E /* to-down28.png in Resources */,
 				2B1914D01E2CF8DC00FB714E /* go_down.png in Resources */,
 				2B41FC1B1E02D3F60013AC86 /* docs_min.png in Resources */,
+				2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */,
 				2B41FC351E02D3F60013AC86 /* tasks.png in Resources */,
 				2B41FC411E02D3F60013AC86 /* youtube-icon.png in Resources */,
 				2B41FC061E02D3F60013AC86 /* Second.storyboard in Resources */,
@@ -2004,7 +2015,6 @@
 				2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */,
 				2B41FC181E02D3F60013AC86 /* dino_boys.png in Resources */,
 				2B41FC431E02D3F60013AC86 /* video.js in Resources */,
-				2B41FC071E02D3F60013AC86 /* Third.storyboard in Resources */,
 				2B41FC231E02D3F60013AC86 /* mark1.png in Resources */,
 				2B41FC0B1E02D3F60013AC86 /* audio.png in Resources */,
 				2B41FC0A1E02D3F60013AC86 /* add_plus40.png in Resources */,
@@ -2183,6 +2193,7 @@
 				2B41FC751E02D3F70013AC86 /* EditDocsViewController.m in Sources */,
 				2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */,
 				2B41FBD51E02D3F60013AC86 /* AppStartSettingsMainViewController.m in Sources */,
+				2B81D5691F0520EA00F1DEE6 /* TumblrLoginViewController.m in Sources */,
 				2B41FC5C1E02D3F70013AC86 /* AddAudiosViewController.m in Sources */,
 				2B41FBF91E02D3F60013AC86 /* HTMLSelector.m in Sources */,
 				2B41FBFA1E02D3F60013AC86 /* HTMLSerialization.m in Sources */,
@@ -2210,6 +2221,7 @@
 				2BCACB6E1E4DA42D00830583 /* KBButton.m in Sources */,
 				2B41FC961E02D3F70013AC86 /* MyPhotoWindowController.m in Sources */,
 				2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */,
+				2B81D5641F040EAB00F1DEE6 /* YoutubeLoginViewController.m in Sources */,
 				2B41FC661E02D3F70013AC86 /* AudioPlaylist.m in Sources */,
 				2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */,
 				2B41FC811E02D3F70013AC86 /* FriendsTabbarViewController.m in Sources */,

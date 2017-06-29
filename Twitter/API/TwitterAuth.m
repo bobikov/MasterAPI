@@ -111,6 +111,7 @@
 //        NSLog(@"%@",   _client.oauth_token_secret );
 //        NSLog(@"%@",queryStringDictionary );
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ObserveReadyTwitterTokens" object:nil userInfo:@{@"oauth_token":_client.oauth_token, @"oauth_token_secret":_client.oauth_token_secret, @"consumer_key":consumer, @"consumer_secret_key":comsumerSecret}];
+        
 
         
     }]resume];

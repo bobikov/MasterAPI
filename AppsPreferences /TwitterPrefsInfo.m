@@ -16,31 +16,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeRefreshParams:) name:@"refreshTwitterParamsInFields"  object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GetTwitterAccessToken:) name:@"GetTwitterAccessToken" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ObserveReadyTwitterTokens:) name:@"ObserveReadyTwitterTokens" object:nil];
     twitterRWD = [[TwitterRWData alloc]init];
     twitterAuth = [[TwitterAuth alloc]init];
     [self loadData];
 //        NSLog(@"%@", appData);
 }
+-(void)observeRefreshParams:(NSNotification*)obj{
+    [self loadData];
+}
 -(void)loadData{
     NSDictionary *appData = [twitterRWD readTwitterTokens];
-    consumerKey.stringValue=appData[@"consumer_key"];
-    consumerSecret.stringValue=appData[@"consumer_secret_key"];
-    secretToken.stringValue=appData[@"secret_token"];
-    token.stringValue=appData[@"token"];
+    consumerKey.stringValue = [appData count] ? appData[@"consumer_key"] : @"none";
+    consumerSecret.stringValue = [appData count] ? appData[@"consumer_secret_key"] : @"none";
+    secretToken.stringValue = [appData count] ? appData[@"secret_token"] : @"none";
+    token.stringValue = [appData count] ? appData[@"token"] : @"none";
+   
 }
--(void)GetTwitterAccessToken:(NSNotification*)notification{
-    [twitterAuth requestAccessTokenAndSecretToken:notification.userInfo[@"verifier"] :notification.userInfo[@"consumer"] :notification.userInfo[@"consumerSecret"] :notification.userInfo[@"tempToken"] :notification.userInfo[@"tempTokenSecret"]];
-}
--(void)ObserveReadyTwitterTokens:(NSNotification*)notification{
-    [twitterRWD writeTokens:notification.userInfo];
-    dispatch_async(dispatch_get_main_queue(),^{
 
-        [self loadData];
-    });
-//    NSLog(@"%@", notification.userInfo);
+
+- (IBAction)setupTwitterPrefs:(id)sender {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AppsSetupPrefsSelect" object:nil userInfo:@{@"name":@"twitter"}];
 }
 
 @end

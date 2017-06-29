@@ -23,7 +23,7 @@
     [request setResultType:NSDictionaryResultType];
     NSArray *array = [moc executeFetchRequest:request error:&readError];
     
-    return array[0];
+    return [array count] ? array[0] : @{};
 }
 
 -(BOOL)YoutubeTokensEcxistsInCoreData{
@@ -39,7 +39,7 @@
     }
     return NO;
 }
--(void)removeAllYoutubeAppInfo{
+-(void)removeAllYoutubeAppInfo:(OnCompleteRemove)completion{
 
     NSError *readError;
     NSError *saveError;
@@ -50,8 +50,10 @@
         [moc deleteObject:managedObject];
         if(![moc save:&saveError]){
             NSLog(@"Error delete  object in YoutubeAppInfo");
+            completion(0);
         }else{
             NSLog(@"Object delted in YoutubeAppInfo");
+            completion(1);
         }
     }
 }

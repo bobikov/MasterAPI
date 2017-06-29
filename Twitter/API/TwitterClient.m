@@ -35,7 +35,7 @@
 - (id)initWithTokensFromCoreData{
     _TSession = [NSURLSession  sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self = [self init];
-    _TwitterRWD= [[TwitterRWData alloc]init];
+    _TwitterRWD = [[TwitterRWData alloc]init];
     NSDictionary *tokens = [_TwitterRWD readTwitterTokens];
     
     return [self initWithToken:tokens[@"token"] secretToken:tokens[@"secret_token"] consumerKey:tokens[@"consumer_key"] consumerSecret:tokens[@"consumer_secret_key"]];

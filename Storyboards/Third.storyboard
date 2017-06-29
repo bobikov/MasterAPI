@@ -239,7 +239,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5K-YO-l8f">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5K-YO-l8f" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="31" id="4gL-wM-XLw"/>
@@ -439,7 +439,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AO1-8F-2r6">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AO1-8F-2r6" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="67h-Ub-zKp"/>
@@ -476,7 +476,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ztg-YR-bLT">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ztg-YR-bLT" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="FXU-TK-czD"/>
@@ -513,7 +513,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L8A-Yh-dCU">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L8A-Yh-dCU" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="JlS-VZ-KXP"/>
@@ -566,7 +566,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="ibD-lH-osG" kind="modal" id="5BW-Ly-shf"/>
+                                    <action selector="youtubeSetupPrefs:" target="7qw-vU-nM3" id="Z3e-M0-0ac"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -660,7 +660,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cDq-Ys-DZT">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cDq-Ys-DZT" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Vmn-cb-4Oz"/>
@@ -697,7 +697,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wqc-7V-YNg">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wqc-7V-YNg" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="31" id="7OH-tp-ook"/>
@@ -734,7 +734,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KHK-Kj-1an">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KHK-Kj-1an" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="Bnd-Ah-BRa"/>
@@ -787,7 +787,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="oEu-y6-QNc" kind="modal" id="cHF-7f-jTD"/>
+                                    <action selector="setupTwitterPrefs:" target="6Mp-2u-EU5" id="QLc-Pk-ObY"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -881,7 +881,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I9f-tS-qeI">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I9f-tS-qeI" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="dhD-L0-Bh4"/>
@@ -918,7 +918,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zlv-0h-9jK">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zlv-0h-9jK" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="Y33-C6-sTr"/>
@@ -955,7 +955,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UYd-AL-mVW">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UYd-AL-mVW" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Jft-Fh-EWH"/>
@@ -1007,6 +1007,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="setupTumblrPrefs:" target="rRV-TF-Y4q" id="BLp-Qe-AoH"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
@@ -3779,7 +3782,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZYi-nU-cjt">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZYi-nU-cjt" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="A60-y4-QFn"/>
@@ -3816,7 +3819,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hmr-09-MTn">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hmr-09-MTn" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="TdK-22-3fV"/>
@@ -3853,7 +3856,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4J6-dk-Pdo">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4J6-dk-Pdo" customClass="NSSecureTextField">
                                                         <rect key="frame" x="66" y="0.0" width="224" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="220" id="TIf-3a-31v"/>
