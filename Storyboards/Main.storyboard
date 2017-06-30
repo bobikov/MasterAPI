@@ -500,7 +500,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="O9R-Yp-OWp" kind="show" id="jTb-YW-nQx"/>
+                                    <segue destination="O9R-Yp-OWp" kind="modal" id="jTb-YW-nQx"/>
                                 </connections>
                             </button>
                         </subviews>

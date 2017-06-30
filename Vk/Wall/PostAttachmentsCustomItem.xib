@@ -36,6 +36,7 @@
         <customObject id="yMv-eg-xuJ" customClass="PostAttachmentsCustomItem">
             <connections>
                 <outlet property="previewItem" destination="w06-5r-ych" id="heL-LO-Vax"/>
+                <outlet property="removeItem" destination="bwL-z3-4gy" id="XcF-B2-uA5"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0aR-yE-yEJ"/>
             </connections>
         </customObject>

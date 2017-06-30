@@ -974,10 +974,18 @@
         }
     }
     if([postTargetSourceSelector[@"tumblr"] intValue]){
+        NSString *ownerName;
+        ownerName = @"digitalpenetrator111";
+        NSString *blogowner = [NSString stringWithFormat:@"blog/%@.tumblr.com", ownerName];
         if([attachmentsData count]>0 || [attachmentsDataScheduled count]>0){
-            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":scheduled?attachmentsDataScheduled : attachmentsData} handler:^(NSData *data) {
+
+            //owner = @"hfdui2134";
+           
+            
+            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":scheduled?attachmentsDataScheduled : attachmentsData} handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrPhotoPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", tumblrPhotoPostResp);
                     if(tumblrPhotoPostResp[@"response"]){
                         NSLog(@"Tumblr post with media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrPhotoPostResp[@"response"][@"id"]]);
                      
@@ -985,8 +993,8 @@
                         NSLog(@"Tumblr post with media is not  done. Something wrong.");
                        
                     }
-                    //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
-                    //                           NSLog(@"%@", tumblrResp);
+                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+             
                 }else{
                     NSLog(@"Tumblr post data not recieved");
                    
@@ -999,7 +1007,7 @@
             }];
             
         }else{
-            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
+            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrTextPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     if(tumblrTextPostResp[@"response"][@"id"]){
