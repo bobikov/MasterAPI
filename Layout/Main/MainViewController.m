@@ -13,7 +13,7 @@
 @end
 
 @implementation MainViewController
-@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView;
+@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView,searchView;
 
 - (void)viewDidLoad {
     
@@ -39,6 +39,8 @@
     audioCopyView = [ story3 instantiateControllerWithIdentifier:@"AudioCopy"];
     audioMoveView = [ story3 instantiateControllerWithIdentifier:@"AudioMove"];
   
+    searchView = [story4 instantiateControllerWithIdentifier:@"SearchView"];
+    
     profilePhotoChangeView = [story4 instantiateControllerWithIdentifier:@"ProfilePhoto"];
     ShowVideoView = [story instantiateControllerWithIdentifier:@"ShowVideo"];
     ShowPhotoView = [story instantiateControllerWithIdentifier:@"ShowPhoto"];
@@ -62,6 +64,7 @@
     TasksView = [story5 instantiateControllerWithIdentifier:@"TasksView"];
     InstagramSearchByTagView = [story4 instantiateControllerWithIdentifier:@"InstagramSearchByTagView"];
     InstagramFeedView = [story4 instantiateControllerWithIdentifier:@"InstagramFeedViewController"];
+    
 //    secCon = [story instantiateControllerWithIdentifier:@"secondController"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
     [self displayContentController:welcomeView];
@@ -101,6 +104,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show media" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"search media by tag" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"user media feed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"global search" object:nil];
     
     
     
@@ -336,7 +340,10 @@
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :InstagramFeedView];
         [self switchControllers:InstagramFeedView];
     }
-    
+    else if ([notification.name isEqual:@"global search"]){
+        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :searchView];
+        [self switchControllers:searchView];
+    }
 }
 - (void)setCurrentSelectedMain:(id)name :(NSViewController*)controller{
     if([name isEqual:@"youtube"]){

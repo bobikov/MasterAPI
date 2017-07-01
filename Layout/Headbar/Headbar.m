@@ -260,6 +260,10 @@
         }];
     }
 }
+- (IBAction)searchAction:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"global search" object:self userInfo:@{@"currentSelectorName":@"vk"}];
+}
+
 - (void)loadVKMainInfo{
     if(appPhotoURLs[@"vk"]){
         
