@@ -46,10 +46,15 @@
     __weak IBOutlet NSButton *savePostsSessionBut;
     __weak IBOutlet NSBox *sessionWrapper;
     
+    __weak IBOutlet NSSegmentedControl *ownersSelectorSegment;
+    __weak IBOutlet NSTableView *preparedListToPost;
+    
+    
     int
         countPhotoInAttachments,
         countDocsInAttachments,
-        countVideoInAttachments;
+        countVideoInAttachments,
+        ownersCounter;
     
     NSArray *dataAttachmentsFinalArray;
     
@@ -61,8 +66,8 @@
         *attachmentsDataScheduled,
         *attachmentsData,
         *indexPaths,
-        *queuePostsInSession;
-    
+        *queuePostsInSession,
+        *preparedOwnersList;
     NSString
         *groupDescription,
         *groupDeactivated,
