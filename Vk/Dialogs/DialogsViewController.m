@@ -8,7 +8,7 @@
 
 #import "DialogsViewController.h"
 #import "SmilesViewController.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface DialogsViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 
 @end
@@ -71,7 +71,7 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",dialogsListData[row][@"user_id"]]]];
     
 }
--(void)addToBanSelectedUserInDialog:(id)userId rowIndex:(int)rowIndex{
+- (void)addToBanSelectedUserInDialog:(id)userId rowIndex:(int)rowIndex{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.banUser?user_id=%@&v=%@&access_token=%@", userId ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *addToBanResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
         NSLog(@"%@", addToBanResponse);
@@ -112,13 +112,13 @@
 //    [self setButtonStyle:sendMessageButton];
     
 }
--(void)viewDidDisappear{
+- (void)viewDidDisappear{
     if([selectedDialog numberOfRows]>0){
         [selectedDialog removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [selectedDialog numberOfRows])] withAnimation:NSTableViewAnimationEffectNone];
     }
   
 }
--(void)viewDidScroll:(NSNotification *)notification{
+- (void)viewDidScroll:(NSNotification *)notification{
     if([notification.object isEqual:dialogsListClipView]){
         NSInteger scrollOrigin = [[dialogsListScrollView contentView]bounds].origin.y+NSMaxY([dialogsListScrollView visibleRect]);
 //        NSInteger numberRowHeights = [dialogsList numberOfRows] * [dialogsList rowHeight];
@@ -137,7 +137,7 @@
         //
     }
 }
--(void)setButtonStyle:(id)button{
+- (void)setButtonStyle:(id)button{
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
@@ -201,7 +201,7 @@
 
 }
 
--(void)display:(NSNotification *)notification{
+- (void)display:(NSNotification *)notification{
 
     if([self.parentViewController.childViewControllers[0].title isEqual:@"Dialogs"]){
         
@@ -489,8 +489,8 @@
                     uid = [NSString stringWithFormat:@"%@", i[@"message"][@"user_id"]];
                     [dialogsMessageData addObject:@{@"uid":uid, @"body":body}];
                     [bodies addObject:body];
-                    [unreadStatuses addObject:[NSString stringWithFormat:@"%@", i[@"unread"] && i[@"unread"]!=nil ? i[@"unread"]:@""]];
-                    [userIdsForHistory addObject:i[@"message"][@"user_id"]];
+                    [unreadStatuses addObject:[NSString stringWithFormat:@"%@", i[@"unread"]]];
+                    [userIdsForHistory addObject:uid];
                 }
                 if([bodies count]>0){
                   
@@ -669,14 +669,14 @@ attributes:attrsDictionary];
             cell.profileImage.wantsLayer=YES;
             cell.profileImage.layer.cornerRadius=22.5f;
             cell.profileImage.layer.masksToBounds=TRUE;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                   NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", dialogsListData[row][@"img"]]]];
-                 image.size=imSize;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                      [cell.profileImage setImage:image];
-                });
-              
-            });
+
+            [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", dialogsListData[row][@"img"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                
+            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                image.size=imSize;
+                 [cell.profileImage setImage:image];
+            }];
+                                                                          
             if([dialogsListData[row][@"online"] isEqual:@"1"]){
                 [cell.userOnlineImage setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
             }
@@ -715,24 +715,19 @@ attributes:attrsDictionary];
           [cell.textMessage setAllowsEditingTextAttributes:YES];
            
             cell.textMessage.attributedStringValue = [self getAttributedStringWithURLExternSites:userMessageHistoryData[row][@"body"]];
-             [cell.textMessage setFont:[NSFont fontWithName:@"Helvetica" size:12]];
+            [cell.textMessage setFont:[NSFont fontWithName:@"Helvetica" size:12]];
             cell.profileImage.wantsLayer=YES;
             cell.profileImage.layer.cornerRadius=20;
             cell.profileImage.layer.masksToBounds=TRUE;
-             cell.dateOfMessage.stringValue = userMessageHistoryData[row][@"date"];
-           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-               
-          
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]]];
-               NSSize imSize=NSMakeSize(40, 40);
-               image.size=imSize;
-               dispatch_async(dispatch_get_main_queue(), ^{
-                     [cell.profileImage setImage:image];
-                 
-               });
-              
-               
-            });
+            cell.dateOfMessage.stringValue = userMessageHistoryData[row][@"date"];
+        
+               [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                   
+               } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                   NSSize imSize=NSMakeSize(40, 40);
+                   image.size=imSize;
+                   [cell.profileImage setImage:image];
+               }];
             return cell;
         
         }
