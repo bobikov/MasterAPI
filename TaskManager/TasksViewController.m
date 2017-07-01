@@ -25,6 +25,7 @@
     [tasksList registerNib:nib forIdentifier: @"TasksVKStatusView"];
     app = [[appInfo alloc]init];
     timers = [[NSMutableArray alloc]init];
+    targetOwners = [[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAddNewSessionTask:) name:@"addNewSessionTask" object:nil];
     
 }
@@ -48,6 +49,7 @@
    newSessionObject = [notification.userInfo mutableCopy ];
      dispatch_after(1, dispatch_get_main_queue(), ^(void){
          [ self addSession];
+//         NSLog(@"%@", newSessionObject);
      });
 }
 
@@ -228,7 +230,10 @@
         cell.taskProgress.doubleValue=taskIndex;
         cell.nextEventDate.stringValue=[NSString stringWithFormat:@"Next: %@", sessionsData[row][@"info"][@"next_task_date"]];
         cell.countTasksLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", sessionsData[row][@"info"][@"current_task_index"], sessionsData[row][@"info"][@"totalTasks"]];
-        cell.targetOwner.stringValue = [NSString stringWithFormat:@"To: %@", sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owner"]];
+        for(NSDictionary *i in sessionsData[row][@"data"][taskIndex==0?0:taskIndex-1][@"target_owners"]){
+            [targetOwners addObject:i[@"id"]];
+        }
+        cell.targetOwner.stringValue = [NSString stringWithFormat:@"To: %@", [targetOwners componentsJoinedByString:@","]];
         cell.sessionType.stringValue = [NSString stringWithFormat:@"Type: %@",sessionsData[row][@"info"][@"session_type"]];
         cell.startSessionDate.stringValue = [NSString stringWithFormat:@"Started at: %@", sessionsData[row][@"info"][@"session_start_date"]];
         if([sessionsData[row][@"info"][@"state"] isEqual:@"inprogress"]){

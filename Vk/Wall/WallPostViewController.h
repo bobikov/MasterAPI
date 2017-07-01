@@ -67,7 +67,8 @@
         *attachmentsData,
         *indexPaths,
         *queuePostsInSession,
-        *preparedOwnersList;
+        *preparedOwnersList,
+        *preparedOwnersListScheduled;
     NSString
         *groupDescription,
         *groupDeactivated,

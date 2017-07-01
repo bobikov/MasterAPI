@@ -15,7 +15,7 @@
     NSInteger totalTasksInSession;
     appInfo *app;
     NSMutableArray *timers;
-   
+    NSMutableArray *targetOwners;
 }
 @property(copy,getter=theNewSessionObject) NSMutableDictionary *newSessionObject;
 @property(copy) NSMutableArray *sessionsData;

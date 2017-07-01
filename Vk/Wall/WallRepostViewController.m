@@ -165,8 +165,6 @@
         }
          [itemsToRemoveInSelectedRepostGroup removeAllObjects];
     }
-
-    
     
 }
 

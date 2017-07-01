@@ -2215,11 +2215,11 @@ Gw
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zDn-dY-ZZa">
-                                                                                <rect key="frame" x="124" y="0.0" width="30" height="30"/>
+                                                                                <rect key="frame" x="133" y="0.0" width="30" height="30"/>
                                                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="Key-t7-apC"/>
                                                                             </imageView>
                                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2pX-62-cu3">
-                                                                                <rect key="frame" x="1" y="10" width="117" height="22"/>
+                                                                                <rect key="frame" x="1" y="10" width="133" height="22"/>
                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="CK4-9D-5Qr">
                                                                                     <font key="font" metaFont="smallSystem"/>
                                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -2227,7 +2227,7 @@ Gw
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Svh-Vr-3aP">
-                                                                                <rect key="frame" x="75" y="0.0" width="41" height="15"/>
+                                                                                <rect key="frame" x="83" y="0.0" width="41" height="15"/>
                                                                                 <buttonCell key="cell" type="square" title="Add" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tYw-xG-m4l">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="cellTitle"/>
@@ -2711,6 +2711,16 @@ Gw
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E2S-4D-fZy">
+                                                                                <rect key="frame" x="153" y="15" width="12" height="12"/>
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="close3" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="qPx-ug-60Y">
+                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                    <font key="font" metaFont="system"/>
+                                                                                </buttonCell>
+                                                                                <connections>
+                                                                                    <action selector="removeItemFromToPostList:" target="Hxb-ne-Y3h" id="tYD-gc-Vx8"/>
+                                                                                </connections>
+                                                                            </button>
                                                                         </subviews>
                                                                         <connections>
                                                                             <outlet property="groupId" destination="D6Q-EE-xfi" id="op2-r6-xLv"/>
