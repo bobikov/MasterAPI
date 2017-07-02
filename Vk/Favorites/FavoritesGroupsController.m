@@ -570,19 +570,7 @@
                         NSLog(@"%@:%@", getFavesGroupsResponse[@"error"][@"error_code"], getFavesGroupsResponse[@"error"][@"error_msg"]);
                     }
                     else{             
-                        NSString *groupName;
-                        NSString *deactivated;
-//                        NSString *groupId;
-                        NSString *desc;
-                        NSString *photo;
-                        NSString *url;
-                        NSString *linkId;
-                        NSString *groupId;
-//                        NSString *screenName;
-//                        NSString *status;
-//                        NSString *site;
-//                        NSString *city;
-//                        NSString *country;
+                ;
 //                        NSString *name;
                         dispatch_async(dispatch_get_main_queue(), ^{
                               totalCount.title=[NSString stringWithFormat:@"%@",getFavesGroupsResponse[@"response"][@"count"]];
@@ -744,6 +732,7 @@
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if ([favesGroupsData count]>0) {
+        
         
         GroupsCustomCellView *cell=[[GroupsCustomCellView  alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];

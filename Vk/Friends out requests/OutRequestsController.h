@@ -33,6 +33,33 @@
     NSMutableDictionary *cachedStatus;
     int counter;
     BOOL loading;
+    NSString *city;
+    NSString *status;
+    NSString *bdate;
+    NSString *online;
+    NSString *firstName;
+    NSString *lastName;
+    NSString *fullName;
+    NSString *countryName;
+    NSString *last_seen;
+    NSString *sex;
+    NSString *books;
+    NSString *site;
+    NSString *mobilePhone;
+    //NSString *phone;
+    NSString *photoBig;
+    NSString *photo;
+    NSString *about;
+    NSString *verified;
+    NSString *music;
+    NSString *schools;
+    NSString *education;
+    NSString *quotes;
+    NSString *relation;
+    NSString *domain;
+    NSString *templateLateTime2;
+    NSString *templateLateTime1;
+    NSDateFormatter *formatter;
 }
 
 

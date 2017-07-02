@@ -54,9 +54,8 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",banlistData[row][@"id"]]]];
 }
 - (void)viewDidAppear{
-    if(!loading){
-        [self loadBanlist:NO :NO];
-    }
+    
+    [self loadBanlist:NO :NO];
     
 }
 - (IBAction)showUserFullInfo:(id)sender {
@@ -100,7 +99,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         if (scrollOrigin == boundsHeight+2) {
             //Refresh here
             //         NSLog(@"The end of table");
-            if(!searchMode && [banlistData count]!=0 && !loading && offsetLoadBanlist < totalCountBanned){
+            if(!searchMode && [banlistData count]!=0  && offsetLoadBanlist < totalCountBanned){
                 [self loadBanlist:NO :YES];
             }
         }
@@ -243,34 +242,34 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 }
 - (IBAction)filterWomenAction:(id)sender {
 //    [self setFiltersDisabled];
-    if(!loading)
+    
         [banList scrollToBeginningOfDocument:self];
         [self loadBanlist:NO :NO];
     
 }
 - (IBAction)filterMenAction:(id)sender {
 //     [self setFiltersDisabled];
-    if(!loading)
+    
         [banList scrollToBeginningOfDocument:self];
         [self loadBanlist:NO :NO];
 }
 
 - (IBAction)FriendsFilterOfflineAction:(id)sender {
 //     [self setFiltersDisabled];
-    if(!loading)
+    
         [banList scrollToBeginningOfDocument:self];
         [self loadBanlist:NO :NO];
     
 }
 - (IBAction)FriendsFilterOnlineAction:(id)sender {
 //     [self setFiltersDisabled];
-    if(!loading)
+    
         [banList scrollToBeginningOfDocument:self];
         [self loadBanlist:NO :NO];
 }
 - (IBAction)FriendsFilterActiveAction:(id)sender {
 //     [self setFiltersDisabled];
-    if(!loading){
+    
         [banList scrollToBeginningOfDocument:self];
         if(filterActive.state == 0){
             filterOffline.state=1;
@@ -281,7 +280,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
         //    }
         
         [self loadBanlist:NO :NO];
-    }
+    
 }
 - (void)getBanned:(OnGetBannedComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.getBanned?count=200&offset=%lu&v=%@&access_token=%@",offsetLoadBanlist, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -304,10 +303,11 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
             }
         }
     }]resume];
+
 }
 -(void)loadBanlist:(BOOL)searchByName :(BOOL)makeOffset{
     __block void(^getBannedBlock)(BOOL);
-    loading=YES;
+    
     getBannedBlock = ^void(BOOL offset){
         searchMode=NO;
         [progressSpin startAnimation:self];
@@ -326,30 +326,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                 if([bannedUsers count]>0){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
-                        NSString *city;
-                        NSString *status;
-                        NSString *bdate;
-                        NSString *online;
-                        NSString *firstName;
-                        NSString *lastName;
-                        NSString *fullName;
-                        NSString *countryName;
-                        NSString *last_seen;
-                        NSString *sex;
-                        NSString *books;
-                        NSString *site;
-                        NSString *mobilePhone;
-                        // NSString *phone;
-                        NSString *photoBig;
-                        NSString *photo;
-                        NSString *about;
-                        NSString *music;
-                        NSString *schools;
-                        NSString *education;
-                        NSString *quotes;
-                        NSString *deactivated;
-                        NSString *relation;
-                        NSString *domain;
+               
                         __block int blacklisted;
                         int blacklisted_by_me;
                         if(data){
@@ -753,45 +730,41 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                                         }
                                     }
                                 }
-                                
-                                //                [banlistData addObject:@{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":a[@"photo_100"], @"country":countryName, @"bdate":bdate, @"online":online}];
-                                
-                                //                offsetCounter++;
-                                //
                             }
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                //                arrayController.content = banlistData;
-                                loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
-//                                NSLog(@"%li", [banlistData count]);
-//                                [self setFiltersEnabled];
-                                if(makeOffset){
-                                    loading=NO;
-                                    //                                    [banList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex, [banlistData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
-                                    [banList reloadData];
-                                    
-                                }else{
-                                    loading=NO;
-                                    [banList reloadData];
-                                }
-                                [progressSpin stopAnimation:self];
-                                if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned){
-                                    loading=YES;
-                                    getBannedBlock(YES);
-                                }else if ([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist >= totalCountBanned){
+                             dispatch_async(dispatch_get_main_queue(), ^{
+//                                 if ([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist >= totalCountBanned){
                                     [progressSpin stopAnimation:self];
-                                    loading=NO;
-                                }else{
-                                    [progressSpin stopAnimation:self];
-                                    loading=NO;
-                                }
-                                NSLog(@"OFFSET BANLIST %li", offsetLoadBanlist);
-                                NSLog(@"OFFSET COUNTer %li", offsetCounter);
-                            });
+                                    loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
+                                    [banList reloadData];
+                                 dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                     if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned){
+                                         getBannedBlock(YES);
+                                     }
+                                 });
+                             });
+                           
                         }
+                        else{
+                            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+                            if (!error && statusCode == 200) {
+                                // even fancier code goes here
+                            } else {
+                                // omg!!!!!!!!!
+                                NSLog(@"Server error code on Banlist request:%li", statusCode);
+                                if(![banlistData count]){
+                                    getBannedBlock(NO);
+                                    sleep(2);
+                                }else{
+                                    getBannedBlock(YES);
+                                    sleep(2);
+                                }
+                            }
+                        }
+                        NSLog(@"OFFSET BANLIST %li", offsetLoadBanlist);
+                        NSLog(@"OFFSET COUNTer %li", offsetCounter);
                     }] resume];
                 }
             }];
-        
     };
     if(makeOffset){
         getBannedBlock(YES);

@@ -18,6 +18,7 @@
 @end
 
 @implementation SearchViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     foundList.delegate = self;
@@ -57,6 +58,56 @@
 //    [[NSUserDefaults standardUserDefaults] setObject:@{@"apps":@[@{@"app1":@{@"token":@"token app1"}}]} forKey:@"testValue"];
 //    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation] );
 }
+- (void)viewDidAppear{
+    self.view.window.title=@"Global search";
+    //    self.view.wantsLayer = YES;
+    //    self.view.layer.masksToBounds=YES;
+    //    self.view.layer.cornerRadius=8;
+    //    self.view.layer.backgroundColor=[[NSColor blackColor]CGColor];
+    self.view.window.titleVisibility=NSWindowTitleHidden;
+    self.view.window.titlebarAppearsTransparent = YES;
+    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+    self.view.window.movableByWindowBackground=YES;
+    //    self.view.wantsLayer=YES;
+    //    self.view.layer.masksToBounds=YES;
+    //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:0.0]CGColor];
+    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
+    vibrantView.material=NSVisualEffectStateActive;
+    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
+    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+    [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
+    
+
+}
+- (void)viewDidLayout{
+    
+    [self.view.window makeFirstResponder:searchBar];
+    
+}
+- (void)viewDidScroll:(NSNotification*)notification{
+    NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
+    //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
+    NSInteger boundsHeight = foundList.bounds.size.height;
+    //    NSInteger frameHeight = subscribersList.frame.size.height;
+    if (scrollOrigin == boundsHeight) {
+        //Refresh here
+        //         NSLog(@"The end of table");
+        if([foundListData count] > 0 && !byId.state){
+            if([selectedSourceName isEqualToString:@"people"]){
+                [self loadPeople:YES useParams:usedParams];
+            }else if([selectedSourceName isEqualToString:@"group"]){
+                [self loadGroups:YES useParams:usedParams];
+            }
+        }
+    }
+    //
+    //
+    
+}
+
+
+
 -(void)controlTextDidChange:(NSNotification *)obj{
  
     if([obj.object isEqual:citiesList]){
@@ -105,56 +156,7 @@
 }
 
 
-- (void)viewDidAppear{
-    self.view.window.title=@"Global search";
-    //    self.view.wantsLayer = YES;
-    //    self.view.layer.masksToBounds=YES;
-    //    self.view.layer.cornerRadius=8;
-    //    self.view.layer.backgroundColor=[[NSColor blackColor]CGColor];
-    self.view.window.titleVisibility=NSWindowTitleHidden;
-    self.view.window.titlebarAppearsTransparent = YES;
-    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
-    self.view.window.movableByWindowBackground=YES;
-    //    self.view.wantsLayer=YES;
-    //    self.view.layer.masksToBounds=YES;
-    //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:0.0]CGColor];
-    
-    
-    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
-    vibrantView.material=NSVisualEffectStateActive;
-    
-    vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
-    
-    
-    vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
-    
-    
-    [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    
-    [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
-}
-- (void)viewDidLayout{
-    [searchBar becomeFirstResponder];
-}
-- (void)viewDidScroll:(NSNotification*)notification{
-    NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
-    //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
-    NSInteger boundsHeight = foundList.bounds.size.height;
-    //    NSInteger frameHeight = subscribersList.frame.size.height;
-    if (scrollOrigin == boundsHeight) {
-        //Refresh here
-        //         NSLog(@"The end of table");
-        if([foundListData count] > 0 && !byId.state){
-            if([selectedSourceName isEqualToString:@"people"]){
-                [self loadPeople:YES useParams:usedParams];
-            }else if([selectedSourceName isEqualToString:@"group"]){
-                [self loadGroups:YES useParams:usedParams];
-            }
-        }
-    }
-//
-//    
-}
+
 
 
 - (void)loadResults:(BOOL)useParams{
@@ -326,6 +328,7 @@
 }
 - (IBAction)searchTypeAction:(id)sender {
     if(searchType.selectedSegment == 0){
+        
         [addBut setEnabled:YES];
     }
     else{
@@ -583,6 +586,7 @@
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([foundListData count]>0){
+        
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         if(searchType.selectedSegment==1){

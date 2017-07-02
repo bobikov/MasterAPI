@@ -79,7 +79,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         if (scrollOrigin == boundsHeight+2) {
             //Refresh here
             //         NSLog(@"The end of table");
-            if([favesUsersData count] > 0 && !loading && !loadFromUserGroup){
+            if([favesUsersData count] > 0 && !loadFromUserGroup){
                 [self loadFavesUsers:NO :YES];
             }
         }
@@ -558,7 +558,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
 }
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-    loading=YES;
+   
     __block NSDictionary *object;
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
@@ -573,31 +573,32 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
             offsetCounter=0;
         }
         // __block NSInteger startInsertRowIndex = [favesUsersData count];
-        if([favesUsersList numberOfRows]==0 || loading){
+        
             [self getFaveUsers:^(NSMutableArray *faveUsers) {
 //                NSLog(@"%@", [faveUsers componentsJoinedByString:@","]);
                 if([faveUsers count]>0 && offsetCounter <= [favesUsersData count]){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,photo_200_orig,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,quotes,blacklisted,domain,blacklisted_by_me,relation&access_token=%@&v=%@" , [faveUsers componentsJoinedByString:@","],  _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         if(data){
-                            if (error){
-                                NSLog(@"Check your connection");
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [progressSpin stopAnimation:self];
-                                });
-                                return;
-                            }
-                            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                if (statusCode != 200) {
-                                    NSLog(@"dataTask HTTP status code: %lu", statusCode);
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [progressSpin stopAnimation:self];
-                                    });
-                                    return;
-                                }
-                                else{
-                                }
-                            }
+//                            if (error){
+//                                NSLog(@"Check your connection");
+//                                dispatch_async(dispatch_get_main_queue(), ^{
+//                                    [progressSpin stopAnimation:self];
+//                                });
+//                                return;
+//                            }
+//                            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+//                                
+//                                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+//                                if (statusCode != 200) {
+//                                    NSLog(@"dataTask HTTP status code: %lu", statusCode);
+//                                    dispatch_async(dispatch_get_main_queue(), ^{
+//                                        [progressSpin stopAnimation:self];
+//                                    });
+//                                    return;
+//                                }
+//                                else{
+//                                }
+//                            }
                             
                             NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             //NSLog(@"%@", getUsersResponse);
@@ -606,33 +607,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                             }
                             else{
                                 NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
-                                NSString *city;
-                                NSString *status;
-                                NSString *bdate;
-                                NSString *online;
-                                NSString *firstName;
-                                NSString *lastName;
-                                NSString *fullName;
-                                NSString *countryName;
-                                NSString *last_seen;
-                                NSString *sex;
-                                NSString *books;
-                                NSString *site;
-                                NSString *mobilePhone;
-                                //NSString *phone;
-                                NSString *photoBig;
-                                NSString *photo;
-                                NSString *about;
-                                NSString *music;
-                                NSString *education;
-                                NSString *schools;
-                                NSString *quotes;
-                                NSString *deactivated;
-                                NSString *relation;
-                                NSString *domain;
-                                NSString *verified;
-                                int blacklisted;
-                                int blacklisted_by_me;
+                     
+                                
                                 if(getUsersResponse[@"response"]){
                                     for (NSDictionary *a in getUsersResponse[@"response"]){
                                         fullName = [NSString stringWithFormat:@"%@ %@", a[@"first_name"], a[@"last_name"]];
@@ -872,34 +848,40 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                         }
                                     }
                                 }
-                                dispatch_async(dispatch_get_main_queue(), ^{
-//                                     NSLog(@"%@", favesUsersData);
-//                                     NSLog(@"%li", [favesUsersData count]);
-//                                    totalCount =  [favesUsersData count];
-//                                    totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-                                 
-                                    if([favesUsersData count]>0 && offsetLoadFaveUsers<totalCount){
-                                        NSLog(@"BAD END");
-                                        loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounter];
-                                        loading=NO;
-                                        if(makeOffset){
-                                            //[favesUsersList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertRowIndex+1, [favesUsersData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
-                                           
-                                            [favesUsersList reloadData];
-                                        }else{
-//                                            NSLog(@"%@", favesUsersData);
-                                            [favesUsersList reloadData];
-                                        }
-                                        [progressSpin stopAnimation:self];
-                                        if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && !loading && [restoredUserIDs count]==0){
-                                            loading=YES;
-                                            dispatch_after(1, dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-                                                 loadFavesBlock(YES);
-                                            });
-                                           
-                                        }
+                            }
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                             NSLog(@"%@", favesUsersData);
+                                //                             NSLog(@"%li", [favesUsersData count]);
+                                //                            totalCount =  [favesUsersData count];
+                                //                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+                                if([favesUsersData count]>0 && offsetLoadFaveUsers<totalCount){
+                                    NSLog(@"BAD END");
+                                    loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounter];
+                                    [favesUsersList reloadData];
+                                    [progressSpin stopAnimation:self];
+                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0){
+                                        dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                            loadFavesBlock(YES);
+                                        });
                                     }
-                                });
+                                }
+                            });
+                        }
+                        else{
+                            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+                            if (!error && statusCode == 200) {
+                                // even fancier code goes here
+                            } else {
+                                // omg!!!!!!!!!
+                                NSLog(@"Server error code on Faves users request:%li", statusCode);
+                                if(![favesUsersData count]){
+                                    loadFavesBlock(NO);
+                                    sleep(2);
+                                }
+                                else{
+                                    loadFavesBlock(YES);
+                                    sleep(2);
+                                }
                             }
                         }
                     }]resume];
@@ -910,7 +892,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                     });
                 }
             }];
-        }
     };
     if(makeOffset){
         loadFavesBlock(YES);

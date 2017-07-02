@@ -712,7 +712,7 @@ attributes:attrsDictionary];
 //            cell.textMessage.stringValue = userMessageHistoryData[row][@"body"];
             
             
-          [cell.textMessage setAllowsEditingTextAttributes:YES];
+            [cell.textMessage setAllowsEditingTextAttributes:YES];
            
             cell.textMessage.attributedStringValue = [self getAttributedStringWithURLExternSites:userMessageHistoryData[row][@"body"]];
             [cell.textMessage setFont:[NSFont fontWithName:@"Helvetica" size:12]];
@@ -720,14 +720,14 @@ attributes:attrsDictionary];
             cell.profileImage.layer.cornerRadius=20;
             cell.profileImage.layer.masksToBounds=TRUE;
             cell.dateOfMessage.stringValue = userMessageHistoryData[row][@"date"];
-        
-               [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                   
-               } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                   NSSize imSize=NSMakeSize(40, 40);
-                   image.size=imSize;
-                   [cell.profileImage setImage:image];
-               }];
+
+           [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+               
+           } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+               NSSize imSize=NSMakeSize(40, 40);
+               image.size=imSize;
+               [cell.profileImage setImage:image];
+           }];
             return cell;
         
         }

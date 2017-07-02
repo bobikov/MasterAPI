@@ -43,7 +43,19 @@
     NSMutableArray *restoredUserIDs;
     __weak IBOutlet NSButton *loadedCount;
     __weak IBOutlet NSButton *totalCount;
-    
+    NSString *groupName;
+    NSString *deactivated;
+    //                        NSString *groupId;
+    NSString *desc;
+    NSString *photo;
+    NSString *url;
+    NSString *linkId;
+    NSString *groupId;
+    //                        NSString *screenName;
+    //                        NSString *status;
+    //                        NSString *site;
+    //                        NSString *city;
+    //                        NSString *country
 }
 @property(nonatomic, readwrite)appInfo *app;
 @end

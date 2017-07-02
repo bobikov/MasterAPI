@@ -112,6 +112,7 @@
         [self.view.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight]];
        
     }
+    [self.view.window makeFirstResponder:textView];
 }
 - (void)textDidChange:(NSNotification *)notification{
     
