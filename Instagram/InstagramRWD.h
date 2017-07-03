@@ -5,7 +5,6 @@
 //  Created by sim on 04.12.16.
 //  Copyright © 2016 sim. All rights reserved.
 //
-
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 @interface InstagramRWD : NSObject{

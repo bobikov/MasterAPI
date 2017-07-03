@@ -8,6 +8,7 @@
 
 #import "AboutAppViewController.h"
 #import "NSImage+Resizing.h"
+
 @interface AboutAppViewController ()<NSWindowDelegate>
 
 @end

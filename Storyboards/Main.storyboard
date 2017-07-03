@@ -20,7 +20,8 @@
                                         <menuItem title="About " id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <segue destination="p36-Cd-bJ2" kind="show" id="wSy-iL-aVI"/>
+                                                <action selector="showAboutWindow:" target="Voe-Tx-rLC" id="hJB-Lh-S9s"/>
+                                                <segue destination="p36-Cd-bJ2" kind="show" id="cDw-cF-jYA"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>

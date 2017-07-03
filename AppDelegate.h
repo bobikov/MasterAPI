@@ -31,5 +31,5 @@
 @property(readwrite, nonatomic)TwitterClient *twitterClient;
 @property(readwrite, nonatomic)YoutubeClient *youtubeClient;
 @property(readwrite, nonatomic)YoutubeAuth *youtubeAuth;
+@property (assign) IBOutlet NSWindow *window;
 @end
-

@@ -16,8 +16,8 @@
 #import <Quartz/Quartz.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NSString+MyNSStringCategory.h"
-
-
+#import "HTMLReader.h"
+#import <DZReadability/DZReadability.h>
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -33,13 +33,10 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     favesUsersDataCopy = [[NSMutableArray alloc]init];
     selectedUsers = [[NSMutableArray alloc]init];
     favesUsersTemp = [[NSMutableArray alloc]init];
-  
-  
     restoredUserIDs = [[NSMutableArray alloc]init];
     _app = [[appInfo alloc]init];
     loadFromUserGroup=NO;
     [self loadFavesUsers:NO :NO];
-
     stringHighlighter = [[StringHighlighter alloc]init];
     [[favesScrollView contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
@@ -50,21 +47,61 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     offsetLoadFaveUsers=0;
     moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
     [favesUserGroups removeAllItems];
-    
-    
-    
 //    NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
     CAShapeLayer * layer = [CAShapeLayer layer];
-    
     layer.cornerRadius=4;
     layer.borderWidth=1;
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     favesScrollView.wantsLayer = TRUE;
     favesScrollView.layer = layer;
+//    [self loadURL];
     
    
 }
-
+-(void)loadURL{
+//    [[[ DZReadability alloc]initWithURLToDownload:[NSURL URLWithString:@"https://soundcloud.com/alaplay/barbaraboeing"]  options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+//        if(!error) {
+//            NSLog(@"%@", content);
+//        }else{
+//            NSLog(@"ERROR");
+//        }
+//    }] start];
+    
+//    SBJson5ValueBlock block = ^(id v, BOOL *stop) {
+//        BOOL isDict = [v isKindOfClass:[NSDictionary class]];
+//        NSLog(@"%@", isDict ? v : @"");
+//    };
+//    SBJson5ErrorBlock eh = ^(NSError* err) {
+//        NSLog(@"OOPS: %@", err);
+//        exit(1);
+//    };
+//    id parser = [SBJson5Parser parserWithBlock:block errorHandler:eh];
+//    id parser2 = [SBJson5Parser unwrapRootArrayParserWithBlock:block errorHandler:eh];
+    NSString *url;
+    url = @"https://www.youtube.com/watch?v=WIrIxbah_80";
+//    url = @"https://soundcloud.com/alaplay/barbaraboeing";
+    NSString *dataBody = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSUTF8StringEncoding error:nil];
+    HTMLDocument *doc = [HTMLDocument documentWithString:dataBody];
+    NSArray *meta = [doc nodesMatchingSelector:@"meta"];
+//    NSLog(@"%@", dataBody);
+     for(HTMLElement *s in meta){
+         NSDictionary *attrs = [s attributes];
+//        NSLog(@"Meta element: %@",[s attributes]);
+         if([attrs[@"property"] containsString:@"og:site_name"]){
+             NSLog(@"Site name:%@", attrs[@"content"]);
+         }
+         else if([attrs[@"property"] containsString:@"og:title"]){
+             NSLog(@"Title:%@", attrs[@"content"]);
+         }
+         else if([attrs[@"property"] containsString:@"og:description"]){
+             NSLog(@"Description:%@", attrs[@"content"]);
+         }
+         else if([attrs[@"property"] isEqualToString:@"og:image"]){
+             NSLog(@"Image:%@", attrs[@"content"]);
+         }
+//          [parser2 parse:[ [[s textContent] stringByReplacingOccurrencesOfString:@"\n" withString:@""] dataUsingEncoding:NSUTF8StringEncoding]];
+     };
+}
 - (void)viewDidAppear{
     [self loadFavesUserGroups];
     [self loadUserFavesGroupsPrefs];
@@ -79,7 +116,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         if (scrollOrigin == boundsHeight+2) {
             //Refresh here
             //         NSLog(@"The end of table");
-            if([favesUsersData count] > 0 && !loadFromUserGroup){
+            if([favesUsersData count] > 0 && !loadFromUserGroup && !loading){
                 [self loadFavesUsers:NO :YES];
             }
         }
@@ -466,18 +503,16 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (IBAction)showFullInfo:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
     FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
-    //    int x = mouseLoc.x;
-    int y = mouseLoc.y;
-    //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
-    
+//    NSPoint mouseLoc = [NSEvent mouseLocation];
+//    int y = mouseLoc.y;
     NSView *parentCell = [sender superview];
     NSInteger row = [favesUsersList rowForView:parentCell];
-    CGRect rect=CGRectMake(0, y, 0, 0);
+//    CGRect rect=CGRectMake(0, y, 0, 0);
     popuper.receivedData = favesUsersData[row];
-    
-    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:favesUsersList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+    [popuper setToViewController];
+//    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:favesUsersList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
     //    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadUserFullInfo" object:self userInfo:dataForUserInfo];
+    
 }
 - (IBAction)sendMessage:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -558,7 +593,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
 }
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-   
+    loading=YES;
     __block NSDictionary *object;
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
@@ -850,17 +885,17 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                 }
                             }
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                //                             NSLog(@"%@", favesUsersData);
-                                //                             NSLog(@"%li", [favesUsersData count]);
-                                //                            totalCount =  [favesUsersData count];
-                                //                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+                                //NSLog(@"%@", favesUsersData);
+                                //NSLog(@"%li", [favesUsersData count]);
+                                //totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
                                 if([favesUsersData count]>0 && offsetLoadFaveUsers<totalCount){
                                     NSLog(@"BAD END");
                                     loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounter];
                                     [favesUsersList reloadData];
                                     [progressSpin stopAnimation:self];
-                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0){
-                                        dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                    loading=NO;
+                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
+                                        dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                             loadFavesBlock(YES);
                                         });
                                     }
@@ -874,14 +909,19 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                             } else {
                                 // omg!!!!!!!!!
                                 NSLog(@"Server error code on Faves users request:%li", statusCode);
-                                if(![favesUsersData count]){
-                                    loadFavesBlock(NO);
-                                    sleep(2);
-                                }
-                                else{
-                                    loadFavesBlock(YES);
-                                    sleep(2);
-                                }
+//                                if(![favesUsersData count]){
+//                                    dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                                        loadFavesBlock(NO);
+//                                        
+//                                    });
+//                                   
+//                                }
+//                                else{
+//                                    dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                                        loadFavesBlock(YES);
+//                                        
+//                                    });
+//                                }
                             }
                         }
                     }]resume];

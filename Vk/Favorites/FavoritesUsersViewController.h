@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "StringHighlighter.h"
-
+#import <SBJson/SBJson5.h>
 @interface FavoritesUsersViewController : NSViewController{
     
     __weak IBOutlet NSButton *sendMessage;

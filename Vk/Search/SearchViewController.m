@@ -228,20 +228,17 @@
     if(searchType.selectedSegment==1){
         NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
         FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-        NSPoint mouseLoc = [NSEvent mouseLocation];
-        int x = mouseLoc.x;
-        int y = mouseLoc.y;
-        
-        
-        //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
-        
+//        NSPoint mouseLoc = [NSEvent mouseLocation];
+//        int x = mouseLoc.x;
+//        int y = mouseLoc.y;
+        //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120
         NSView *parentCell = [sender superview];
         NSInteger row = [foundList rowForView:parentCell];
 //        CGRect rect=CGRectMake(x, y, 0, 0);
-         CGRect rect=CGRectMake(0, y, 0, 0);
+//         CGRect rect=CGRectMake(0, y, 0, 0);
         popuper.receivedData = foundListData[row];
-        
-        [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+        [popuper setToViewController];
+//        [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 //        [self presentViewController:friendsStatController asPopoverRelativeToRect:friendsStatBut.frame ofView:self.view preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
     }
     else if(searchType.selectedSegment==0){

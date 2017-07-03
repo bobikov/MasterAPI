@@ -11,6 +11,7 @@
 #import "TwitterRWData.h"
 #import "YoutubeRWData.h"
 #import "InstagramRWD.h"
+
 @interface AppDelegate ()
 
 @end
@@ -29,8 +30,9 @@
     [contr presentViewControllerAsModalWindow:contr];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  
     TumblrRWData *TumblrRWD = [[TumblrRWData alloc]init];
     TwitterRWData *TwitterRWD = [[TwitterRWData alloc]init];
     YoutubeRWData *YoutubeRWD = [[YoutubeRWData alloc]init];
@@ -207,5 +209,9 @@
 
 
 
+
+
+
+    
 
 @end

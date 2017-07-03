@@ -72,4 +72,5 @@
 @property (nonatomic)NSMutableArray *value;
 @property(nonatomic)appInfo *app;
 @property(nonatomic)StringHighlighter *stringHighlighter;
+
 @end

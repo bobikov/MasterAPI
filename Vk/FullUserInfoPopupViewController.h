@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "StringHighlighter.h"
+#import <JNWAnimatableWindow/JNWAnimatableWindow.h>
 @interface FullUserInfoPopupViewController : NSViewController{
     NSString *userId;
     __weak IBOutlet NSImageView *profilePhoto;
@@ -40,9 +41,12 @@
     __weak IBOutlet NSTextField *groupsCount;
     __weak IBOutlet NSTextField *videosCount;
     __weak IBOutlet NSTextField *page;
+    NSWindow *mainWindow;
 }
 
 @property(nonatomic)appInfo *app;
 @property(nonatomic, readwrite)NSDictionary *receivedData;
 @property(nonatomic) StringHighlighter *stringHighlighter;
+@property(nonatomic, strong)NSWindowController *windowController;
+-(void)setToViewController;
 @end

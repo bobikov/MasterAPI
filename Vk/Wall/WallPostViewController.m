@@ -14,6 +14,7 @@
 #import "SmilesViewController.h"
 #import "TasksViewController.h"
 #import <EventKit/EventKit.h>
+#import <IGFastImage/IGFastImage.h>
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -115,14 +116,18 @@
     [self.view.window makeFirstResponder:textView];
 }
 - (void)textDidChange:(NSNotification *)notification{
-    
     if(notification.object == newSessionNameField){
-        
-       
     }else if(notification.object == textView){
         charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
         [self setSelectorsButtonsState];
+        [self checkImageLink];
     }
+}
+
+-(void)checkImageLink{
+    NSURL* url = [NSURL URLWithString:textView.string];
+    IGFastImage* image = [[IGFastImage alloc] initWithURL:url];
+    NSLog(@"%i", image.type );
 }
 
 //Attachments actions

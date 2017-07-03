@@ -48,19 +48,18 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 }
 
 - (IBAction)showFullUserInfo:(id)sender {
+    
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
     FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
-    //    int x = mouseLoc.x;
-    int y = mouseLoc.y;
-    //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
-    
+//    NSPoint mouseLoc = [NSEvent mouseLocation];
+//    int y = mouseLoc.y;
     NSView *parentCell = [sender superview];
     NSInteger row = [outRequestsList rowForView:parentCell];
-    CGRect rect=CGRectMake(0, y, 0, 0);
+//    CGRect rect=CGRectMake(0, y, 0, 0);
     popuper.receivedData = outRequestsData[row];
     
-    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:outRequestsList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+//    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:outRequestsList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+    [popuper setToViewController];
     
     
 }
