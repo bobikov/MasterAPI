@@ -44,6 +44,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(createGroupFromSelectedUsers:) name:@"CreateGroupFromSelectedFavesUsers" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(CreateFavesGroup:) name:@"CreateFavesGroup" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddFavesUserGroupsItemIntoGroup:) name:@"AddFavesUserGroupsItemIntoGroup" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddFavesUserToBanOrUnbun:) name:@"AddFavesUserToBanOrUnbun" object:nil];
     offsetLoadFaveUsers=0;
     moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
     [favesUserGroups removeAllItems];
@@ -58,7 +59,34 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
    
 }
--(void)loadURL{
+- (void)AddFavesUserToBanOrUnbun:(NSNotification*)obj{
+    NSLog(@"%@", obj);
+    if([obj.userInfo[@"bannedStatus"] intValue]){
+        NSLog(@"UNBANNED");
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.unbanUser?user_id=%@&v=%@&access_token=%@", favesUsersData[[obj.userInfo[@"row"] intValue]][@"id"], _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *unbanUserResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
+            NSLog(@"%@", unbanUserResponse);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                favesUsersData[[obj.userInfo[@"row"] intValue]][@"blacklisted_by_me"] = @0;
+                //            NSLog(@"%@", favesUsersData[[obj.userInfo[@"row"] intValue]]);
+                [favesUsersList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[obj.userInfo[@"row"] intValue]]  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            });
+            
+        }]resume];
+    }else{
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.banUser?user_id=%@&v=%@&access_token=%@", favesUsersData[[obj.userInfo[@"row"] intValue] ][@"id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *addToBanResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
+            NSLog(@"%@", addToBanResponse);
+            dispatch_async(dispatch_get_main_queue(), ^{
+    //            [favesUsersList deselectRow:[favesUsersData indexOfObject:i]];
+                favesUsersData[[obj.userInfo[@"row"] intValue]][@"blacklisted_by_me"] = @1;
+    //            NSLog(@"%@", favesUsersData[[obj.userInfo[@"row"] intValue]]);
+                [favesUsersList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[obj.userInfo[@"row"] intValue]]  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            });
+        }]resume];
+    }
+}
+- (void)loadURL{
 //    [[[ DZReadability alloc]initWithURLToDownload:[NSURL URLWithString:@"https://soundcloud.com/alaplay/barbaraboeing"]  options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
 //        if(!error) {
 //            NSLog(@"%@", content);
@@ -486,8 +514,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         dispatch_async(dispatch_get_main_queue(), ^{
 //            [favesUsersData removeObjectsAtIndexes:rows];
 //            [favesUsersList reloadData];
-            
-            
+        
         });
     };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -594,7 +621,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 }
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
    
-    __block NSDictionary *object;
+    __block NSMutableDictionary *object;
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
         loading=YES;
@@ -640,6 +667,11 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                             //NSLog(@"%@", getUsersResponse);
                             if (getUsersResponse[@"error"]){
                                 NSLog(@"%@:%@", getUsersResponse[@"error"][@"error_code"], getUsersResponse[@"error"][@"error_msg"]);
+                                if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
+                                    dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                        loadFavesBlock(YES);
+                                    });
+                                }
                             }
                             else{
                                 NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
@@ -711,7 +743,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                         schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
                                         relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
                                         quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
-                                        object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"user_photo_big":photoBig,@"country":countryName, @"bdate":bdate, @"online":online, @"last_seen":last_seen, @"sex":sex, @"site":site, @"mobile":mobilePhone, @"about":about, @"books":books, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated, @"blacklisted":[NSNumber numberWithInt:blacklisted], @"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain,@"verified":verified};
+                                        object = [NSMutableDictionary dictionaryWithDictionary:@{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"user_photo_big":photoBig,@"country":countryName, @"bdate":bdate, @"online":online, @"last_seen":last_seen, @"sex":sex, @"site":site, @"mobile":mobilePhone, @"about":about, @"books":books, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated, @"blacklisted":[NSNumber numberWithInt:blacklisted], @"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain,@"verified":verified}];
                                         
                                         if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
                                             
@@ -895,6 +927,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                     [favesUsersList reloadData];
                                     [progressSpin stopAnimation:self];
                                     loading=NO;
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"banAndUnbanUserInFaves" object:nil userInfo:@{@"favesUsersData":favesUsersData}];
                                     if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
                                         dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                             loadFavesBlock(YES);
@@ -971,6 +1004,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         cell.photo.layer.cornerRadius=40;
         cell.photo.layer.masksToBounds=YES;
         cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
+        cell.blacklisted.hidden = ![favesUsersData[row][@"blacklisted_by_me"] intValue];
         if([favesUsersData[row][@"deactivated"] isEqual:@""]){
             cell.deactivatedStatus.hidden=YES;
         }else{

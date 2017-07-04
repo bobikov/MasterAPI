@@ -11,4 +11,6 @@
 @interface CustomFaveritesTableView : NSTableView
 @property(nonatomic,readwrite)NSUInteger row;
 @property(nonatomic)NSArray *favesUserGroupsNames;
+@property(nonatomic)BOOL bannedUser;
+@property(nonatomic)NSMutableArray *favesUsersData;
 @end

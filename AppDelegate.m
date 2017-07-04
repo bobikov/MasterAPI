@@ -37,12 +37,7 @@
     TwitterRWData *TwitterRWD = [[TwitterRWData alloc]init];
     YoutubeRWData *YoutubeRWD = [[YoutubeRWData alloc]init];
     InstagramRWD *instaRWD = [[InstagramRWD alloc]init];
-    
-    
-
     _app = [[appInfo alloc]init];
-    
-  
     _app = [[appInfo alloc]init];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     NSStoryboard *secondStory = [NSStoryboard storyboardWithName:@"Second" bundle:nil];

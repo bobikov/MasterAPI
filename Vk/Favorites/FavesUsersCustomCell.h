@@ -22,6 +22,7 @@
 @property (weak) IBOutlet NSTextField *sex;
 @property (weak) IBOutlet NSTextField *deactivatedStatus;
 @property (weak) IBOutlet NSImageView *verified;
+@property (weak) IBOutlet NSImageView *blacklisted;
 
 
 @end

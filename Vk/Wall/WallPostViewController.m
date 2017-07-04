@@ -15,6 +15,8 @@
 #import "TasksViewController.h"
 #import <EventKit/EventKit.h>
 #import <IGFastImage/IGFastImage.h>
+#import <Carbon/Carbon.h>
+
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -77,6 +79,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
 }
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
+    
+    NSEvent *currentEvent = [[NSApplication sharedApplication]currentEvent];
+    NSLog(@"HAHAHA");
+    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9)) {  //command + enter to confirm
+        [self checkImageLink];
+        NSLog(@"52525");
+        return YES;
+    }
+    return NO;
+}
+
 - (IBAction)ownersSelectSource:(id)sender {
     
     if (ownersSelectorSegment.selectedSegment == 0){
@@ -88,19 +103,21 @@
     
 }
 - (void)sessionNameDidChange:(NSNotification*)notification{
-//    NSLog(@"hahaha");
-//    if([notification.object isEqual: newSessionNameField]){
-    currentPostsSessionName = newSessionNameField.stringValue;
-//    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
-    [self setSelectorsButtonsState];
-    NSLog(@"%@", currentPostsSessionName);
-//        if([newSessionNameField.stringValue length]>0){
-//            savePostsSessionBut.enabled=YES;
-//            
-//        }else{
-//            savePostsSessionBut.enabled=NO;
-//        }
-//    };
+
+//    if(notification.object==newSessionNameField){
+        currentPostsSessionName = newSessionNameField.stringValue;
+
+        [self setSelectorsButtonsState];
+        NSLog(@"Session name:%@", currentPostsSessionName);
+//    }
+    NSEvent *currentEvent = [[NSApplication sharedApplication]currentEvent];
+    NSLog(@"HAHAHA");
+    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9) && [textView.string containsString:@"https://"]) {  //command + enter to confirm
+        [self checkImageLink];
+        NSLog(@"52525");
+       
+    }
+ 
 }
 
 - (void)viewDidAppear{
@@ -116,18 +133,18 @@
     [self.view.window makeFirstResponder:textView];
 }
 - (void)textDidChange:(NSNotification *)notification{
-    if(notification.object == newSessionNameField){
-    }else if(notification.object == textView){
-        charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
-        [self setSelectorsButtonsState];
-        [self checkImageLink];
-    }
+//    if(notification.object == newSessionNameField){
+//    }else if(notification.object == textView){
+//        charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
+//        [self setSelectorsButtonsState];
+//        
+//    }
 }
 
 -(void)checkImageLink{
     NSURL* url = [NSURL URLWithString:textView.string];
     IGFastImage* image = [[IGFastImage alloc] initWithURL:url];
-    NSLog(@"%i", image.type );
+    NSLog(@"IMAGE TYPE:%i", image.type );
 }
 
 //Attachments actions
@@ -213,6 +230,8 @@
     [self setSelectorsButtonsState];
 }
 //Attachments actions end
+
+
 
 
 //Scheduled post

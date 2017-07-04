@@ -11,12 +11,16 @@
 - (void)awakeFromNib{
     if(self)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUserFavesGroups:) name:@"getUserFavesGroupsForContextMenu" object:nil];
-   
+   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(banAndUnbanStatus:) name:@"banAndUnbanUserInFaves" object:nil];
 }
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
     
+}
+-(void)banAndUnbanStatus:(NSNotification*)obj{
+//    _bannedUser = [obj.userInfo[@"banned"] intValue];
+    _favesUsersData = obj.userInfo[@"favesUsersData"];
 }
 -(void)getUserFavesGroups:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo[@"groups"]);
@@ -45,7 +49,8 @@
         
         [menu insertItem:userGroupsMenuItem atIndex:2];
         [userGroupsMenuItem setEnabled:[[self selectedRowIndexes]count]];
-    
+        
+        
         if(userGroupsMenuItem.isEnabled){
             NSMenu *userGroupsMenu = [[NSMenu alloc]init];
             [userGroupsMenu setAutoenablesItems:NO];
@@ -57,9 +62,18 @@
             }
             [userGroupsMenuItem setSubmenu:userGroupsMenu];
         }
+        
+        NSMenuItem *unbanAndBanUser = [[NSMenuItem alloc]initWithTitle:[_favesUsersData[_row][@"blacklisted_by_me"] intValue] ? @"Remove from blacklist" : @"Add to blacklist" action:@selector(banAndUnbanUser) keyEquivalent:@""];
+        [unbanAndBanUser setEnabled:YES];
+        [menu addItem:unbanAndBanUser];
+        
         return menu;
     }
     return nil;
+}
+-(void)banAndUnbanUser{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AddFavesUserToBanOrUnbun" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row], @"bannedStatus":_favesUsersData[_row][@"blacklisted_by_me"]}];
+    
 }
 -(void)selectUserGroup:(NSMenuItem*)obj{
 //    NSLog(@"%@", obj.title);

@@ -614,21 +614,6 @@
                     NSLog(@"%@:%@", getFavesGroupsResponse[@"error"][@"error_code"], getFavesGroupsResponse[@"error"][@"error_msg"]);
                 }
                 else{
-                    NSString *groupName;
-                    NSString *deactivated;
-                    //                        NSString *groupId;
-                    NSString *desc;
-                    NSString *photo;
-                    NSString *url;
-                    NSString *linkId;
-                    //                        NSString *screenName;
-                    //                        NSString *status;
-                    //                        NSString *site;
-                    //                        NSString *city;
-                    //                        NSString *country;
-                    //                        NSString *name;
-                 
-                    
                     for (NSDictionary *a in getFavesGroupsResponse[@"response"]){
                         groupName = a[@"name"];
                         linkId = a[@"id"];
@@ -647,12 +632,9 @@
                         }
                         [progressSpin stopAnimation:self];
                     });
-//
                 }
-
             }
         }]resume];
-        
     }
 }
 

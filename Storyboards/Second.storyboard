@@ -155,6 +155,10 @@
                                                                         <rect key="frame" x="1" y="0.0" width="545" height="82"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
+                                                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-Uc-Bbt">
+                                                                                <rect key="frame" x="172" y="0.0" width="15" height="15"/>
+                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="blacklisted_min2" id="RJP-oi-mUj"/>
+                                                                            </imageView>
                                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B3D-oI-oO9">
                                                                                 <rect key="frame" x="1" y="64" width="202" height="16"/>
                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="rOu-mz-Uf8">
@@ -244,6 +248,7 @@
                                                                         </subviews>
                                                                         <connections>
                                                                             <outlet property="bdate" destination="bG7-Q5-vIi" id="KLn-Tf-e3h"/>
+                                                                            <outlet property="blacklisted" destination="Bme-Uc-Bbt" id="9HZ-NK-DSb"/>
                                                                             <outlet property="city" destination="4Bt-Sj-jHL" id="ROx-dM-i6I"/>
                                                                             <outlet property="country" destination="8Fd-MS-ahZ" id="xEE-rV-jNe"/>
                                                                             <outlet property="deactivatedStatus" destination="tMh-EW-m2C" id="Ilz-yw-JOp"/>
@@ -3966,6 +3971,7 @@
     </scenes>
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
+        <image name="blacklisted_min2" width="30" height="30"/>
         <image name="download2" width="1000" height="1000"/>
         <image name="mark1" width="30" height="30"/>
         <image name="onAir" width="700" height="700"/>

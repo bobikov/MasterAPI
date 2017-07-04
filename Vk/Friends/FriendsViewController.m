@@ -260,17 +260,17 @@
 - (IBAction)fdfd:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
     FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
+//    NSPoint mouseLoc = [NSEvent mouseLocation];
 //    int x = mouseLoc.x;
-    int y = mouseLoc.y;
+//    int y = mouseLoc.y;
 //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
    
     NSView *parentCell = [sender superview];
     NSInteger row = [FriendsTableView rowForView:parentCell];
-     CGRect rect=CGRectMake(0, y, 0, 0);
+//     CGRect rect=CGRectMake(0, y, 0, 0);
     popuper.receivedData = FriendsData[row];
-    
-    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:FriendsTableView preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+    [popuper setToViewController];
+//    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:FriendsTableView preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadUserFullInfo" object:self userInfo:dataForUserInfo];
 }
 

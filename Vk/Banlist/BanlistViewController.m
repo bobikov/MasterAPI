@@ -340,6 +340,12 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                             NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             if(userGetResponse[@"error"]){
                                 NSLog(@"%@", userGetResponse[@"error"]);
+                                dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                    if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned && !loading){
+                                        getBannedBlock(YES);
+                                        
+                                    }
+                                });
                             }
                             else{
                                 for(NSDictionary *a in userGetResponse[@"response"]){
@@ -749,7 +755,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                                     [progressSpin stopAnimation:self];
                                     loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
                                     [banList reloadData];
-                                 dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                 dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                      if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned && !loading){
                                          getBannedBlock(YES);
                                         
@@ -766,11 +772,15 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                                 // omg!!!!!!!!!
                                 NSLog(@"Server error code on Banlist request:%li", statusCode);
                                 if(![banlistData count]){
-                                    getBannedBlock(NO);
-                                    sleep(2);
+                                      dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                          getBannedBlock(NO);
+                                      });
+                                    
                                 }else{
-                                    getBannedBlock(YES);
-                                    sleep(2);
+                                      dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                          getBannedBlock(YES);
+                                      });
+                                    
                                 }
                             }
                         }
