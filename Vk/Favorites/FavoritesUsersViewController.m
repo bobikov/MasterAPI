@@ -401,33 +401,44 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 
 
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
-    if( loadFromUserGroup){
-        completion(restoredUserIDs);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            totalCount = [restoredUserIDs count];
-            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-        });
-    }else{
-        
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if(data){
-                NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                if(getFavesUsersResponse[@"error"]){
-                    NSLog(@"%@", getFavesUsersResponse[@"error"]);
-                }else{
-                    totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-                    });
-                    [favesUsersTemp removeAllObjects];
-                    for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
-                        [favesUsersTemp addObject:i[@"id"]];
+    __block void (^getFavesUsersBlock)();
+    getFavesUsersBlock = ^void(){
+        if( loadFromUserGroup){
+            completion(restoredUserIDs);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                totalCount = [restoredUserIDs count];
+                totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+            });
+        }else{
+            
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if(data){
+                    NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    if(getFavesUsersResponse[@"error"]){
+                        NSLog(@"%@:%@", getFavesUsersResponse[@"error"][@"error_code"], getFavesUsersResponse[@"error"][@"error_msg"]);
+                        NSLog(@"Trying send get faves users info request  again.");
+                        dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                              getFavesUsersBlock();
+                        });
+                      
+                        
+                    }else{
+                        totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+                        });
+                        [favesUsersTemp removeAllObjects];
+                        for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
+                            [favesUsersTemp addObject:i[@"id"]];
+                        }
+                        completion(favesUsersTemp);
                     }
-                    completion(favesUsersTemp);
                 }
-            }
-        }]resume];
-    }
+            }]resume];
+        }
+    };
+    getFavesUsersBlock();
+    
 }
 - (IBAction)showFavesUsersStatBut:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
@@ -667,6 +678,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                             //NSLog(@"%@", getUsersResponse);
                             if (getUsersResponse[@"error"]){
                                 NSLog(@"%@:%@", getUsersResponse[@"error"][@"error_code"], getUsersResponse[@"error"][@"error_msg"]);
+                                NSLog(@"Trying send faves users request  again.");
                                 if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
                                     dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                         loadFavesBlock(YES);

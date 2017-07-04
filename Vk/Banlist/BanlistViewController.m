@@ -289,27 +289,38 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     
 }
 - (void)getBanned:(OnGetBannedComplete)completion{
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.getBanned?count=200&offset=%lu&v=%@&access_token=%@",offsetLoadBanlist, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *getBannedResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if(getBannedResponse[@"error"]){
-                
-            }else{
-                totalCountBanned = [getBannedResponse[@"response"][@"count"] intValue];
-                NSLog(@"TOTAL BANNED %li",totalCountBanned);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    totalCount.title=[NSString stringWithFormat:@"%@", getBannedResponse[@"response"][@"count"]];
-                });
-                NSMutableArray *banlistLight = [[NSMutableArray alloc]init];
-                for(NSDictionary *i in getBannedResponse[@"response"][@"items"]){
-                    [banlistLight addObject:i[@"id"]];
-                    
+    __block void (^getBannedUsersBlock)();
+    getBannedUsersBlock = ^void(){
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.getBanned?count=200&offset=%lu&v=%@&access_token=%@",offsetLoadBanlist, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(data){
+                NSDictionary *getBannedResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                if(getBannedResponse[@"error"]){
+                    NSLog(@"%@:%@", getBannedResponse[@"error"][@"error_code"], getBannedResponse[@"error"][@"error_msg"]);
+                    NSLog(@"Trying send get banned users info request  again.");
+                    dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        if (!loading)
+                            getBannedUsersBlock();
+                    });
+                }else{
+                    totalCountBanned = [getBannedResponse[@"response"][@"count"] intValue];
+                    NSLog(@"TOTAL BANNED %li",totalCountBanned);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        totalCount.title=[NSString stringWithFormat:@"%@", getBannedResponse[@"response"][@"count"]];
+                    });
+                    NSMutableArray *banlistLight = [[NSMutableArray alloc]init];
+                    for(NSDictionary *i in getBannedResponse[@"response"][@"items"]){
+                        [banlistLight addObject:i[@"id"]];
+                        
+                    }
+                    completion(banlistLight);
                 }
-                completion(banlistLight);
             }
-        }
-    }]resume];
+        }]resume];
 
+    };
+    getBannedUsersBlock();
+    
+    
 }
 - (void)loadBanlist:(BOOL)searchByName :(BOOL)makeOffset{
     __block void(^getBannedBlock)(BOOL);
@@ -338,8 +349,10 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                         int blacklisted_by_me;
                         if(data){
                             NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            if(userGetResponse[@"error"]){
-                                NSLog(@"%@", userGetResponse[@"error"]);
+                            if(userGetResponse[@"userGetResponse"]){
+                                NSLog(@"%@:%@", userGetResponse[@"error"][@"error_code"], userGetResponse[@"error"][@"error_msg"]);
+                                NSLog(@"Trying send banlist users request  again.");
+
                                 dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                     if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned && !loading){
                                         getBannedBlock(YES);
