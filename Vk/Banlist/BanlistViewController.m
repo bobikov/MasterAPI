@@ -313,8 +313,9 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 }
 - (void)loadBanlist:(BOOL)searchByName :(BOOL)makeOffset{
     __block void(^getBannedBlock)(BOOL);
-    loading=YES;
+    
     getBannedBlock = ^void(BOOL offset){
+        loading=YES;
         searchMode=NO;
         [progressSpin startAnimation:self];
         if(offset){
@@ -748,7 +749,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                                     [progressSpin stopAnimation:self];
                                     loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
                                     [banList reloadData];
-                                 dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                 dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                      if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned && !loading){
                                          getBannedBlock(YES);
                                         

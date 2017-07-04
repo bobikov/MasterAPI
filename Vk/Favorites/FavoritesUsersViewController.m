@@ -593,10 +593,11 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
 }
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-    loading=YES;
+   
     __block NSDictionary *object;
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
+        loading=YES;
         [progressSpin startAnimation:self];
         if(offset){
             offsetLoadFaveUsers=offsetLoadFaveUsers+50;
@@ -895,7 +896,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                                     [progressSpin stopAnimation:self];
                                     loading=NO;
                                     if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
-                                        dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                        dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                             loadFavesBlock(YES);
                                         });
                                     }
