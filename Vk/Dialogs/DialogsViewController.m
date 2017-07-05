@@ -46,8 +46,7 @@
     fromIds = [[NSMutableArray alloc]init];
     dates = [[NSMutableArray alloc]init];
    
-    [sendMessageButton setKBButtonType:BButtonTypePrimary];
-    [deleteDialogs setKBButtonType:BButtonTypeDanger];
+
 }
 -(void)insertSmile:(NSNotification*)notification{
     textOfNewMessage.string=[NSString stringWithFormat:@"%@%@", textOfNewMessage.string, notification.userInfo[@"smile"]];

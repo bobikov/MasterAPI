@@ -23,7 +23,7 @@
     __weak IBOutlet NSButton *removeRepostGroup;
     __weak IBOutlet NSButton *addRepostGroup;
     __weak IBOutlet NSButton *saveRepostGroup;
-    
+    NSManagedObjectContext *moc;
     NSMutableArray *groupsPopupData, *selectedGroups,  *groupsData1Copy, *groupsData2Copy, *selectedObjects, *itemsToSaveInSelectedRepostGroup, *itemsToRemoveInSelectedRepostGroup, *groupsData2, *groupsData1;
     NSString *groupToRespostTo;
 

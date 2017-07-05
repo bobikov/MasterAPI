@@ -10,6 +10,7 @@
 #import "FullGroupInfoViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
+#import "AppDelegate.h"
 @interface GroupsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -71,7 +72,7 @@
 }
 - (IBAction)unloadGroups:(id)sender {
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-     NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     temporaryContext.parentContext=moc;
     
 //    _groupsHandle = [[groupsHandler alloc]init];
@@ -162,7 +163,7 @@
     
        
   
-     NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+     moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;
         NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext = moc;
 //    if([groupsData count]==0){

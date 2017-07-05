@@ -7,12 +7,12 @@
 //
 
 #import "keyHandler.h"
-
+#import "AppDelegate.h"
 @implementation keyHandler
 - (id)init{
     self = [super self];
     manager = [[NSFileManager alloc]init];
-    moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
     return self;
 }
 -(id)removeApp:(NSString*)appId appName:(NSString*)appName{

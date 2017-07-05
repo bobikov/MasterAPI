@@ -10,7 +10,7 @@
 #import "appInfo.h"
 #import "CustomSearchCell.h"
 #import "StringHighlighter.h"
-#import "KBButton.h"
+
 //#import "RFOverlayScrollView.h"
 @interface SearchViewController : NSViewController{
     
@@ -26,7 +26,7 @@
     __weak IBOutlet NSButton *loadedCountResults;
     __weak IBOutlet NSClipView *searchListClipView;
     __weak IBOutlet NSButton *byId;
-    __weak IBOutlet KBButton *searchWithParamsButton;
+    __weak IBOutlet NSButton *searchWithParamsButton;
     
     NSInteger searchOffsetCounter;
     

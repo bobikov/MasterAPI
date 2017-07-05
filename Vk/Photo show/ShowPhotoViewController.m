@@ -28,7 +28,7 @@
     friends = [[NSMutableArray alloc]init];
     searchBar.delegate = self;
     albumsDataCopy = [[NSMutableArray alloc]init];
-    [backToAlbums setKBButtonType:BButtonTypeDefault];
+    
     [self loadFriends];
     if(!albumLoaded){
         [self loadAlbums];

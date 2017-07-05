@@ -7,12 +7,12 @@
 //
 
 #import "TumblrRWData.h"
-
+#import "AppDelegate.h"
 @implementation TumblrRWData
 
 -(id)init{
     self = [super self];
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;;
     return self;
 }
 -(NSDictionary *)readTumblrTokens{

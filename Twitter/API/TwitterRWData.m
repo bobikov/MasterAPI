@@ -7,11 +7,11 @@
 //
 
 #import "TwitterRWData.h"
-
+#import "AppDelegate.h"
 @implementation TwitterRWData
 -(id)init{
     self = [super self];
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
     return self;
 }
 -(void)writeTokens:(NSDictionary*)data{

@@ -29,7 +29,7 @@
     [addBut setEnabled:NO];
     countries = [[NSMutableArray alloc]init];
     cities = [[NSMutableArray alloc]init];
-    [searchWithParamsButton setKBButtonType:BButtonTypePrimary];
+    
     NSNib *nib = [[NSNib alloc] initWithNibNamed:@"SearchGroupsCellView" bundle:nil];
     [foundList registerNib:nib forIdentifier: @"SearchGroupsCellView"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPage:) name:@"VisitUserPage" object:nil];

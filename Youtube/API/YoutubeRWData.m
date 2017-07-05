@@ -7,11 +7,12 @@
 //
 
 #import "YoutubeRWData.h"
-
+#import "AppDelegate.h"
 @implementation YoutubeRWData
 -(id)init{
     self = [super self];
-     moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
+    return self;
     return self;
     
 }

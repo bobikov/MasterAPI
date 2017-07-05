@@ -7,7 +7,7 @@
 //
 
 #import "YoutubeLoginViewController.h"
-
+#import "AppDelegate.h"
 @interface YoutubeLoginViewController ()
 
 @end
@@ -75,7 +75,7 @@
 -(void)ObserveReadyYoutubeTempToken:(NSNotification*)notification{
     
     //    NSLog(@"%@", notification.userInfo);
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSError *readError;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"YoutubeAppInfo"];
     [request setReturnsObjectsAsFaults:NO];

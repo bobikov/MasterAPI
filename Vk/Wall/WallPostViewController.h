@@ -12,6 +12,10 @@
 #import "TwitterClient.h"
 #import "PostAttachmentsCustomItem.h"
 #import "TumblrClient.h"
+typedef enum {
+    IMAGE_LINK=0,
+    PREVIEW_LINK
+} post_link_type;
 @interface WallPostViewController : NSViewController{
     
     __weak IBOutlet NSButton *repeat;
@@ -50,10 +54,12 @@
     __weak IBOutlet NSTableView *preparedListToPost;
     
     
+    
     int
         countPhotoInAttachments,
         countDocsInAttachments,
         countVideoInAttachments,
+        countURLsInAttachments,
         ownersCounter;
     
     NSArray *dataAttachmentsFinalArray;
@@ -95,7 +101,12 @@
         stopFlag,
         reverse,
         captchaOpened;
+    
+
+    post_link_type postLinkType;
+    
 }
+
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;
 @property(nonatomic)TwitterClient *twitterClient;

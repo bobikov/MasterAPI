@@ -7,7 +7,7 @@
 //
 
 #import "VKLoginViewController.h"
-
+#import "AppDelegate.h"
 @interface VKLoginViewController ()<WebFrameLoadDelegate>
 typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
 - (void)getAppInfo:(OnCompleteGetAppInfo)completion;
@@ -21,7 +21,8 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     _keyHandle = [[keyHandler alloc]init];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
-    moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
+    
     [appList removeAllItems];
     superWindow = [NSApplication sharedApplication].keyWindow;
     self.view.layer.cornerRadius = 10.0;

@@ -268,6 +268,7 @@
 		2B41FCD71E0428CB0013AC86 /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FCD61E0428CB0013AC86 /* Header.xib */; };
 		2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */; };
 		2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */; };
+		2B440A3F1F0CC2C7008463DA /* HTTP-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B440A3E1F0CC2C7008463DA /* HTTP-icon.png */; };
 		2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B462FE91E5481910022E039 /* APIClientsProtocol.m */; };
 		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
@@ -285,9 +286,6 @@
 		2BCACB641E4DA1A400830583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2BCACB601E4DA1A400830583 /* .gitignore */; };
 		2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */; };
 		2BCACB661E4DA1A400830583 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB631E4DA1A400830583 /* README.md */; };
-		2BCACB6E1E4DA42D00830583 /* KBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB691E4DA42D00830583 /* KBButton.m */; };
-		2BCACB6F1E4DA42D00830583 /* KBButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */; };
-		2BCACB701E4DA42D00830583 /* NSColor+ColorExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */; };
 		2BCBAA901E0E71E40083B95E /* SessionTasksDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */; };
 		2BCBAA931E0E72260083B95E /* SessionTasksDetailsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA921E0E72260083B95E /* SessionTasksDetailsCellView.m */; };
 		2BCBAA971E125A0D0083B95E /* ApiSourceSelectorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */; };
@@ -763,6 +761,7 @@
 		2B41FCD91E0429D50013AC86 /* SmilesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesHeaderView.m; sourceTree = "<group>"; };
 		2B41FCDB1E0458DB0013AC86 /* InstagramSearchByTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramSearchByTagController.h; sourceTree = "<group>"; };
 		2B41FCDC1E0458DB0013AC86 /* InstagramSearchByTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramSearchByTagController.m; sourceTree = "<group>"; };
+		2B440A3E1F0CC2C7008463DA /* HTTP-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HTTP-icon.png"; sourceTree = "<group>"; };
 		2B462FE81E5481910022E039 /* APIClientsProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIClientsProtocol.h; path = Youtube/APIClientsProtocol.h; sourceTree = "<group>"; };
 		2B462FE91E5481910022E039 /* APIClientsProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIClientsProtocol.m; path = Youtube/APIClientsProtocol.m; sourceTree = "<group>"; };
 		2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramFeedViewController.h; sourceTree = "<group>"; };
@@ -792,12 +791,6 @@
 		2BCACB611E4DA1A400830583 /* NSImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+Resizing.h"; sourceTree = "<group>"; };
 		2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+Resizing.m"; sourceTree = "<group>"; };
 		2BCACB631E4DA1A400830583 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2BCACB681E4DA42D00830583 /* KBButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBButton.h; sourceTree = "<group>"; };
-		2BCACB691E4DA42D00830583 /* KBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBButton.m; sourceTree = "<group>"; };
-		2BCACB6A1E4DA42D00830583 /* KBButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBButtonCell.h; sourceTree = "<group>"; };
-		2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBButtonCell.m; sourceTree = "<group>"; };
-		2BCACB6C1E4DA42D00830583 /* NSColor+ColorExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+ColorExtensions.h"; sourceTree = "<group>"; };
-		2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+ColorExtensions.m"; sourceTree = "<group>"; };
 		2BCBAA8E1E0E71E40083B95E /* SessionTasksDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsView.h; sourceTree = "<group>"; };
 		2BCBAA8F1E0E71E40083B95E /* SessionTasksDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionTasksDetailsView.m; sourceTree = "<group>"; };
 		2BCBAA911E0E72260083B95E /* SessionTasksDetailsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionTasksDetailsCellView.h; sourceTree = "<group>"; };
@@ -1000,7 +993,6 @@
 			children = (
 				2BDB2B481E4DC3A00072B0B2 /* MXButton.h */,
 				2BDB2B491E4DC3A00072B0B2 /* MXButton.m */,
-				2BCACB671E4DA42D00830583 /* KBButton */,
 				2BCACB5F1E4DA1A400830583 /* NSImage-Resizing-master */,
 				2B41FA501E02D3F50013AC86 /* RFOverlayScroller */,
 			);
@@ -1077,6 +1069,7 @@
 			children = (
 				2BB36A301E58494400764C6E /* placeholders */,
 				2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */,
+				2B440A3E1F0CC2C7008463DA /* HTTP-icon.png */,
 				2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */,
 				2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */,
 				2BDB2B4B1E4DD4300072B0B2 /* placeholderImage.jpg */,
@@ -1750,19 +1743,6 @@
 			path = "NSImage-Resizing-master";
 			sourceTree = "<group>";
 		};
-		2BCACB671E4DA42D00830583 /* KBButton */ = {
-			isa = PBXGroup;
-			children = (
-				2BCACB681E4DA42D00830583 /* KBButton.h */,
-				2BCACB691E4DA42D00830583 /* KBButton.m */,
-				2BCACB6A1E4DA42D00830583 /* KBButtonCell.h */,
-				2BCACB6B1E4DA42D00830583 /* KBButtonCell.m */,
-				2BCACB6C1E4DA42D00830583 /* NSColor+ColorExtensions.h */,
-				2BCACB6D1E4DA42D00830583 /* NSColor+ColorExtensions.m */,
-			);
-			path = KBButton;
-			sourceTree = "<group>";
-		};
 		5121C3838560FE90FDF8F5FE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1865,6 +1845,7 @@
 				2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */,
 				2B41FC381E02D3F60013AC86 /* twitter_icon.png in Resources */,
 				2B41FC221E02D3F60013AC86 /* logo_messages.png in Resources */,
+				2B440A3F1F0CC2C7008463DA /* HTTP-icon.png in Resources */,
 				2B41FC1D1E02D3F60013AC86 /* edit15px.png in Resources */,
 				2B41FC171E02D3F60013AC86 /* dialogs.png in Resources */,
 				2B41FC0F1E02D3F60013AC86 /* blacklisted_min.png in Resources */,
@@ -2056,7 +2037,6 @@
 				2B41FC9F1E02D3F70013AC86 /* StatusChangeViewController.m in Sources */,
 				2B41FC4B1E02D3F60013AC86 /* TumblrAvatar.m in Sources */,
 				2B41FC7A1E02D3F70013AC86 /* FavoritesGroupsController.m in Sources */,
-				2BCACB701E4DA42D00830583 /* NSColor+ColorExtensions.m in Sources */,
 				2B41FC861E02D3F70013AC86 /* FullGroupInfoViewController.m in Sources */,
 				2B41FC6F1E02D3F70013AC86 /* SelectedDialogCustomCellView.m in Sources */,
 				2B41FC8D1E02D3F70013AC86 /* GroupsViewController.m in Sources */,
@@ -2073,7 +2053,6 @@
 				2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */,
 				2B41FC731E02D3F70013AC86 /* DocsTabController.m in Sources */,
 				2B41FCA61E02D3F70013AC86 /* createNewVideoAlbumController.m in Sources */,
-				2BCACB6F1E4DA42D00830583 /* KBButtonCell.m in Sources */,
 				2B41FC5B1E02D3F70013AC86 /* appInfo.m in Sources */,
 				2B41FC891E02D3F70013AC86 /* GroupsCustomCellView.m in Sources */,
 				2B41FBEC1E02D3F60013AC86 /* MainViewController.m in Sources */,
@@ -2090,7 +2069,6 @@
 				2B41FBE81E02D3F60013AC86 /* InstagramRWD.m in Sources */,
 				2B41FCA51E02D3F70013AC86 /* VideoPrivacyViewController.m in Sources */,
 				2B41FCCC1E02D3F70013AC86 /* AppDelegate.m in Sources */,
-				2BCACB6E1E4DA42D00830583 /* KBButton.m in Sources */,
 				2B41FC961E02D3F70013AC86 /* MyPhotoWindowController.m in Sources */,
 				2BCE662E1E07F2F600364A80 /* TasksCellView.m in Sources */,
 				2B81D5641F040EAB00F1DEE6 /* YoutubeLoginViewController.m in Sources */,

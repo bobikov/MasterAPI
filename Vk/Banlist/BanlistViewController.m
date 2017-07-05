@@ -298,7 +298,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                     NSLog(@"%@:%@", getBannedResponse[@"error"][@"error_code"], getBannedResponse[@"error"][@"error_msg"]);
                     NSLog(@"Trying send get banned users info request  again.");
                     dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        if (!loading)
+//                        if (!loading)
                             getBannedUsersBlock();
                     });
                 }else{

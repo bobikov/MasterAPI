@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//#import "KBButton.h"
+
 @interface FavesUsersCustomCell : NSTableCellView
 @property (weak) IBOutlet NSTextField *fullName;
 @property (weak) IBOutlet NSImageView *online;

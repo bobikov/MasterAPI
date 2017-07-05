@@ -10,11 +10,11 @@
 #import "customViewCollectionItem.h"
 #import "MyPhotoWindowController.h"
 #import "ViewControllerMenuItem.h"
-#import "KBButton.h"
+
 @interface ShowPhotoViewController : NSViewController{
 __weak IBOutlet NSCollectionView *collectionViewListAlbums;
 //    __weak IBOutlet NSButton *backToAlbums;
-    __weak IBOutlet KBButton *backToAlbums;
+    __weak IBOutlet NSButton *backToAlbums;
     __weak IBOutlet NSPopUpButton *albumsListDropdown;
     __weak IBOutlet NSPopUpButton *friendsListDropdown;
     __weak IBOutlet NSPopUpButton *groupsListPopup;

@@ -10,7 +10,7 @@
 #import "appInfo.h"
 #import "DialogsListCustomCellView.h"
 #import "SelectedDialogCustomCellView.h"
-#import "KBButton.h"
+
 @interface DialogsViewController : NSViewController{
     
 
@@ -18,8 +18,8 @@
     __unsafe_unretained IBOutlet NSTextView *textOfNewMessage;
 //    __weak IBOutlet NSButton *sendMessageButton;
     
-    __weak IBOutlet KBButton *deleteDialogs;
-    __weak IBOutlet KBButton *sendMessageButton;
+    __weak IBOutlet NSButton *deleteDialogs;
+    __weak IBOutlet NSButton *sendMessageButton;
     __weak IBOutlet NSTableView *dialogsList;
     __weak IBOutlet NSTableView *selectedDialog;
 //    NSMutableArray *dialogsListData;

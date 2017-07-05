@@ -21,7 +21,7 @@
 }
 
 -(void)layoutSublayersOfLayer:(CALayer *)layer{
-    [super layoutSublayersOfLayer:layer];
+    //[super layoutSublayersOfLayer:layer];
      border.frame=NSMakeRect(0, self.frame.size.height - 1.0, self.frame.size.width, 1.0);
 }
 @end

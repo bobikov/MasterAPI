@@ -18,6 +18,7 @@
 #import "NSString+MyNSStringCategory.h"
 #import "HTMLReader.h"
 #import <DZReadability/DZReadability.h>
+#import "AppDelegate.h"
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -46,7 +47,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddFavesUserGroupsItemIntoGroup:) name:@"AddFavesUserGroupsItemIntoGroup" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddFavesUserToBanOrUnbun:) name:@"AddFavesUserToBanOrUnbun" object:nil];
     offsetLoadFaveUsers=0;
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     [favesUserGroups removeAllItems];
 //    NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
     CAShapeLayer * layer = [CAShapeLayer layer];

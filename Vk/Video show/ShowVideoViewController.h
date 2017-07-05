@@ -14,7 +14,7 @@
 #import "MyVideoWindowController.h"
 #import "groupsHandler.h"
 #import "ViewControllerMenuItem.h"
-#import "KBButton.h"
+
 @interface ShowVideoViewController : NSViewController{
     __weak IBOutlet NSButton *safeModeSearch;
     __weak IBOutlet NSCollectionView *collectionViewListAlbums;
@@ -31,7 +31,7 @@
     __weak IBOutlet NSTextField *publicIdFromShow;
     __weak IBOutlet NSButton *showAlbumsFromButton;
     //    __weak IBOutlet NSButton *backToAlbums;
-    __weak IBOutlet KBButton *backToAlbums;
+    __weak IBOutlet NSButton *backToAlbums;
     
     NSMutableArray
         *videoAlbums,

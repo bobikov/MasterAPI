@@ -8,6 +8,7 @@
 
 #import "GroupsFromFileViewController.h"
 #import "MainViewController.h"
+#import "AppDelegate.h"
 @interface GroupsFromFileViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -83,7 +84,7 @@
 //        [membershipGroupsList reloadData];
 //    }
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;
     temporaryContext.parentContext = moc;
     //    if([groupsData count]==0){
     //        _groupsHandle = [[groupsHandler alloc] init];

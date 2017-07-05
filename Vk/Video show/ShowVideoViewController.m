@@ -41,7 +41,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 //    [collectionViewListAlbums registerNib:itemNib forItemWithIdentifier:@"ShowVideoItemPrototype"];
 //    [collectionViewListAlbums setItemPrototype:[self.storyboard instantiateControllerWithIdentifier:@"ShowVideoItemPrototype"]];
 //    [collectionViewListAlbums registerForDraggedTypes:@[@"KL_DRAG_TYPE"]];
-    [backToAlbums setKBButtonType:BButtonTypeDefault];
+    
 //    backToAlbums.highlightColor=[NSColor redColor];
 //    backToAlbums.highlightTextColor=[NSColor whiteColor];
 //    backToAlbums.textColor=[NSColor blackColor];

@@ -13,12 +13,12 @@
 #import "VolumeView.h"
 #import "appInfo.h"
 #import "keyHandler.h"
-#import "KBButton.h"
+
 #import "APIClientsProtocol.h"
 @interface Headbar : NSViewController{
     APIClientsProtocol *protocol;
     __weak IBOutlet NSImageView *appIcon;
-    __weak IBOutlet KBButton *globalSearch;
+    __weak IBOutlet NSButton *globalSearch;
 //    __weak IBOutlet NSButton *globalSearch;
     
     __weak IBOutlet NSButton *playImageButton;
@@ -26,8 +26,8 @@
     __weak IBOutlet NSSlider *audioProgress;
     __weak IBOutlet NSTextField *nameOfCurrentTrack;
     __weak IBOutlet NSTextField *audioTimer;
-    __weak IBOutlet KBButton *postButton;
-    __weak IBOutlet KBButton *tasksButton;
+    __weak IBOutlet NSButton *postButton;
+    __weak IBOutlet NSButton *tasksButton;
     
     NSString
         *currentUrl,

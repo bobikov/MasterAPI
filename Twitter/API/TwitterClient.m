@@ -49,7 +49,7 @@
     _oauth_consumer_secret_key = consumerSecret;
     return self;
 }
--(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnComplete)completion{
+-(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnCompleteTwitterRequest)completion{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -178,7 +178,7 @@
 
     });
 }
--(void)startRequest:(OnComplete)completion{
+-(void)startRequest:(OnCompleteTwitterRequest)completion{
     [[_TSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             completion(data);
         

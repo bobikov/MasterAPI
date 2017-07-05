@@ -7,7 +7,7 @@
 
 #import "StatusChangeViewController.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "AppDelegate.h"
 @interface StatusChangeViewController ()<NSTextViewDelegate, NSTableViewDataSource, NSTableViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -26,7 +26,7 @@
 //    currentStatus.layer.borderColor = (__bridge CGColorRef _Nullable)([NSColor grayColor]);
 //    currentStatus.layer.cornerRadius = 10.0f;
 //    [currentStatus.layer setMasksToBounds:YES];
-    moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(doScheduledStatus:) name:@"DoScheduledStatus" object:nil];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];

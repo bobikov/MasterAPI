@@ -45,7 +45,7 @@
 - (id)initWithParams:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
 - (NSString *)hash:(NSString *)data secret:(NSString *)key;
 - (NSString*)createNonce;
-typedef void (^OnComplete) (NSData *data);
+typedef void (^OnCompleteTwitterRequest) (NSData *data);
 
--(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnComplete)completion;
+-(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnCompleteTwitterRequest)completion;
 @end

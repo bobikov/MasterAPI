@@ -16,7 +16,8 @@
 #import <EventKit/EventKit.h>
 #import <IGFastImage/IGFastImage.h>
 #import <Carbon/Carbon.h>
-
+#import <NSString+RMURLEncoding/NSString+RMURLEncoding.h>
+#import "AppDelegate.h"
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -42,7 +43,7 @@
     preparedOwnersListScheduled = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
-    moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;
     preparedOwnersList = [[NSMutableArray alloc]init];
     preparedListToPost.dataSource=self;
     preparedListToPost.delegate=self;
@@ -70,7 +71,7 @@
     _tumblrClient = [[TumblrClient alloc]initWithTokensFromCoreData];
     afterPost.hidden = postRadio.state==1 ? YES : NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToAttachments:) name:@"addToAttachments" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToAttachmentsObserve:) name:@"addToAttachments" object:nil];
     preparedAttachmentsString = [[NSMutableArray alloc]init];
      postTargetSourceSelector = [[NSMutableDictionary alloc]initWithDictionary:@{@"vk":@0, @"tumblr":@0, @"twitter":@0}];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeItemFromAttachments:) name:@"removeItemFromAttachments" object:nil];
@@ -112,9 +113,10 @@
 //    }
     NSEvent *currentEvent = [[NSApplication sharedApplication]currentEvent];
     NSLog(@"HAHAHA");
-    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9) && [textView.string containsString:@"https://"]) {  //command + enter to confirm
-        [self checkImageLink];
-        NSLog(@"52525");
+    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9) && [textView.string containsString:@"http"]) {  //command + enter to confirm
+        if(![self checkImageLink]){
+            [self addToAttachments:@{@"type":@"url", @"data":@{@"photo":[[NSBundle mainBundle]pathForImageResource:@"HTTP-icon.png"],@"url":textView.string}}];
+        }
        
     }
  
@@ -141,23 +143,24 @@
 //    }
 }
 
--(void)checkImageLink{
+-(BOOL)checkImageLink{
     NSURL* url = [NSURL URLWithString:textView.string];
     IGFastImage* image = [[IGFastImage alloc] initWithURL:url];
     NSLog(@"IMAGE TYPE:%i", image.type );
+    postLinkType = image.type ? 0 : 1;
+    return image.type;
 }
 
 //Attachments actions
-- (void)addToAttachments:(NSNotification *)notification{
-    mediaAttachmentType = notification.userInfo[@"type"];
+-(void)addToAttachments:(NSDictionary*)obj{
+//    NSLog(@"%@", obj);
+    mediaAttachmentType = obj[@"type"];
     [indexPaths removeAllObjects];
-    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]};
+    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":obj[@"data"]};
     if(![attachmentsData containsObject:object]){
         [attachmentsData insertObject:object atIndex:0];
-        
         //    [newData addObject:@{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]}];
         [indexPaths addObject:[NSIndexPath indexPathForItem: 0 inSection:0]];
-        
         [attachmentsCollectionView insertItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
         //    NSLog(@"%@", indexPaths);
         [attachmentsCollectionView setContent:attachmentsData];
@@ -165,9 +168,11 @@
         countPhotoInAttachments = 0;
         countVideoInAttachments = 0;
         countDocsInAttachments = 0;
+        countURLsInAttachments = 0;
         ////    NSLog(@"%@", attachmentsData);
         preparedAttachmentsString = [[NSMutableArray alloc]init];
         for(NSDictionary *i in attachmentsData){
+            
             if([i[@"type"] isEqual:@"photo"]){
                 countPhotoInAttachments++;
             }
@@ -177,21 +182,31 @@
             else if([i[@"type"] isEqual:@"doc"]){
                 countDocsInAttachments++;
             }
-//            NSInteger ownerInAttachString =i[@"data"][@"owner"]?abs([i[@"data"][@"owner"] intValue]):abs([i[@"data"][@"owner_id"]intValue]);
-             NSString *ownerInAttachString =i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"];
-            [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], ownerInAttachString, [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+            else if([i[@"type"] isEqual:@"url"]){
+                countURLsInAttachments++;
+            }
+            //            NSInteger ownerInAttachString =i[@"data"][@"owner"]?abs([i[@"data"][@"owner"] intValue]):abs([i[@"data"][@"owner_id"]intValue]);
+            NSString *ownerInAttachString =i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"];
+            if([i[@"type"] isEqualToString:@"url"]){
+                [preparedAttachmentsString addObject:obj[@"data"][@"url"]];
+            }else{
+                [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], ownerInAttachString, [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+            }
             
         }
         //
         attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
-        NSLog(@"%@",attachmentsPostVKString);
-        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
-        
+        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i URLs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments, countURLsInAttachments];
         [attachmentsCollectionView reloadItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
         //    [attachmentsCollectionView reloadData];
+         NSLog(@"%@",attachmentsPostVKString);
     }
     [self setSelectorsButtonsState];
+
 }
+- (void)addToAttachmentsObserve:(NSNotification *)notification{
+    [self addToAttachments:notification.userInfo];
+   }
 - (void)removeItemFromAttachments:(NSNotification*)notification{
     
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[attachmentsData indexOfObject:notification.userInfo[@"data"]] inSection:0];
@@ -691,7 +706,7 @@
         //        attachmentsPostVKString = attachs;
         attachmentsPostVKStringScheduled = [attachs mutableCopy];
         
-        message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         [self postWithoutRepeat:YES];
 //        NSLog(@"%@", owners);
 //        NSLog(@"%@", preparedOwnersListScheduled);
@@ -700,7 +715,9 @@
         
     }else{
         owner = preparedOwnersList[ownersCounter][@"id"];
-        message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+        if(![textView.string containsString:@"http"])
+            message = [textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if(PostVK.state==0 && PostTwitter.state==0 && postTumblr.state==0){
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -720,38 +737,24 @@
                 }
                 else{
                     if(postRadio.state){
-                        
-                            [self postWithoutRepeat:NO];
-                        
-                        
+                        [self postWithoutRepeat:NO];
                     }else if(commentRadio.state){
                         [self addCommentWithoutRepeat];
                     }
                 }
             }
         });
-      
     }
     if(message){
-        
       [self writeMessage];
     }
 }
 - (IBAction)makePostAction:(id)sender {
     repeatState = repeat.state;
-    if(PostVK.state){
-        postTargetSourceSelector[@"vk"]=@1;
-    }
-    if(PostTwitter.state){
-        postTargetSourceSelector[@"twitter"]=@1;
-    }
-    if(postTumblr.state){
-        postTargetSourceSelector[@"tumblr"]=@1;
-    }
-    
+    postTargetSourceSelector[@"vk"]=PostVK.state ? @1 : @0;
+    postTargetSourceSelector[@"twitter"]=PostTwitter.state ? @1 : @0;
+    postTargetSourceSelector[@"tumblr"]=postTumblr.state ? @1 : @0;
     [self prepareForPost:nil attachs:nil msg:nil repeatPost:repeatState scheduled:NO];
-
-    
 }
 - (void)postWithRepeat{
     stopFlag = NO;
@@ -944,27 +947,21 @@
         __block void(^postBlockWrap)(BOOL schdl);
         __block NSString *messageForVk;
         postBlockWrap=^(BOOL schdl){
-            
             void (^startPostVk)(NSString *)=^(NSString *url){
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                     if(data){
                         NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                         NSLog(@"%@", postResponse);
-                        
                         if([postResponse[@"response"][@"post_id"] intValue]!=0){
                             NSLog(@"New post in Vkontakte successfully done");
-                            
                         }
                         else{
                             NSLog(@"New post in Vkontakte is not done");
-                            
                         }
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [progressSpin stopAnimation:self];
-                            
                         });
                         postTargetSourceSelector[@"vk"]=@0;
-                        
                     }
                 }]resume];
             };
@@ -995,7 +992,7 @@
                 });
             }
             
-            //        NSLog(@"%@", vkURL);
+            NSLog(@"%@", vkURL);
             //        NSLog(@"%@", preparedOwnersList);
             if(schdl){
                 if(ownersCounter<[preparedOwnersListScheduled count]-1){
@@ -1033,11 +1030,9 @@
                     NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     if(resp[@"id"]){
                         NSLog(@"New post with media in Twitter successfully done");
-                       
                     }
                     else{
                         NSLog(@"New post with media in Twitter is not done");
-                        
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -1083,7 +1078,7 @@
                         NSLog(@"Tumblr post with media is not  done. Something wrong.");
                        
                     }
-                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+//                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
              
                 }else{
                     NSLog(@"Tumblr post data not recieved");
@@ -1097,15 +1092,16 @@
             }];
             
         }else{
-            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
+            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"text", @"body":message } handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrTextPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    if(tumblrTextPostResp[@"response"][@"id"]){
-                        NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
-                    }else{
-                        NSLog(@"Tumblr post without media is not  done. Something wrong.");
-                    }
-                    //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+                      NSLog(@"%@", tumblrTextPostResp);
+//                    if(tumblrTextPostResp[@"response"][@"id"]){
+//                        NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
+//                    }else{
+//                        NSLog(@"Tumblr post without media is not  done. Something wrong.");
+//                    }
+//                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
                     //                           NSLog(@"%@", tumblrResp);
                 }else{
                     NSLog(@"Tumblr post data not recieved");
@@ -1297,7 +1293,7 @@
 //        item1.titleItem.stringValue = itt2;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSImage *image = [[NSImage alloc]init];
-            NSString *ph = attachmentsData[indexPath.item][@"data"][@"items"] ? attachmentsData[indexPath.item][@"data"][@"items"][@"photo"] : attachmentsData[indexPath.item][@"data"][@"photo"]?attachmentsData[indexPath.item][@"data"][@"photo"]:attachmentsData[indexPath.item][@"data"][@"cover"];
+            NSString *ph = attachmentsData[indexPath.item][@"data"][@"items"] ? attachmentsData[indexPath.item][@"data"][@"items"][@"photo"] : attachmentsData[indexPath.item][@"data"][@"photo"] ? attachmentsData[indexPath.item][@"data"][@"photo"]:attachmentsData[indexPath.item][@"data"][@"cover"];
                 image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:ph]];
             
 

@@ -10,6 +10,7 @@
 #import "WallRepostGroupsCustomCellView.h"
 #import "AddRepostGroupController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "AppDelegate.h"
 @interface WallRepostViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -105,7 +106,7 @@
     
 }
 - (IBAction)saveRepostGroup:(id)sender {
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -170,7 +171,7 @@
 
 - (IBAction)removeRepostGroup:(id)sender {
 //    NSLog(@"%@",  [[repostUserGroups selectedItem]title]);
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -206,7 +207,7 @@
 - (IBAction)repostUserGroupsSelect:(id)sender {
     [itemsToRemoveInSelectedRepostGroup removeAllObjects];
     [itemsToSaveInSelectedRepostGroup removeAllObjects];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSFetchRequest *request = [ NSFetchRequest fetchRequestWithEntityName:@"VKUserRepostGroupsNames"];
     NSError *readError;
     
@@ -247,7 +248,7 @@
 }
 - (void)getListOfUserRepostGroupsFromData{
     [repostUserGroups removeAllItems];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -408,7 +409,7 @@
 ////        arrayController1.content=groupsData1;
 //        [groupsList1 reloadData];
 //    }
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroups"];
     [request setReturnsObjectsAsFaults:NO];
     [request setResultType:NSDictionaryResultType];

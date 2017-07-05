@@ -7,11 +7,11 @@
 //
 
 #import "InstagramRWD.h"
-
+#import "AppDelegate.h"
 @implementation InstagramRWD
 -(id)init{
     self = [super self];
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;
     return self;
 }
 -(void)writeInstagramToken:(NSDictionary*)data{

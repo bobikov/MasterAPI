@@ -33,7 +33,7 @@
     NSMutableArray *groupsDataCopy;
     __weak IBOutlet NSSearchField *searchBar;
     BOOL reloaded;
-    
+    NSManagedObjectContext *moc;
 }
 @property (nonatomic) appInfo *app;
 @property (strong) IBOutlet NSArrayController *arrayController;

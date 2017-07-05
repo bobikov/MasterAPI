@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "ViewControllerMenuItem.h"
-#import "KBButton.h"
+
 @interface ProfilePhotoChangeViewController : NSViewController{
     NSString *serverUrl;
     NSString *filePath;
@@ -21,7 +21,7 @@
     __weak IBOutlet NSTextField *filePathLabel;
     __weak IBOutlet NSProgressIndicator *progressSpin;
     __weak IBOutlet NSProgressIndicator *progressUploadBar;
-    __weak IBOutlet KBButton *uploadButton;
+    __weak IBOutlet NSButton *uploadButton;
     NSString *server;
     NSString *hash;
     NSString *photo;

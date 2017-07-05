@@ -647,7 +647,7 @@
             startingLineNumber = "264"
             endingLineNumber = "264"
             landmarkName = "-setStatusAction:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -677,7 +677,7 @@
             startingLineNumber = "366"
             endingLineNumber = "366"
             landmarkName = "-loadPeople:useParams:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -693,7 +693,7 @@
             startingLineNumber = "367"
             endingLineNumber = "367"
             landmarkName = "-loadPeople:useParams:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -709,7 +709,7 @@
             startingLineNumber = "348"
             endingLineNumber = "348"
             landmarkName = "-loadPeople:useParams:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -725,7 +725,7 @@
             startingLineNumber = "368"
             endingLineNumber = "368"
             landmarkName = "-loadPeople:useParams:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -741,7 +741,7 @@
             startingLineNumber = "365"
             endingLineNumber = "365"
             landmarkName = "-loadPeople:useParams:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -757,7 +757,7 @@
             startingLineNumber = "106"
             endingLineNumber = "106"
             landmarkName = "-prepareImageForProfile:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

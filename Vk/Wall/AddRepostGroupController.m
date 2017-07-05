@@ -7,7 +7,7 @@
 //
 
 #import "AddRepostGroupController.h"
-
+#import "AppDelegate.h"
 @interface AddRepostGroupController ()
 
 @end
@@ -23,7 +23,7 @@
     [self addGroup];
 }
 -(void)removeAllGroups{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -49,7 +49,7 @@
     
 }
 -(void)addGroup{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
     [temporaryContext performBlock:^{

@@ -17,6 +17,7 @@
     YoutubeRWData *RWData;
     __weak IBOutlet NSButton *removeAndAddButton;
     YoutubeAuth *youtubeAuth;
+    NSManagedObjectContext *moc;
 }
 
 @end

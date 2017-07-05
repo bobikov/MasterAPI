@@ -15,6 +15,7 @@
     NSMutableArray *membershipGroupsData;
     NSMutableArray *membershipGroupsDataCopy;
     __weak IBOutlet NSSearchField *searchBar;
+    NSManagedObjectContext *moc;
 }
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic)groupsHandler *groupsHandle;

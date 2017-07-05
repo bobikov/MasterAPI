@@ -13,6 +13,7 @@
 #import "FullGroupInfoViewController.h"
 #import "CreateFavesGroupController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "AppDelegate.h"
 @interface FavoritesGroupsController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -41,7 +42,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddFavesUserGroupsItemIntoGroup:) name:@"AddFavesGroupsUserGroupsItemIntoGroup" object:nil];
     offsetLoadFaveGroups=0;
     groupDataById = [[NSMutableArray alloc]init];
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     [favesUserGroups removeAllItems];
     [self loadFavesUserGroups];
     [self loadUserFavesGroupsPrefs];
