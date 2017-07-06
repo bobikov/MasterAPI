@@ -10,6 +10,7 @@
 #import "FullUserInfoPopupViewController.h"
 #import "FriendsStatController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "MyTableRowView.h"
 @interface BanlistViewController () <NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 - (void)getBanned:(OnGetBannedComplete)completion;
@@ -296,9 +297,10 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                 NSDictionary *getBannedResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 if(getBannedResponse[@"error"]){
                     NSLog(@"%@:%@", getBannedResponse[@"error"][@"error_code"], getBannedResponse[@"error"][@"error_msg"]);
-                    NSLog(@"Trying send get banned users info request  again.");
-                    dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    
+                    dispatch_after(10, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //                        if (!loading)
+                        NSLog(@"Trying send get banned users info request  again.");
                             getBannedUsersBlock();
                     });
                 }else{
@@ -341,7 +343,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     
             //__block NSInteger startInsertRowIndex = [banlistData count];
             [self getBanned:^(NSMutableArray *bannedUsers) {
-                if([bannedUsers count]>0){
+                if([bannedUsers count]>0 & offsetCounter <= [banlistData count] ){
                     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
                
@@ -349,7 +351,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                         int blacklisted_by_me;
                         if(data){
                             NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            if(userGetResponse[@"userGetResponse"]){
+                            if(userGetResponse[@"error"]){
                                 NSLog(@"%@:%@", userGetResponse[@"error"][@"error_code"], userGetResponse[@"error"][@"error_msg"]);
                                 NSLog(@"Trying send banlist users request  again.");
 
@@ -764,16 +766,18 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                             
                              dispatch_async(dispatch_get_main_queue(), ^{
                                  loading=NO;
-//                                 if ([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist >= totalCountBanned){
-                                    [progressSpin stopAnimation:self];
-                                    loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
-                                    [banList reloadData];
+                                 if ([banlistData count]>0 && offsetLoadBanlist < totalCountBanned){
+                                     [progressSpin stopAnimation:self];
+                                     loadedCount.title=[NSString stringWithFormat:@"%li", [banlistData count]];
+                                     [banList reloadData];
+                                 
                                  dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                      if([banlistData count]<15 && totalCountBanned>=15 && offsetLoadBanlist < totalCountBanned && !loading){
                                          getBannedBlock(YES);
                                         
                                      }
                                  });
+                                }
                              });
                            
                         }
@@ -798,8 +802,14 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                             }
                         }
                         NSLog(@"OFFSET BANLIST %li", offsetLoadBanlist);
-                        NSLog(@"OFFSET COUNTer %li", offsetCounter);
+                        NSLog(@"OFFSET BANLIST COUNTER %li", offsetCounter);
                     }] resume];
+                }else{
+                    NSLog(@"END OF BANLIST");
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [progressSpin stopAnimation:self];
+                        [banList reloadData];
+                    });
                 }
             }];
     };
@@ -844,6 +854,11 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 
     
     
+}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
 }
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     

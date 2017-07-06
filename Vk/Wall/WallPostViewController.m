@@ -18,6 +18,7 @@
 #import <Carbon/Carbon.h>
 #import <NSString+RMURLEncoding/NSString+RMURLEncoding.h>
 #import "AppDelegate.h"
+#import "MyTableRowView.h"
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -1217,6 +1218,10 @@
             [self setSelectorsButtonsState];
 //        }
     }
+}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView isEqual:recentGroups]){

@@ -10,6 +10,7 @@
 #import "FullUserInfoPopupViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
+#import "MyTableRowView.h"
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 -(void)getRequests:(OnGetRequestsComplete)completion;
@@ -401,6 +402,11 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     };
     getRequstesWrap();
     
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
 }
 -(void)getRequests:(OnGetRequestsComplete)completion{
     NSMutableArray *requests=[[NSMutableArray alloc]init];

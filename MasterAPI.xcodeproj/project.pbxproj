@@ -62,7 +62,6 @@
 		2B41FC031E02D3F60013AC86 /* SmilesCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA581E02D3F50013AC86 /* SmilesCollectionViewItem.xib */; };
 		2B41FC041E02D3F60013AC86 /* SmilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FA5A1E02D3F50013AC86 /* SmilesViewController.m */; };
 		2B41FC051E02D3F60013AC86 /* Fourth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */; };
-		2B41FC061E02D3F60013AC86 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA5D1E02D3F50013AC86 /* Second.storyboard */; };
 		2B41FC081E02D3F60013AC86 /* StringHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FA611E02D3F50013AC86 /* StringHighlighter.m */; };
 		2B41FC091E02D3F60013AC86 /* videojs-resolution-switcher.css in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA641E02D3F50013AC86 /* videojs-resolution-switcher.css */; };
 		2B41FC0A1E02D3F60013AC86 /* add_plus40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B41FA661E02D3F50013AC86 /* add_plus40.png */; };
@@ -276,6 +275,9 @@
 		2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B81D5651F04177300F1DEE6 /* Third.storyboard */; };
 		2B81D5691F0520EA00F1DEE6 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
+		2BAE47E01F0E0787006E507F /* Sixth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE47DF1F0E0787006E507F /* Sixth.storyboard */; };
+		2BAE47E81F0E33C7006E507F /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE47E71F0E33C7006E507F /* Second.storyboard */; };
+		2BAE47EB1F0E401E006E507F /* MyTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE47EA1F0E401E006E507F /* MyTableRowView.m */; };
 		2BB36A331E58496600764C6E /* video_placeholder-500x400.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A311E58496500764C6E /* video_placeholder-500x400.png */; };
 		2BB36A341E58496600764C6E /* video-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A321E58496500764C6E /* video-placeholder.png */; };
 		2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */; };
@@ -297,7 +299,6 @@
 		2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */; };
 		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
 		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
-		2BF10B921E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 /* End PBXBuildFile section */
 
@@ -418,7 +419,6 @@
 		2B41FA591E02D3F50013AC86 /* SmilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmilesViewController.h; sourceTree = "<group>"; };
 		2B41FA5A1E02D3F50013AC86 /* SmilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmilesViewController.m; sourceTree = "<group>"; };
 		2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Fourth.storyboard; sourceTree = "<group>"; };
-		2B41FA5D1E02D3F50013AC86 /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
 		2B41FA601E02D3F50013AC86 /* StringHighlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHighlighter.h; sourceTree = "<group>"; };
 		2B41FA611E02D3F50013AC86 /* StringHighlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHighlighter.m; sourceTree = "<group>"; };
 		2B41FA641E02D3F50013AC86 /* videojs-resolution-switcher.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "videojs-resolution-switcher.css"; sourceTree = "<group>"; };
@@ -774,6 +774,10 @@
 		2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrLoginViewController.m; sourceTree = "<group>"; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BAE47DF1F0E0787006E507F /* Sixth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sixth.storyboard; sourceTree = "<group>"; };
+		2BAE47E71F0E33C7006E507F /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
+		2BAE47E91F0E401E006E507F /* MyTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTableRowView.h; sourceTree = "<group>"; };
+		2BAE47EA1F0E401E006E507F /* MyTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTableRowView.m; sourceTree = "<group>"; };
 		2BB36A311E58496500764C6E /* video_placeholder-500x400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video_placeholder-500x400.png"; sourceTree = "<group>"; };
 		2BB36A321E58496500764C6E /* video-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-placeholder.png"; sourceTree = "<group>"; };
 		2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksVKStatusView.xib; sourceTree = "<group>"; };
@@ -807,8 +811,6 @@
 		2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_color_icon_1.png; sourceTree = "<group>"; };
 		2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_color_icon_1.png; sourceTree = "<group>"; };
 		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
-		2BF10B901E4F7AE800FA7B86 /* NSString+MyNSStringCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MyNSStringCategory.h"; sourceTree = "<group>"; };
-		2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MyNSStringCategory.m"; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
 		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
@@ -1029,10 +1031,11 @@
 			isa = PBXGroup;
 			children = (
 				2B41F9DB1E02D3F50013AC86 /* Main.storyboard */,
-				2B41FA5D1E02D3F50013AC86 /* Second.storyboard */,
+				2BAE47E71F0E33C7006E507F /* Second.storyboard */,
 				2B81D5651F04177300F1DEE6 /* Third.storyboard */,
 				2B41FA5C1E02D3F50013AC86 /* Fourth.storyboard */,
 				2B41FCD41E03E61E0013AC86 /* Fifth.storyboard */,
+				2BAE47DF1F0E0787006E507F /* Sixth.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -1399,10 +1402,10 @@
 				2B41FB1B1E02D3F50013AC86 /* FavoritesTabController.m */,
 				2B41FB1C1E02D3F50013AC86 /* FavoritesUsersViewController.h */,
 				2B41FB1D1E02D3F50013AC86 /* FavoritesUsersViewController.m */,
+				2BAE47E91F0E401E006E507F /* MyTableRowView.h */,
+				2BAE47EA1F0E401E006E507F /* MyTableRowView.m */,
 				2B1914DB1E2E466800FB714E /* CreateFavesGroupController.h */,
 				2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */,
-				2BF10B901E4F7AE800FA7B86 /* NSString+MyNSStringCategory.h */,
-				2BF10B911E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -1833,7 +1836,6 @@
 				2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */,
 				2B41FC351E02D3F60013AC86 /* tasks.png in Resources */,
 				2B41FC411E02D3F60013AC86 /* youtube-icon.png in Resources */,
-				2B41FC061E02D3F60013AC86 /* Second.storyboard in Resources */,
 				2B41FC201E02D3F60013AC86 /* left.png in Resources */,
 				2B41FC1E1E02D3F60013AC86 /* empty.png in Resources */,
 				2B41FC251E02D3F60013AC86 /* onAir.png in Resources */,
@@ -1851,11 +1853,13 @@
 				2B41FC0F1E02D3F60013AC86 /* blacklisted_min.png in Resources */,
 				2B41FCC81E02D3F70013AC86 /* YoutubeVideosCollectionItem.xib in Resources */,
 				2B41FC3B1E02D3F60013AC86 /* video.png in Resources */,
+				2BAE47E01F0E0787006E507F /* Sixth.storyboard in Resources */,
 				2B41FC271E02D3F60013AC86 /* photo.png in Resources */,
 				2B41FC401E02D3F60013AC86 /* Welcome.png in Resources */,
 				2B41FC131E02D3F60013AC86 /* close15px.png in Resources */,
 				2BCBAA981E125A0D0083B95E /* ApiSourceSelectorItem.xib in Resources */,
 				2B41FC241E02D3F60013AC86 /* next.png in Resources */,
+				2BAE47E81F0E33C7006E507F /* Second.storyboard in Resources */,
 				2B41FC031E02D3F60013AC86 /* SmilesCollectionViewItem.xib in Resources */,
 				2B41FC2F1E02D3F60013AC86 /* profile.png in Resources */,
 				2B41FC391E02D3F60013AC86 /* upload15px.png in Resources */,
@@ -2060,6 +2064,7 @@
 				2B41FC611E02D3F70013AC86 /* AudioMoveViewController.m in Sources */,
 				2B41FBD11E02D3F60013AC86 /* TumblrPrefsInfo.m in Sources */,
 				2B41FC701E02D3F70013AC86 /* addDocsByOwnerController.m in Sources */,
+				2BAE47EB1F0E401E006E507F /* MyTableRowView.m in Sources */,
 				2B41FCAE1E02D3F70013AC86 /* VideoShowCollectionView.m in Sources */,
 				2B41FC691E02D3F70013AC86 /* BanlistCustomCell.m in Sources */,
 				2B41FBED1E02D3F60013AC86 /* SidebarOutlineViewController.m in Sources */,
@@ -2101,7 +2106,6 @@
 				2B41FCDD1E0458DB0013AC86 /* InstagramSearchByTagController.m in Sources */,
 				2B41FC941E02D3F70013AC86 /* CreateNewAlbumController.m in Sources */,
 				2B41FC4D1E02D3F60013AC86 /* TumblrFollowing.m in Sources */,
-				2BF10B921E4F7AE800FA7B86 /* NSString+MyNSStringCategory.m in Sources */,
 				2B41FCD31E03E59E0013AC86 /* TasksViewController.m in Sources */,
 				2B41FC7F1E02D3F70013AC86 /* FriendsStatController.m in Sources */,
 				2B41FCBD1E02D3F70013AC86 /* YoutubeClient.m in Sources */,

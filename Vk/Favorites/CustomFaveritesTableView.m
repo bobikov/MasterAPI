@@ -7,6 +7,7 @@
 //
 
 #import "CustomFaveritesTableView.h"
+
 @implementation CustomFaveritesTableView
 - (void)awakeFromNib{
     if(self)
@@ -99,4 +100,5 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"VisitUserPageFromFavoriteUsers" object:self userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];
 }
+
 @end

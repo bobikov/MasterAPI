@@ -15,10 +15,13 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Quartz/Quartz.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "NSString+MyNSStringCategory.h"
 #import "HTMLReader.h"
 #import <DZReadability/DZReadability.h>
 #import "AppDelegate.h"
+#import <NSColor+HexString.h>
+#import "MyTableRowView.h"
+
+
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -57,7 +60,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     favesScrollView.wantsLayer = TRUE;
     favesScrollView.layer = layer;
 //    [self loadURL];
-    
+//    [favesUsersList setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
    
 }
 - (void)AddFavesUserToBanOrUnbun:(NSNotification*)obj{
@@ -404,6 +407,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
     __block void (^getFavesUsersBlock)();
     getFavesUsersBlock = ^void(){
+        
         if( loadFromUserGroup){
             completion(restoredUserIDs);
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -420,8 +424,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                         NSLog(@"Trying send get faves users info request  again.");
                         dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                               getFavesUsersBlock();
+                           
                         });
-                      
                         
                     }else{
                         totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
@@ -989,13 +993,16 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 
 
 
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[favesUsersList selectedRowIndexes]count]>0){
         row = [favesUsersList selectedRow];
         receiverDataForMessage = favesUsersData[row];
     }
-    
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [favesUsersData count];

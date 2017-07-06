@@ -11,7 +11,7 @@
 #import "SearchGroupsCellView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <EventKit/EventKit.h>
-
+#import "MyTableRowView.h"
 
 @interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate,NSComboBoxDelegate>
 
@@ -570,7 +570,11 @@
 
 
 
-
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     
