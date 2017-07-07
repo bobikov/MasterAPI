@@ -20,8 +20,8 @@
 #import "AppDelegate.h"
 #import <NSColor+HexString.h>
 #import "MyTableRowView.h"
-
-
+#import <BOString/BOString.h>
+#import <SYFlatButton/SYFlatButton.h>
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -30,6 +30,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 @implementation FavoritesUsersViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+     
     favesUsersList.delegate=self;
     favesUsersList.dataSource=self;
     searchBar.delegate=self;
@@ -61,7 +62,26 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     favesScrollView.layer = layer;
 //    [self loadURL];
 //    [favesUsersList setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
-   
+    [self setFlatButtonStyle];
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
 }
 - (void)AddFavesUserToBanOrUnbun:(NSNotification*)obj{
     NSLog(@"%@", obj);
@@ -404,47 +424,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 
 
 
-- (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
-    __block void (^getFavesUsersBlock)();
-    getFavesUsersBlock = ^void(){
-        
-        if( loadFromUserGroup){
-            completion(restoredUserIDs);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                totalCount = [restoredUserIDs count];
-                totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-            });
-        }else{
-            
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                if(data){
-                    NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    if(getFavesUsersResponse[@"error"]){
-                        NSLog(@"%@:%@", getFavesUsersResponse[@"error"][@"error_code"], getFavesUsersResponse[@"error"][@"error_msg"]);
-                        NSLog(@"Trying send get faves users info request  again.");
-                        dispatch_after(3, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                              getFavesUsersBlock();
-                           
-                        });
-                        
-                    }else{
-                        totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-                        });
-                        [favesUsersTemp removeAllObjects];
-                        for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
-                            [favesUsersTemp addObject:i[@"id"]];
-                        }
-                        completion(favesUsersTemp);
-                    }
-                }
-            }]resume];
-        }
-    };
-    getFavesUsersBlock();
-    
-}
 - (IBAction)showFavesUsersStatBut:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     FriendsStatController *controller = [story instantiateControllerWithIdentifier:@"FriendsStatController"];
@@ -635,6 +614,49 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
     
 }
+- (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
+    __block void (^getFavesUsersBlock)();
+    getFavesUsersBlock = ^void(){
+        
+        if( loadFromUserGroup){
+            completion(restoredUserIDs);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                totalCount = [restoredUserIDs count];
+                totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+            });
+        }else{
+            
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if(data){
+                    NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    if(getFavesUsersResponse[@"error"]){
+                        NSLog(@"%@:%@", getFavesUsersResponse[@"error"][@"error_code"], getFavesUsersResponse[@"error"][@"error_msg"]);
+                        NSLog(@"Trying send get faves users info request  again.");
+                        dispatch_after(3, dispatch_get_main_queue(), ^{
+                            
+                            getFavesUsersBlock();
+                            
+                        });
+                        
+                    }else{
+                        totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
+                        });
+                        [favesUsersTemp removeAllObjects];
+                        for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
+                            [favesUsersTemp addObject:i[@"id"]];
+                        }
+                        completion(favesUsersTemp);
+                    }
+                }
+            }]resume];
+        }
+    };
+    getFavesUsersBlock();
+    
+}
+
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
    
     __block NSMutableDictionary *object;
@@ -995,14 +1017,23 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
     MyTableRowView *rowView = [[MyTableRowView alloc]init];
+
     return rowView;
 }
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
+    NSInteger prevRow;
     if([[favesUsersList selectedRowIndexes]count]>0){
+        
         row = [favesUsersList selectedRow];
+        prevRow = row;
         receiverDataForMessage = favesUsersData[row];
+        [favesUsersList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
     }
+//    if(prevRow){
+//        [favesUsersList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:prevRow] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+//    }
+  
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [favesUsersData count];
@@ -1014,6 +1045,22 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         cell.country.stringValue = favesUsersData[row][@"country"];
         cell.city.stringValue = favesUsersData[row][@"city" ];
         cell.fullName.stringValue = favesUsersData[row][@"full_name"];
+    
+//        if(((MyTableRowView*)[tableView rowViewAtRow:row makeIfNecessary:NO]).isSelected){
+//            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
+//               NSShadow *tshadow = [[NSShadow alloc]init];
+//                tshadow.shadowColor=[NSColor grayColor];
+//                tshadow.shadowOffset=NSMakeSize(0, 0);
+//                tshadow.shadowBlurRadius=2.0;
+//                make.shadow(tshadow);
+//            }];
+//        }else{
+//            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
+//                NSShadow *tshadow2 = [[NSShadow alloc]init];
+//                tshadow2.shadowColor=[NSColor clearColor];
+//                make.shadow(nil);
+//            }];
+//        }
 //        cell.status.stringValue = favesUsersData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
         cell.bdate.stringValue = favesUsersData[row][@"bdate"];
@@ -1025,6 +1072,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         cell.photo.layer.masksToBounds=YES;
         cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
         cell.blacklisted.hidden = ![favesUsersData[row][@"blacklisted_by_me"] intValue];
+        
         if([favesUsersData[row][@"deactivated"] isEqual:@""]){
             cell.deactivatedStatus.hidden=YES;
         }else{

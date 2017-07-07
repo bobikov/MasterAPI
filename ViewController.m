@@ -10,6 +10,8 @@
 #import "ApiSourceSelectorItem.h"
 #import <Quartz/Quartz.h>
 #import "CustomView.h"
+#import <BOString/BOString.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -205,7 +207,17 @@
 }
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView makeItemWithIdentifier:@"ApiSourceSelectorItem" forIndexPath:indexPath];
-    item.sourceName.stringValue = apiSourceListData[indexPath.item];
+    item.sourceName.attributedStringValue = [apiSourceListData[indexPath.item] bos_makeString:^(BOStringMaker *make) {
+        NSShadow *tshadow = [[NSShadow alloc]init];
+        tshadow.shadowColor=[NSColor colorWithHexString:@"EAEAEA"];
+        tshadow.shadowOffset=NSMakeSize(0, -1);
+        tshadow.shadowBlurRadius=2;
+        make.shadow(tshadow);
+        NSMutableParagraphStyle *par = [[NSMutableParagraphStyle alloc]init];
+        par.alignment=NSCenterTextAlignment;
+        
+        make.paragraphStyle(par);
+    }];
     return item;
 }
 @end

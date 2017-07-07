@@ -625,13 +625,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Subscribers/SubscribersViewController.m"
-            timestampString = "520850603.41837"
+            timestampString = "521108936.515674"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "-loadSubscribersPopup"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -88,7 +88,7 @@
                                                 <constraint firstAttribute="height" constant="16" id="Xkn-kq-loh"/>
                                             </constraints>
                                         </progressIndicator>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-B3-nCQ">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-B3-nCQ" customClass="SYFlatButton">
                                             <rect key="frame" x="-1" y="376" width="135" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="Nai-vq-K7L"/>
@@ -336,7 +336,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </searchFieldCell>
                                         </searchField>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tQM-WK-2na">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tQM-WK-2na" customClass="SYFlatButton">
                                             <rect key="frame" x="-1" y="345" width="135" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="C7L-SW-2MY"/>
@@ -364,7 +364,7 @@
                                                 <action selector="filterOfflineAction:" target="EbH-s5-e3E" id="Poc-Wj-r7L"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SHQ-9t-QFo">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SHQ-9t-QFo" customClass="SYFlatButton">
                                             <rect key="frame" x="-1" y="314" width="135" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="7hu-S8-6qb"/>
@@ -428,7 +428,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cds-Kc-6dF">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cds-Kc-6dF" customClass="SYFlatButton">
                                             <rect key="frame" x="34" y="438" width="65" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="53" id="Iye-dT-j1w"/>

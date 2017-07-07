@@ -11,6 +11,8 @@
 #import "FriendsStatController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MyTableRowView.h"
+#import <SYFlatButton/SYFlatButton.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface BanlistViewController () <NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 - (void)getBanned:(OnGetBannedComplete)completion;
@@ -22,6 +24,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    tshadow = [[NSShadow alloc]init];
     banList.dataSource = self;
     banList.delegate = self;
     searchBar.delegate=self;
@@ -41,16 +44,33 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     _stringHighlighter = [[StringHighlighter alloc]init];
 //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
     CAShapeLayer * layer = [CAShapeLayer layer];
-    
     layer.cornerRadius=4;
     layer.borderWidth=1;
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     banList.enclosingScrollView.wantsLayer = TRUE;
     banList.enclosingScrollView.layer = layer;
-    
+    [self setFlatButtonStyle];
 }
 
-
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
+}
 - (void)VisitUserPageFromBanlist:(NSNotification*)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
     NSLog(@"%@", banlistData[row]);

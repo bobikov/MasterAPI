@@ -11,6 +11,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
 #import "MyTableRowView.h"
+#import <SYFlatButton/SYFlatButton.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 -(void)getRequests:(OnGetRequestsComplete)completion;
@@ -37,6 +39,26 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     outRequestsList.enclosingScrollView.wantsLayer = TRUE;
     outRequestsList.enclosingScrollView.layer = layer;
+    [self setFlatButtonStyle];
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
 }
 -(void)viewDidAppear{
     [self loadOutRequests:NO];
@@ -129,10 +151,9 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
    
     __block void(^getRequstesWrap)();
     getRequstesWrap=^(){
-        
         [self getRequests:^(NSMutableArray *requests) {
             NSLog(@"%li", [requests count]);
-            if(requests){
+            if([requests count]>0){
                 [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,domain,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,relation&access_token=%@&v=%@", [requests componentsJoinedByString:@","], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                     if(data){
                         NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -143,7 +164,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                             
                             for (NSDictionary *a in getUsersResponse[@"response"]){
                                 firstName = a[@"first_name"];
-                                lastName=a[@"last_name"];
+                                lastName = a[@"last_name"];
                                 fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
                                 city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
                                 status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";

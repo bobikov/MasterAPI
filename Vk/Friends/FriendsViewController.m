@@ -12,6 +12,8 @@
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <NSColor-HexString/NSColor+HexString.h>
+#import <SYFlatButton/SYFlatButton.h>
 @interface FriendsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -58,6 +60,26 @@
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     FriendsTableView.enclosingScrollView.wantsLayer = TRUE;
     FriendsTableView.enclosingScrollView.layer = layer;
+    [self setFlatButtonStyle];
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
 }
 -(void)loadFriendsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];

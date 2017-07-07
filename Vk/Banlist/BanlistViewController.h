@@ -66,7 +66,7 @@
     NSString *deactivated;
     NSString *relation;
     NSString *domain;
-   
+    NSShadow *tshadow;
 }
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic)NSMutableArray *value;

@@ -11,6 +11,9 @@
 #import "ViewControllerMenuItem.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
+#import "MyTableRowView.h"
+#import <SYFlatButton/SYFlatButton.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -41,13 +44,32 @@
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     subscribersList.enclosingScrollView.wantsLayer = TRUE;
     subscribersList.enclosingScrollView.layer = layer;
-    
+    [self setFlatButtonStyle];
     
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromSubscribers:) name:@"VisitUserPageFromSubscribers" object:nil];
     [self loadSubscribersPopup];
     
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
 }
 - (void)viewDidAppear{
     [self loadSubscribers:NO :NO];
@@ -651,6 +673,11 @@
 //    
 //    
 //}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    
+    return rowView;
+}
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([subscribersData count]>0){
         return [subscribersData count];

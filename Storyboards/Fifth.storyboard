@@ -1625,7 +1625,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                 <action selector="FriendsFilterActiveAction:" target="8eR-kf-nNo" id="mND-2Y-zed"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-vV-9eI">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-vV-9eI" customClass="SYFlatButton">
                                             <rect key="frame" x="14" y="478" width="129" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="DOH-yQ-i6o"/>
@@ -1651,7 +1651,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </searchFieldCell>
                                         </searchField>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iv9-AO-hF3">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iv9-AO-hF3" customClass="SYFlatButton">
                                             <rect key="frame" x="17" y="511" width="126" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="114" id="2up-n9-9Jv"/>
@@ -1690,7 +1690,7 @@ ZWRpdFZpZGVvUGhvdG9BbGJ1bRBWaWV3A
                                                 <action selector="FriendsFilterOfflineAction:" target="8eR-kf-nNo" id="Uy6-T9-7hA"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0lh-KN-wHw">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0lh-KN-wHw" customClass="SYFlatButton">
                                             <rect key="frame" x="17" y="445" width="126" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="U73-P3-RuB"/>

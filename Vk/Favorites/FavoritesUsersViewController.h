@@ -66,7 +66,7 @@
     int blacklisted;
     int blacklisted_by_me;
     BOOL loading,loadFromUserGroup;
- 
+   
 }
 
 @property(nonatomic, readwrite)appInfo *app;
