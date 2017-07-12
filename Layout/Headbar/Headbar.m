@@ -12,6 +12,9 @@
 #import "YoutubeClient.h"
 #import "TumblrClient.h"
 #import "InstagramClient.h"
+#import <SYFlatButton/SYFlatButton.h>
+#import <NSColor-HexString/NSColor+HexString.h>
+#import <BOString/BOString.h>
 @interface Headbar () <AVAudioPlayerDelegate>
 
 @end
@@ -26,8 +29,13 @@
     _app = [[appInfo alloc]init];
     [self loadVKMainInfo];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setProfileImage:) name:@"loadProfileImage" object:nil];
-    
-  
+    tasksButton.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:20];
+    globalSearch.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+
+    NSString *tasksS = @"\U0000E69D";
+    NSString *searchS = @"\U0000E618";
+    tasksButton.title = tasksS;
+    globalSearch.title = searchS;
 //    [self setButtonStyle:globalSearch];
     NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:_app.icon]];
     [appIcon setImage:image];
@@ -35,7 +43,32 @@
     appIcon.layer.cornerRadius=30/2;
     appIcon.layer.masksToBounds=TRUE;
     isPlaying = NO;
+    //[self setFlatButtonStyle];
    
+    NSAttributedString *ssA = [globalSearch.title bos_makeString:^(BOStringMaker *make) {
+        make.baselineOffset(@10);
+        make.ligature(@2);
+    }];
+    globalSearch.attributedTitle = ssA;
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews);
+    for(NSArray *v in self.view.subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
 }
 - (void)viewWillAppear{
       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeControl:) name:@"audioVolume" object:nil];

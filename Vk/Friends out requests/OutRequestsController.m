@@ -11,7 +11,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
 #import "MyTableRowView.h"
-#import <SYFlatButton/SYFlatButton.h>
+#import "SYFlatButton+ButtonsStyle.h"
 #import <NSColor-HexString/NSColor+HexString.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
@@ -45,18 +45,8 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
-            SYFlatButton *button = (SYFlatButton *)v;
-            [button setBezelStyle:NSRegularSquareBezelStyle];
-            button.state=0;
-            button.momentary = YES;
-            button.cornerRadius = 4.0;
-            button.borderWidth=1;
-            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
-            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
-            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
-            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button = [[SYFlatButton alloc]initWithFrame:((SYFlatButton*)v).frame];
+            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }

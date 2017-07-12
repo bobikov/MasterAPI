@@ -11,6 +11,7 @@
 #import "GroupsFromFileViewController.h"
 #import "ShowNamesController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "SYFlatButton+ButtonsStyle.h"
 @interface ShowVideoViewController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -35,6 +36,8 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     searchResultCount.hidden=YES;
     friends = [[NSMutableArray alloc]init];
     friendId=nil;
+    SYFlatButton *backButton = (SYFlatButton*)backToAlbums;
+    [backButton simpleButton:backButton];
 //    indexPathss = [[NSMutableArray alloc]init];
 //    NSCollectionViewItem *itemPrototype = [self.storyboard instantiateControllerWithIdentifier:@"ShowVideoItemPrototype"];
 //    NSNib *itemNib = [[NSNib alloc]initWithNibNamed:@"ShowVideoItem" bundle:nil];
@@ -173,6 +176,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
 }
 - (void)removeObject:(NSNotification*)notification{
     dispatch_async(dispatch_get_main_queue(),^{
+        
         //    [self loadSelectedAlbum:selectedAlbum :NO :countInAlbum :nil];
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
         
@@ -365,8 +369,10 @@ NSInteger floatSort(id num1, id num2, void *context){
 
 - (void)loadAlbums:(BOOL)makeOffset :(id)albums {
     //ownerId = ownerId == nil ? _app.person : ownerId;
-    if( !_loadFromFullUserInfo && !_loadFromWallPost && !loadForAttachments){
+    if( (!_loadFromFullUserInfo && !_loadFromWallPost && !loadForAttachments && (ownerId && [ownerId intValue]>0))||!ownerId){
         ownerId = _app.person;
+    }else{
+//        ownerId = ownerId;
     }
     __block NSString *url;
     nameSelectedObject = @"albums";
@@ -426,6 +432,7 @@ NSInteger floatSort(id num1, id num2, void *context){
         [collectionViewListAlbums reloadData];
         
     }
+
 }
 - (void)loadAlbumsDropdown{
 //    if(!albumLoaded){

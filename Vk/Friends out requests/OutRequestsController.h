@@ -10,6 +10,7 @@
 #import "appInfo.h"
 #import "OutRequestsCustomCell.h"
 #import "StringHighlighter.h"
+#import <SYFlatButton/SYFlatButton.h>
 @interface OutRequestsController : NSViewController{
     NSMutableArray *outRequestsData;
     NSInteger offsetRequests;
@@ -60,6 +61,7 @@
     NSString *templateLateTime2;
     NSString *templateLateTime1;
     NSDateFormatter *formatter;
+    SYFlatButton *button;
 }
 
 

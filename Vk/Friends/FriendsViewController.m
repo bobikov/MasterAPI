@@ -13,7 +13,8 @@
 #import "ViewControllerMenuItem.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <NSColor-HexString/NSColor+HexString.h>
-#import <SYFlatButton/SYFlatButton.h>
+#import <BOString/BOString.h>
+#import "MyTableRowView.h"
 @interface FriendsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -40,10 +41,8 @@
     cachedStatus = [[NSMutableDictionary alloc]init];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
-//    
 //    FriendsMessageSendViewController *fac = [[FriendsMessageSendViewController alloc]init];
 //     searchBar.sendsWholeSearchString=YES;
-   
 //    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 //    [style setAlignment:NSCenterTextAlignment];
 //    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
@@ -54,34 +53,32 @@
 //    [self setButtonStyle:addToBlackList];
     //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
     CAShapeLayer * layer = [CAShapeLayer layer];
-    
     layer.cornerRadius=4;
     layer.borderWidth=1;
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     FriendsTableView.enclosingScrollView.wantsLayer = TRUE;
     FriendsTableView.enclosingScrollView.layer = layer;
+    NSString *s = @"\U0000E64B";
+    friendsStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+    friendsStatBut.title = s;
+    NSAttributedString *atrS = [friendsStatBut.title bos_makeString:^(BOStringMaker *make) {
+        make.baselineOffset([NSNumber numberWithInt:-25]);
+    }];
+
+    friendsStatBut.attributedTitle = atrS;
     [self setFlatButtonStyle];
 }
--(void)setFlatButtonStyle{
+- (void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
-            SYFlatButton *button = (SYFlatButton *)v;
-            [button setBezelStyle:NSRegularSquareBezelStyle];
-            button.state=0;
-            button.momentary = YES;
-            button.cornerRadius = 4.0;
-            button.borderWidth=1;
-            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
-            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
-            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
-            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }
--(void)loadFriendsPopup{
+
+- (void)loadFriendsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     __block  NSMenuItem *menuItem;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -148,15 +145,12 @@
     });
  
 }
-
-
 - (IBAction)goUp:(id)sender {
     [FriendsTableView scrollRowToVisible: 0];
 }
 - (IBAction)goDown:(id)sender {
     [FriendsTableView scrollRowToVisible:[FriendsTableView numberOfRows] - 1];
 }
-
 - (void)viewDidAppear{
     if(_loadFromFullUserInfo || _loadFromWallPost){
         self.view.window.titleVisibility=NSWindowTitleHidden;
@@ -190,20 +184,17 @@
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
     [FriendsDataTemp removeAllObjects];
     for(NSDictionary *i in FriendsData){
-        
         NSArray *found = [regex matchesInString:i[@"full_name"]  options:0 range:NSMakeRange(0, [i[@"full_name"] length])];
         if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
             counter++;
             [FriendsDataTemp addObject:i];
         }
-        
     }
     //     NSLog(@"Start search %@", banlistDataTemp);
     if([FriendsDataTemp count]>0){
         FriendsData = FriendsDataTemp;
         [FriendsTableView reloadData];
     }
-    
 }
 - (IBAction)deleteFromFriendsAction:(id)sender {
     
@@ -239,12 +230,10 @@
 
 }
 - (IBAction)addToBlacklistAction:(id)sender {
-    
     NSIndexSet *rows;
     rows=[FriendsTableView selectedRowIndexes];
     [selectedUsers removeAllObjects];
     void(^addToBanBlock)()=^void(){
-      
         for(NSDictionary *i in [FriendsData objectsAtIndexes:rows]){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.banUser?user_id=%@&v=%@&access_token=%@", i[@"id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *addToBanResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
@@ -259,8 +248,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [FriendsData removeObjectsAtIndexes:rows];
             [FriendsTableView reloadData];
-            
-            
         });
     };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -271,13 +258,6 @@
 - (IBAction)selectAllAction:(id)sender {
     
     [FriendsTableView selectAll:self];
-}
-- (void)setButtonStyle:(id)button{
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSCenterTextAlignment];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
-    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:[button title] attributes:attrsDictionary];
-    [button setAttributedTitle:attrString];
 }
 - (IBAction)fdfd:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
@@ -674,6 +654,10 @@
     [dataTask resume];
     
 }
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[FriendsTableView selectedRowIndexes]count]>0){
@@ -682,14 +666,12 @@
     }
  
 }
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([FriendsData count]>0) {
         return [FriendsData count];
     }
     return 0;
 }
-
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if ([FriendsData count]>0 && [FriendsData lastObject] && row <= [FriendsData count]) {
         

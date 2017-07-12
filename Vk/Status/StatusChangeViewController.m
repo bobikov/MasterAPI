@@ -8,6 +8,9 @@
 #import "StatusChangeViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
+#import <SYFlatButton+ButtonsStyle.h>
+#import <NSColor-HexString/NSColor+HexString.h>
+
 @interface StatusChangeViewController ()<NSTextViewDelegate, NSTableViewDataSource, NSTableViewDelegate,NSTextFieldDelegate>
 
 @end
@@ -50,7 +53,16 @@
     textNewStatus.enclosingScrollView.layer = layer;
     currentStatus.enclosingScrollView.wantsLayer = YES;
     currentStatus.enclosingScrollView.layer = layer2;
-    
+    [self setFlatButtonStyle];
+}
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews);
+    for(id v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button simpleButton:button];
+        }
+    }
 }
 - (void)viewDidAppear{
     [self loadCurrentStatus];

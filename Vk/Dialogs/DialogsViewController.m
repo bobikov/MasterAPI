@@ -661,20 +661,19 @@ attributes:attrsDictionary];
             DialogsListCustomCellView *cell = [[DialogsListCustomCellView alloc]init];
             cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
             [cell.previewText setStringValue:dialogsListData[row][@"body"]];
-           [cell.userFullName setStringValue:[NSString stringWithFormat:@"%@", dialogsListData[row][@"full_name"]]];
+            [cell.userFullName setStringValue:[NSString stringWithFormat:@"%@", dialogsListData[row][@"full_name"]]];
          
             NSSize imSize=NSMakeSize(45, 45);
            
             cell.profileImage.wantsLayer=YES;
             cell.profileImage.layer.cornerRadius=22.5f;
             cell.profileImage.layer.masksToBounds=TRUE;
-
-            [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", dialogsListData[row][@"img"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                
-            } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                image.size=imSize;
-                 [cell.profileImage setImage:image];
+            
+            [cell.profileImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", dialogsListData[row][@"img"]]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                    image.size=imSize;
+                    [cell.profileImage setImage:image];
             }];
+      
                                                                           
             if([dialogsListData[row][@"online"] isEqual:@"1"]){
                 [cell.userOnlineImage setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
@@ -719,14 +718,14 @@ attributes:attrsDictionary];
             cell.profileImage.layer.cornerRadius=20;
             cell.profileImage.layer.masksToBounds=TRUE;
             cell.dateOfMessage.stringValue = userMessageHistoryData[row][@"date"];
-
-           [cell.profileImage sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-               
-           } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-               NSSize imSize=NSMakeSize(40, 40);
-               image.size=imSize;
-               [cell.profileImage setImage:image];
-           }];
+            
+            [cell.profileImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]]  placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSSize imSize=NSMakeSize(40, 40);
+                image.size=imSize;
+                [cell.profileImage setImage:image];
+            
+            }];
+        
             return cell;
         
         }

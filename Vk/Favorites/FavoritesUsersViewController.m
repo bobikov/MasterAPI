@@ -21,7 +21,7 @@
 #import <NSColor+HexString.h>
 #import "MyTableRowView.h"
 #import <BOString/BOString.h>
-#import <SYFlatButton/SYFlatButton.h>
+
 @interface FavoritesUsersViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion;
@@ -30,7 +30,6 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 @implementation FavoritesUsersViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-     
     favesUsersList.delegate=self;
     favesUsersList.dataSource=self;
     searchBar.delegate=self;
@@ -63,23 +62,18 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 //    [self loadURL];
 //    [favesUsersList setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
     [self setFlatButtonStyle];
+    showFavesUsersStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+    
+    NSString *statS = @"\U0000E64B";
+    showFavesUsersStatBut.title = statS;
+    
 }
 -(void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
-            SYFlatButton *button = (SYFlatButton *)v;
-            [button setBezelStyle:NSRegularSquareBezelStyle];
-            button.state=0;
-            button.momentary = YES;
-            button.cornerRadius = 4.0;
-            button.borderWidth=1;
-            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
-            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
-            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
-            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }

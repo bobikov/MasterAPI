@@ -458,7 +458,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="43" id="gwa-6f-Yri"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" title="Tasks" bezelStyle="shadowlessSquare" image="tasks" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="c3F-JP-UqP">
+                                <buttonCell key="cell" type="square" title="Tasks" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="c3F-JP-UqP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -468,7 +468,7 @@
                                         <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="value" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
                                         <real key="value" value="0.25"/>
@@ -483,10 +483,16 @@
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                                        <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                                        <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -847,10 +853,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HZi-vb-MVI">
-                                <rect key="frame" x="82" y="-2" width="94" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HZi-vb-MVI" customClass="SYFlatButton">
+                                <rect key="frame" x="89" y="1" width="94" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9gB-sb-xBM">
+                                <buttonCell key="cell" type="square" title="Cancel" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9gB-sb-xBM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <string key="keyEquivalent" base64-UTF8="YES">
@@ -861,13 +867,40 @@ Gw
                                     <action selector="cancelActions:" target="iDY-jn-puD" id="6zz-nL-36x"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Qn-JU-REO">
-                                <rect key="frame" x="361" y="-2" width="129" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Qn-JU-REO" customClass="SYFlatButton">
+                                <rect key="frame" x="365" y="2" width="118" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Send message" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IdN-qp-xGI">
+                                <buttonCell key="cell" type="square" title="Send message" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IdN-qp-xGI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                        <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                                        <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B0c-eL-uNx">
                                 <rect key="frame" x="4" y="119" width="80" height="80"/>
@@ -884,7 +917,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ht1-xa-vOj">
-                                <rect key="frame" x="183" y="3" width="24" height="24"/>
+                                <rect key="frame" x="183" y="1" width="24" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="smiles_min1" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="OWN-dA-lHX">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1051,13 +1084,28 @@ Gw
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
                                                                             </button>
-                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nsF-4v-B3L">
-                                                                                <rect key="frame" x="232" y="41" width="14" height="14"/>
+                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nsF-4v-B3L" customClass="NIKFontAwesomeButton">
+                                                                                <rect key="frame" x="232" y="40" width="14" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="close15px2" imagePosition="overlaps" alignment="center" imageScaling="axesIndependently" inset="2" id="08s-hz-Cc0">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="08s-hz-Cc0">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="6"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f00d"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                                                                                        <real key="value" value="0.0"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
                                                                                 <connections>
                                                                                     <action selector="removeOneDialog:" target="gTJ-on-9W6" id="UqS-rS-wt5"/>
                                                                                 </connections>
@@ -1334,7 +1382,7 @@ Gw
                                                     <color key="value" red="1" green="0.98658307720000005" blue="0.99762938749999996" alpha="1" colorSpace="calibratedRGB"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                                    <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="value" red="0.31764705882352939" green="0.47450980392156861" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </button>
@@ -1569,7 +1617,7 @@ Gw
                                                                             <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eiv-6x-hgy">
                                                                                 <rect key="frame" x="172" y="0.0" width="15" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="blacklisted_min2" id="Ayd-ee-nJe"/>
+                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Ayd-ee-nJe"/>
                                                                             </imageView>
                                                                         </subviews>
                                                                         <connections>
@@ -1607,12 +1655,12 @@ Gw
                                             </scroller>
                                         </scrollView>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jrM-6K-n6H" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="368" width="116" height="32"/>
+                                            <rect key="frame" x="20" y="375" width="104" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="Jmy-oY-es0"/>
+                                                <constraint firstAttribute="height" constant="25" id="Jmy-oY-es0"/>
                                                 <constraint firstAttribute="width" constant="104" id="chI-V3-51I"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Unban" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wgd-VD-qKb">
+                                            <buttonCell key="cell" type="square" title="Unban" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wgd-VD-qKb">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -1743,12 +1791,12 @@ Gw
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cWc-fY-LXj" customClass="SYFlatButton">
-                                            <rect key="frame" x="33" y="460" width="76" height="32"/>
+                                            <rect key="frame" x="50" y="445" width="53" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="Mso-HZ-2VY"/>
-                                                <constraint firstAttribute="width" constant="64" id="O2a-nK-ezI"/>
+                                                <constraint firstAttribute="height" constant="25" id="Mso-HZ-2VY"/>
+                                                <constraint firstAttribute="width" constant="53" id="O2a-nK-ezI"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Stat" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BZp-GQ-RYT">
+                                            <buttonCell key="cell" type="square" title="Stat" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BZp-GQ-RYT">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -1794,7 +1842,7 @@ Gw
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="dec-oE-U4E" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="8" id="44z-Gb-rCB"/>
-                                        <constraint firstItem="jrM-6K-n6H" firstAttribute="top" secondItem="cWc-fY-LXj" secondAttribute="bottom" constant="71" id="5gB-Xn-xSH"/>
+                                        <constraint firstItem="jrM-6K-n6H" firstAttribute="top" secondItem="cWc-fY-LXj" secondAttribute="bottom" constant="45" id="5gB-Xn-xSH"/>
                                         <constraint firstItem="zgm-gn-9Gk" firstAttribute="leading" secondItem="dp4-SH-XPp" secondAttribute="trailing" constant="5" id="7hU-F1-n5l"/>
                                         <constraint firstItem="zeP-Va-SFx" firstAttribute="leading" secondItem="LK4-to-eJU" secondAttribute="leading" constant="13" id="DMI-bs-zui"/>
                                         <constraint firstItem="sOy-f9-T4v" firstAttribute="top" secondItem="zgm-gn-9Gk" secondAttribute="bottom" constant="18" id="F0i-W7-IHB"/>
@@ -1802,7 +1850,7 @@ Gw
                                         <constraint firstItem="B0q-wB-0da" firstAttribute="top" secondItem="du7-c9-6n6" secondAttribute="bottom" constant="2" id="HcY-E8-wed"/>
                                         <constraint firstItem="zgm-gn-9Gk" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="8" id="I6v-aW-iVB"/>
                                         <constraint firstItem="jrM-6K-n6H" firstAttribute="leading" secondItem="LK4-to-eJU" secondAttribute="leading" constant="20" id="IFV-Id-56r"/>
-                                        <constraint firstItem="cWc-fY-LXj" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="158" id="J0L-NP-DUQ"/>
+                                        <constraint firstItem="cWc-fY-LXj" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="176" id="J0L-NP-DUQ"/>
                                         <constraint firstItem="sOy-f9-T4v" firstAttribute="leading" secondItem="LK4-to-eJU" secondAttribute="leading" constant="392" id="Kf0-KP-Apb"/>
                                         <constraint firstItem="vRV-cz-cLX" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="8" id="Mid-iL-hBC"/>
                                         <constraint firstAttribute="bottom" secondItem="yVO-e8-zWK" secondAttribute="bottom" constant="10" id="QMI-DE-pyx"/>
@@ -1817,7 +1865,7 @@ Gw
                                         <constraint firstItem="mCD-Nv-mTd" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="8" id="eEk-gp-pYD"/>
                                         <constraint firstAttribute="trailing" secondItem="dec-oE-U4E" secondAttribute="trailing" constant="25" id="fmd-lT-9gJ"/>
                                         <constraint firstItem="du7-c9-6n6" firstAttribute="top" secondItem="LK4-to-eJU" secondAttribute="top" constant="8" id="gcg-dE-dWG"/>
-                                        <constraint firstItem="cWc-fY-LXj" firstAttribute="leading" secondItem="LK4-to-eJU" secondAttribute="leading" constant="39" id="hWT-cU-vSE"/>
+                                        <constraint firstItem="cWc-fY-LXj" firstAttribute="leading" secondItem="LK4-to-eJU" secondAttribute="leading" constant="50" id="hWT-cU-vSE"/>
                                         <constraint firstItem="mCD-Nv-mTd" firstAttribute="leading" secondItem="zeP-Va-SFx" secondAttribute="trailing" constant="127" id="i3i-ZJ-NQe"/>
                                         <constraint firstAttribute="trailing" secondItem="B0q-wB-0da" secondAttribute="trailing" constant="117" id="j31-KJ-xWe"/>
                                         <constraint firstItem="yVO-e8-zWK" firstAttribute="top" secondItem="sOy-f9-T4v" secondAttribute="bottom" constant="1" id="jrE-65-HMW"/>
@@ -1894,12 +1942,12 @@ Gw
                                             </constraints>
                                         </progressIndicator>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SjC-DL-Xh8" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="399" width="146" height="32"/>
+                                            <rect key="frame" x="20" y="406" width="134" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="134" id="7hp-Gg-9NH"/>
-                                                <constraint firstAttribute="height" constant="21" id="HYG-nE-K1D"/>
+                                                <constraint firstAttribute="height" constant="25" id="HYG-nE-K1D"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Message" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zzj-8q-EiG">
+                                            <buttonCell key="cell" type="square" title="Message" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zzj-8q-EiG">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -2131,12 +2179,12 @@ Gw
                                             </connections>
                                         </searchField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HSU-Ol-UDk" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="368" width="146" height="32"/>
+                                            <rect key="frame" x="20" y="375" width="134" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="opA-WZ-d3C"/>
+                                                <constraint firstAttribute="height" constant="25" id="opA-WZ-d3C"/>
                                                 <constraint firstAttribute="width" constant="134" id="ovk-3f-yeD"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Delete from friends" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Txq-r5-Xxf">
+                                            <buttonCell key="cell" type="square" title="Delete from friends" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Txq-r5-Xxf">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -2159,12 +2207,12 @@ Gw
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nzp-DJ-OUo" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="337" width="146" height="32"/>
+                                            <rect key="frame" x="20" y="344" width="134" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="P0M-PC-OT1"/>
+                                                <constraint firstAttribute="height" constant="25" id="P0M-PC-OT1"/>
                                                 <constraint firstAttribute="width" constant="134" id="tKd-Jy-oS8"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Add to black list" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LNI-0h-3qk">
+                                            <buttonCell key="cell" type="square" title="Add to black list" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LNI-0h-3qk">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -2229,12 +2277,12 @@ Gw
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VoQ-HO-4Kn" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="460" width="145" height="32"/>
+                                            <rect key="frame" x="60" y="467" width="53" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="ktL-Wz-8B1"/>
-                                                <constraint firstAttribute="width" constant="133" id="urc-jY-wjZ"/>
+                                                <constraint firstAttribute="height" constant="25" id="ktL-Wz-8B1"/>
+                                                <constraint firstAttribute="width" constant="53" id="urc-jY-wjZ"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Stat" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6pY-rf-2wC">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6pY-rf-2wC">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -2301,13 +2349,13 @@ Gw
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="VoQ-HO-4Kn" firstAttribute="top" secondItem="w3e-Cf-No1" secondAttribute="bottom" constant="116" id="07e-7Z-qeD"/>
+                                        <constraint firstItem="VoQ-HO-4Kn" firstAttribute="top" secondItem="w3e-Cf-No1" secondAttribute="bottom" constant="112" id="07e-7Z-qeD"/>
                                         <constraint firstItem="Mos-QC-XGj" firstAttribute="top" secondItem="vDP-Gh-pUj" secondAttribute="top" constant="11" id="1rO-VR-Ivr"/>
                                         <constraint firstAttribute="trailing" secondItem="rSz-t3-5yx" secondAttribute="trailing" constant="14" id="27y-2h-hlj"/>
                                         <constraint firstItem="rzA-V3-8gn" firstAttribute="leading" secondItem="XLw-ta-sQ0" secondAttribute="trailing" constant="7" id="2VM-tF-3xa"/>
                                         <constraint firstAttribute="bottom" secondItem="sEh-bS-Z56" secondAttribute="bottom" constant="13" id="2kA-eQ-zxM"/>
                                         <constraint firstItem="sEh-bS-Z56" firstAttribute="leading" secondItem="HSU-Ol-UDk" secondAttribute="trailing" constant="7" id="3ow-Qt-TFR"/>
-                                        <constraint firstItem="SjC-DL-Xh8" firstAttribute="top" secondItem="VoQ-HO-4Kn" secondAttribute="bottom" constant="40" id="5Ao-ls-RbL"/>
+                                        <constraint firstItem="SjC-DL-Xh8" firstAttribute="top" secondItem="VoQ-HO-4Kn" secondAttribute="bottom" constant="36" id="5Ao-ls-RbL"/>
                                         <constraint firstItem="rSz-t3-5yx" firstAttribute="leading" secondItem="sEh-bS-Z56" secondAttribute="trailing" constant="1" id="5EY-NZ-d8r"/>
                                         <constraint firstItem="oIE-rk-1bC" firstAttribute="top" secondItem="vDP-Gh-pUj" secondAttribute="top" constant="8" id="6FY-G3-Vil"/>
                                         <constraint firstItem="Og7-DW-Mmy" firstAttribute="top" secondItem="vDP-Gh-pUj" secondAttribute="top" constant="11" id="6gk-GN-0fW"/>
@@ -2315,9 +2363,9 @@ Gw
                                         <constraint firstItem="rSz-t3-5yx" firstAttribute="bottom" secondItem="sEh-bS-Z56" secondAttribute="bottom" constant="-229" id="80d-lA-fmX"/>
                                         <constraint firstAttribute="trailing" secondItem="rzA-V3-8gn" secondAttribute="trailing" constant="35" id="9QQ-Y6-guW"/>
                                         <constraint firstItem="XLw-ta-sQ0" firstAttribute="top" secondItem="Og7-DW-Mmy" secondAttribute="bottom" constant="4" id="FXZ-EK-FVV"/>
-                                        <constraint firstItem="Nzp-DJ-OUo" firstAttribute="top" secondItem="HSU-Ol-UDk" secondAttribute="bottom" constant="10" id="GXM-AY-qqY"/>
+                                        <constraint firstItem="Nzp-DJ-OUo" firstAttribute="top" secondItem="HSU-Ol-UDk" secondAttribute="bottom" constant="6" id="GXM-AY-qqY"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Nzp-DJ-OUo" secondAttribute="bottom" constant="344" id="JkY-WR-WXH"/>
-                                        <constraint firstItem="sEh-bS-Z56" firstAttribute="leading" secondItem="VoQ-HO-4Kn" secondAttribute="trailing" constant="8" id="JuX-ps-qvF"/>
+                                        <constraint firstItem="sEh-bS-Z56" firstAttribute="leading" secondItem="VoQ-HO-4Kn" secondAttribute="trailing" constant="48" id="JuX-ps-qvF"/>
                                         <constraint firstItem="kfR-xi-eNc" firstAttribute="leading" secondItem="Mos-QC-XGj" secondAttribute="trailing" constant="9" id="Lif-zh-7tk"/>
                                         <constraint firstItem="dX6-bs-3cC" firstAttribute="leading" secondItem="kfR-xi-eNc" secondAttribute="trailing" constant="10" id="NX0-4S-fmT"/>
                                         <constraint firstItem="w3e-Cf-No1" firstAttribute="leading" secondItem="vDP-Gh-pUj" secondAttribute="leading" constant="24" id="NxS-Hg-CWO"/>
@@ -2325,7 +2373,7 @@ Gw
                                         <constraint firstItem="w3e-Cf-No1" firstAttribute="top" secondItem="vDP-Gh-pUj" secondAttribute="top" constant="20" id="SXf-XJ-Tof"/>
                                         <constraint firstItem="sEh-bS-Z56" firstAttribute="leading" secondItem="Nzp-DJ-OUo" secondAttribute="trailing" constant="7" id="Sa7-C1-sBy"/>
                                         <constraint firstItem="wrC-qM-BPX" firstAttribute="top" secondItem="i76-rs-Vra" secondAttribute="bottom" constant="3" id="ScL-JM-NfN"/>
-                                        <constraint firstItem="HSU-Ol-UDk" firstAttribute="top" secondItem="SjC-DL-Xh8" secondAttribute="bottom" constant="10" id="UOX-Hd-phT"/>
+                                        <constraint firstItem="HSU-Ol-UDk" firstAttribute="top" secondItem="SjC-DL-Xh8" secondAttribute="bottom" constant="6" id="UOX-Hd-phT"/>
                                         <constraint firstItem="Nzp-DJ-OUo" firstAttribute="leading" secondItem="vDP-Gh-pUj" secondAttribute="leading" constant="20" id="Ugu-QG-Yiw"/>
                                         <constraint firstItem="rzA-V3-8gn" firstAttribute="top" secondItem="HDg-I4-iYw" secondAttribute="bottom" constant="4" id="V1f-Qf-NDc"/>
                                         <constraint firstItem="sEh-bS-Z56" firstAttribute="leading" secondItem="SjC-DL-Xh8" secondAttribute="trailing" constant="7" id="WIf-gV-Gtk"/>
@@ -2336,7 +2384,7 @@ Gw
                                         <constraint firstItem="wrC-qM-BPX" firstAttribute="leading" secondItem="vDP-Gh-pUj" secondAttribute="leading" constant="161" id="aoA-21-mIl"/>
                                         <constraint firstAttribute="trailing" secondItem="HDg-I4-iYw" secondAttribute="trailing" constant="35" id="ciA-Tt-Y5h"/>
                                         <constraint firstItem="HDg-I4-iYw" firstAttribute="top" secondItem="vDP-Gh-pUj" secondAttribute="top" constant="11" id="dB9-F2-PZc"/>
-                                        <constraint firstItem="VoQ-HO-4Kn" firstAttribute="leading" secondItem="vDP-Gh-pUj" secondAttribute="leading" constant="20" id="fUn-3b-BA1"/>
+                                        <constraint firstItem="VoQ-HO-4Kn" firstAttribute="leading" secondItem="vDP-Gh-pUj" secondAttribute="leading" constant="60" id="fUn-3b-BA1"/>
                                         <constraint firstItem="HDg-I4-iYw" firstAttribute="leading" secondItem="Og7-DW-Mmy" secondAttribute="trailing" constant="8" id="fo0-Yq-MSp"/>
                                         <constraint firstItem="sEh-bS-Z56" firstAttribute="top" secondItem="wrC-qM-BPX" secondAttribute="bottom" constant="4" id="hKW-O4-W76"/>
                                         <constraint firstItem="XLw-ta-sQ0" firstAttribute="top" secondItem="dX6-bs-3cC" secondAttribute="bottom" constant="4" id="jK4-lA-dkK"/>
@@ -2484,38 +2532,23 @@ Gw
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Svh-Vr-3aP" customClass="SYFlatButton">
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Svh-Vr-3aP" customClass="NIKFontAwesomeButton">
                                                                                 <rect key="frame" x="106" y="0.0" width="18" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" title="+" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tYw-xG-m4l">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="tYw-xG-m4l">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="cellTitle"/>
                                                                                 </buttonCell>
                                                                                 <userDefinedRuntimeAttributes>
-                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                                                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                                                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f196"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                                                                                        <real key="value" value="0.0"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                                                                                        <real key="value" value="0.0"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                                        <real key="value" value="2"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                                                        <real key="value" value="0.0"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
-                                                                                        <color key="value" red="0.87717450770000005" green="0.87717450770000005" blue="0.87717450770000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
-                                                                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="20"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
                                                                                 <connections>
@@ -2616,26 +2649,48 @@ Gw
                                                 <font key="font" metaFont="cellTitle"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oS-mC-YKZ">
-                                            <rect key="frame" x="11" y="300" width="89" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oS-mC-YKZ" customClass="SYFlatButton">
+                                            <rect key="frame" x="21" y="307" width="69" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Post" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="h4a-sD-lCt">
+                                            <buttonCell key="cell" type="square" title="Start" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="h4a-sD-lCt">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                                    <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                                                    <color key="value" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                                                    <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                                                    <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                                                    <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="makePostAction:" target="Hxb-ne-Y3h" id="ZvK-rz-may"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26Q-sx-ZRV">
-                                            <rect key="frame" x="11" y="267" width="89" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gTE-GS-Abt">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="stopPost:" target="Hxb-ne-Y3h" id="f2W-Jg-lhd"/>
                                             </connections>
                                         </button>
                                         <box fixedFrame="YES" borderType="none" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mMl-s4-u3X">
@@ -2720,13 +2775,25 @@ Gw
                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAl-Wr-eRn">
+                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAl-Wr-eRn" customClass="NIKFontAwesomeButton">
                                                                                 <rect key="frame" x="411" y="86" width="13" height="13"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="close3" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="EPV-Ju-dru">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="EPV-Ju-dru">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f00d"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="35"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
                                                                                 <connections>
                                                                                     <action selector="deleteMessage:" target="Hxb-ne-Y3h" id="YPA-MQ-1Le"/>
                                                                                 </connections>
@@ -3028,13 +3095,25 @@ Gw
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E2S-4D-fZy">
-                                                                                <rect key="frame" x="153" y="15" width="12" height="12"/>
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E2S-4D-fZy" customClass="NIKFontAwesomeButton">
+                                                                                <rect key="frame" x="153" y="15" width="18" height="18"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="close3" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="qPx-ug-60Y">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="qPx-ug-60Y">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.29949190739999998" green="0.36674459279999999" blue="0.72159455130000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f147"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
                                                                                 <connections>
                                                                                     <action selector="removeItemFromToPostList:" target="Hxb-ne-Y3h" id="tYD-gc-Vx8"/>
                                                                                 </connections>
@@ -3043,6 +3122,7 @@ Gw
                                                                         <connections>
                                                                             <outlet property="groupId" destination="D6Q-EE-xfi" id="op2-r6-xLv"/>
                                                                             <outlet property="photo" destination="lmP-Rr-gwy" id="aEa-bL-zmg"/>
+                                                                            <outlet property="remove" destination="E2S-4D-fZy" id="HxZ-8u-fzU"/>
                                                                         </connections>
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
@@ -3060,6 +3140,50 @@ Gw
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26Q-sx-ZRV" customClass="SYFlatButton">
+                                            <rect key="frame" x="20" y="265" width="70" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" title="Stop" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gTE-GS-Abt">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                                    <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                                                    <color key="value" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                                                    <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                                                    <color key="value" red="0.2317378276" green="0.48552465280000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                                                    <color key="value" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="stopPost:" target="Hxb-ne-Y3h" id="f2W-Jg-lhd"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                                 <constraints>
@@ -3657,42 +3781,15 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yRk-YC-DN3" customClass="SYFlatButton">
-                                <rect key="frame" x="12" y="592" width="50" height="26"/>
+                                <rect key="frame" x="12" y="592" width="50" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="iiq-3A-OVv"/>
-                                    <constraint firstAttribute="height" constant="26" id="wi8-yX-lNP"/>
+                                    <constraint firstAttribute="height" constant="25" id="wi8-yX-lNP"/>
                                 </constraints>
                                 <buttonCell key="cell" type="square" title="back" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Afu-lu-GGR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
-                                        <color key="value" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="backToAlbumsAction:" target="dYW-JZ-vid" id="4it-aC-Ndl"/>
                                 </connections>
@@ -3842,7 +3939,7 @@ Gw
                                 </constraints>
                                 <buttonCell key="cell" type="push" title="New album" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9oy-tF-OdU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
+                                    <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="createNewAlbum:" target="dYW-JZ-vid" id="iYs-bD-8HZ"/>
@@ -3918,7 +4015,7 @@ Gw
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="oC6-JS-HD0" secondAttribute="bottom" constant="1" id="czg-Pu-ho1"/>
                             <constraint firstItem="8gv-u3-0dw" firstAttribute="leading" secondItem="oC6-JS-HD0" secondAttribute="trailing" constant="-1" id="dZL-vd-qc5"/>
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="gyI-qd-1yr" secondAttribute="bottom" constant="1" id="fpO-wL-Nlj"/>
-                            <constraint firstItem="yRk-YC-DN3" firstAttribute="top" secondItem="OhC-UM-SZe" secondAttribute="top" constant="22" id="h3N-Da-XJG"/>
+                            <constraint firstItem="yRk-YC-DN3" firstAttribute="top" secondItem="OhC-UM-SZe" secondAttribute="top" constant="23" id="h3N-Da-XJG"/>
                             <constraint firstItem="8gv-u3-0dw" firstAttribute="top" secondItem="tmh-Bk-tls" secondAttribute="bottom" constant="4" id="htZ-qj-pWj"/>
                             <constraint firstItem="ksU-Ou-K3T" firstAttribute="top" secondItem="pFw-hm-R7h" secondAttribute="bottom" constant="1" id="i0t-WV-7tF"/>
                             <constraint firstItem="lZ5-Cq-NJf" firstAttribute="leading" secondItem="OhC-UM-SZe" secondAttribute="leading" constant="12" id="ivN-ot-4OB"/>
@@ -4451,42 +4548,15 @@ Gw
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pcw-YC-x0d" customClass="SYFlatButton">
-                                <rect key="frame" x="7" y="591" width="50" height="26"/>
+                                <rect key="frame" x="7" y="591" width="50" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="26" id="LiK-V6-R2L"/>
+                                    <constraint firstAttribute="height" constant="25" id="LiK-V6-R2L"/>
                                     <constraint firstAttribute="width" constant="50" id="cjm-jh-Dpt"/>
                                 </constraints>
                                 <buttonCell key="cell" type="square" title="back" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mfu-PP-P9l">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
-                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="backToAlbumsAction:" target="IWV-fZ-w90" id="yCy-1a-u4d"/>
                                 </connections>
@@ -4586,7 +4656,7 @@ Gw
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="pcw-YC-x0d" firstAttribute="top" secondItem="poU-xM-o0x" secondAttribute="top" constant="23" id="42X-Cg-sn1"/>
+                            <constraint firstItem="pcw-YC-x0d" firstAttribute="top" secondItem="poU-xM-o0x" secondAttribute="top" constant="24" id="42X-Cg-sn1"/>
                             <constraint firstItem="2q4-Kh-4oj" firstAttribute="leading" secondItem="poU-xM-o0x" secondAttribute="leading" constant="7" id="WC0-MB-z2Q"/>
                             <constraint firstItem="pcw-YC-x0d" firstAttribute="leading" secondItem="poU-xM-o0x" secondAttribute="leading" constant="7" id="WoG-0v-06D"/>
                             <constraint firstAttribute="bottom" secondItem="2q4-Kh-4oj" secondAttribute="bottom" constant="9" id="YU3-cv-oiP"/>
@@ -5322,34 +5392,34 @@ Gw
                                             </constraints>
                                         </progressIndicator>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e1d-VF-U4K" customClass="SYFlatButton">
-                                            <rect key="frame" x="14" y="409" width="129" height="32"/>
+                                            <rect key="frame" x="21" y="416" width="117" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="117" id="XGm-bx-4hd"/>
-                                                <constraint firstAttribute="height" constant="21" id="kf1-4I-U1x"/>
+                                                <constraint firstAttribute="height" constant="25" id="kf1-4I-U1x"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Add to friends" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5wX-jn-by7">
+                                            <buttonCell key="cell" type="square" title="Add to friends" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5wX-jn-by7">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Osx-2h-LTL" customClass="SYFlatButton">
-                                            <rect key="frame" x="17" y="442" width="126" height="32"/>
+                                            <rect key="frame" x="23" y="449" width="114" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="n76-ET-mll"/>
+                                                <constraint firstAttribute="height" constant="25" id="n76-ET-mll"/>
                                                 <constraint firstAttribute="width" constant="114" id="qvS-4j-EcT"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Message" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tmx-KT-VYd">
+                                            <buttonCell key="cell" type="square" title="Message" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tmx-KT-VYd">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="URI-gJ-4vQ" customClass="SYFlatButton">
-                                            <rect key="frame" x="17" y="376" width="126" height="32"/>
+                                            <rect key="frame" x="23" y="383" width="114" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="114" id="Zr1-4a-hJw"/>
-                                                <constraint firstAttribute="height" constant="21" id="t5B-Pb-DLy"/>
+                                                <constraint firstAttribute="height" constant="25" id="t5B-Pb-DLy"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Add to ban" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iIP-89-LCV">
+                                            <buttonCell key="cell" type="square" title="Add to ban" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iIP-89-LCV">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -5358,12 +5428,12 @@ Gw
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="okT-W2-R36" customClass="SYFlatButton">
-                                            <rect key="frame" x="17" y="346" width="126" height="32"/>
+                                            <rect key="frame" x="23" y="353" width="114" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="UMF-SU-fxh"/>
+                                                <constraint firstAttribute="height" constant="25" id="UMF-SU-fxh"/>
                                                 <constraint firstAttribute="width" constant="114" id="a26-4L-faR"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Unsubscribe" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JcJ-1v-PW0">
+                                            <buttonCell key="cell" type="square" title="Unsubscribe" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JcJ-1v-PW0">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -5699,12 +5769,12 @@ Gw
                                         <constraint firstItem="heA-Y4-fNz" firstAttribute="top" secondItem="lex-Kk-2uA" secondAttribute="bottom" constant="38" id="WLf-qO-HBb"/>
                                         <constraint firstAttribute="trailing" secondItem="heA-Y4-fNz" secondAttribute="trailing" constant="51" id="Wni-tQ-mXg"/>
                                         <constraint firstItem="heA-Y4-fNz" firstAttribute="top" secondItem="Wa3-eu-0lP" secondAttribute="bottom" constant="35" id="YK0-q9-iBM"/>
-                                        <constraint firstItem="okT-W2-R36" firstAttribute="top" secondItem="URI-gJ-4vQ" secondAttribute="bottom" constant="9" id="YMn-oR-0H3"/>
+                                        <constraint firstItem="okT-W2-R36" firstAttribute="top" secondItem="URI-gJ-4vQ" secondAttribute="bottom" constant="5" id="YMn-oR-0H3"/>
                                         <constraint firstItem="vIF-Kz-Ldm" firstAttribute="top" secondItem="vL4-EQ-pq2" secondAttribute="top" constant="24" id="YQC-N4-99z"/>
                                         <constraint firstItem="heA-Y4-fNz" firstAttribute="top" secondItem="CBA-hs-x49" secondAttribute="bottom" constant="38" id="ZKC-K0-ns5"/>
                                         <constraint firstItem="CBA-hs-x49" firstAttribute="leading" secondItem="vIF-Kz-Ldm" secondAttribute="trailing" constant="106" id="arV-7C-BYp"/>
                                         <constraint firstAttribute="bottom" secondItem="heA-Y4-fNz" secondAttribute="bottom" constant="11" id="azp-Cy-52V"/>
-                                        <constraint firstItem="e1d-VF-U4K" firstAttribute="top" secondItem="Osx-2h-LTL" secondAttribute="bottom" constant="12" id="bTm-b7-qkr"/>
+                                        <constraint firstItem="e1d-VF-U4K" firstAttribute="top" secondItem="Osx-2h-LTL" secondAttribute="bottom" constant="8" id="bTm-b7-qkr"/>
                                         <constraint firstItem="Wa3-eu-0lP" firstAttribute="leading" secondItem="CBA-hs-x49" secondAttribute="trailing" constant="8" id="biE-hF-7Q1"/>
                                         <constraint firstItem="URI-gJ-4vQ" firstAttribute="leading" secondItem="vL4-EQ-pq2" secondAttribute="leading" constant="23" id="f2Y-bh-sjj"/>
                                         <constraint firstItem="Osx-2h-LTL" firstAttribute="leading" secondItem="vL4-EQ-pq2" secondAttribute="leading" constant="23" id="fc3-kQ-oFd"/>
@@ -5714,13 +5784,13 @@ Gw
                                         <constraint firstItem="vIF-Kz-Ldm" firstAttribute="leading" secondItem="vL4-EQ-pq2" secondAttribute="leading" constant="23" id="ifP-BV-uNB"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="okT-W2-R36" secondAttribute="bottom" constant="353" id="mSL-Fh-BY8"/>
                                         <constraint firstItem="heA-Y4-fNz" firstAttribute="leading" secondItem="okT-W2-R36" secondAttribute="trailing" constant="8" id="nVw-rm-zFT"/>
-                                        <constraint firstItem="heA-Y4-fNz" firstAttribute="leading" secondItem="e1d-VF-U4K" secondAttribute="trailing" constant="8" id="oMY-Ws-1uM"/>
-                                        <constraint firstItem="Osx-2h-LTL" firstAttribute="top" secondItem="vIF-Kz-Ldm" secondAttribute="bottom" constant="127" id="qzI-7E-9gH"/>
+                                        <constraint firstItem="heA-Y4-fNz" firstAttribute="leading" secondItem="e1d-VF-U4K" secondAttribute="trailing" constant="7" id="oMY-Ws-1uM"/>
+                                        <constraint firstItem="Osx-2h-LTL" firstAttribute="top" secondItem="vIF-Kz-Ldm" secondAttribute="bottom" constant="123" id="qzI-7E-9gH"/>
                                         <constraint firstItem="lex-Kk-2uA" firstAttribute="top" secondItem="vL4-EQ-pq2" secondAttribute="top" constant="12" id="suG-PF-gwQ"/>
-                                        <constraint firstItem="e1d-VF-U4K" firstAttribute="leading" secondItem="vL4-EQ-pq2" secondAttribute="leading" constant="20" id="wKv-fo-jdD"/>
+                                        <constraint firstItem="e1d-VF-U4K" firstAttribute="leading" secondItem="vL4-EQ-pq2" secondAttribute="leading" constant="21" id="wKv-fo-jdD"/>
                                         <constraint firstItem="uDD-2W-eWw" firstAttribute="top" secondItem="vL4-EQ-pq2" secondAttribute="top" constant="13" id="wNz-c4-gkL"/>
                                         <constraint firstItem="Rmi-HM-MIj" firstAttribute="top" secondItem="vL4-EQ-pq2" secondAttribute="top" constant="12" id="wsF-h8-Ub6"/>
-                                        <constraint firstItem="URI-gJ-4vQ" firstAttribute="top" secondItem="e1d-VF-U4K" secondAttribute="bottom" constant="12" id="x5o-Xc-9ST"/>
+                                        <constraint firstItem="URI-gJ-4vQ" firstAttribute="top" secondItem="e1d-VF-U4K" secondAttribute="bottom" constant="8" id="x5o-Xc-9ST"/>
                                     </constraints>
                                 </view>
                                 <constraints>
@@ -5894,8 +5964,6 @@ Gw
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="NSStopProgressTemplate" width="11" height="11"/>
         <image name="Welcome" width="243" height="45"/>
-        <image name="blacklisted_min2" width="30" height="30"/>
-        <image name="close15px2" width="18" height="19"/>
         <image name="close3" width="1024" height="1024"/>
         <image name="docs_color_icon_1" width="55" height="69"/>
         <image name="left" width="97" height="98"/>
@@ -5908,7 +5976,6 @@ Gw
         <image name="right" width="97" height="98"/>
         <image name="schedule_icon_timer_1_25px" width="25" height="25"/>
         <image name="smiles_min1" width="7.1999998092651367" height="7.1999998092651367"/>
-        <image name="tasks" width="210" height="210"/>
         <image name="to-down28" width="28" height="28"/>
         <image name="to-top28" width="28" height="28"/>
         <image name="verified_2" width="90" height="90"/>
@@ -5916,6 +5983,6 @@ Gw
         <image name="volume" width="95" height="140"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ngi-Ei-XeG"/>
+        <segue reference="Djy-ZH-8Zc"/>
     </inferredMetricsTieBreakers>
 </document>

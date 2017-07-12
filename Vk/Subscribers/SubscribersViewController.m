@@ -64,8 +64,9 @@
             button.borderWidth=1;
             button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
             button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
-            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"2c3e50"];
+            //            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"34495e"];
             button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
             button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
         }

@@ -12,11 +12,13 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
 #import <SDWebImage/UIImage+MultiFormat.h>
+#import "SYFlatButton+ButtonsStyle.h"
 @interface ShowPhotoViewController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSSearchFieldDelegate>
 
 @end
 
 @implementation ShowPhotoViewController
+
 @synthesize  myWindowContr, ownerId,loadForAttachments;
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,7 +55,8 @@
     collectionViewListAlbums.enclosingScrollView.wantsLayer = TRUE;
     collectionViewListAlbums.enclosingScrollView.layer = layer;
     
-    
+    SYFlatButton *backBut = (SYFlatButton*)backToAlbums;
+    [backBut simpleButton:backBut];
 }
 - (void)viewDidAppear{
     //    if(!albumLoaded){
@@ -136,6 +139,8 @@
 }
 - (void)removePhotoAlbum:(NSNotification*)notification{
     dispatch_async(dispatch_get_main_queue(),^{
+        
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
         [albumsData removeObjectAtIndex:[notification.userInfo[@"index"] intValue]];
         [collectionViewListAlbums deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
@@ -305,7 +310,7 @@
     __block NSString *url;
 
     albumLoaded=NO;
-    if(!_loadFromWallPost && !loadForAttachments && !_loadFromFullUserInfo){
+    if(!_loadFromWallPost && !loadForAttachments && !_loadFromFullUserInfo && ((ownerId && [ownerId intValue]>0) || !ownerId)){
         ownerId = _app.person;
     }
     NSLog(@"%@", ownerId);

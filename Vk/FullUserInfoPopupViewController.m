@@ -47,6 +47,27 @@
     mainWindow.contentViewController=self;
     [_windowController showWindow:self];
 }
+-(void)setViewLoadingState:(BOOL)processLoading{
+    if (processLoading){
+        [imageProgress startAnimation:self];
+        for(NSView *v in self.view.subviews){
+            if(![v isKindOfClass:[NSProgressIndicator class]]){
+                v.hidden=YES;
+            }else{
+                v.hidden=NO;
+            }
+        }
+    }else{
+        [imageProgress stopAnimation:self];
+        for(NSView *v in self.view.subviews){
+            if(![v isKindOfClass:[NSProgressIndicator class]]){
+                v.hidden=NO;
+            }else{
+                v.hidden=YES;
+            }
+        }
+    }
+}
 -(void)viewDidAppear{
 //    self.view.window.titleVisibility=NSWindowTitleHidden;
 //    self.view.window.titlebarAppearsTransparent = YES;
@@ -113,9 +134,9 @@
 //    NSString *substringForHighlight;
 //    NSString *vkURL;
     NSString *fullStringForHighlight;
-
-    [imageProgress startAnimation:self];
-    imageProgress.hidden=NO;
+    [self setViewLoadingState:YES];
+    
+    
     userIdField.stringValue =  [NSString stringWithFormat:@"%@",_receivedData[@"id"]];
     
     if(_receivedData[@"site"]!=nil){
@@ -232,8 +253,9 @@
         image.size=imageSize;
          NSLog(@"%.0fx%.0f", image.size.width, image.size.height);
         [profilePhoto setImage:image];
-        [imageProgress stopAnimation:self];
-        imageProgress.hidden=YES;
+       
+        
+        
     }];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_id=%@&fields=counters&access_token=%@&v=%@", _receivedData[@"id"], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -246,6 +268,7 @@
                     photosCount.stringValue = [NSString stringWithFormat:@"%@", getCountersResponse[@"response"][0][@"counters"][@"photos"]];
                     videosCount.stringValue = [NSString stringWithFormat:@"%@", getCountersResponse[@"response"][0][@"counters"][@"videos"]];
                     groupsCount.stringValue =  getCountersResponse[@"response"][0][@"counters"][@"groups"] ? [NSString stringWithFormat:@"%@", getCountersResponse[@"response"][0][@"counters"][@"groups"]] : @"not available" ;
+                    [self setViewLoadingState:NO];
                 });
             }
         }]resume];

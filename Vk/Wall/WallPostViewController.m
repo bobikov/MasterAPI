@@ -1258,6 +1258,8 @@
         if([messagesToPost count]>0){
             NSTableCellView *cell=[tableView makeViewWithIdentifier:@"MainCell" owner:self];
             [cell.textField setStringValue:messagesToPost[row][@"message"]];
+            
+            
             return cell;
         }
     }
@@ -1267,10 +1269,14 @@
             cell=[tableView makeViewWithIdentifier:@"MainCell" owner:self];
             [cell.groupId setStringValue:[NSString stringWithFormat:@"%@ | %@", preparedOwnersList[row][@"name"],preparedOwnersList[row][@"id"]]];
             //    [cell.textField setStringValue:@"opk"];
+        
             NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:preparedOwnersList[row][@"photo"]]];
             cell.photo.wantsLayer=YES;
             cell.photo.layer.cornerRadius=30/2;
             cell.photo.layer.masksToBounds=TRUE;
+            cell.remove.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:14];
+            NSString *removeS = @"\U0000E681";
+//            cell.remove.title = removeS;
             [cell.photo setImage:image];
             return cell;
         }

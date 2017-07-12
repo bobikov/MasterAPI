@@ -7,7 +7,9 @@
 //
 
 #import "DialogsListCustomCellView.h"
-
+#import <PocketSVG/PocketSVG.h>
+#import <BOString/BOString.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @implementation DialogsListCustomCellView
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -17,16 +19,24 @@
 }
 - (void)awakeFromNib{
     [self createTrackingArea];
-    self.wantsLayer=YES;
-    self.layer.masksToBounds=YES;
-    self.removeDialogButton.wantsLayer=YES;
-    self.removeDialogButton.layer.masksToBounds=YES;
-    self.removeDialogButton.layer.cornerRadius=7;
+//    self.wantsLayer=YES;
+//    self.layer.masksToBounds=YES;
+//    self.removeDialogButton.wantsLayer=YES;
+//    self.removeDialogButton.layer.masksToBounds=YES;
+//    self.removeDialogButton.layer.cornerRadius=7;
     //hide the button first
     [self.removeDialogButton setHidden:YES];
+
+    
+//    NSString *s = @"\U0000E681";
+//    self.removeDialogButton.attributedTitle=[s bos_makeString:^(BOStringMaker *make) {
+//        make.font([NSFont fontWithName:@"Pe-icon-7-stroke" size:16]);
+//        make.foregroundColor([NSColor colorWithHexString:@"5179FF"]);
+//        
+//    }];
+//    self.removeDialogButton.title = s;
 }
-- (void)createTrackingArea
-{
+- (void)createTrackingArea{
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
     [self addTrackingArea:_trackingArea];
     

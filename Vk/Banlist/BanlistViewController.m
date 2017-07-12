@@ -11,8 +11,7 @@
 #import "FriendsStatController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MyTableRowView.h"
-#import <SYFlatButton/SYFlatButton.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+
 @interface BanlistViewController () <NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
 - (void)getBanned:(OnGetBannedComplete)completion;
@@ -50,24 +49,18 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
     banList.enclosingScrollView.wantsLayer = TRUE;
     banList.enclosingScrollView.layer = layer;
     [self setFlatButtonStyle];
+    banlistStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+//    button = [[SYFlatButton alloc]init];
+    NSString *s = @"\U0000E64B";
+    banlistStatBut.title = s;
 }
 
 -(void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
-            SYFlatButton *button = (SYFlatButton *)v;
-            [button setBezelStyle:NSRegularSquareBezelStyle];
-            button.state=0;
-            button.momentary = YES;
-            button.cornerRadius = 4.0;
-            button.borderWidth=1;
-            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
-            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
-            button.titleHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
-            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
-            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            SYFlatButton *button = (SYFlatButton*)v;
+            [button simpleButton:button];
         }
     }
 }

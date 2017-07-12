@@ -2772,6 +2772,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="484" height="389"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nRb-tU-ZNL">
+                                <rect key="frame" x="226" y="179" width="32" height="32"/>
+                            </progressIndicator>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MMd-ky-mdC">
                                 <rect key="frame" x="7" y="50" width="200" height="301"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -3062,12 +3065,9 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="nRb-tU-ZNL">
-                                <rect key="frame" x="100" y="225" width="16" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </progressIndicator>
-                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZwG-LA-jwc">
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZwG-LA-jwc">
                                 <rect key="frame" x="7" y="353" width="458" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pUL-ov-MzD">
                                         <rect key="frame" x="-2" y="0.0" width="429" height="30"/>
@@ -3099,13 +3099,14 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkL-2S-4Wl" customClass="RFOverlayScrollView">
+                            <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkL-2S-4Wl" customClass="RFOverlayScrollView">
                                 <rect key="frame" x="208" y="9" width="272" height="342"/>
-                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="msf-9b-Hkh">
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="msf-9b-Hkh">
                                     <rect key="frame" x="0.0" y="0.0" width="257" height="327"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CWV-wi-OHP">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" misplaced="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CWV-wi-OHP">
                                             <rect key="frame" x="0.0" y="1" width="255" height="326"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xy9-ay-yKE">
@@ -3146,7 +3147,7 @@
                                                     </customSpacing>
                                                 </stackView>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WUz-6L-0xg">
-                                                    <rect key="frame" x="0.0" y="291" width="250" height="16"/>
+                                                    <rect key="frame" x="0.0" y="291" width="255" height="16"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ihW-Ga-9gh">
                                                             <rect key="frame" x="-2" y="0.0" width="66" height="16"/>
@@ -3161,10 +3162,10 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BtA-rT-Xef">
-                                                            <rect key="frame" x="63" y="2" width="189" height="14"/>
+                                                            <rect key="frame" x="63" y="2" width="194" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="14" id="Eu3-4C-Sni"/>
-                                                                <constraint firstAttribute="width" constant="185" id="jHo-iZ-Kve"/>
+                                                                <constraint firstAttribute="width" constant="190" id="jHo-iZ-Kve"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" focusRingType="none" id="o27-UC-EFw">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -3676,8 +3677,9 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="CWV-wi-OHP" firstAttribute="top" secondItem="msf-9b-Hkh" secondAttribute="top" id="PRJ-XG-2Em"/>
-                                        <constraint firstItem="CWV-wi-OHP" firstAttribute="leading" secondItem="msf-9b-Hkh" secondAttribute="leading" id="i49-nc-jDX"/>
+                                        <constraint firstAttribute="bottom" secondItem="CWV-wi-OHP" secondAttribute="bottom" id="Nds-Uj-CZY"/>
+                                        <constraint firstItem="CWV-wi-OHP" firstAttribute="top" secondItem="msf-9b-Hkh" secondAttribute="top" constant="1" id="itx-5x-Die"/>
+                                        <constraint firstItem="CWV-wi-OHP" firstAttribute="leading" secondItem="msf-9b-Hkh" secondAttribute="leading" id="pLY-fu-dVR"/>
                                     </constraints>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="uFU-H7-4Gb">
@@ -3729,13 +3731,8 @@
                             </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qkL-2S-4Wl" firstAttribute="top" secondItem="ZwG-LA-jwc" secondAttribute="bottom" constant="2" id="K5K-cZ-Rb7"/>
-                            <constraint firstItem="ZwG-LA-jwc" firstAttribute="leading" secondItem="cx1-Jb-Ctg" secondAttribute="leading" constant="7" id="MZv-gs-frz"/>
-                            <constraint firstItem="qkL-2S-4Wl" firstAttribute="leading" secondItem="cx1-Jb-Ctg" secondAttribute="leading" constant="208" id="WJu-ey-bOU"/>
-                            <constraint firstItem="ZwG-LA-jwc" firstAttribute="top" secondItem="cx1-Jb-Ctg" secondAttribute="top" constant="6" id="dem-fR-NVo"/>
-                            <constraint firstItem="qkL-2S-4Wl" firstAttribute="top" secondItem="cx1-Jb-Ctg" secondAttribute="top" constant="38" id="gdA-8G-D8g"/>
-                            <constraint firstAttribute="bottom" secondItem="qkL-2S-4Wl" secondAttribute="bottom" constant="9" id="xNa-OH-V5W"/>
-                            <constraint firstAttribute="trailing" secondItem="qkL-2S-4Wl" secondAttribute="trailing" constant="4" id="yik-qq-fh2"/>
+                            <constraint firstItem="nRb-tU-ZNL" firstAttribute="centerY" secondItem="cx1-Jb-Ctg" secondAttribute="centerY" id="MxD-Oh-gXG"/>
+                            <constraint firstItem="nRb-tU-ZNL" firstAttribute="centerX" secondItem="cx1-Jb-Ctg" secondAttribute="centerX" id="Nn6-5M-4Lb"/>
                         </constraints>
                     </view>
                     <connections>

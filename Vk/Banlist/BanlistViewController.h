@@ -10,6 +10,8 @@
 #import "appInfo.h"
 #import "BanlistCustomCell.h"
 #import "StringHighlighter.h"
+#import "SYFlatButton+ButtonsStyle.h"
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface BanlistViewController : NSViewController{
     
     __weak IBOutlet NSTableView *banList;
@@ -67,6 +69,7 @@
     NSString *relation;
     NSString *domain;
     NSShadow *tshadow;
+   
 }
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic)NSMutableArray *value;
