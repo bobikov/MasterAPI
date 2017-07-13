@@ -9,6 +9,8 @@
 #import "DialogsViewController.h"
 #import "SmilesViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "MyTableRowView.h"
+
 @interface DialogsViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 
 @end
@@ -46,7 +48,7 @@
     fromIds = [[NSMutableArray alloc]init];
     dates = [[NSMutableArray alloc]init];
    
-
+    stringHighlight = [[StringHighlighter alloc]init];
 }
 -(void)insertSmile:(NSNotification*)notification{
     textOfNewMessage.string=[NSString stringWithFormat:@"%@%@", textOfNewMessage.string, notification.userInfo[@"smile"]];
@@ -610,6 +612,10 @@
     return 0;
 }
 
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
 //    CGFloat heightOfRow;
     if([tableView isEqual:selectedDialog]){
@@ -708,17 +714,15 @@ attributes:attrsDictionary];
 //            [cell setRowSizeStyle:NSTableViewRowSizeStyleLarge];
 //            [cell.textMessage setAutoresizingMask:NSViewHeightSizable];
 //            cell.textMessage.stringValue = userMessageHistoryData[row][@"body"];
-            
-            
             [cell.textMessage setAllowsEditingTextAttributes:YES];
-           
-            cell.textMessage.attributedStringValue = [self getAttributedStringWithURLExternSites:userMessageHistoryData[row][@"body"]];
+            [stringHighlight highlightStringWithURLs:userMessageHistoryData[row][@"body"] Emails:YES fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
+                cell.textMessage.attributedStringValue = highlightedString;
+            }];
             [cell.textMessage setFont:[NSFont fontWithName:@"Helvetica" size:12]];
             cell.profileImage.wantsLayer=YES;
             cell.profileImage.layer.cornerRadius=20;
             cell.profileImage.layer.masksToBounds=TRUE;
             cell.dateOfMessage.stringValue = userMessageHistoryData[row][@"date"];
-            
             [cell.profileImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", userMessageHistoryData[row][@"photo"]]]  placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 NSSize imSize=NSMakeSize(40, 40);
                 image.size=imSize;
@@ -731,78 +735,5 @@ attributes:attrsDictionary];
         }
     }
     return nil;
-}
--(id)getAttributedStringWithURLExternSites:(NSString*)fullString{
-   
-    NSMutableAttributedString *string;
-    string = [[NSMutableAttributedString alloc]initWithString:fullString];
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?i)\\b((?:https?|ftp:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[\\w0-9.\\-]+[.][\\w]{2,4}/)(?:[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|\\(([^|\\s()<>]+|(\\([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+\\)))*\\))+(?:\\(([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|(\\([^|\\s()<>]+\\)))*\\)|[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))" options:NSRegularExpressionCaseInsensitive error:&error];
-    //    NSUInteger numberOfMatches = [regex numberOfMatchesInString:fullString options:0 range:NSMakeRange(0, [_receivedData[@"site"] length])];
-    NSArray *matches = [regex matchesInString:fullString options:0 range:NSMakeRange(0, [fullString length])];
-    //        NSLog(@"%@", matches);
-    //        NSLog(@"Found %li",numberOfMatches);
-    for (NSTextCheckingResult *match in matches){
-        //            NSRange matchRange = match.range;
-        
-        //        NSLog(@"match: %@", [fullString substringWithRange:range]);
-        
-        NSRange foundRange = [string.mutableString rangeOfString:[fullString substringWithRange:match.range]  options:NSCaseInsensitiveSearch];
-        if (foundRange.location != NSNotFound) {
-            //                       NSLog(@"range found");
-            [string addAttribute:NSLinkAttributeName value:[[NSURL URLWithString:[fullString substringWithRange:match.range]]absoluteString] range:foundRange];
-            [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:foundRange];
-            [string addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor]  range:foundRange];
-            
-            
-        }
-        
-    }
-    NSRegularExpression *regex2 = [NSRegularExpression regularExpressionWithPattern:@"(?i)(?<!(//|\\w|(www\\.)|@))(?:[a-z0-9-_\\.])+\\.(?:ru|com|net|info|tv|uk|de|ua)/?(?![^\\w/|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>])" options:NSRegularExpressionCaseInsensitive error:&error];
-    //    NSUInteger numberOfMatches = [regex numberOfMatchesInString:fullString options:0 range:NSMakeRange(0, [_receivedData[@"site"] length])];
-    NSArray *matches2 = [regex2 matchesInString:fullString options:0 range:NSMakeRange(0, [fullString length])];
-    //        NSLog(@"%@", matches);
-    //        NSLog(@"Found %li",numberOfMatches);
-    for (NSTextCheckingResult *match in matches2){
-        //            NSRange matchRange = match.range;
-        
-        //        NSLog(@"match: %@", [fullString substringWithRange:range]);
-        
-        NSRange foundRange = [string.mutableString rangeOfString:[fullString substringWithRange:match.range]  options:NSCaseInsensitiveSearch];
-        if (foundRange.location != NSNotFound) {
-            //                       NSLog(@"range found");
-            [string addAttribute:NSLinkAttributeName value:[[NSURL URLWithString:[fullString substringWithRange:match.range]]absoluteString] range:foundRange];
-            [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:foundRange];
-            [string addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor]  range:foundRange];
-            
-            
-        }
-        
-    }
-    NSRegularExpression *regex3 = [NSRegularExpression regularExpressionWithPattern:@"[\\.a-zA-Z0-9_-]*@[a-z0-9-_]+\\.\\w{2,4}" options:NSRegularExpressionCaseInsensitive error:&error];
-    //    NSUInteger numberOfMatches = [regex numberOfMatchesInString:fullString options:0 range:NSMakeRange(0, [_receivedData[@"site"] length])];
-    NSArray *matches3 = [regex3 matchesInString:fullString options:0 range:NSMakeRange(0, [fullString length])];
-    //        NSLog(@"%@", matches);
-    //        NSLog(@"Found %li",numberOfMatches);
-    for (NSTextCheckingResult *match in matches3){
-        //            NSRange matchRange = match.range;
-        
-        //        NSLog(@"match: %@", [fullString substringWithRange:range]);
-        
-        NSRange foundRange = [string.mutableString rangeOfString:[fullString substringWithRange:match.range]  options:NSCaseInsensitiveSearch];
-        if (foundRange.location != NSNotFound) {
-            //                       NSLog(@"range found");
-            [string addAttribute:NSLinkAttributeName value:[[NSURL URLWithString:[fullString substringWithRange:match.range]]absoluteString] range:foundRange];
-            [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:foundRange];
-            [string addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor]  range:foundRange];
-            
-            
-        }
-        
-    }
-     [string addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Helvetica" size:12] range:NSMakeRange(0, [string length])];
-    return string;
-    
-    
 }
 @end

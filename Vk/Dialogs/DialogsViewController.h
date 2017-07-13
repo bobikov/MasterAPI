@@ -10,7 +10,7 @@
 #import "appInfo.h"
 #import "DialogsListCustomCellView.h"
 #import "SelectedDialogCustomCellView.h"
-
+#import "StringHighlighter.h"
 @interface DialogsViewController : NSViewController{
     
 
@@ -50,6 +50,7 @@
     __weak IBOutlet NSButton *countTotalDialogs;
     __weak IBOutlet NSButton *countLoadedDialogs;
     __weak IBOutlet NSProgressIndicator *progressSpin;
+    StringHighlighter *stringHighlight;
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic, readwrite)NSMutableArray *dialogsListData;

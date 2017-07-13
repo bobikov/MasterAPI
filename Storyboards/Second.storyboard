@@ -3461,7 +3461,7 @@
                 </viewController>
                 <customObject id="dcI-w9-MXx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1775.5" y="1960"/>
+            <point key="canvasLocation" x="1756" y="2136"/>
         </scene>
         <!--Tumblr API setup-->
         <scene sceneID="vUI-8e-PL9">

@@ -404,9 +404,6 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                             sleep(2);
                         }
                     }
-                  
-                  
-                    
                 }]resume];
             }
         }];

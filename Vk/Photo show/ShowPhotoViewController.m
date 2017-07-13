@@ -78,6 +78,7 @@
         controller.receivedDataForNewAlbum=@{@"owner":ownerId == nil ? ownerId=_app.person : ownerId};
     }
     else if([segue.identifier isEqualToString:@"GroupsFromFileSeguePhoto"]){
+        
         GroupsFromFileViewController *controller = (GroupsFromFileViewController *)segue.destinationController;
         controller.recivedData=@{@"type":@"photo"};
     }
@@ -139,8 +140,6 @@
 }
 - (void)removePhotoAlbum:(NSNotification*)notification{
     dispatch_async(dispatch_get_main_queue(),^{
-        
-        
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[notification.userInfo[@"index"] intValue] inSection:0];
         [albumsData removeObjectAtIndex:[notification.userInfo[@"index"] intValue]];
         [collectionViewListAlbums deleteItemsAtIndexPaths:[NSSet setWithObject:indexPath]];

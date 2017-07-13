@@ -16,7 +16,6 @@
     button.cornerRadius = 4.0;
     button.borderWidth=1;
     button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
-    button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
     button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
     button.titleHighlightColor = [NSColor colorWithHexString:@"2c3e50"];
     button.spacing=0;

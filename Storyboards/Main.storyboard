@@ -1097,13 +1097,13 @@ Gw
                                                                                     </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f00d"/>
                                                                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                                                                        <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
-                                                                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="value" red="0.82268284512574608" green="0.84091704796996214" blue="0.84900428921568627" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
                                                                                         <real key="value" value="0.0"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                                                        <color key="value" red="0.58431372549019611" green="0.6470588235294118" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
                                                                                 <connections>
@@ -4057,9 +4057,8 @@ Gw
                     <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="UPR-xO-Ef7">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="432" y="305" width="636" height="478"/>
+                        <rect key="contentRect" x="409" y="510" width="350" height="261"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
-                        <value key="minSize" type="size" width="400" height="300"/>
                     </window>
                     <connections>
                         <segue destination="n3X-Ol-5Ue" kind="relationship" relationship="window.shadowedContentViewController" id="DZb-bG-dEX"/>
@@ -4067,64 +4066,32 @@ Gw
                 </windowController>
                 <customObject id="Egp-wz-PKJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1780" y="7012"/>
+            <point key="canvasLocation" x="1637" y="6903.5"/>
         </scene>
         <!--Photo Slider View Controller-->
         <scene sceneID="kuS-iT-C2H">
             <objects>
                 <viewController storyboardIdentifier="PhotoSliderView" id="n3X-Ol-5Ue" customClass="PhotoSliderViewController" sceneMemberID="viewController">
                     <view key="view" id="SKT-BP-Fm9">
-                        <rect key="frame" x="0.0" y="0.0" width="636" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="412" height="320"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="TYm-CO-ShB">
-                                <rect key="frame" x="310" y="233" width="16" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="2BN-6D-fIH"/>
-                                    <constraint firstAttribute="width" constant="16" id="ZRR-9I-CsC"/>
-                                </constraints>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="TYm-CO-ShB">
+                                <rect key="frame" x="190" y="144" width="32" height="32"/>
                             </progressIndicator>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="kUu-a9-01G">
-                                <rect key="frame" x="0.0" y="217" width="48" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="48" id="Yhn-u3-uI3"/>
-                                    <constraint firstAttribute="height" constant="48" id="cIL-ci-tvU"/>
-                                </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="left" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Um0-c5-joI">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="prevPhotoAction:" target="n3X-Ol-5Ue" id="rZh-bs-sNz"/>
-                                </connections>
-                            </button>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dlP-y5-6KM">
-                                <rect key="frame" x="49" y="1" width="537" height="480"/>
+                                <rect key="frame" x="56" y="0.0" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="537" id="WRn-EO-CHr"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="472" id="jMC-fN-PHC"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="E6O-ex-2CG"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="PCS-en-fPU"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" id="tcC-wK-M24"/>
                             </imageView>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="MFa-ev-7vy">
-                                <rect key="frame" x="588" y="217" width="48" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="bRg-mD-MLF"/>
-                                    <constraint firstAttribute="width" constant="48" id="wPf-jc-uBZ"/>
-                                </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="right" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Hh-hw-DDU">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="nextPhotoAction:" target="n3X-Ol-5Ue" id="nWc-tI-Pf5"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nrY-Cc-7cW">
-                                <rect key="frame" x="513" y="483" width="88" height="21"/>
+                                <rect key="frame" x="288" y="299" width="88" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="88" id="96V-xr-6Gw"/>
-                                    <constraint firstAttribute="height" constant="21" id="Ilb-eY-jOc"/>
+                                    <constraint firstAttribute="width" constant="88" id="IBE-EH-i0d"/>
+                                    <constraint firstAttribute="height" constant="21" id="yox-Jj-iyo"/>
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="Caption" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="Lf3-pq-cBA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -4134,40 +4101,66 @@ Gw
                                     <segue destination="r8j-YE-QVP" kind="popover" identifier="PhotoCaptionSegue" popoverAnchorView="nrY-Cc-7cW" popoverBehavior="t" preferredEdge="maxY" id="t2P-6F-7Cs"/>
                                 </connections>
                             </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="kUu-a9-01G">
+                                <rect key="frame" x="1" y="126" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="SEm-v4-Xdq"/>
+                                    <constraint firstAttribute="width" constant="48" id="uGA-28-Udb"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Um0-c5-joI">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="prevPhotoAction:" target="n3X-Ol-5Ue" id="rZh-bs-sNz"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="MFa-ev-7vy">
+                                <rect key="frame" x="364" y="126" width="48" height="48"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6Hh-hw-DDU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="nextPhotoAction:" target="n3X-Ol-5Ue" id="nWc-tI-Pf5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="MFa-ev-7vy" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" id="5LX-zv-vfP"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kUu-a9-01G" secondAttribute="bottom" constant="217" id="6FG-ym-AI4"/>
-                            <constraint firstAttribute="trailing" secondItem="MFa-ev-7vy" secondAttribute="trailing" id="9am-MJ-WDs"/>
-                            <constraint firstItem="TYm-CO-ShB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kUu-a9-01G" secondAttribute="trailing" constant="262" id="C1c-d7-yAg"/>
-                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" id="HIE-CU-KNR"/>
-                            <constraint firstItem="kUu-a9-01G" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" id="JHo-4V-65C"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="MFa-ev-7vy" secondAttribute="bottom" constant="217" id="JLS-SH-sDl"/>
-                            <constraint firstItem="TYm-CO-ShB" firstAttribute="centerX" secondItem="dlP-y5-6KM" secondAttribute="centerX" id="KmF-Og-gnM"/>
-                            <constraint firstItem="kUu-a9-01G" firstAttribute="leading" secondItem="SKT-BP-Fm9" secondAttribute="leading" id="PxY-e6-hYs"/>
-                            <constraint firstItem="dlP-y5-6KM" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="23" id="Qvg-L4-RRT"/>
-                            <constraint firstAttribute="trailing" secondItem="nrY-Cc-7cW" secondAttribute="trailing" constant="35" id="TJj-0J-h2J"/>
-                            <constraint firstItem="MFa-ev-7vy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="239" id="WpL-d8-L5W"/>
-                            <constraint firstItem="TYm-CO-ShB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="255" id="XCn-op-rzf"/>
-                            <constraint firstItem="MFa-ev-7vy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="TYm-CO-ShB" secondAttribute="trailing" constant="262" id="buF-dO-DRe"/>
-                            <constraint firstItem="MFa-ev-7vy" firstAttribute="leading" secondItem="dlP-y5-6KM" secondAttribute="trailing" constant="2" id="iZN-s7-NY4"/>
-                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="513" id="ie7-EC-oGH"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TYm-CO-ShB" secondAttribute="bottom" constant="233" id="l8y-iZ-vm6"/>
-                            <constraint firstItem="TYm-CO-ShB" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" id="p2l-2S-wj3"/>
-                            <constraint firstItem="kUu-a9-01G" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="239" id="plb-Y6-ZQs"/>
-                            <constraint firstItem="dlP-y5-6KM" firstAttribute="leading" secondItem="kUu-a9-01G" secondAttribute="trailing" constant="1" id="qxe-fy-dEm"/>
-                            <constraint firstAttribute="bottom" secondItem="dlP-y5-6KM" secondAttribute="bottom" constant="1" id="tB7-Mw-wBU"/>
+                            <constraint firstItem="kUu-a9-01G" firstAttribute="leading" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="1" id="3LY-kv-5ko"/>
+                            <constraint firstItem="kUu-a9-01G" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="146" id="6mO-Mm-oWn"/>
+                            <constraint firstItem="dlP-y5-6KM" firstAttribute="leading" secondItem="kUu-a9-01G" secondAttribute="trailing" constant="7" id="9vY-Zg-RX2"/>
+                            <constraint firstItem="MFa-ev-7vy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="146" id="CK5-pl-bCB"/>
+                            <constraint firstItem="kUu-a9-01G" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" id="GAu-lG-3Nq"/>
+                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" id="Jhg-2X-9BH"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="MFa-ev-7vy" secondAttribute="bottom" constant="126" id="Ji1-EF-ANV"/>
+                            <constraint firstItem="kUu-a9-01G" firstAttribute="top" secondItem="MFa-ev-7vy" secondAttribute="top" id="LnF-3a-Njg"/>
+                            <constraint firstAttribute="trailing" secondItem="nrY-Cc-7cW" secondAttribute="trailing" constant="36" id="Lpm-VY-NP8"/>
+                            <constraint firstItem="TYm-CO-ShB" firstAttribute="centerX" secondItem="SKT-BP-Fm9" secondAttribute="centerX" id="NMb-sN-eVk"/>
+                            <constraint firstItem="MFa-ev-7vy" firstAttribute="leading" secondItem="dlP-y5-6KM" secondAttribute="trailing" constant="8" symbolic="YES" id="Qbe-0D-2B7"/>
+                            <constraint firstAttribute="bottom" secondItem="dlP-y5-6KM" secondAttribute="bottom" id="UkA-h4-wWO"/>
+                            <constraint firstItem="dlP-y5-6KM" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="20" symbolic="YES" id="VjS-hs-OIh"/>
+                            <constraint firstItem="dlP-y5-6KM" firstAttribute="centerX" secondItem="SKT-BP-Fm9" secondAttribute="centerX" id="WIT-Fu-Jjh"/>
+                            <constraint firstItem="TYm-CO-ShB" firstAttribute="centerY" secondItem="SKT-BP-Fm9" secondAttribute="centerY" id="Xch-yw-cbu"/>
+                            <constraint firstItem="kUu-a9-01G" firstAttribute="bottom" secondItem="MFa-ev-7vy" secondAttribute="bottom" id="fGO-S0-xfD"/>
+                            <constraint firstItem="MFa-ev-7vy" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" id="fy6-Yt-TeD"/>
+                            <constraint firstItem="TYm-CO-ShB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="150" id="mfb-rp-Szo"/>
+                            <constraint firstAttribute="trailing" secondItem="MFa-ev-7vy" secondAttribute="trailing" id="tF7-c1-b0a"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kUu-a9-01G" secondAttribute="bottom" constant="126" id="wVG-Kg-Ene"/>
+                            <constraint firstItem="TYm-CO-ShB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="134" id="yHN-4t-IoO"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="nextPhoto" destination="MFa-ev-7vy" id="Nv2-Nw-OCw"/>
                         <outlet property="photoView" destination="dlP-y5-6KM" id="32o-Mc-1Cc"/>
+                        <outlet property="prevPhoto" destination="kUu-a9-01G" id="bEj-Kw-0NZ"/>
                         <outlet property="progressSpin" destination="TYm-CO-ShB" id="X4Y-BS-aGV"/>
                         <outlet property="showCaptionBut" destination="nrY-Cc-7cW" id="rgG-Df-Jsc"/>
                     </connections>
                 </viewController>
                 <customObject id="qq8-xP-cnL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2571" y="7433"/>
+            <point key="canvasLocation" x="2070" y="7141"/>
         </scene>
         <!--Photo Caption View-->
         <scene sceneID="ccN-cO-mbh">
@@ -4203,7 +4196,7 @@ Gw
                 </viewController>
                 <customObject id="aaF-UP-5uQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3196" y="7227"/>
+            <point key="canvasLocation" x="2128" y="6857"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="mzZ-9i-Uoi">
@@ -5966,14 +5959,12 @@ Gw
         <image name="Welcome" width="243" height="45"/>
         <image name="close3" width="1024" height="1024"/>
         <image name="docs_color_icon_1" width="55" height="69"/>
-        <image name="left" width="97" height="98"/>
         <image name="logo_messages" width="328" height="294"/>
         <image name="next" width="227" height="243"/>
         <image name="photo_color_icon_1" width="72" height="59"/>
         <image name="play" width="218" height="236"/>
         <image name="prev" width="228" height="243"/>
         <image name="queue1_30" width="30" height="30"/>
-        <image name="right" width="97" height="98"/>
         <image name="schedule_icon_timer_1_25px" width="25" height="25"/>
         <image name="smiles_min1" width="7.1999998092651367" height="7.1999998092651367"/>
         <image name="to-down28" width="28" height="28"/>

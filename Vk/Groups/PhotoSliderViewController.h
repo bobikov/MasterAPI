@@ -19,11 +19,12 @@
     NSMutableArray *data;
     __weak IBOutlet NSProgressIndicator *progressSpin;
     NSTrackingArea *photoCaptionTrackingArea;
-      NSTrackingArea *photoCaptionTrackingArea2;
+    NSTrackingArea *photoCaptionTrackingArea2;
 //    __weak IBOutlet NSLayoutConstraint *photoViewWidthConstr;
 //    __weak IBOutlet NSLayoutConstraint *photoViewHeightConst;
     __weak IBOutlet NSButton *showCaptionBut;
     PhotoCaptionView *photoCaptionPopoverView;
+    NSWindow *superWindow;
 }
 @property (weak) IBOutlet NSLayoutConstraint *photoViewWidthConstr;
 @property (weak) IBOutlet NSLayoutConstraint *photoViewHeightConst;

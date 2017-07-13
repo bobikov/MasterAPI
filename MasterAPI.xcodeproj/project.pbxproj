@@ -833,8 +833,8 @@
 		2B41FB401E02D3F50013AC86 /* GroupsFromFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsFromFileViewController.m; sourceTree = "<group>"; };
 		2B41FB411E02D3F50013AC86 /* GroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsViewController.h; sourceTree = "<group>"; };
 		2B41FB421E02D3F50013AC86 /* GroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsViewController.m; sourceTree = "<group>"; };
-		2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSliderViewController.h; sourceTree = "<group>"; };
-		2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSliderViewController.m; sourceTree = "<group>"; };
+		2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoSliderViewController.h; path = ../Groups/PhotoSliderViewController.h; sourceTree = "<group>"; };
+		2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoSliderViewController.m; path = ../Groups/PhotoSliderViewController.m; sourceTree = "<group>"; };
 		2B41FB451E02D3F50013AC86 /* groupsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupsHandler.h; sourceTree = "<group>"; };
 		2B41FB461E02D3F50013AC86 /* groupsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupsHandler.m; sourceTree = "<group>"; };
 		2B41FB471E02D3F50013AC86 /* keyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyHandler.h; sourceTree = "<group>"; };
@@ -1879,8 +1879,6 @@
 				2B41FB401E02D3F50013AC86 /* GroupsFromFileViewController.m */,
 				2B41FB411E02D3F50013AC86 /* GroupsViewController.h */,
 				2B41FB421E02D3F50013AC86 /* GroupsViewController.m */,
-				2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */,
-				2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -1919,6 +1917,8 @@
 				2B41FB5C1E02D3F60013AC86 /* ShowPhotoViewController.xib */,
 				2B41FB5D1E02D3F60013AC86 /* URLsViewController.h */,
 				2B41FB5E1E02D3F60013AC86 /* URLsViewController.m */,
+				2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */,
+				2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */,
 			);
 			path = "Photo show";
 			sourceTree = "<group>";
