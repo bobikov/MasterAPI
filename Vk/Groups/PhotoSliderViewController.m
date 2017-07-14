@@ -8,7 +8,7 @@
 
 #import "PhotoSliderViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import "VKLikesViewController.h"
 @interface PhotoSliderViewController ()
 
 @end
@@ -27,14 +27,33 @@
     NSString *nextS = @"\U0000E685";
     nextPhoto.title=nextS;
     prevPhoto.title=prevS;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ShowSlider:) name:@"ShowPhotoSlider" object:nil];
     NSLog(@"%@", superWindow);
+    
 //    NSLog(@"Photo Slider here");
 //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(resizingView:) name:NSWindowDidResizeNotification object:nil];
 }
--(void)viewDidAppear{
-    //self.view.wantsLayer = YES;
+
+- (void)keyDown:(NSEvent *)event{
+//    NSLog(@"%d", event.keyCode);
+//    NSLog(@"%d", NSRightArrowFunctionKey);
+    NSString*   const   character   =   [event charactersIgnoringModifiers];
+    unichar     const   code        =   [character characterAtIndex:0];
+    switch (code){
+        case NSRightArrowFunctionKey:
+            NSLog(@"right");
+            [self switchSlide:YES prev:NO];
+            break;
+        case NSLeftArrowFunctionKey:
+            NSLog(@"left");
+            [self switchSlide:NO prev:YES];
+            break;
+    }
+}
+- (void)viewDidAppear{
     //self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.90 green:0.90 blue:0.90 alpha:0.0]CGColor];
     //self.view.layer.opacity=0.0;
+    [self.view.window makeFirstResponder:self];
     self.view.window.titleVisibility=NSWindowTitleVisible;
     self.view.window.titlebarAppearsTransparent = YES;
     self.view.window.movableByWindowBackground=YES;
@@ -42,20 +61,20 @@
     NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
     vibrantView.material=NSVisualEffectMaterialLight;
     vibrantView.blendingMode=NSVisualEffectBlendingModeBehindWindow;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ShowSlider:) name:@"ShowPhotoSlider" object:nil];
+    
     //vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
     //vibrantView.wantsLayer=YES;
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
 }
--(void)viewDidLayout{
+- (void)viewDidLayout{
     [self updatePhotoCaptionButTrackingArea];
 }
--(void)resizingView:(NSNotification*)notification{
+- (void)resizingView:(NSNotification*)notification{
     [self updatePhotoCaptionButTrackingArea];
 }
--(void)updatePhotoCaptionButTrackingArea{
+- (void)updatePhotoCaptionButTrackingArea{
     [self.view removeTrackingArea:photoCaptionTrackingArea];
     [self createTrackingArea];
 }
@@ -74,7 +93,7 @@
 //        [self mouseExited: nil];
 //    }
 }
--(void)mouseEntered:(NSEvent *)theEvent{
+- (void)mouseEntered:(NSEvent *)theEvent{
     
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     photoCaptionPopoverView = [story instantiateControllerWithIdentifier:@"PhotoCaption"];
@@ -90,7 +109,7 @@
     [self presentViewController:photoCaptionPopoverView asPopoverRelativeToRect:showCaptionBut.frame ofView:self.view preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
     
 }
--(void)mouseExited:(NSEvent *)theEvent{
+- (void)mouseExited:(NSEvent *)theEvent{
 //    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
 //    PhotoCaptionView *contr = [story instantiateControllerWithIdentifier:@"PhotoCaption"];
 //    contr.captionText=data[currentIndex][@"items"][@"caption"];
@@ -99,7 +118,7 @@
     [self performSelector:@selector(dismissPopoverCaption) withObject:nil afterDelay:1];
     
 }
--(void)dismissPopoverCaption{
+- (void)dismissPopoverCaption{
 //    photoCaptionTrackingArea2 = [[NSTrackingArea alloc] initWithRect:photoCaptionPopoverView.view.frame options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
 //    [self.view addTrackingArea:photoCaptionTrackingArea2];
     NSPoint mouseLocation = [self.view.window mouseLocationOutsideOfEventStream];
@@ -111,7 +130,7 @@
         [photoCaptionPopoverView dismissController:photoCaptionPopoverView];
     }
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqual:@"PhotoCaptionSegue"]){
         PhotoCaptionView *contr = (PhotoCaptionView *)segue.destinationController;
         if(data[currentIndex][@"items"][@"caption"]){
@@ -122,6 +141,10 @@
             contr.captionAttributedText=[[NSAttributedString alloc]initWithAttributedString:htmlCaption];
         }
     }
+    else if([segue.identifier isEqual:@"VKLikedUsersPhotoSegue"]){
+        VKLikesViewController *contr =(VKLikesViewController*)segue.destinationController;
+        contr.receivedData = @{@"owner":data[currentIndex][@"owner_id"],@"id":data[currentIndex][@"items"][@"id"]};
+    }
 }
 - (IBAction)prevPhotoAction:(id)sender {
     [progressSpin startAnimation:self];
@@ -131,12 +154,12 @@
     [progressSpin startAnimation:self];
     [self switchSlide:YES prev:NO];
 }
--(void)ShowSlider:(NSNotification *)notification{
+- (void)ShowSlider:(NSNotification *)notification{
     data = [[NSMutableArray alloc]initWithArray:notification.userInfo[@"data"]];
     currentIndex = [notification.userInfo[@"current"] intValue]-1;
     [self switchSlide:NO prev:NO];
 }
--(void)switchSlide:(BOOL)next prev:(BOOL)prev{
+- (void)switchSlide:(BOOL)next prev:(BOOL)prev{
     if(next && !prev){
         if(currentIndex==[data count]-1){
             currentIndex=0;
@@ -173,8 +196,57 @@
 //            float ory = superWindow.frame.origin.y+(superWindow.frame.size.height-self.view.window.frame.size.height)/2;
             [self.view.window.windowController.window setFrame:popupRect display:YES animate:YES];
             NSLog(@"%f, %f", superWindow.frame.origin.x,superWindow.frame.origin.y);
+            if([data[currentIndex][@"items"][@"userLikes"] intValue]){
+                userLikeBut.iconHex=@"f004";
+            }else{
+                userLikeBut.iconHex=@"f08a";
+            }
         });
     }];
-    self.view.window.title = [NSString stringWithFormat:@"%li/%li %@ ",  currentIndex, [data count]-1, data[0][@"title"] && ![data[0][@"title"] isEqual:@""] ? data[0][@"title"] : @""];
+    likesCount.title = data[currentIndex][@"items"][@"likesCount"];
+    self.view.window.title = [NSString stringWithFormat:@"%li/%li %@ ",  currentIndex+1, [data count], data[0][@"title"] && ![data[0][@"title"] isEqual:@""] ? data[0][@"title"] : @""];
+}
+- (IBAction)leaveLike:(id)sender {
+    NSLog(@"%@", data[currentIndex]);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if([data[currentIndex][@"items"][@"userLikes"] intValue]){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?owner_id=%@&type=photo&item_id=%@&access_token=%@&v=%@",  data[currentIndex][@"owner_id"],data[currentIndex][@"items"][@"id"],_app.token, _app.version]]completionHandler:^(NSData * _Nullable dataObj, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if(dataObj){
+                    NSDictionary *likePhotoDeleteResp = [NSJSONSerialization JSONObjectWithData:dataObj options:0 error:nil];
+                    if(likePhotoDeleteResp[@"error"]){
+                        NSLog(@"%@:%@", likePhotoDeleteResp[@"error"][@"error_code"], likePhotoDeleteResp[@"error"][@"error_msg"]);
+                    }else{
+                        NSLog(@"%@", likePhotoDeleteResp);
+                        dispatch_async(dispatch_get_main_queue(),^{
+                            data[currentIndex][@"items"][@"likesCount"] = [NSString stringWithFormat:@"%i", [data[currentIndex][@"items"][@"likesCount"] intValue]-1];
+                            NSLog(@"%@", data[currentIndex] );
+                            likesCount.title = data[currentIndex][@"items"][@"likesCount"];
+                            userLikeBut.iconHex=@"f08a";
+                            data[currentIndex][@"items"][@"userLikes"]=@0;
+                        });
+                    }
+                }
+            }]resume];
+        }
+        else{
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/likes.add?owner_id=%@&type=photo&item_id=%@&access_token=%@&v=%@",  data[currentIndex][@"owner_id"],data[currentIndex][@"items"][@"id"],_app.token, _app.version]]completionHandler:^(NSData * _Nullable dataObj, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if(dataObj){
+                    NSDictionary *likePhotoResp = [NSJSONSerialization JSONObjectWithData:dataObj options:0 error:nil];
+                    if(likePhotoResp[@"error"]){
+                        NSLog(@"%@:%@", likePhotoResp[@"error"][@"error_code"], likePhotoResp[@"error"][@"error_msg"]);
+                    }else{
+                        NSLog(@"%@", likePhotoResp);
+                        dispatch_async(dispatch_get_main_queue(),^{
+                            data[currentIndex][@"items"][@"likesCount"] = [NSString stringWithFormat:@"%i", [data[currentIndex][@"items"][@"likesCount"] intValue]+1];
+                            NSLog(@"%@", data[currentIndex] );
+                            likesCount.title = data[currentIndex][@"items"][@"likesCount"];
+                            userLikeBut.iconHex=@"f004";
+                            data[currentIndex][@"items"][@"userLikes"]=@1;
+                        });
+                    }
+                }
+            }]resume];
+        }
+    });
 }
 @end

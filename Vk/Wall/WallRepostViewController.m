@@ -11,6 +11,7 @@
 #import "AddRepostGroupController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AppDelegate.h"
+#import <SYFlatButton+ButtonsStyle.h>
 @interface WallRepostViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -47,8 +48,16 @@
     addRepostGroup.hidden=YES;
     saveRepostGroup.hidden=YES;
     itemsToSaveInSelectedRepostGroup = [[NSMutableArray alloc]init];
+    [self setFlatButtonsStyle];
 }
-
+- (void)setFlatButtonsStyle{
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+            [button simpleButton:(SYFlatButton*)v];
+        }
+    }
+}
 - (IBAction)removeItemFromRepostGroup:(id)sender {
     saveRepostGroup.hidden=NO;
     NSInteger row = [groupsList2 rowForView:[sender superview]];
@@ -76,11 +85,11 @@
 //        if([i[@"id"] isEqual:groupsData2[row][@"id"]]){
             [itemsToRemoveInSelectedRepostGroup addObject:groupsData2[row]];
             [groupsData2 removeObjectAtIndex:row];
-            [groupsList2 removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp];
+            [groupsList2 removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideRight];
             
             //                        NSLog(@"Item successfully removed from repost group \"%@\"", [[repostUserGroups selectedItem]title]);
             countGroups2.title = [NSString stringWithFormat:@"%li", [groupsData2 count]];
-            [groupsList2 reloadData];
+//            [groupsList2 reloadData];
 //        }
 //    }
 //            }
@@ -168,7 +177,6 @@
     }
     
 }
-
 - (IBAction)removeRepostGroup:(id)sender {
 //    NSLog(@"%@",  [[repostUserGroups selectedItem]title]);
     moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;;
@@ -294,7 +302,6 @@
     
 }
 - (IBAction)groupsPopupSelect:(id)sender {
-    
     groupToRespostTo = [groupsPopupData objectAtIndex:[groupsPopupList indexOfSelectedItem]];
 //    NSLog(@"%@", groupToRespostTo);
 }
@@ -324,7 +331,6 @@
     }
     
 }
-
 - (IBAction)addSelectedObjectsAction:(id)sender {
     NSIndexSet *rows;
     rows=[groupsList1 selectedRowIndexes];
@@ -440,8 +446,10 @@
             
             return [groupsData1 count];
         }
+    
     }
     else if([tableView isEqual: groupsList2]){
+        
         if([groupsData2 count]>0){
             return [groupsData2 count];
         }

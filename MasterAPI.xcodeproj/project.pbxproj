@@ -504,6 +504,8 @@
 		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
 		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
+		2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB992D1F19018E00544B75 /* VKLikesViewController.m */; };
+		2BFB99311F1906AE00544B75 /* VKLikesCellTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1222,6 +1224,10 @@
 		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
+		2BFB992C1F19018E00544B75 /* VKLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesViewController.h; sourceTree = "<group>"; };
+		2BFB992D1F19018E00544B75 /* VKLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesViewController.m; sourceTree = "<group>"; };
+		2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesCellTableView.h; sourceTree = "<group>"; };
+		2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesCellTableView.m; sourceTree = "<group>"; };
 		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
 		D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1714,6 +1720,10 @@
 				2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */,
 				2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */,
 				2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */,
+				2BFB992C1F19018E00544B75 /* VKLikesViewController.h */,
+				2BFB992D1F19018E00544B75 /* VKLikesViewController.m */,
+				2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */,
+				2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */,
 			);
 			path = Vk;
 			sourceTree = "<group>";
@@ -2880,6 +2890,7 @@
 				2B41FC8D1E02D3F70013AC86 /* GroupsViewController.m in Sources */,
 				2B41FBEA1E02D3F60013AC86 /* ShowMediaPosts.m in Sources */,
 				2B41FBDE1E02D3F60013AC86 /* CustomStyleButton.m in Sources */,
+				2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */,
 				2B41FCA91E02D3F70013AC86 /* moveToAlbumViewController.m in Sources */,
 				2B41FBE41E02D3F60013AC86 /* FollowsViewController.m in Sources */,
 				2B41FCB11E02D3F70013AC86 /* VKCaptchaHandler.m in Sources */,
@@ -2898,6 +2909,7 @@
 				2B41FC611E02D3F70013AC86 /* AudioMoveViewController.m in Sources */,
 				2B41FBD11E02D3F60013AC86 /* TumblrPrefsInfo.m in Sources */,
 				2B41FC701E02D3F70013AC86 /* addDocsByOwnerController.m in Sources */,
+				2BFB99311F1906AE00544B75 /* VKLikesCellTableView.m in Sources */,
 				2BAE47EB1F0E401E006E507F /* MyTableRowView.m in Sources */,
 				2B41FCAE1E02D3F70013AC86 /* VideoShowCollectionView.m in Sources */,
 				2B41FC691E02D3F70013AC86 /* BanlistCustomCell.m in Sources */,

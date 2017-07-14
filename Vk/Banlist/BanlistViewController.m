@@ -360,8 +360,7 @@ typedef void(^OnGetBannedComplete)(NSMutableArray *bannedUsers);
                     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation&v=%@&access_token=%@", [bannedUsers componentsJoinedByString:@","], _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         
                
-                        __block int blacklisted;
-                        int blacklisted_by_me;
+                        
                         if(data){
                             NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                             if(userGetResponse[@"error"]){

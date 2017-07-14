@@ -3340,10 +3340,10 @@ Gw
                                                 <action selector="repostUserGroupsSelect:" target="TJq-di-yzb" id="eyY-OG-8zD"/>
                                             </connections>
                                         </popUpButton>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L02-lq-XvV">
-                                            <rect key="frame" x="358" y="89" width="72" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L02-lq-XvV" customClass="SYFlatButton">
+                                            <rect key="frame" x="358" y="89" width="72" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JGd-yd-ehk">
+                                            <buttonCell key="cell" type="square" title="Clear" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JGd-yd-ehk">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3351,10 +3351,10 @@ Gw
                                                 <action selector="clearSelectedToRepost:" target="TJq-di-yzb" id="9Qm-tX-Oce"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UWh-vC-DKW">
-                                            <rect key="frame" x="484" y="89" width="95" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UWh-vC-DKW" customClass="SYFlatButton">
+                                            <rect key="frame" x="483" y="89" width="95" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Add group" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FPh-3o-xdj">
+                                            <buttonCell key="cell" type="square" title="Add group" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FPh-3o-xdj">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3407,35 +3407,23 @@ Gw
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="fXV-vA-x2W"/>
                                                                             </imageView>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QKI-Rz-Bua" customClass="SYFlatButton">
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QKI-Rz-Bua" customClass="NIKFontAwesomeButton">
                                                                                 <rect key="frame" x="214" y="3" width="18" height="18"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" title="+" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ea4-O7-Qrq">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="Ea4-O7-Qrq">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
                                                                                 <userDefinedRuntimeAttributes>
-                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                                                                                        <real key="value" value="0.0"/>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f196"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="20"/>
                                                                                     </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                                                                                        <real key="value" value="0.0"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
-                                                                                        <color key="value" red="0.87717450770000005" green="0.87717450770000005" blue="0.87717450770000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
-                                                                                        <color key="value" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                                                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                                                                        <color key="value" red="0.2472355769" green="0.2472355769" blue="0.2472355769" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                    </userDefinedRuntimeAttribute>
-                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                                        <real key="value" value="2"/>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
                                                                                 <connections>
@@ -3508,13 +3496,25 @@ Gw
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v0C-Xl-AhA">
-                                                                                <rect key="frame" x="274" y="20" width="13" height="13"/>
+                                                                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v0C-Xl-AhA" customClass="NIKFontAwesomeButton">
+                                                                                <rect key="frame" x="274" y="20" width="18" height="18"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="close3" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="JYk-UX-lrJ">
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="JYk-UX-lrJ">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f147"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="color2">
+                                                                                        <color key="value" red="0.26985651300000002" green="0.3815618777" blue="0.82610176280000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
                                                                                 <connections>
                                                                                     <action selector="removeItemFromRepostGroup:" target="TJq-di-yzb" id="Otv-Yv-tyW"/>
                                                                                 </connections>
@@ -3548,10 +3548,10 @@ Gw
                                                 <font key="font" metaFont="smallSystemBold"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CRD-Oq-fbM">
-                                            <rect key="frame" x="261" y="89" width="73" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CRD-Oq-fbM" customClass="SYFlatButton">
+                                            <rect key="frame" x="255" y="89" width="73" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lIu-yo-kIO">
+                                            <buttonCell key="cell" type="square" title="Add" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lIu-yo-kIO">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3568,10 +3568,10 @@ Gw
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </searchFieldCell>
                                         </searchField>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hpC-cm-WAy">
-                                            <rect key="frame" x="586" y="89" width="83" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hpC-cm-WAy" customClass="SYFlatButton">
+                                            <rect key="frame" x="586" y="89" width="75" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Repost" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hkr-qa-ZOj">
+                                            <buttonCell key="cell" type="square" title="Repost" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hkr-qa-ZOj">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3587,10 +3587,10 @@ Gw
                                                 <font key="font" metaFont="smallSystemBold"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjE-wY-Uxt">
-                                            <rect key="frame" x="449" y="31" width="128" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjE-wY-Uxt" customClass="SYFlatButton">
+                                            <rect key="frame" x="449" y="31" width="128" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Remove group" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KCU-Hc-PDm">
+                                            <buttonCell key="cell" type="square" title="Remove group" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KCU-Hc-PDm">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3598,10 +3598,10 @@ Gw
                                                 <action selector="removeRepostGroup:" target="TJq-di-yzb" id="5E7-zm-15C"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kPh-AD-oXf">
-                                            <rect key="frame" x="504" y="58" width="73" height="32"/>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kPh-AD-oXf" customClass="SYFlatButton">
+                                            <rect key="frame" x="504" y="60" width="73" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="Save " bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jbT-mb-qm3">
+                                            <buttonCell key="cell" type="square" title="Save " bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jbT-mb-qm3">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -4087,16 +4087,25 @@ Gw
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" id="tcC-wK-M24"/>
                             </imageView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nrY-Cc-7cW">
-                                <rect key="frame" x="320" y="300" width="65" height="21"/>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nrY-Cc-7cW" customClass="NIKFontAwesomeButton">
+                                <rect key="frame" x="353" y="299" width="32" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="65" id="IBE-EH-i0d"/>
+                                    <constraint firstAttribute="width" constant="32" id="IBE-EH-i0d"/>
                                     <constraint firstAttribute="height" constant="21" id="yox-Jj-iyo"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="Caption" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="Lf3-pq-cBA">
+                                <buttonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" imageScaling="proportionallyDown" inset="2" id="Lf3-pq-cBA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f05a"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="0.2470588235" green="0.2470588235" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                        <real key="value" value="19"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="r8j-YE-QVP" kind="popover" identifier="PhotoCaptionSegue" popoverAnchorView="nrY-Cc-7cW" popoverBehavior="t" preferredEdge="maxY" id="t2P-6F-7Cs"/>
                                 </connections>
@@ -4130,7 +4139,7 @@ Gw
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Zmj-fW-Zjj" customClass="NIKFontAwesomeButton">
-                                <rect key="frame" x="290" y="299" width="25" height="22"/>
+                                <rect key="frame" x="319" y="299" width="25" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="O1k-Zw-wlT"/>
                                     <constraint firstAttribute="width" constant="25" id="tfI-oa-soR"/>
@@ -4151,17 +4160,49 @@ Gw
                                         <real key="value" value="14"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="leaveLike:" target="n3X-Ol-5Ue" id="Coe-zf-Zu4"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="kcY-2y-yEa" customClass="SYFlatButton">
+                                <rect key="frame" x="272" y="299" width="48" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="tPF-bY-iEg"/>
+                                    <constraint firstAttribute="width" constant="48" id="zeq-t2-fiY"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="YBo-TC-J3X">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                        <color key="value" red="0.2470588235" green="0.2470588235" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="gA1-eT-yqh" kind="sheet" identifier="VKLikedUsersPhotoSegue" id="1Ni-OC-4ex"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="MFa-ev-7vy" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" constant="-2" id="1bA-G5-8Qb"/>
                             <constraint firstAttribute="trailing" secondItem="MFa-ev-7vy" secondAttribute="trailing" id="4qO-mc-Onq"/>
+                            <constraint firstItem="kcY-2y-yEa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="272" id="66e-8V-lQW"/>
                             <constraint firstItem="kUu-a9-01G" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="145" id="9xO-do-JJY"/>
                             <constraint firstItem="MFa-ev-7vy" firstAttribute="leading" secondItem="dlP-y5-6KM" secondAttribute="trailing" constant="6" id="FHB-6D-lKs"/>
-                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="1" id="Jhg-2X-9BH"/>
+                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="2" id="Jhg-2X-9BH"/>
+                            <constraint firstItem="kcY-2y-yEa" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="1" id="Kyo-RB-FgQ"/>
                             <constraint firstAttribute="trailing" secondItem="nrY-Cc-7cW" secondAttribute="trailing" constant="27" id="Lpm-VY-NP8"/>
+                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="leading" secondItem="kcY-2y-yEa" secondAttribute="trailing" constant="33" id="Lxs-fK-mMl"/>
                             <constraint firstItem="TYm-CO-ShB" firstAttribute="centerX" secondItem="SKT-BP-Fm9" secondAttribute="centerX" id="NMb-sN-eVk"/>
-                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="leading" secondItem="Zmj-fW-Zjj" secondAttribute="trailing" constant="5" id="QAg-jx-TDB"/>
+                            <constraint firstItem="nrY-Cc-7cW" firstAttribute="leading" secondItem="Zmj-fW-Zjj" secondAttribute="trailing" constant="9" id="QAg-jx-TDB"/>
                             <constraint firstItem="Zmj-fW-Zjj" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="1" id="TGO-wC-Z1M"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kUu-a9-01G" secondAttribute="bottom" constant="127" id="UVP-Js-7PY"/>
                             <constraint firstAttribute="bottom" secondItem="dlP-y5-6KM" secondAttribute="bottom" id="UkA-h4-wWO"/>
@@ -4169,26 +4210,35 @@ Gw
                             <constraint firstItem="dlP-y5-6KM" firstAttribute="top" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="22" id="VjS-hs-OIh"/>
                             <constraint firstItem="dlP-y5-6KM" firstAttribute="centerX" secondItem="SKT-BP-Fm9" secondAttribute="centerX" id="WIT-Fu-Jjh"/>
                             <constraint firstItem="TYm-CO-ShB" firstAttribute="centerY" secondItem="SKT-BP-Fm9" secondAttribute="centerY" id="Xch-yw-cbu"/>
-                            <constraint firstItem="Zmj-fW-Zjj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="222" id="Yvl-Tm-vOz"/>
                             <constraint firstItem="MFa-ev-7vy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="145" id="aFI-vy-SpB"/>
                             <constraint firstItem="TYm-CO-ShB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="150" id="mfb-rp-Szo"/>
                             <constraint firstItem="kUu-a9-01G" firstAttribute="leading" secondItem="SKT-BP-Fm9" secondAttribute="leading" constant="1" id="ov0-kf-Ja2"/>
                             <constraint firstItem="dlP-y5-6KM" firstAttribute="leading" secondItem="kUu-a9-01G" secondAttribute="trailing" constant="5" id="qHw-SP-SOy"/>
                             <constraint firstItem="kUu-a9-01G" firstAttribute="centerY" secondItem="dlP-y5-6KM" secondAttribute="centerY" constant="-2" id="u8B-EL-V6e"/>
-                            <constraint firstItem="TYm-CO-ShB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="144" id="yHN-4t-IoO"/>
+                            <constraint firstItem="TYm-CO-ShB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SKT-BP-Fm9" secondAttribute="top" constant="145" id="yHN-4t-IoO"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="likesCount" destination="kcY-2y-yEa" id="5Xs-5a-lIf"/>
                         <outlet property="nextPhoto" destination="MFa-ev-7vy" id="Nv2-Nw-OCw"/>
                         <outlet property="photoView" destination="dlP-y5-6KM" id="32o-Mc-1Cc"/>
                         <outlet property="prevPhoto" destination="kUu-a9-01G" id="bEj-Kw-0NZ"/>
                         <outlet property="progressSpin" destination="TYm-CO-ShB" id="X4Y-BS-aGV"/>
                         <outlet property="showCaptionBut" destination="nrY-Cc-7cW" id="rgG-Df-Jsc"/>
+                        <outlet property="userLikeBut" destination="Zmj-fW-Zjj" id="c5y-G5-VW8"/>
                     </connections>
                 </viewController>
                 <customObject id="qq8-xP-cnL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2070" y="7141"/>
+        </scene>
+        <!--VKLikesView-->
+        <scene sceneID="DrL-Qw-oPK">
+            <objects>
+                <controllerPlaceholder storyboardName="Sixth" referencedIdentifier="VKLikesView" id="gA1-eT-yqh" sceneMemberID="viewController"/>
+                <customObject id="EIh-zV-jXi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2164" y="7425"/>
         </scene>
         <!--Photo Caption View-->
         <scene sceneID="ccN-cO-mbh">
@@ -5985,7 +6035,6 @@ Gw
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="NSStopProgressTemplate" width="11" height="11"/>
         <image name="Welcome" width="243" height="45"/>
-        <image name="close3" width="1024" height="1024"/>
         <image name="docs_color_icon_1" width="55" height="69"/>
         <image name="logo_messages" width="328" height="294"/>
         <image name="next" width="227" height="243"/>

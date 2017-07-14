@@ -20,6 +20,7 @@
 @implementation ShowPhotoViewController
 
 @synthesize  myWindowContr, ownerId,loadForAttachments;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     collectionViewListAlbums.dataSource=self;
@@ -70,7 +71,6 @@
     }
    
 }
-
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"createPhotoAlbumSeague"]){
         CreateNewAlbumController *controller = (CreateNewAlbumController *)segue.destinationController;
@@ -78,6 +78,8 @@
         controller.receivedDataForNewAlbum=@{@"owner":ownerId == nil ? ownerId=_app.person : ownerId};
     }
     else if([segue.identifier isEqualToString:@"GroupsFromFileSeguePhoto"]){
+        
+        
         
         GroupsFromFileViewController *controller = (GroupsFromFileViewController *)segue.destinationController;
         controller.recivedData=@{@"type":@"photo"};
@@ -95,6 +97,7 @@
     [menuItem setView:[viewControllerItem view]];
     [menu1 addItem:menuItem];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if(data){
                 NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -121,7 +124,6 @@
             }
         }]resume];
     });
- 
 }
 - (IBAction)groupsListPopup:(id)sender {
     ownerId=[groupsListPoupData objectAtIndex:[groupsListPopup indexOfSelectedItem]];
@@ -184,8 +186,6 @@
 
 - (IBAction)backToAlbumsAction:(id)sender {
     friendId=nil;
-    //ownerId=nil;
-
     [self loadAlbums];
 }
 - (IBAction)showPhotoByOwner:(id)sender {
@@ -197,10 +197,8 @@
 - (IBAction)albumsListDropdownAction:(id)sender {
     albumTitle = albumsDataCopy[[albumsListDropdown indexOfSelectedItem]][@"title"];
     [self loadSelectedAlbum:albumsDataCopy[[albumsListDropdown indexOfSelectedItem]][@"id"]] ;
-  
 //    NSLog(@"%@", albumsData[[albumsListDropdown indexOfSelectedItem]][@"id"]);
 //    NSLog(@"%@", albumsData[[albumsListDropdown indexOfSelectedItem]]);
-    
 }
 - (IBAction)friendsListDropdownAction:(id)sender {
     friendId = friends[[friendsListDropdown indexOfSelectedItem]][@"id"];
@@ -219,7 +217,7 @@
         url=[NSString stringWithFormat:@"https://api.vk.com/method/photos.get?owner_id=%@&album_id=%@&v=%@&rev=1&access_token=%@", friendId, albumId, _app.version, _app.token];
     }
     else{
-        url=[NSString stringWithFormat:@"https://api.vk.com/method/photos.get?owner_id=%@&album_id=%@&rev=1&v=%@&access_token=%@", ownerId==nil ? _app.person : ownerId, albumId, _app.version, _app.token];
+        url=[NSString stringWithFormat:@"https://api.vk.com/method/photos.get?owner_id=%@&album_id=%@&rev=1&v=%@&extended=1&access_token=%@", ownerId==nil ? _app.person : ownerId, albumId, _app.version, _app.token];
     }
     [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
@@ -228,6 +226,8 @@
             for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
                 index++;
                 NSString *bigPhoto;
+                NSString *likesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"count"]];
+                NSString *userLikesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"user_likes"]];
                 if(i[@"photo_807"] && i[@"photo_807"]!=nil ){
                     bigPhoto = i[@"photo_807"];
                 }
@@ -237,8 +237,10 @@
                 else if(!i[@"photo_604"]){
                     bigPhoto = i[@"photo_130"];
                 }
-                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"]}}];
-                [albumsData addObject:object];
+
+                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
+                
+                [albumsData addObject:object ];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 albumLoaded=YES;
@@ -345,7 +347,6 @@
 }
 
 
-
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
     if(!albumLoaded){
@@ -371,7 +372,6 @@
         }
     }
 }
-
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
 
     return [albumsData count];

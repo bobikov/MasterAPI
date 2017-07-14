@@ -69,7 +69,8 @@
     NSString *relation;
     NSString *domain;
     NSShadow *tshadow;
-   
+    int blacklisted;
+    int blacklisted_by_me;
 }
 @property (strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic)NSMutableArray *value;
