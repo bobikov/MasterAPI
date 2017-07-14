@@ -25,6 +25,7 @@
     profilePhoto.wantsLayer=YES;
     profilePhoto.layer.cornerRadius=6;
     profilePhoto.layer.masksToBounds=YES;
+   
     _stringHighlighter = [[StringHighlighter alloc]init];
     NSLog(@"%@",_receivedData);
     [self loadUserInfo];
@@ -32,11 +33,14 @@
     [relation setAllowsEditingTextAttributes: YES];
     [site setAllowsEditingTextAttributes: YES];
     [page setAllowsEditingTextAttributes:YES];
+    self.view.wantsLayer=YES;
+    self.view.layer.masksToBounds=YES;
+    self.view.layer.cornerRadius=8;
 }
 -(void)setToViewController{
     NSWindow *superWindow = [[NSApplication sharedApplication]mainWindow];
     NSRect popupRect = NSMakeRect(superWindow.frame.origin.x+(superWindow.frame.size.width-self.view.frame.size.width)/2,superWindow.frame.origin.y+(superWindow.frame.size.height-self.view.frame.size.height)/2, self.view.frame.size.width,self.view.frame.size.height);
-    NSUInteger masks = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSUnifiedTitleAndToolbarWindowMask | NSTexturedBackgroundWindowMask | NSDocModalWindowMask;
+    NSUInteger masks = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSUnifiedTitleAndToolbarWindowMask | NSTexturedBackgroundWindowMask;
     mainWindow = [[NSWindow alloc] initWithContentRect:popupRect styleMask:masks backing:NSBackingStoreBuffered defer:NO];
     _windowController = [[NSWindowController alloc]initWithWindow:mainWindow];
     mainWindow.titleVisibility=NSWindowTitleHidden;
@@ -46,26 +50,20 @@
     mainWindow.movable=NO;
     mainWindow.contentViewController=self;
 //    RBBSpringAnimation *spring = [RBBSpringAnimation animationWithKeyPath:@"position.y"];
-//    
 //    spring.fromValue = @(-100.0f);
 //    spring.toValue = @(100.0f);
 //    spring.velocity = 0;
 //    spring.mass = 1;
 //    spring.damping = 10;
 //    spring.stiffness = 100;
-//    
 //    spring.additive = YES;
 //    spring.duration = [spring durationForEpsilon:0.01];
-
-
 //    [mainWindow.contentView.layer addAnimation:spring  forKey:nil];
 //    [mainWindow setAnimations:@{NSAnimationTriggerOrderIn:spring}];
 //    NSArray *animations = @[spring];
 //    NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations: animations];
-
 //    [mainWindow setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
 //    [mainWindow orderFront:[[NSApplication sharedApplication]mainWindow]];
-    
 //    [mainWindow orderOut:[[NSApplication sharedApplication]mainWindow]];
 //    [mainWindow makeKeyAndOrderFront:[[NSApplication sharedApplication]mainWindow]];
     [_windowController showWindow:self];
