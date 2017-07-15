@@ -563,22 +563,25 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         filterOffline.state=1;
         filterOnline.state=0;
         
-        for(NSDictionary *i in favesUsersData){
-            if(![i[@"deactivated"] isEqual:@""]){
-                counter++;
-                [favesUsersDataTemp addObject:i];
-            }
-            
-        }
-        //     NSLog(@"Start search %@", banlistDataTemp);
-        if([favesUsersDataTemp count]>0){
-            favesUsersData = favesUsersDataTemp;
-            [favesUsersList reloadData];
-        }
-    }else{
-        favesUsersData = favesUsersDataCopy;
-        [favesUsersList reloadData];
+//        for(NSDictionary *i in favesUsersData){
+//            if(![i[@"deactivated"] isEqual:@""]){
+//                counter++;
+//                [favesUsersDataTemp addObject:i];
+//            }
+//            
+//        }
+//        //     NSLog(@"Start search %@", banlistDataTemp);
+//        if([favesUsersDataTemp count]>0){
+//            favesUsersData = favesUsersDataTemp;
+//            [favesUsersList reloadData];
+//        }
     }
+//    else{
+//        favesUsersData = favesUsersDataCopy;
+//        [favesUsersList reloadData];
+//    }
+    [self loadFavesUsers:NO :NO];
+    
 
 }
 
@@ -609,396 +612,51 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     
 }
 - (void)getFaveUsers:(OnFaveUsersGetComplete)completion{
-    __block void (^getFavesUsersBlock)();
-    getFavesUsersBlock = ^void(){
-        
-        if( loadFromUserGroup){
-            completion(restoredUserIDs);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                totalCount = [restoredUserIDs count];
-                totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-            });
-        }else{
-            
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getUsers?count=50&offset=%li&v=%@&access_token=%@", offsetLoadFaveUsers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                if(data){
-                    NSDictionary *getFavesUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    if(getFavesUsersResponse[@"error"]){
-                        NSLog(@"%@:%@", getFavesUsersResponse[@"error"][@"error_code"], getFavesUsersResponse[@"error"][@"error_msg"]);
-                        NSLog(@"Trying send get faves users info request  again.");
-                        dispatch_after(3, dispatch_get_main_queue(), ^{
-                            
-                            getFavesUsersBlock();
-                            
-                        });
-                        
-                    }else{
-                        totalCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-                        });
-                        [favesUsersTemp removeAllObjects];
-                        for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
-                            [favesUsersTemp addObject:i[@"id"]];
-                        }
-                        completion(favesUsersTemp);
-                    }
-                }
-            }]resume];
-        }
-    };
-    getFavesUsersBlock();
     
 }
 
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-   
-    __block NSMutableDictionary *object;
+
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
         loading=YES;
         [progressSpin startAnimation:self];
-        if(offset){
-            offsetLoadFaveUsers=offsetLoadFaveUsers+50;
-        }else{
-//            [favesUsersList scrollToBeginningOfDocument:self];
-            [favesUsersData removeAllObjects];
-//            [favesUsersList reloadData];
-            offsetLoadFaveUsers=0;
-            offsetCounter=0;
-        }
-        // __block NSInteger startInsertRowIndex = [favesUsersData count];
+        NSDictionary *filters = @{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state]};
         
-            [self getFaveUsers:^(NSMutableArray *faveUsers) {
-//                NSLog(@"%@", [faveUsers componentsJoinedByString:@","]);
-                if([faveUsers count]>0 && offsetCounter <= [favesUsersData count]){
-                    [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=photo_100,photo_200,photo_200_orig,country,city,online,last_seen,status,bdate,books,about,sex,site,contacts,verified,music,schools,education,quotes,blacklisted,domain,blacklisted_by_me,relation&access_token=%@&v=%@" , [faveUsers componentsJoinedByString:@","],  _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        if(data){
-//                            if (error){
-//                                NSLog(@"Check your connection");
-//                                dispatch_async(dispatch_get_main_queue(), ^{
-//                                    [progressSpin stopAnimation:self];
-//                                });
-//                                return;
-//                            }
-//                            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-//                                
-//                                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-//                                if (statusCode != 200) {
-//                                    NSLog(@"dataTask HTTP status code: %lu", statusCode);
-//                                    dispatch_async(dispatch_get_main_queue(), ^{
-//                                        [progressSpin stopAnimation:self];
-//                                    });
-//                                    return;
-//                                }
-//                                else{
-//                                }
-//                            }
-                            
-                            NSDictionary *getUsersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                            //NSLog(@"%@", getUsersResponse);
-                            if (getUsersResponse[@"error"]){
-                                NSLog(@"%@:%@", getUsersResponse[@"error"][@"error_code"], getUsersResponse[@"error"][@"error_msg"]);
-                                NSLog(@"Trying send faves users request  again.");
-                                if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
-                                    dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                        loadFavesBlock(YES);
-                                    });
-                                }
-                            }
-                            else{
-                                NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
-                     
-                                
-                                if(getUsersResponse[@"response"]){
-                                    for (NSDictionary *a in getUsersResponse[@"response"]){
-                                        fullName = [NSString stringWithFormat:@"%@ %@", a[@"first_name"], a[@"last_name"]];
-                                        firstName = a[@"first_name"];
-                                        lastName = a[@"last_name"];
-                                        online = [NSString stringWithFormat:@"%@", a[@"online"]];
-                                        city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
-                                        status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
-                                        music = a[@"music"] && a[@"music"]!=nil ? a[@"music"] : @"";
-                                        domain = a[@"domain"] && a[@"domain"]!=nil ? a[@"domain"] : @"";
-                                        deactivated = a[@"deactivated"] && a[@"deactivated"]!=nil ? a[@"deactivated"] : @"";
-                                        blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
-                                        blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
-                                        verified = a[@"verified"] && a[@"verified"]!=nil ? a[@"verified"] : @"";
-                                        if(a[@"bdate"] && a[@"bdate"]!=nil){
-                                            bdate=a[@"bdate"];
-                                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                            NSString *templateLateTime2= @"yyyy";
-                                            NSString *templateLateTime1= @"dd.MM.yyyy";
-                                            //                            NSString *todayTemplate =@"d",
-                                            [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                                            [formatter setDateFormat:templateLateTime1];
-                                            NSDate *date = [formatter dateFromString:bdate];
-                                            [formatter setDateFormat:templateLateTime2];
-                                            if(![bdate isEqual:@""]){
-                                                bdate = [NSString stringWithFormat:@"%d лет", 2016 - [[formatter stringFromDate:date] intValue]];
-                                            }
-                                            if([bdate isEqual:@"2016 лет" ]){
-                                                bdate=@"";
-                                            }
-                                            
-                                        }
-                                        else{
-                                            bdate=@"";
-                                        }
-                                        
-                                        countryName = a[@"country"] && a[@"country"]!=nil ? a[@"country"][@"title"] : @"";
-                                        
-                                        if(a[@"last_seen"] && a[@"last_seen"]!=nil){
-                                            double timestamp = [a[@"last_seen"][@"time"] intValue];
-                                            NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: timestamp];
-                                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                            NSString *templateLateTime= @"dd.MM.yy HH:mm";
-                                            //                            NSString *todayTemplate =@"d",
-                                            [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                                            [formatter setDateFormat:templateLateTime];
-                                            last_seen = [NSString stringWithFormat:@"%@", [formatter stringFromDate:gotDate]];
-                                        }
-                                        else{
-                                            last_seen = @"";
-                                        }
-                                        if([online intValue]==1){
-                                            last_seen=@"";
-                                        }
-                                        
-                                        site = a[@"site"] && a[@"site"]!=nil ? a[@"site"] :  @"";
-                                        photoBig = a[@"photo_200"] ? a[@"photo_200"] : a[@"photo_200_orig"] ? a[@"photo_200_orig"] : a[@"photo_100"];
-                                        photo = a[@"photo_100"];
-                                        mobilePhone = a[@"mobile_phone"] && a[@"mobile_phone"]!=nil ? a[@"mobile_phone"] : @"";
-                                        sex = a[@"sex"] && [a[@"sex"] intValue]==1 ? @"W" :[a[@"sex"] intValue]==2 ?  @"M" : [a[@"sex"] intValue]==0 ? @"n/a" : @"";
-                                        books = a[@"books"] && a[@"books"]!=nil ? a[@"books"] : @"";
-                                        about = a[@"about"] && a[@"about"]!=nil ? a[@"about"] : @"";
-                                        education = a[@"university_name"] && a[@"university_name"]!=nil ? a[@"university_name"] : @"";
-                                        schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
-                                        relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
-                                        quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
-                                        object = [NSMutableDictionary dictionaryWithDictionary:@{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"user_photo_big":photoBig,@"country":countryName, @"bdate":bdate, @"online":online, @"last_seen":last_seen, @"sex":sex, @"site":site, @"mobile":mobilePhone, @"about":about, @"books":books, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated, @"blacklisted":[NSNumber numberWithInt:blacklisted], @"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain,@"verified":verified}];
-                                        
-                                        if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
-                                            
-                                            if(searchByName){
-                                                NSArray *found = [regex matchesInString:fullName  options:0 range:NSMakeRange(0, [fullName length])];
-                                                if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
-                                                    offsetCounter++;
-                                                    [favesUsersData addObject:object];
-                                                }
-                                            }
-                                            else{
-                                                
-                                                if(!a[@"deactivated"] || a[@"deactivated"]){
-                                                    if(filterWomen.state==1 && filterMen.state==1){
-                                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue]==2){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                    }
-                                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                                        if([a[@"sex"] intValue]==1){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                                        if([a[@"sex"] intValue]==2){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                                        if([a[@"sex"] intValue]==0){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                    
-                                                }
-                                            }
-                                        }
-                                        else if(filterOnline.state==0 && filterOffline.state ==1 && filterActive.state == 1 ) {
-                                            
-                                            
-                                            if(!a[@"deactivated"]){
-                                                if ([online intValue] != 1){
-                                                    
-                                                    if(filterWomen.state==1 && filterMen.state==1){
-                                                        if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                    }
-                                                    else if(filterWomen.state==1 && filterMen.state==0){
-                                                        if([a[@"sex"] intValue]==1){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                    else if(filterWomen.state==0 && filterMen.state==1){
-                                                        if([a[@"sex"] intValue]==2){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                    else if(filterWomen.state==0 && filterMen.state==0){
-                                                        if([a[@"sex"] intValue]==0){
-                                                            offsetCounter++;
-                                                            [favesUsersData addObject:object];
-                                                        }
-                                                        
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else if(filterOnline.state==1 && filterOffline.state ==0 && filterActive.state == 1) {
-                                            
-                                            if ([online  isEqual: @"1"]){
-                                                
-                                                if(filterWomen.state==1 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==1 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==1){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==0){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else if(filterOnline.state==0 && filterOffline.state == 1 && filterActive.state == 0) {
-                                            
-                                            if (a[@"deactivated"]){
-                                                
-                                                if(filterWomen.state==1 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==1 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==1){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==0){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else if(filterOnline.state==1 && filterOffline.state == 1 && filterActive.state == 0) {
-                                            
-                                            if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
-                                                
-                                                if(filterWomen.state==1 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==1 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==1){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==1){
-                                                    if([a[@"sex"] intValue]==2){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                                else if(filterWomen.state==0 && filterMen.state==0){
-                                                    if([a[@"sex"] intValue]==0){
-                                                        offsetCounter++;
-                                                        [favesUsersData addObject:object];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                //NSLog(@"%@", favesUsersData);
-                                //NSLog(@"%li", [favesUsersData count]);
-                                //totalCountLabel.title = [NSString stringWithFormat:@"%li", totalCount];
-                                if([favesUsersData count]>0 && offsetLoadFaveUsers<totalCount){
-                                    NSLog(@"BAD END");
-                                    loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounter];
-                                    [favesUsersList reloadData];
-                                    [progressSpin stopAnimation:self];
-                                    loading=NO;
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"banAndUnbanUserInFaves" object:nil userInfo:@{@"favesUsersData":favesUsersData}];
-                                    if([favesUsersData count]<15 && totalCount>=15 && offsetCounter < totalCount && [restoredUserIDs count]==0 && !loading){
-                                        dispatch_after(1, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                            loadFavesBlock(YES);
-                                        });
-                                    }
-                                }
+        [_app getFavoriteUsersInfo:filters :offset :^(NSMutableArray * _Nonnull favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount) {
+            favesUsersData = favesUsersObjectsInfo;
+            totalCount = totalFavesUsersResult;
+            NSLog(@"%li, %li , %li, %li", offsetCounterResult, totalFavesUsersResult, offsefFavesUsersLoadResult,favesUsersListCount);
+            if(favesUsersListCount>0 && offsetCounterResult <= favesUsersListCount){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //NSLog(@"%@", favesUsersData);
+                    //NSLog(@"%li", [favesUsersData count]);
+                    totalCountLabel.title = [NSString stringWithFormat:@"%li", totalFavesUsersResult];
+                    [favesUsersList reloadData];
+                    [progressSpin stopAnimation:self];
+                    loading=NO;
+                    if(favesUsersListCount>0 && offsefFavesUsersLoadResult<totalFavesUsersResult){
+                        NSLog(@"BAD END");
+                        loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounterResult];
+                      
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"banAndUnbanUserInFaves" object:nil userInfo:@{@"favesUsersData":favesUsersData}];
+                        if(favesUsersListCount<15 && totalFavesUsersResult>=15 && offsetCounterResult < totalFavesUsersResult && [restoredUserIDs count]==0 && !loading){
+                            dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                loadFavesBlock(YES);
                             });
                         }
-                        else{
-                            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
-                            if (!error && statusCode == 200) {
-                                // even fancier code goes here
-                            } else {
-                                // omg!!!!!!!!!
-                                NSLog(@"Server error code on Faves users request:%li", statusCode);
-//                                if(![favesUsersData count]){
-//                                    dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                                        loadFavesBlock(NO);
-//                                        
-//                                    });
-//                                   
-//                                }
-//                                else{
-//                                    dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                                        loadFavesBlock(YES);
-//                                        
-//                                    });
-//                                }
-                            }
-                        }
-                    }]resume];
-                }else{
-                    dispatch_async(dispatch_get_main_queue(),^{
-                        [progressSpin stopAnimation:self];
-                        [favesUsersList reloadData];
-                    });
-                }
-            }];
+                    }
+                });
+            }
+            else{
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     [favesUsersList reloadData];
+                     [progressSpin stopAnimation:self];
+                     loading=NO;
+                 });
+            
+            }
+        }];
     };
     if(makeOffset){
         loadFavesBlock(YES);
@@ -1006,6 +664,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         loadFavesBlock(NO);
     }
 }
+
 
 
 
@@ -1033,74 +692,73 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     return [favesUsersData count];
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([favesUsersData count]==offsetCounter && [favesUsersData lastObject] && row <= [favesUsersData count]) {
-        FavesUsersCustomCell *cell=[[FavesUsersCustomCell  alloc]init];
-        cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
-        cell.country.stringValue = favesUsersData[row][@"country"];
-        cell.city.stringValue = favesUsersData[row][@"city" ];
-        cell.fullName.stringValue = favesUsersData[row][@"full_name"];
     
-//        if(((MyTableRowView*)[tableView rowViewAtRow:row makeIfNecessary:NO]).isSelected){
-//            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
-//               NSShadow *tshadow = [[NSShadow alloc]init];
-//                tshadow.shadowColor=[NSColor grayColor];
-//                tshadow.shadowOffset=NSMakeSize(0, 0);
-//                tshadow.shadowBlurRadius=2.0;
-//                make.shadow(tshadow);
-//            }];
-//        }else{
-//            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
-//                NSShadow *tshadow2 = [[NSShadow alloc]init];
-//                tshadow2.shadowColor=[NSColor clearColor];
-//                make.shadow(nil);
-//            }];
-//        }
-//        cell.status.stringValue = favesUsersData[row][@"status"];
-        [cell.status setAllowsEditingTextAttributes:YES];
-        cell.bdate.stringValue = favesUsersData[row][@"bdate"];
-        cell.lastSeen.stringValue = favesUsersData[row][@"last_seen"];
-        cell.sex.stringValue = favesUsersData[row][@"sex"];
-//        NSSize imSize=NSMakeSize(80, 80);
-        cell.photo.wantsLayer=YES;
-        cell.photo.layer.cornerRadius=40;
-        cell.photo.layer.masksToBounds=YES;
-        cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
-        cell.blacklisted.hidden = ![favesUsersData[row][@"blacklisted_by_me"] intValue];
-        
-        if([favesUsersData[row][@"deactivated"] isEqual:@""]){
-            cell.deactivatedStatus.hidden=YES;
-        }else{
-            cell.deactivatedStatus.stringValue = favesUsersData[row][@"deactivated"];
-            cell.deactivatedStatus.hidden=NO;
-        }
-
-         [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"]  Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
-             cell.status.attributedStringValue = highlightedString;
-         }];
-
-        
-        [cell.photo sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-            
-        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-            NSImageRep *rep = [[image representations] objectAtIndex:0];
-            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
-            image.size=imageSize;
-            [cell.photo setImage:image];
-        }];
-
-
-       
-        if([favesUsersData[row][@"online"] isEqual:@"1"]){
-            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-            //cell.lastOnline.stringValue = @"";
-        }
-        else{
-            //cell.lastOnline.stringValue = favesUsersData[row][@"last_seen"];
-            [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
-        }
-        return cell;
+    FavesUsersCustomCell *cell=[[FavesUsersCustomCell  alloc]init];
+    cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
+    cell.country.stringValue = favesUsersData[row][@"country"];
+    cell.city.stringValue = favesUsersData[row][@"city" ];
+    cell.fullName.stringValue = favesUsersData[row][@"full_name"];
+    
+    //        if(((MyTableRowView*)[tableView rowViewAtRow:row makeIfNecessary:NO]).isSelected){
+    //            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
+    //               NSShadow *tshadow = [[NSShadow alloc]init];
+    //                tshadow.shadowColor=[NSColor grayColor];
+    //                tshadow.shadowOffset=NSMakeSize(0, 0);
+    //                tshadow.shadowBlurRadius=2.0;
+    //                make.shadow(tshadow);
+    //            }];
+    //        }else{
+    //            cell.fullName.attributedStringValue = [favesUsersData[row][@"full_name"] bos_makeString:^(BOStringMaker *make) {
+    //                NSShadow *tshadow2 = [[NSShadow alloc]init];
+    //                tshadow2.shadowColor=[NSColor clearColor];
+    //                make.shadow(nil);
+    //            }];
+    //        }
+    //        cell.status.stringValue = favesUsersData[row][@"status"];
+    [cell.status setAllowsEditingTextAttributes:YES];
+    cell.bdate.stringValue = favesUsersData[row][@"bdate"];
+    cell.lastSeen.stringValue = favesUsersData[row][@"last_seen"];
+    cell.sex.stringValue = favesUsersData[row][@"sex"];
+    //        NSSize imSize=NSMakeSize(80, 80);
+    cell.photo.wantsLayer=YES;
+    cell.photo.layer.cornerRadius=40;
+    cell.photo.layer.masksToBounds=YES;
+    cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
+    cell.blacklisted.hidden = ![favesUsersData[row][@"blacklisted_by_me"] intValue];
+    
+    if([favesUsersData[row][@"deactivated"] isEqual:@""]){
+        cell.deactivatedStatus.hidden=YES;
+    }else{
+        cell.deactivatedStatus.stringValue = favesUsersData[row][@"deactivated"];
+        cell.deactivatedStatus.hidden=NO;
     }
-    return nil;
+    
+    [stringHighlighter highlightStringWithURLs:favesUsersData[row][@"status"]  Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+        cell.status.attributedStringValue = highlightedString;
+    }];
+    
+    
+    [cell.photo sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesUsersData[row][@"user_photo"]]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        
+    } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        NSImageRep *rep = [[image representations] objectAtIndex:0];
+        NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+        image.size=imageSize;
+        [cell.photo setImage:image];
+    }];
+    
+    
+    
+    if([favesUsersData[row][@"online"] isEqual:@"1"]){
+        [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
+        //cell.lastOnline.stringValue = @"";
+    }
+    else{
+        //cell.lastOnline.stringValue = favesUsersData[row][@"last_seen"];
+        [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
+    }
+    return cell;
+    
 }
 
 @end

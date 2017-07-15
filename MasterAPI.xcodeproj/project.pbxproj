@@ -24,6 +24,7 @@
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
 		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
+		2B374D561F19D26400C714D2 /* VKAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B374D551F19D26400C714D2 /* VKAPIClient.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -538,6 +539,8 @@
 		2B20F0121E47144200816124 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutAppViewController.m; path = Storyboards/AboutAppViewController.m; sourceTree = "<group>"; };
 		2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_110x110.png; sourceTree = "<group>"; };
 		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
+		2B374D541F19D26400C714D2 /* VKAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKAPIClient.h; sourceTree = "<group>"; };
+		2B374D551F19D26400C714D2 /* VKAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKAPIClient.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -1679,6 +1682,8 @@
 			children = (
 				2B41FAD41E02D3F50013AC86 /* appInfo.h */,
 				2B41FAD51E02D3F50013AC86 /* appInfo.m */,
+				2B374D541F19D26400C714D2 /* VKAPIClient.h */,
+				2B374D551F19D26400C714D2 /* VKAPIClient.m */,
 				2B41FAD61E02D3F50013AC86 /* Audio */,
 				2B41FAEB1E02D3F50013AC86 /* Audio player */,
 				2B41FAF21E02D3F50013AC86 /* Banlist */,
@@ -2844,6 +2849,7 @@
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,
 				2B41FBE21E02D3F60013AC86 /* CustomView.m in Sources */,
 				2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */,
+				2B374D561F19D26400C714D2 /* VKAPIClient.m in Sources */,
 				2B41FC571E02D3F60013AC86 /* TwitterLoginViewController.m in Sources */,
 				2B41FCAF1E02D3F70013AC86 /* ViewControllerMenuItem.m in Sources */,
 				2B41FCCA1E02D3F70013AC86 /* YoutubeVideosCustomCell.m in Sources */,

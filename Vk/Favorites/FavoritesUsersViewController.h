@@ -39,33 +39,8 @@
     NSMutableArray *favesUsersData,*favesUsersDataCopy,*favesUsersTemp,*selectedUsers,*restoredUserIDs;
     NSManagedObjectContext *moc;
     NSString *userFavesNewGroupName;
-    NSString *city;
-    NSString *status;
-    NSString *bdate;
-    NSString *online;
-    NSString *firstName;
-    NSString *lastName;
-    NSString *fullName;
-    NSString *countryName;
-    NSString *last_seen;
-    NSString *sex;
-    NSString *books;
-    NSString *site;
-    NSString *mobilePhone;
-    //NSString *phone;
-    NSString *photoBig;
-    NSString *photo;
-    NSString *about;
-    NSString *music;
-    NSString *education;
-    NSString *schools;
-    NSString *quotes;
-    NSString *deactivated;
-    NSString *relation;
-    NSString *domain;
-    NSString *verified;
-    int blacklisted;
-    int blacklisted_by_me;
+    
+   
     BOOL loading,loadFromUserGroup;
    
 }
