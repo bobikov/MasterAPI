@@ -571,11 +571,13 @@ typedef void (^OnComplete)(NSData *serverURL);
     NSImage *imageForUpload=[[NSImage alloc]init];
     if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
 //        contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
-        contents = [[imageForUpload blurImage:[NSURL URLWithString:filesForUpload[uploadCounter]] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
+//        contents = [[imageForUpload blurImage:[NSURL URLWithString:filesForUpload[uploadCounter]] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
+         contents = [[imageForUpload imageSaturation:[NSURL URLWithString:filesForUpload[uploadCounter]]saturation:@0.5 brightness:@0.5 contrast:@1.9]TIFFRepresentation];
         
     }else{
 //        contents = [NSData dataWithContentsOfFile:filesForUpload[uploadCounter]];
-        contents = [[imageForUpload blurImage:filesForUpload[uploadCounter] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
+//        contents = [[imageForUpload blurImage:filesForUpload[uploadCounter] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
+        contents = [[imageForUpload imageSaturation:filesForUpload[uploadCounter]saturation:@0.5 brightness:@0.5 contrast:@1.9]TIFFRepresentation];
     }
 //    NSLog(@"%@", contents);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];

@@ -8,9 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 CF_ASSUME_NONNULL_BEGIN
-@interface NSImage (ImageEffects){
-    
-}
+@interface NSImage (ImageEffects)
 - (NSImage*)blurImage:(NSURL*)imageURL :(nullable NSData*)data withBottomInset:(CGFloat)inset blurRadius:(CGFloat)radiusl;
+-(NSImage*)imageSaturation:(NSURL*)imageURL saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast;
 CF_ASSUME_NONNULL_END
 @end

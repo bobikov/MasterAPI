@@ -20,8 +20,7 @@
     }
     
     NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:ciImage];
-    NSImage *nsImage = [[NSImage alloc] initWithSize:rep.size];
-    [nsImage addRepresentation:rep];
+  
     
     CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [filter setValue:ciImage forKey:kCIInputImageKey];
@@ -32,9 +31,31 @@
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];
     
-    nsImage = [[NSImage alloc]initWithSize:rep.size];
+    NSImage *nsImage = [[NSImage alloc]initWithSize:rep.size];
     [nsImage addRepresentation:rep];
     return  nsImage;
     
+}
+-(NSImage*)imageSaturation:(NSURL*)imageURL saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast{
+    NSCIImageRep *rep;
+    CIImage *ciImage;
+    CIFilter *filter;
+    CIImage *outputCIImage;
+    CIContext *context;
+    NSImage *nsImage;
+    ciImage = [CIImage imageWithContentsOfURL:imageURL];
+    filter = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{
+                                                  @"inputImage":ciImage,
+                                                  @"inputSaturation" :saturation,
+                                                  @"inputBrightness":brightness,
+                                                  @"inputContrast":contrast
+                                                  }];
+    outputCIImage = filter.outputImage;
+    context = [CIContext contextWithOptions:nil];
+    ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
+    rep = [NSCIImageRep imageRepWithCIImage:ciImage];
+    nsImage = [[NSImage alloc] initWithSize:rep.size];
+    [nsImage addRepresentation:rep];
+    return nsImage;
 }
 @end
