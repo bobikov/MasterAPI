@@ -68,7 +68,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     showFavesUsersStatBut.title = statS;
     
 }
--(void)setFlatButtonStyle{
+- (void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){

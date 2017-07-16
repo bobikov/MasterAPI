@@ -24,7 +24,6 @@
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
 		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
-		2B374D561F19D26400C714D2 /* VKAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B374D551F19D26400C714D2 /* VKAPIClient.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -476,6 +475,7 @@
 		2B66CEA11F0FB38E00C87D63 /* world.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2B66CDD71F0FB38C00C87D63 /* world.svg */; };
 		2B66CEA21F0FB38E00C87D63 /* wristwatch.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2B66CDD81F0FB38C00C87D63 /* wristwatch.svg */; };
 		2B66CF8A1F0FE1C100C87D63 /* close-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B66CF891F0FE1C100C87D63 /* close-circle.png */; };
+		2B7CAC141F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7CAC131F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m */; };
 		2B81D5641F040EAB00F1DEE6 /* YoutubeLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */; };
 		2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B81D5651F04177300F1DEE6 /* Third.storyboard */; };
 		2B81D5691F0520EA00F1DEE6 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */; };
@@ -539,8 +539,6 @@
 		2B20F0121E47144200816124 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutAppViewController.m; path = Storyboards/AboutAppViewController.m; sourceTree = "<group>"; };
 		2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_110x110.png; sourceTree = "<group>"; };
 		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
-		2B374D541F19D26400C714D2 /* VKAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKAPIClient.h; sourceTree = "<group>"; };
-		2B374D551F19D26400C714D2 /* VKAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKAPIClient.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -820,8 +818,8 @@
 		2B41FB2D1E02D3F50013AC86 /* OutRequestsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutRequestsController.m; sourceTree = "<group>"; };
 		2B41FB2E1E02D3F50013AC86 /* OutRequestsCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutRequestsCustomCell.h; sourceTree = "<group>"; };
 		2B41FB2F1E02D3F50013AC86 /* OutRequestsCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutRequestsCustomCell.m; sourceTree = "<group>"; };
-		2B41FB301E02D3F50013AC86 /* FullUserInfoPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullUserInfoPopupViewController.h; sourceTree = "<group>"; };
-		2B41FB311E02D3F50013AC86 /* FullUserInfoPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullUserInfoPopupViewController.m; sourceTree = "<group>"; };
+		2B41FB301E02D3F50013AC86 /* FullUserInfoPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullUserInfoPopupViewController.h; path = ../FullUserInfoPopupViewController.h; sourceTree = "<group>"; };
+		2B41FB311E02D3F50013AC86 /* FullUserInfoPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullUserInfoPopupViewController.m; path = ../FullUserInfoPopupViewController.m; sourceTree = "<group>"; };
 		2B41FB331E02D3F50013AC86 /* FullGroupInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullGroupInfoViewController.h; sourceTree = "<group>"; };
 		2B41FB341E02D3F50013AC86 /* FullGroupInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullGroupInfoViewController.m; sourceTree = "<group>"; };
 		2B41FB351E02D3F50013AC86 /* GroupInvitesCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupInvitesCustomCell.h; sourceTree = "<group>"; };
@@ -1181,6 +1179,8 @@
 		2B66CDD71F0FB38C00C87D63 /* world.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = world.svg; sourceTree = "<group>"; };
 		2B66CDD81F0FB38C00C87D63 /* wristwatch.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = wristwatch.svg; sourceTree = "<group>"; };
 		2B66CF891F0FE1C100C87D63 /* close-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-circle.png"; sourceTree = "<group>"; };
+		2B7CAC121F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullInfoUserCustomTableCell.h; sourceTree = "<group>"; };
+		2B7CAC131F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullInfoUserCustomTableCell.m; sourceTree = "<group>"; };
 		2B81D5621F040EAB00F1DEE6 /* YoutubeLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YoutubeLoginViewController.h; sourceTree = "<group>"; };
 		2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YoutubeLoginViewController.m; sourceTree = "<group>"; };
 		2B81D5651F04177300F1DEE6 /* Third.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Third.storyboard; sourceTree = "<group>"; };
@@ -1682,8 +1682,6 @@
 			children = (
 				2B41FAD41E02D3F50013AC86 /* appInfo.h */,
 				2B41FAD51E02D3F50013AC86 /* appInfo.m */,
-				2B374D541F19D26400C714D2 /* VKAPIClient.h */,
-				2B374D551F19D26400C714D2 /* VKAPIClient.m */,
 				2B41FAD61E02D3F50013AC86 /* Audio */,
 				2B41FAEB1E02D3F50013AC86 /* Audio player */,
 				2B41FAF21E02D3F50013AC86 /* Banlist */,
@@ -1692,8 +1690,7 @@
 				2B41FB131E02D3F50013AC86 /* Favorites */,
 				2B41FB1E1E02D3F50013AC86 /* Friends */,
 				2B41FB2B1E02D3F50013AC86 /* Friends out requests */,
-				2B41FB301E02D3F50013AC86 /* FullUserInfoPopupViewController.h */,
-				2B41FB311E02D3F50013AC86 /* FullUserInfoPopupViewController.m */,
+				2B7CAC111F1A891A00ACDE11 /* FullUserInfo */,
 				2B41FB321E02D3F50013AC86 /* Groups */,
 				2B41FB451E02D3F50013AC86 /* groupsHandler.h */,
 				2B41FB461E02D3F50013AC86 /* groupsHandler.m */,
@@ -2320,6 +2317,18 @@
 			path = SVG;
 			sourceTree = "<group>";
 		};
+		2B7CAC111F1A891A00ACDE11 /* FullUserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				2B41FB301E02D3F50013AC86 /* FullUserInfoPopupViewController.h */,
+				2B41FB311E02D3F50013AC86 /* FullUserInfoPopupViewController.m */,
+				2B7CAC121F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.h */,
+				2B7CAC131F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m */,
+			);
+			name = FullUserInfo;
+			path = "Friends out requests";
+			sourceTree = "<group>";
+		};
 		2B9F40D21CC67B0D005C4716 = {
 			isa = PBXGroup;
 			children = (
@@ -2849,7 +2858,6 @@
 				2B41FCC01E02D3F70013AC86 /* YoutubePerms.m in Sources */,
 				2B41FBE21E02D3F60013AC86 /* CustomView.m in Sources */,
 				2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */,
-				2B374D561F19D26400C714D2 /* VKAPIClient.m in Sources */,
 				2B41FC571E02D3F60013AC86 /* TwitterLoginViewController.m in Sources */,
 				2B41FCAF1E02D3F70013AC86 /* ViewControllerMenuItem.m in Sources */,
 				2B41FCCA1E02D3F70013AC86 /* YoutubeVideosCustomCell.m in Sources */,
@@ -2899,6 +2907,7 @@
 				2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */,
 				2B41FCA91E02D3F70013AC86 /* moveToAlbumViewController.m in Sources */,
 				2B41FBE41E02D3F60013AC86 /* FollowsViewController.m in Sources */,
+				2B7CAC141F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m in Sources */,
 				2B41FCB11E02D3F70013AC86 /* VKCaptchaHandler.m in Sources */,
 				2B41FC751E02D3F70013AC86 /* EditDocsViewController.m in Sources */,
 				2B1914DA1E2E169A00FB714E /* SidebarOutlineView.m in Sources */,

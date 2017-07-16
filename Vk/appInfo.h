@@ -9,7 +9,7 @@
 #import "keyHandler.h"
 #import <CoreData/CoreData.h>
 #import <Cocoa/Cocoa.h>
-#import "VKAPIClient.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 @interface appInfo : NSObject{
@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) NSURLSession *session;
 @property (nonatomic, readwrite) BOOL selected;
 @property (nonatomic, readwrite) NSString *appId;
-@property(nonatomic) VKAPIClient *client;
 @property (nonatomic) keyHandler *keyHandle;
 
 
