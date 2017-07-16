@@ -12,6 +12,7 @@
 #import "RemoveVideoAndPhotoItemsViewController.h"
 #import "NSImage+Resizing.h"
 #import "EditVideoPhotoAlbumViewController.h"
+#import "NSImage+ImageEffects.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 typedef void (^OnComplete)(NSData *serverURL);
 -(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
@@ -139,7 +140,6 @@ typedef void (^OnComplete)(NSData *serverURL);
     [self chooseDirectoryToUpload];
 
 }
-
 - (IBAction)uploadByURLsAction:(id)sender {
 //   [self removeDownloadAndUploadStatuOver];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"uploadPhotoURLs" object:nil];
@@ -154,7 +154,6 @@ typedef void (^OnComplete)(NSData *serverURL);
     [self presentViewControllerAsModalWindow:contr];
     [self setProgress];
 }
-
 - (void)removeDownloadAndUploadStatuOver{
     if(selectedObject){
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
@@ -164,7 +163,6 @@ typedef void (^OnComplete)(NSData *serverURL);
         [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
     }
 }
-
 - (void)addProgressView{
     _indicator = [[ NSProgressIndicator alloc]initWithFrame:NSMakeRect(0, 0, 100, 10)];
     [_indicator setStyle:NSProgressIndicatorBarStyle];
@@ -175,7 +173,6 @@ typedef void (^OnComplete)(NSData *serverURL);
     [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
  
 }
-
 - (IBAction)removeItem:(id)sender {
     
     //    NSLog(@"%@", colV);
@@ -217,7 +214,6 @@ typedef void (^OnComplete)(NSData *serverURL);
         }
     }
 }
-
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
@@ -257,12 +253,10 @@ typedef void (^OnComplete)(NSData *serverURL);
       
     }
 }
-
 - (IBAction)attachAlbum:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"album", @"data":[self representedObject]}];
     NSLog(@"%@", self.representedObject);
 }
-
 - (void)createTrackingArea{
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.bounds options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
     [self.view addTrackingArea:_trackingArea];
@@ -573,11 +567,15 @@ typedef void (^OnComplete)(NSData *serverURL);
     NSLog(@"%li", uploadCounter);
    
     NSLog(@"%@", filesForUpload[uploadCounter]);
-    NSData *contents;
+    NSData *contents = [[NSData alloc]init];
+    NSImage *imageForUpload=[[NSImage alloc]init];
     if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
-        contents = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
+//        contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
+        contents = [[imageForUpload blurImage:[NSURL URLWithString:filesForUpload[uploadCounter]] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
+        
     }else{
-        contents =[[NSData alloc]initWithContentsOfFile:filesForUpload[uploadCounter]];
+//        contents = [NSData dataWithContentsOfFile:filesForUpload[uploadCounter]];
+        contents = [[imageForUpload blurImage:filesForUpload[uploadCounter] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
     }
 //    NSLog(@"%@", contents);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];

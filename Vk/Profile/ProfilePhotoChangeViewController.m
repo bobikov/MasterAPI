@@ -8,6 +8,7 @@
 
 #import "ProfilePhotoChangeViewController.h"
 #import "NSImage+Resizing.h"
+
 @interface ProfilePhotoChangeViewController () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @end
@@ -28,12 +29,10 @@
     
     [self loadGroupsByAdminPopup];
 }
-
 - (void)viewDidAppear{
     
     [self loadCurrentPhoto];
 }
-
 - (void)loadGroupsByAdminPopup{
     __block NSMenuItem *menuItem;
     __block NSMenu *menu1 = [[NSMenu alloc]init];
@@ -85,16 +84,13 @@
             if(photoGetResponse[@"response"]){
                 NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"photo_604"]]];
                 ownerPhoto = [self prepareImageForProfile:ownerPhoto];
-
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [currentPhoto setImage:ownerPhoto];
                     [progressSpin stopAnimation:self];
 //                    if(currentPhoto.frame.origin.y<15){
 //                        wraper.frame = NSMakeRect(wraper.frame.origin.x, wraper.frame.origin.y, wraper.frame.size.width, wraper.frame.size.height+15-currentPhoto.frame.origin.y);
-//                        
 //                    }
                 });
-                
             }
             else{
                 NSLog(@"Error load current photo: %@", photoGetResponse);
@@ -343,8 +339,6 @@
         filePath=nil;
     }
 }
-
-
 - (void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
     NSData *contents;
     if(uploadByURLCheck.state){
@@ -396,12 +390,6 @@
         }
     }] resume];
 }
-
-
-
-
-
-
 
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {

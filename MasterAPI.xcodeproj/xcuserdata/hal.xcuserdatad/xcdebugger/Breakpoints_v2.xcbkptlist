@@ -751,11 +751,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Profile/ProfilePhotoChangeViewController.m"
-            timestampString = "520324890.986456"
+            timestampString = "521892162.306763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "-prepareImageForProfile:"
             landmarkType = "7">
          </BreakpointContent>
