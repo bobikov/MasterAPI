@@ -9,18 +9,20 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PhotoEffectsViewController : NSViewController{
-    __weak IBOutlet NSSlider *saturationControl;
     
+    __weak IBOutlet NSSlider *saturationControl;
     __weak IBOutlet NSButton *acceptBut;
     __weak IBOutlet NSSlider *contrastControl;
     __weak IBOutlet NSSlider *brightnessControl;
     __weak IBOutlet NSButton *checkMono;
     __weak IBOutlet NSImageView *previewImage;
+    __weak IBOutlet NSButton *makeTriangles;
+    __weak IBOutlet NSButton *makeBlur;
+    
     NSImage *effectedImage;
     NSMutableDictionary *controlsData;
     NSImage *originalImage;
     NSWindow *mainWindow;
-    
 }
 @property(nonatomic)NSArray* originalImageURLs;
 @property(nonatomic)BOOL profilePhoto;

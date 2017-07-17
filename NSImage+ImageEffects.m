@@ -7,7 +7,7 @@
 //
 #import <CoreImage/CoreImage.h>
 #import "NSImage+ImageEffects.h"
-
+#import <Vivid/YUCITriangularPixellate.h>
 @implementation NSImage (ImageEffects)
 
 - (NSImage*)blurImage:(NSURL*)imageURL :(nullable NSData*)data withBottomInset:(CGFloat)inset blurRadius:(CGFloat)radius{
@@ -71,8 +71,33 @@
     CIImage *outputCIImage;
     CIContext *context;
     NSImage *nsImage;
+    
     ciImage = [CIImage imageWithContentsOfURL:imageURL];
     filter = [CIFilter filterWithName:@"CIPhotoEffectMono" withInputParameters:@{@"inputImage":ciImage}];
+    outputCIImage = filter.outputImage;
+    context = [CIContext contextWithOptions:nil];
+    ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
+    rep = [NSCIImageRep imageRepWithCIImage:ciImage];
+    nsImage = [[NSImage alloc] initWithSize:rep.size];
+    [nsImage addRepresentation:rep];
+    return nsImage;
+}
+-(NSImage*)imageWithTriangulars:(NSURL*)imageURL scale:(NSNumber*)scale center:(CIVector*)center vertexAngle:(NSNumber*)vertexAngle{
+    NSCIImageRep *rep;
+    CIImage *ciImage;
+    YUCITriangularPixellate *filter;
+    CIImage *outputCIImage;
+    CIContext *context;
+    NSImage *nsImage;
+    
+    ciImage = [CIImage imageWithContentsOfURL:imageURL];
+    filter = [[YUCITriangularPixellate alloc]init];
+    [filter setInputImage:ciImage];
+    [filter setInputCenter:center];
+    [filter setInputScale:scale];
+    [filter setInputVertexAngle:vertexAngle];
+    
+    
     outputCIImage = filter.outputImage;
     context = [CIContext contextWithOptions:nil];
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];

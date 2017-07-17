@@ -145,10 +145,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="JIw-2V-ux8"/>
                             </imageView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ago-Xc-iLE">
-                                <rect key="frame" x="139" y="1" width="83" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ago-Xc-iLE" customClass="SYFlatButton">
+                                <rect key="frame" x="139" y="3" width="83" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Accept" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bqG-Vf-zk8">
+                                <buttonCell key="cell" type="square" title="Accept" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bqG-Vf-zk8">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -173,6 +173,28 @@
                                     <action selector="refreshToOriginal:" target="3ve-NV-otZ" id="hyC-Wu-GIJ"/>
                                 </connections>
                             </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F8I-fx-Mbg">
+                                <rect key="frame" x="26" y="71" width="88" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="triangles" bezelStyle="regularSquare" imagePosition="left" inset="2" id="EWK-oe-5C3">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="imageWithTriangles:" target="3ve-NV-otZ" id="04G-Xq-BpH"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PT0-Jn-922">
+                                <rect key="frame" x="26" y="40" width="82" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="blur" bezelStyle="regularSquare" imagePosition="left" inset="2" id="B0N-DK-Rcj">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="blurImage:" target="3ve-NV-otZ" id="LmO-gE-JRy"/>
+                                </connections>
+                            </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zw2-kf-wxg">
                                 <rect key="frame" x="26" y="103" width="71" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -191,6 +213,8 @@
                         <outlet property="brightnessControl" destination="gP1-N7-ESe" id="ZEb-eq-Y6O"/>
                         <outlet property="checkMono" destination="zw2-kf-wxg" id="1Gj-0T-ICO"/>
                         <outlet property="contrastControl" destination="HyZ-cR-P4O" id="Sr5-Zu-k4G"/>
+                        <outlet property="makeBlur" destination="PT0-Jn-922" id="FpV-X0-N97"/>
+                        <outlet property="makeTriangles" destination="F8I-fx-Mbg" id="VqJ-Ve-vcJ"/>
                         <outlet property="previewImage" destination="dwc-S7-ARI" id="TQv-8L-T0T"/>
                         <outlet property="saturationControl" destination="FEC-xk-oED" id="ngA-b3-WwV"/>
                     </connections>

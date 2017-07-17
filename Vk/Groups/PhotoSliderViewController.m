@@ -67,6 +67,9 @@
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
+    [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
+    [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
+    [self.view.window standardWindowButton:NSWindowCloseButton].hidden=NO;
 }
 - (void)viewDidLayout{
     [self updatePhotoCaptionButTrackingArea];
