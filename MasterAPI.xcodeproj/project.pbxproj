@@ -490,6 +490,7 @@
 		2BB8DD7F1E236645003E975A /* schedule_icon_timer_1_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD7E1E236644003E975A /* schedule_icon_timer_1_25px.png */; };
 		2BB8DD811E2393DF003E975A /* tasks_icon_99_25.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */; };
 		2BB8DD871E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */; };
+		2BBE2BE21F1C8C3E00172010 /* PhotoEffectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */; };
 		2BCACB641E4DA1A400830583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2BCACB601E4DA1A400830583 /* .gitignore */; };
 		2BCACB651E4DA1A400830583 /* NSImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB621E4DA1A400830583 /* NSImage+Resizing.m */; };
 		2BCACB661E4DA1A400830583 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2BCACB631E4DA1A400830583 /* README.md */; };
@@ -1202,6 +1203,8 @@
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
 		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
 		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
+		2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoEffectsViewController.h; sourceTree = "<group>"; };
+		2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoEffectsViewController.m; sourceTree = "<group>"; };
 		2BCACAFD1E4C683C00830583 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "../../../../Library/Developer/Xcode/DerivedData/MasterAPI-cmxdptazauuemicvegxdmflpbxdn/Build/Products/Debug/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
 		2BCACB031E4CDAB100830583 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2BCACB051E4CDAB800830583 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -2337,6 +2340,8 @@
 		2B9F40D21CC67B0D005C4716 = {
 			isa = PBXGroup;
 			children = (
+				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
+				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B41F9DD1E02D3F50013AC86 /* CoreDataModels */,
 				2B41F9C81E02D3F50013AC86 /* AppsPreferences  */,
 				2B41F9D51E02D3F50013AC86 /* AppsStartSettings */,
@@ -2999,6 +3004,7 @@
 				2B41FCA41E02D3F70013AC86 /* VideoCopyViewController.m in Sources */,
 				2B41FCB21E02D3F70013AC86 /* VKLoginViewController.m in Sources */,
 				2B41FC601E02D3F70013AC86 /* AudioListCustomCell.m in Sources */,
+				2BBE2BE21F1C8C3E00172010 /* PhotoEffectsViewController.m in Sources */,
 				2B41FC081E02D3F60013AC86 /* StringHighlighter.m in Sources */,
 				2B41FC9D1E02D3F70013AC86 /* SearchCustomTableView.m in Sources */,
 				2B41FCC21E02D3F70013AC86 /* YoutubeSubscriptions.m in Sources */,

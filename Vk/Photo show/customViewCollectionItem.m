@@ -13,7 +13,10 @@
 #import "NSImage+Resizing.h"
 #import "EditVideoPhotoAlbumViewController.h"
 #import "NSImage+ImageEffects.h"
+#import <CoreImage/CoreImage.h>
+#import "PhotoEffectsViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
+
 typedef void (^OnComplete)(NSData *serverURL);
 -(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
 @end
@@ -22,9 +25,7 @@ typedef void (^OnComplete)(NSData *serverURL);
 @synthesize  backgroundSession;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self createTrackingArea];
-    
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
     self.view.layer.cornerRadius=5;
@@ -51,6 +52,7 @@ typedef void (^OnComplete)(NSData *serverURL);
     _uploadPhoto.hidden=YES;
 
 }
+
 - (IBAction)moveToAlbum:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
@@ -74,7 +76,6 @@ typedef void (^OnComplete)(NSData *serverURL);
 //    NSLog(@"dddd");
      [[NSNotificationCenter defaultCenter] removeObserver:self name:@"uploadPhotoURLs" object:nil];
 }
-
 - (void)setProgress{
 //     self.downloadAndUploadProgress.maxValue=expectedBytes;
 //    self.downloadAndUploadProgress.doubleValue=progress;
@@ -82,7 +83,6 @@ typedef void (^OnComplete)(NSData *serverURL);
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
     albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu",uploadCounter == 0 ? 0 : uploadCounter+1, [filesForUpload count] ];
 }
-
 - (void)prepareURLsForUpload:(NSString*)urlsString{
    filesForUpload = [self urlsFromString:urlsString];
     NSLog(@"%@", filesForUpload);
@@ -97,8 +97,8 @@ typedef void (^OnComplete)(NSData *serverURL);
             }
         }];
     }
-}
 
+}
 - (NSMutableArray*)urlsFromString:(NSString*)fullString{
     NSMutableArray *urls = [[NSMutableArray alloc]init];
     
@@ -116,7 +116,6 @@ typedef void (^OnComplete)(NSData *serverURL);
 //    }
     return urls;
 }
-
 - (NSString*)createRandomName{
     NSString *alphabetPlusDigits = @"0123456789abcdefghijklmopqrstuvwxyz";
     int length =  (int) [alphabetPlusDigits length];
@@ -129,16 +128,33 @@ typedef void (^OnComplete)(NSData *serverURL);
     }
     return [nonceString stringByAppendingPathExtension:@"jpg"];
 }
-
+- (void)openPhotoEffectsWindow{
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageDataWidthEffects:) name:@"UploadPhotoToAlbumWithEffects" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
+    PhotoEffectsViewController *contr = [story instantiateControllerWithIdentifier:@"PhotoEffectsView"];
+    selectedObject = self.representedObject;
+    contr.profilePhoto=NO;
+    contr.originalImageURLs = @[filesForUpload[0]];
+    [self presentViewControllerAsModalWindow:contr];
+}
 - (IBAction)uploadButtonAction:(id)sender {
 //    [self removeDownloadAndUploadStatuOver];
+//    [backgroundSession invalidateAndCancel];
+   
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     albumToUploadTo = selectedObject[@"id"] ;
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     [self setProgress];
     [self chooseDirectoryToUpload];
-
+//    [self openPhotoEffectsWindow];
+}
+- (void)setImageDataWidthEffects:(NSNotification*)obj{
+    contents = [[NSData dataWithData:obj.userInfo[@"photo"]]mutableCopy];
+    NSLog(@"DATA LENGTH %li", [contents length]);
+    [self prepareForUpload];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UploadPhotoToAlbumWithEffects" object:nil];
 }
 - (IBAction)uploadByURLsAction:(id)sender {
 //   [self removeDownloadAndUploadStatuOver];
@@ -156,6 +172,7 @@ typedef void (^OnComplete)(NSData *serverURL);
 }
 - (void)removeDownloadAndUploadStatuOver{
     if(selectedObject){
+        
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
 //        customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         selectedObject[@"busy"]=@0;
@@ -353,7 +370,7 @@ typedef void (^OnComplete)(NSData *serverURL);
 }
 - (void)editAlbumReload:(NSNotification*)obj{
     NSLog(@"Reload album here");
-    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
 //    NSLog(@"%@", selectedObject);
     albumItem.representedObject[@"title"] = obj.userInfo[@"title"];
@@ -361,8 +378,10 @@ typedef void (^OnComplete)(NSData *serverURL);
     [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
 }
 - (void)editItems{
+   
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"editPhotoAblumReload" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editAlbumReload:) name:@"editPhotoAblumReload" object:nil];
+    
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
     EditVideoPhotoAlbumViewController *contr = [story instantiateControllerWithIdentifier:@"editVideoPhotoAlbumView"];
     selectedObject = self.representedObject;
@@ -411,6 +430,7 @@ typedef void (^OnComplete)(NSData *serverURL);
    
     [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
     
+
 }
 - (IBAction)downloadButtonAction:(id)sender{
     selectedObject = [[NSMutableDictionary alloc]init];
@@ -446,14 +466,12 @@ typedef void (^OnComplete)(NSData *serverURL);
     
 }
 - (void)chooseDirectoryToUpload{
-    
     NSOpenPanel* openDlgUpload = [NSOpenPanel openPanel];
     [openDlgUpload setPrompt:@"Select"];
     [openDlgUpload setCanChooseFiles:YES];
     [openDlgUpload setCanChooseDirectories:YES];
     [openDlgUpload setAllowsMultipleSelection:YES];
     [openDlgUpload setAllowedFileTypes:@[@"jpg",@"png",@"jpeg",@"gif"]];
-    
     if ( [openDlgUpload runModal] == NSFileHandlingPanelOKButton)
     {
         filesForUpload = [openDlgUpload URLs];
@@ -463,7 +481,11 @@ typedef void (^OnComplete)(NSData *serverURL);
                 if(serverURL){
                     NSDictionary *getServerResponse = [NSJSONSerialization JSONObjectWithData:serverURL options:0 error:nil];
                     uploadURL = getServerResponse[@"response"][@"upload_url"];
-                     [self prepareForUpload];
+//                     [self prepareForUpload];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self openPhotoEffectsWindow];
+                    });
+                    
                 }else{
                     NSLog(@"UPLOAD URL NOT RECEIVED");
                 }
@@ -507,7 +529,6 @@ typedef void (^OnComplete)(NSData *serverURL);
     
 }
 - (void)chooseDirectory{
-    
     NSSavePanel* openDlg = [NSSavePanel savePanel];
     [openDlg setNameFieldStringValue:[self.representedObject[@"items"][@"photoBig"] lastPathComponent]];
     [openDlg setCanCreateDirectories:YES];
@@ -535,15 +556,13 @@ typedef void (^OnComplete)(NSData *serverURL);
     NSURLSessionConfiguration *backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"UploadToAlbumSession"];
     backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     uploadCounter=0;
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
         customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         albumItem.representedObject[@"busy"]=@1;
-            albumItem.downloadAndUploadProgress.maxValue=[filesForUpload count];
-            albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu", uploadCounter, [filesForUpload count] ];
-         [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-        
+        albumItem.downloadAndUploadProgress.maxValue=[filesForUpload count];
+        albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu", uploadCounter, [filesForUpload count] ];
+        [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
         [self uploadToAlbum];
     });
 }
@@ -567,17 +586,14 @@ typedef void (^OnComplete)(NSData *serverURL);
     NSLog(@"%li", uploadCounter);
    
     NSLog(@"%@", filesForUpload[uploadCounter]);
-    NSData *contents = [[NSData alloc]init];
-    NSImage *imageForUpload=[[NSImage alloc]init];
-    if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
-//        contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
-//        contents = [[imageForUpload blurImage:[NSURL URLWithString:filesForUpload[uploadCounter]] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
-         contents = [[imageForUpload imageSaturation:[NSURL URLWithString:filesForUpload[uploadCounter]]saturation:@0.5 brightness:@0.5 contrast:@1.9]TIFFRepresentation];
-        
-    }else{
-//        contents = [NSData dataWithContentsOfFile:filesForUpload[uploadCounter]];
-//        contents = [[imageForUpload blurImage:filesForUpload[uploadCounter] :nil withBottomInset:4 blurRadius:5]TIFFRepresentation];
-        contents = [[imageForUpload imageSaturation:filesForUpload[uploadCounter]saturation:@0.5 brightness:@0.5 contrast:@1.9]TIFFRepresentation];
+    
+    if(!contents){
+        if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
+            contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
+        }else{
+            contents = [NSData dataWithContentsOfFile:filesForUpload[uploadCounter]];
+            
+        }
     }
 //    NSLog(@"%@", contents);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];
@@ -714,7 +730,6 @@ typedef void (^OnComplete)(NSData *serverURL);
 
 
 
-
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
     
     
@@ -782,7 +797,7 @@ typedef void (^OnComplete)(NSData *serverURL);
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
                             customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
-                        
+                            
                             albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu",uploadCounter+1, [filesForUpload count] ];
                             
                             NSLog(@"All files successfully uploaded in to album");
@@ -799,6 +814,8 @@ typedef void (^OnComplete)(NSData *serverURL);
                         });
                         [self uploadToAlbum];
                     }
+                    NSLog(@"UPLOAD COUNTER %li", uploadCounter);
+                    NSLog(@"SESSION STATUS %@", backgroundSession.sessionDescription);
 //                    NSLog(@"%@", savePhotoResponse);
                 }
             }]resume];

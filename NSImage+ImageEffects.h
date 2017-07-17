@@ -11,5 +11,7 @@ CF_ASSUME_NONNULL_BEGIN
 @interface NSImage (ImageEffects)
 - (NSImage*)blurImage:(NSURL*)imageURL :(nullable NSData*)data withBottomInset:(CGFloat)inset blurRadius:(CGFloat)radiusl;
 -(NSImage*)imageSaturation:(NSURL*)imageURL saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast;
+-(NSImage*)monochromeImage:(NSURL*)imageURL color:(CIColor*)color intensity:(NSNumber*)intensity;
+-(NSImage *)monoImage:(NSURL*)imageURL;
 CF_ASSUME_NONNULL_END
 @end

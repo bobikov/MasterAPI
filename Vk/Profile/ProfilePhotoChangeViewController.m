@@ -8,13 +8,14 @@
 
 #import "ProfilePhotoChangeViewController.h"
 #import "NSImage+Resizing.h"
-
+#import "PhotoEffectsViewController.h"
 @interface ProfilePhotoChangeViewController () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @end
 
 @implementation ProfilePhotoChangeViewController
 @synthesize backgroundSession;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _app = [[appInfo alloc]init];
@@ -26,11 +27,9 @@
     currentPhoto.wantsLayer=YES;
     currentPhoto.layer.masksToBounds=YES;
     currentPhoto.layer.cornerRadius=4;
-    
     [self loadGroupsByAdminPopup];
 }
 - (void)viewDidAppear{
-    
     [self loadCurrentPhoto];
 }
 - (void)loadGroupsByAdminPopup{
@@ -120,8 +119,8 @@
         NSSize realImageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
         realImageHeight = realImageSize.height;
         realImageWidth = realImageSize.width;
-        double frameWidth = currentPhoto.frame.size.width;
-        double frameHeight = currentPhoto.frame.size.height;
+//        double frameWidth = currentPhoto.frame.size.width;
+//        double frameHeight = currentPhoto.frame.size.height;
         preparedImage = [self resizedImage:preparedImage toPixelDimensions:NSMakeSize(realImageHeight/(realImageHeight/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight)];
         dispatch_async(dispatch_get_main_queue(), ^{
             currentPhoto.frame=NSMakeRect(currentPhoto.frame.origin.x,  currentPhoto.frame.origin.y-deltaSize, realImageHeight/(realImageHeight/current_photo_frame_size_width), current_photo_frame_size_height * deltaHeight);
@@ -169,8 +168,7 @@
 }
 - (NSImage *)imageResize:(NSImage*)anImage newSize:(NSSize)newSize {
     NSImage *sourceImage = anImage;
-  
-    
+
     // Report an error if the source isn't a valid image
     if (![sourceImage isValid]){
         NSLog(@"Invalid Image");
@@ -193,7 +191,14 @@
         intervalField.enabled=NO;
     }
 }
+- (void)setDataWithPhotoEffects:(NSNotification*)obj{
+    contents = [NSData dataWithData:obj.userInfo[@"photo"]];
+    [self uploadPhoto:uploadByURLCheck.state ? fieldWithURL.stringValue : filePath];
+
+}
 - (IBAction)uploadFile:(id)sender {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"UploadProfilePhotoWithEffects" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setDataWithPhotoEffects:) name:@"UploadProfilePhotoWithEffects" object:nil];
     uploadByURLCheck.state ? nil : [self selectPhotoDialog];
     if(filePath || uploadByURLCheck.state ){
         owner=[userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] isEqual:_app.person] || userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] == nil ? _app.person : userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]];
@@ -205,8 +210,11 @@
                     NSLog(@"%@", getServerResponse);
                     if(serverUrl){
                         //        NSLog(@"%@", serverUrl);
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                            [self uploadPhoto:uploadByURLCheck.state ? fieldWithURL.stringValue : filePath];
+//                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                            [self uploadPhoto:uploadByURLCheck.state ? fieldWithURL.stringValue : filePath];
+//                        });
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self openPhotoEffectsWindow];
                         });
                     }
                 }
@@ -216,6 +224,14 @@
 }
 - (IBAction)userGroupsByAdminSelect:(id)sender {
     [self loadCurrentPhotoUserGroupByAdmin:[NSString stringWithFormat:@"%i", abs([userGroupsByAdminData[[userGroupsByAdminPopup indexOfSelectedItem]] intValue ])]];
+}
+- (void)openPhotoEffectsWindow{
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
+    PhotoEffectsViewController *contr = [story instantiateControllerWithIdentifier:@"PhotoEffectsView"];
+    contr.profilePhoto=YES;
+    contr.originalImageURLs = @[[NSURL URLWithString:filePath]];
+    [self presentViewControllerAsModalWindow:contr];
+    NSLog(@"%@", filePath);
 }
 - (void)loadCurrentPhotoUserGroupByAdmin:(NSString*)groupId{
     if([groupId isEqual:_app.person]){
@@ -275,9 +291,10 @@
         backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
         NSString *filename = [self createRandomName];
 
-        NSData *contents;
-     
-        contents=[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:file]];
+        
+        if(!contents){
+            contents=[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:file]];
+        }
 
 //        NSImage *image = [[NSImage alloc] initWithData:contents];
         if(contents){
@@ -286,7 +303,6 @@
             NSData *data1 = [imageRep representationUsingType:NSPNGFileType properties:nil];
             
             [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-            
             [request setTimeoutInterval:30];
             [request setHTTPMethod:@"POST"];
             
@@ -322,10 +338,7 @@
 - (void)getServerUrl:(NSString *)ownerId completion:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.getOwnerPhotoUploadServer?owner_id=%@&v=%@&access_token=%@", ownerId, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
-       
-
     }] resume];
-
 }
 - (void)selectPhotoDialog{
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
@@ -340,11 +353,12 @@
     }
 }
 - (void)saveOwnerPhoto:(NSString*)servera :(NSString*)hasha :(NSString *)photoa{
-    NSData *contents;
-    if(uploadByURLCheck.state){
-        contents =  [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:fieldWithURL.stringValue ]];
-    }else{
-        contents = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filePath]];
+    if(!contents){
+        if(uploadByURLCheck.state){
+            contents =  [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:fieldWithURL.stringValue ]];
+        }else{
+            contents = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filePath]];
+        }
     }
     NSImage *image = [[NSImage alloc] initWithData:contents];
     NSImageRep *rep = [[image representations] objectAtIndex:0];

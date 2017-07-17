@@ -2776,7 +2776,7 @@
                                 <rect key="frame" x="226" y="179" width="32" height="32"/>
                             </progressIndicator>
                             <stackView distribution="fillProportionally" orientation="vertical" alignment="leading" spacing="1" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9v2-Aa-Jqa">
-                                <rect key="frame" x="7" y="57" width="200" height="295"/>
+                                <rect key="frame" x="7" y="63" width="200" height="295"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="faf-oA-avX">
                                         <rect key="frame" x="-2" y="281" width="164" height="14"/>
@@ -2820,7 +2820,7 @@
                                                     <constraint firstAttribute="width" constant="90" id="o8K-i7-WyL"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="5gB-sC-fhW">
-                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -2869,7 +2869,7 @@
                                                     <constraint firstAttribute="height" constant="15" id="tqy-yu-JpX"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" state="on" focusRingType="none" id="EYi-ss-hVz">
-                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -2918,7 +2918,7 @@
                                                     <constraint firstAttribute="height" constant="15" id="bBq-Zd-h4V"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="zd3-vq-7TI">
-                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -2967,7 +2967,7 @@
                                                     <constraint firstAttribute="width" constant="90" id="vM9-R7-WSl"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="ZKL-gX-Oh9">
-                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -3016,7 +3016,7 @@
                                                     <constraint firstAttribute="width" constant="90" id="Pyw-D4-itP"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="PLJ-W3-dFZ">
-                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -3105,13 +3105,13 @@
                                 </customSpacing>
                             </stackView>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F7t-W8-675" customClass="RFOverlayScrollView">
-                                <rect key="frame" x="213" y="12" width="274" height="344"/>
+                                <rect key="frame" x="213" y="7" width="274" height="350"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="LVl-TC-9Yf">
-                                    <rect key="frame" x="0.0" y="0.0" width="274" height="344"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="274" height="350"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" viewBased="YES" id="rce-2E-1LB">
-                                            <rect key="frame" x="0.0" y="0.0" width="274" height="344"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="274" height="350"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3199,18 +3199,18 @@
                         <constraints>
                             <constraint firstItem="pUL-ov-MzD" firstAttribute="top" secondItem="cx1-Jb-Ctg" secondAttribute="top" constant="6" id="3E2-xS-4bU"/>
                             <constraint firstItem="F7t-W8-675" firstAttribute="leading" secondItem="9v2-Aa-Jqa" secondAttribute="trailing" constant="6" id="FYF-8b-VQg"/>
-                            <constraint firstItem="F7t-W8-675" firstAttribute="top" secondItem="pUL-ov-MzD" secondAttribute="bottom" constant="8" symbolic="YES" id="OXo-Fc-o1M"/>
+                            <constraint firstItem="F7t-W8-675" firstAttribute="top" secondItem="pUL-ov-MzD" secondAttribute="bottom" constant="7" id="OXo-Fc-o1M"/>
                             <constraint firstItem="pUL-ov-MzD" firstAttribute="leading" secondItem="9v2-Aa-Jqa" secondAttribute="leading" id="PHX-sO-JOJ"/>
-                            <constraint firstItem="9v2-Aa-Jqa" firstAttribute="top" secondItem="pUL-ov-MzD" secondAttribute="bottom" constant="12" id="QyY-pH-xUg"/>
+                            <constraint firstItem="9v2-Aa-Jqa" firstAttribute="top" secondItem="pUL-ov-MzD" secondAttribute="bottom" constant="6" id="QyY-pH-xUg"/>
                             <constraint firstItem="nRb-tU-ZNL" firstAttribute="centerY" secondItem="cx1-Jb-Ctg" secondAttribute="centerY" id="WjZ-Ea-Y7R"/>
                             <constraint firstItem="9v2-Aa-Jqa" firstAttribute="leading" secondItem="P0r-je-71E" secondAttribute="leading" id="XYg-9a-QJ0"/>
                             <constraint firstAttribute="trailing" secondItem="F7t-W8-675" secondAttribute="trailing" constant="10" id="XbI-9P-ICU"/>
-                            <constraint firstItem="F7t-W8-675" firstAttribute="top" secondItem="INq-3t-eVL" secondAttribute="bottom" constant="1" id="fdX-34-q85"/>
+                            <constraint firstItem="F7t-W8-675" firstAttribute="top" secondItem="INq-3t-eVL" secondAttribute="bottom" id="fdX-34-q85"/>
                             <constraint firstItem="F7t-W8-675" firstAttribute="leading" secondItem="P0r-je-71E" secondAttribute="trailing" constant="52" id="gwV-vn-yfc"/>
                             <constraint firstItem="pUL-ov-MzD" firstAttribute="leading" secondItem="cx1-Jb-Ctg" secondAttribute="leading" constant="7" id="jIK-uv-fVP"/>
                             <constraint firstItem="nRb-tU-ZNL" firstAttribute="leading" secondItem="9v2-Aa-Jqa" secondAttribute="trailing" constant="19" id="llp-6C-syd"/>
-                            <constraint firstAttribute="bottom" secondItem="F7t-W8-675" secondAttribute="bottom" constant="12" id="neN-VD-BTH"/>
-                            <constraint firstItem="P0r-je-71E" firstAttribute="top" secondItem="9v2-Aa-Jqa" secondAttribute="bottom" constant="22" id="oTd-ri-212"/>
+                            <constraint firstAttribute="bottom" secondItem="F7t-W8-675" secondAttribute="bottom" constant="7" id="neN-VD-BTH"/>
+                            <constraint firstItem="P0r-je-71E" firstAttribute="top" secondItem="9v2-Aa-Jqa" secondAttribute="bottom" constant="28" id="oTd-ri-212"/>
                             <constraint firstItem="INq-3t-eVL" firstAttribute="leading" secondItem="pUL-ov-MzD" secondAttribute="trailing" constant="15" id="oxk-zz-XVI"/>
                         </constraints>
                     </view>

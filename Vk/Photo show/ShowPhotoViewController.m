@@ -59,6 +59,7 @@
     SYFlatButton *backBut = (SYFlatButton*)backToAlbums;
     [backBut simpleButton:backBut];
 }
+
 - (void)viewDidAppear{
     //    if(!albumLoaded){
     //        [self loadAlbums:nil];

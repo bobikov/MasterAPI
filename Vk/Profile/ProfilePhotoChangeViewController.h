@@ -33,7 +33,7 @@
     __weak IBOutlet NSPopUpButton *userGroupsByAdminPopup;
     NSMutableArray *userGroupsByAdminData;
       ViewControllerMenuItem *viewControllerItem;
-   
+   NSData *contents;
     __weak IBOutlet NSButton *uploadByURLCheck;
     __weak IBOutlet NSTextField *fieldWithURL;
 }

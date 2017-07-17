@@ -39,6 +39,7 @@
     BOOL proccessGoing;
     NSMenu *theDropdownContextMenu;
     NSInteger overAlbumId;
+    NSData *contents;
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;
