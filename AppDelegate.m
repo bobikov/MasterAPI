@@ -11,6 +11,7 @@
 #import "TwitterRWData.h"
 #import "YoutubeRWData.h"
 #import "InstagramRWD.h"
+#import "Preferences.h"
 
 @interface AppDelegate ()
 
@@ -25,9 +26,17 @@
 
 - (IBAction)showAppsPreferences:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
+
     NSViewController *contr = [story instantiateControllerWithIdentifier:@"appPrefs"];
+   
     [contr setTitle:@"Preferences"];
-    [contr presentViewControllerAsModalWindow:contr];
+//    [contr presentViewControllerAsModalWindow:contr];
+    
+
+    
+    DBPrefsWindowController *prefs =[Preferences sharedPrefsWindowController];
+    [prefs showWindow:nil];
+
 }
 
 

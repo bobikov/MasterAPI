@@ -99,6 +99,9 @@
         [self refresh];
     }
 }
+- (IBAction)exposureAdjust:(id)sender {
+    [self updateWithEffects];
+}
 
 
 - (IBAction)refreshToOriginal:(id)sender {
@@ -114,7 +117,7 @@
 
 - (void)updateWithEffects{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue]];
+        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] data:nil saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue]];
          dispatch_async(dispatch_get_main_queue(), ^{
              previewImage.image = effectedImage;
          });

@@ -13,5 +13,4 @@
     __weak IBOutlet NSTableView *appsList;
     __weak IBOutlet NSBox *wrapSideMenu;
 }
-
 @end

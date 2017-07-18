@@ -480,9 +480,12 @@
 		2B81D5661F04177300F1DEE6 /* Third.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B81D5651F04177300F1DEE6 /* Third.storyboard */; };
 		2B81D5691F0520EA00F1DEE6 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */; };
 		2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8FD92E1CF8225B002027ED /* WebKit.framework */; };
+		2BA286CA1F1DE55000152415 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA286C81F1DE55000152415 /* Preferences.m */; };
+		2BA286CB1F1DE55000152415 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BA286C91F1DE55000152415 /* Preferences.xib */; };
 		2BAE47E01F0E0787006E507F /* Sixth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE47DF1F0E0787006E507F /* Sixth.storyboard */; };
 		2BAE47E81F0E33C7006E507F /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE47E71F0E33C7006E507F /* Second.storyboard */; };
 		2BAE47EB1F0E401E006E507F /* MyTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE47EA1F0E401E006E507F /* MyTableRowView.m */; };
+		2BAFDC011F1E059D008238E3 /* DBPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAFDC001F1E059C008238E3 /* DBPrefsController.m */; };
 		2BB36A331E58496600764C6E /* video_placeholder-500x400.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A311E58496500764C6E /* video_placeholder-500x400.png */; };
 		2BB36A341E58496600764C6E /* video-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB36A321E58496500764C6E /* video-placeholder.png */; };
 		2BB8DD7A1E22BEA4003E975A /* TasksVKStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */; };
@@ -1190,10 +1193,15 @@
 		2B81D5681F0520EA00F1DEE6 /* TumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrLoginViewController.m; sourceTree = "<group>"; };
 		2B8FD92E1CF8225B002027ED /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA286C71F1DE55000152415 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = Storyboards/Preferences.h; sourceTree = "<group>"; };
+		2BA286C81F1DE55000152415 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = Storyboards/Preferences.m; sourceTree = "<group>"; };
+		2BA286C91F1DE55000152415 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = Storyboards/Preferences.xib; sourceTree = "<group>"; };
 		2BAE47DF1F0E0787006E507F /* Sixth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sixth.storyboard; sourceTree = "<group>"; };
 		2BAE47E71F0E33C7006E507F /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
 		2BAE47E91F0E401E006E507F /* MyTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTableRowView.h; sourceTree = "<group>"; };
 		2BAE47EA1F0E401E006E507F /* MyTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTableRowView.m; sourceTree = "<group>"; };
+		2BAFDBFF1F1E059C008238E3 /* DBPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsController.h; sourceTree = "<group>"; };
+		2BAFDC001F1E059C008238E3 /* DBPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsController.m; sourceTree = "<group>"; };
 		2BB36A311E58496500764C6E /* video_placeholder-500x400.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video_placeholder-500x400.png"; sourceTree = "<group>"; };
 		2BB36A321E58496500764C6E /* video-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-placeholder.png"; sourceTree = "<group>"; };
 		2BB8DD791E22BEA4003E975A /* TasksVKStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksVKStatusView.xib; sourceTree = "<group>"; };
@@ -2340,6 +2348,9 @@
 		2B9F40D21CC67B0D005C4716 = {
 			isa = PBXGroup;
 			children = (
+				2BAFDBFF1F1E059C008238E3 /* DBPrefsController.h */,
+				2BAFDC001F1E059C008238E3 /* DBPrefsController.m */,
+				2BAFDBFE1F1DF8AF008238E3 /* PreferencesWithViews */,
 				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
 				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B41F9DD1E02D3F50013AC86 /* CoreDataModels */,
@@ -2387,6 +2398,16 @@
 				2B9F40DB1CC67B0D005C4716 /* MasterAPI.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2BAFDBFE1F1DF8AF008238E3 /* PreferencesWithViews */ = {
+			isa = PBXGroup;
+			children = (
+				2BA286C71F1DE55000152415 /* Preferences.h */,
+				2BA286C81F1DE55000152415 /* Preferences.m */,
+				2BA286C91F1DE55000152415 /* Preferences.xib */,
+			);
+			name = PreferencesWithViews;
 			sourceTree = "<group>";
 		};
 		2BB36A301E58494400764C6E /* placeholders */ = {
@@ -2621,6 +2642,7 @@
 				2B66CDFF1F0FB38D00C87D63 /* close-circle.svg in Resources */,
 				2B66CE3C1F0FB38D00C87D63 /* like.svg in Resources */,
 				2B41FC271E02D3F60013AC86 /* photo.png in Resources */,
+				2BA286CB1F1DE55000152415 /* Preferences.xib in Resources */,
 				2B66CE281F0FB38D00C87D63 /* graph2.svg in Resources */,
 				2B66CE091F0FB38D00C87D63 /* credit.svg in Resources */,
 				2B66CE011F0FB38D00C87D63 /* cloud-download.svg in Resources */,
@@ -2844,6 +2866,7 @@
 				2B41FC801E02D3F70013AC86 /* FriendsStatGraphs.m in Sources */,
 				2B41FCB31E02D3F70013AC86 /* AddRepostGroupController.m in Sources */,
 				2B1914D71E2D1F9E00FB714E /* InstagramMediaPostsTableView.m in Sources */,
+				2BA286CA1F1DE55000152415 /* Preferences.m in Sources */,
 				2B41FBD31E02D3F60013AC86 /* VKPrefsInfo.m in Sources */,
 				2B41FC9A1E02D3F70013AC86 /* URLsViewController.m in Sources */,
 				2B41FCC31E02D3F70013AC86 /* YoutubeSubscriptionsCustomCell.m in Sources */,
@@ -3013,6 +3036,7 @@
 				2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */,
 				2B41FC841E02D3F70013AC86 /* OutRequestsCustomCell.m in Sources */,
 				2B41FCDA1E0429D50013AC86 /* SmilesHeaderView.m in Sources */,
+				2BAFDC011F1E059D008238E3 /* DBPrefsController.m in Sources */,
 				2B41FC5D1E02D3F70013AC86 /* AudioAlbumRemoveViewController.m in Sources */,
 				2B41FC491E02D3F60013AC86 /* followersCustomCell.m in Sources */,
 				2B41FC581E02D3F70013AC86 /* TwitterPerms.m in Sources */,

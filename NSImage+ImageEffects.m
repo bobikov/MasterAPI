@@ -30,16 +30,23 @@
     [nsImage addRepresentation:rep];
     return  nsImage;
 }
--(NSImage*)imageSaturation:(NSURL*)imageURL saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast{
+-(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV{
     __block NSCIImageRep *rep;
     __block CIImage *ciImage;
-    __block CIFilter *filter;
+    __block CIFilter *filterSaturation;
     __block CIImage *outputCIImage;
+    __block CIFilter *exposureFilter;
+    __block CIFilter *monoFilter;
     __block CIContext *context;
     __block NSImage *nsImage;
-    ciImage = [CIImage imageWithContentsOfURL:imageURL];
-    filter = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputImage":ciImage,@"inputSaturation" :saturation,@"inputBrightness":brightness,@"inputContrast":contrast}];
-    outputCIImage = filter.outputImage;
+    if(imageData == nil){
+        ciImage = [CIImage imageWithContentsOfURL:imageURL];
+    }else{
+        ciImage = [CIImage imageWithData:imageData];
+    }
+    filterSaturation = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputImage":ciImage,@"inputSaturation" :saturation,@"inputBrightness":brightness,@"inputContrast":contrast}];
+    exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust" withInputParameters:@{@"inputImage":filterSaturation.outputImage, @"inputEV":inputEV}];
+    outputCIImage = exposureFilter.outputImage;
     context = [CIContext contextWithOptions:nil];
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];
@@ -98,6 +105,24 @@
     [filter setInputVertexAngle:vertexAngle];
     
     
+    outputCIImage = filter.outputImage;
+    context = [CIContext contextWithOptions:nil];
+    ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
+    rep = [NSCIImageRep imageRepWithCIImage:ciImage];
+    nsImage = [[NSImage alloc] initWithSize:rep.size];
+    [nsImage addRepresentation:rep];
+    return nsImage;
+}
+-(NSImage*)imageExposure:(NSData *)imageData inputEV:(NSNumber *)inputEV{
+    NSCIImageRep *rep;
+    CIImage *ciImage;
+    CIFilter *filter;
+    CIImage *outputCIImage;
+    CIContext *context;
+    NSImage *nsImage;
+    
+    ciImage = [CIImage imageWithData:imageData];
+    filter = [CIFilter filterWithName:@"CIExposureAdjust" withInputParameters:@{@"inputImage":ciImage,@"inputEV":inputEV}];
     outputCIImage = filter.outputImage;
     context = [CIContext contextWithOptions:nil];
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];

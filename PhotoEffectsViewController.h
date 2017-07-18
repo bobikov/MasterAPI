@@ -19,6 +19,7 @@
     __weak IBOutlet NSButton *makeTriangles;
     __weak IBOutlet NSButton *makeBlur;
     
+    __weak IBOutlet NSSlider *exposure;
     NSImage *effectedImage;
     NSMutableDictionary *controlsData;
     NSImage *originalImage;

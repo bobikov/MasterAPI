@@ -29,7 +29,7 @@
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
                                             <connections>
-                                                <action selector="showAppsPreferences:" target="Voe-Tx-rLC" id="hUr-pX-shQ"/>
+                                                <action selector="showAppsPreferences:" target="Voe-Tx-rLC" id="EBo-ot-dae"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
