@@ -11,7 +11,7 @@
 #import "TwitterRWData.h"
 #import "YoutubeRWData.h"
 #import "InstagramRWD.h"
-#import "Preferences.h"
+
 
 @interface AppDelegate ()
 
@@ -33,9 +33,9 @@
 //    [contr presentViewControllerAsModalWindow:contr];
     
 
-    
-    DBPrefsWindowController *prefs =[Preferences sharedPrefsWindowController];
-    [prefs showWindow:nil];
+//    
+//    DBPrefsWindowController *prefs =[Preferences sharedPrefsWindowController];
+//    [prefs showWindow:nil];
 
 }
 

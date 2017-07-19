@@ -3468,11 +3468,11 @@
             <objects>
                 <viewController title="Tumblr API setup" storyboardIdentifier="TumblrLoginViewController" id="DGT-lf-0h7" customClass="TumblrLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="1c7-k3-ggb">
-                        <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gKG-iH-URh">
-                                <rect key="frame" x="75" y="207" width="238" height="22"/>
+                                <rect key="frame" x="49" y="193" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="consumer key" drawsBackground="YES" id="33N-RV-XuU">
                                     <font key="font" metaFont="system"/>
@@ -3481,7 +3481,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="88E-vf-gTe">
-                                <rect key="frame" x="75" y="175" width="238" height="22"/>
+                                <rect key="frame" x="49" y="161" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="consumer secret" drawsBackground="YES" id="rb4-2t-FuD">
                                     <font key="font" metaFont="system"/>
@@ -3490,7 +3490,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MxJ-ux-nyh">
-                                <rect key="frame" x="146" y="19" width="103" height="32"/>
+                                <rect key="frame" x="120" y="5" width="103" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Mj-1Q-ath">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3498,7 +3498,7 @@
                                 </buttonCell>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VEb-7z-Y0j">
-                                <rect key="frame" x="54" y="232" width="286" height="43"/>
+                                <rect key="frame" x="28" y="218" width="286" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret." id="Xhr-eI-E7M">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
@@ -3507,14 +3507,14 @@
                                 </textFieldCell>
                             </textField>
                             <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m7A-It-OLR">
-                                <rect key="frame" x="29" y="288" width="348" height="12"/>
+                                <rect key="frame" x="0.0" y="288" width="333" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
                                     <nil key="identifier"/>
                                 </webPreferences>
                             </webView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbl-DR-hYj">
-                                <rect key="frame" x="5" y="253" width="49" height="32"/>
+                                <rect key="frame" x="5" y="257" width="49" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fzs-QV-i0z">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3525,7 +3525,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="953-JM-T2i">
-                                <rect key="frame" x="140" y="139" width="114" height="32"/>
+                                <rect key="frame" x="114" y="125" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lst-Ys-ymi">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3536,11 +3536,11 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="BOT-ax-ic0">
-                                <rect key="frame" x="189" y="115" width="16" height="16"/>
+                                <rect key="frame" x="163" y="101" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qQK-n2-Wmb">
-                                <rect key="frame" x="142" y="67" width="112" height="32"/>
+                                <rect key="frame" x="116" y="53" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fQO-LF-HbC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3562,7 +3562,7 @@
                 </viewController>
                 <customObject id="AW4-RT-NGN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-807" y="1734"/>
+            <point key="canvasLocation" x="-807.5" y="1734"/>
         </scene>
         <!--Vkontakte API setup-->
         <scene sceneID="95J-Cc-ARI">
@@ -3570,15 +3570,15 @@
                 <customObject id="knZ-dk-J6t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Vkontakte API setup" storyboardIdentifier="VKLoginViewController" id="nDQ-0N-Bwr" customClass="VKLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="3aD-P7-Ima">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="289"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="261"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <progressIndicator wantsLayer="YES" focusRingType="none" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="OBw-bU-Eca">
-                                <rect key="frame" x="192" y="173" width="16" height="16"/>
+                                <rect key="frame" x="164" y="145" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL3-My-xdm">
-                                <rect key="frame" x="150" y="132" width="100" height="32"/>
+                                <rect key="frame" x="122" y="104" width="100" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="82d-ji-Fis">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3589,7 +3589,7 @@
                                 </connections>
                             </button>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7RZ-LA-hPK">
-                                <rect key="frame" x="115" y="92" width="28" height="21"/>
+                                <rect key="frame" x="87" y="64" width="28" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="squareTextured" title="Item 1" bezelStyle="texturedSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="utI-lc-q2Y" id="n0W-hc-fC6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3607,7 +3607,7 @@
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gHH-ob-tet">
-                                <rect key="frame" x="6" y="245" width="49" height="32"/>
+                                <rect key="frame" x="6" y="217" width="49" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y7b-ON-s7j">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3618,7 +3618,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iVf-Zd-BQC">
-                                <rect key="frame" x="148" y="2" width="111" height="32"/>
+                                <rect key="frame" x="120" y="-1" width="111" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jWg-wk-sXw">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3629,7 +3629,7 @@
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icd-Yg-vA3">
-                                <rect key="frame" x="142" y="89" width="123" height="26"/>
+                                <rect key="frame" x="114" y="61" width="123" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="5hC-Wl-p5O" id="dsI-eb-f5j">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -3647,7 +3647,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ie-yD-B1W">
-                                <rect key="frame" x="94" y="234" width="212" height="24"/>
+                                <rect key="frame" x="66" y="206" width="212" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter id of your VK application." id="XJ5-Hp-HY0">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
@@ -3656,7 +3656,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwS-xQ-D8t">
-                                <rect key="frame" x="150" y="204" width="100" height="22"/>
+                                <rect key="frame" x="122" y="176" width="100" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="appId" drawsBackground="YES" id="qKx-Ot-3ig">
                                     <font key="font" metaFont="system"/>
@@ -3665,7 +3665,7 @@
                                 </textFieldCell>
                             </textField>
                             <webView hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGB-t4-zbJ">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="289"/>
+                                <rect key="frame" x="0.0" y="22" width="333" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
                                     <nil key="identifier"/>
@@ -3684,18 +3684,18 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-799" y="1362.5"/>
+            <point key="canvasLocation" x="-804.5" y="1367.5"/>
         </scene>
         <!--Youtube API setup-->
         <scene sceneID="4lS-WX-yRO">
             <objects>
                 <viewController title="Youtube API setup" storyboardIdentifier="YoutubeLoginViewController" id="TFP-0V-PBp" customClass="YoutubeLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="g0r-Q1-08e">
-                        <rect key="frame" x="0.0" y="0.0" width="379" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-bL-ZHj">
-                                <rect key="frame" x="66" y="207" width="238" height="22"/>
+                                <rect key="frame" x="48" y="201" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="client id" drawsBackground="YES" id="rXJ-iN-z6T">
                                     <font key="font" metaFont="system"/>
@@ -3704,7 +3704,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ma-1o-WLL">
-                                <rect key="frame" x="66" y="175" width="238" height="22"/>
+                                <rect key="frame" x="48" y="169" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="client secret" drawsBackground="YES" id="8JH-8b-WFW">
                                     <font key="font" metaFont="system"/>
@@ -3713,7 +3713,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Wm-pY-oGq">
-                                <rect key="frame" x="52" y="237" width="267" height="43"/>
+                                <rect key="frame" x="34" y="231" width="267" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Client id and Client secret." id="dhf-xI-OdQ">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
@@ -3722,18 +3722,18 @@
                                 </textFieldCell>
                             </textField>
                             <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KJ4-vC-ZvX">
-                                <rect key="frame" x="20" y="288" width="348" height="12"/>
+                                <rect key="frame" x="2" y="288" width="326" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
                                     <nil key="identifier"/>
                                 </webPreferences>
                             </webView>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="JRZ-Lv-q36">
-                                <rect key="frame" x="177" y="104" width="16" height="16"/>
+                                <rect key="frame" x="159" y="98" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GsM-0y-eOf">
-                                <rect key="frame" x="129" y="62" width="112" height="32"/>
+                                <rect key="frame" x="111" y="56" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="O8w-g3-yHv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3744,7 +3744,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3FM-Mo-Pfp">
-                                <rect key="frame" x="134" y="13" width="103" height="32"/>
+                                <rect key="frame" x="116" y="7" width="103" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8TO-gw-Nu6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3763,7 +3763,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aDQ-5K-jQ5">
-                                <rect key="frame" x="129" y="133" width="114" height="32"/>
+                                <rect key="frame" x="111" y="127" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ja0-rT-yuv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3791,11 +3791,11 @@
             <objects>
                 <viewController title="Twitter API setup" storyboardIdentifier="TwitterLoginView" id="V08-pl-iC6" customClass="TwitterLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="0Db-6y-nfK">
-                        <rect key="frame" x="0.0" y="0.0" width="379" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5m-Me-h1M">
-                                <rect key="frame" x="61" y="207" width="238" height="22"/>
+                                <rect key="frame" x="53" y="203" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="consumer key" drawsBackground="YES" id="4cg-rx-g5M">
                                     <font key="font" metaFont="system"/>
@@ -3804,7 +3804,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8q-U4-wSR">
-                                <rect key="frame" x="61" y="175" width="238" height="22"/>
+                                <rect key="frame" x="53" y="171" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="consumer secret" drawsBackground="YES" id="3Iy-0l-XFx">
                                     <font key="font" metaFont="system"/>
@@ -3813,7 +3813,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gCR-tu-fme">
-                                <rect key="frame" x="132" y="19" width="103" height="32"/>
+                                <rect key="frame" x="124" y="15" width="103" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="E8b-tW-qNk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3824,7 +3824,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgo-dW-6Ni">
-                                <rect key="frame" x="49" y="237" width="268" height="43"/>
+                                <rect key="frame" x="41" y="233" width="268" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter Consumer key and Consumer secret key." id="lzK-n1-MSS">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
@@ -3844,7 +3844,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0C4-AR-HeA">
-                                <rect key="frame" x="132" y="133" width="114" height="32"/>
+                                <rect key="frame" x="124" y="129" width="114" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Add app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bsw-Wt-TEx">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3855,11 +3855,11 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="qRr-oJ-4ac">
-                                <rect key="frame" x="175" y="104" width="16" height="16"/>
+                                <rect key="frame" x="167" y="100" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63J-Vp-kQc">
-                                <rect key="frame" x="132" y="62" width="112" height="32"/>
+                                <rect key="frame" x="124" y="58" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Reset token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="89T-3g-fmW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3870,7 +3870,7 @@
                                 </connections>
                             </button>
                             <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shG-mS-VNb">
-                                <rect key="frame" x="0.0" y="0.0" width="379" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
                                     <nil key="identifier"/>
@@ -3889,7 +3889,7 @@
                 </viewController>
                 <customObject id="rNj-2Z-Yxk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-390.5" y="1734"/>
+            <point key="canvasLocation" x="-412" y="1734"/>
         </scene>
         <!--App Start Settings Main View Controller-->
         <scene sceneID="S8W-AC-Zjm">
@@ -4094,11 +4094,11 @@
             <objects>
                 <viewController title="Instagram API setup" storyboardIdentifier="InstagramLoginViewController" id="8Bh-yL-haY" customClass="InstagramLoginViewController" sceneMemberID="viewController">
                     <view key="view" id="zya-mM-qxf">
-                        <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X3O-sl-Aak">
-                                <rect key="frame" x="75" y="207" width="238" height="22"/>
+                                <rect key="frame" x="43" y="192" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="client_id" drawsBackground="YES" id="DYl-Eh-pQG">
                                     <font key="font" metaFont="system"/>
@@ -4107,7 +4107,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBI-Qs-lba">
-                                <rect key="frame" x="75" y="175" width="238" height="22"/>
+                                <rect key="frame" x="43" y="160" width="238" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="client_secret" drawsBackground="YES" id="QbV-aZ-mTK">
                                     <font key="font" metaFont="system"/>
@@ -4116,7 +4116,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cyg-zS-c4H">
-                                <rect key="frame" x="146" y="43" width="103" height="32"/>
+                                <rect key="frame" x="114" y="28" width="103" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Ok" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mpT-Nb-6XC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -4127,7 +4127,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vsY-YB-peF">
-                                <rect key="frame" x="39" y="237" width="319" height="43"/>
+                                <rect key="frame" x="7" y="222" width="319" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Enter client_id and client_secret key of your Instagram application." id="Rzc-Qo-5ja">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
@@ -4136,7 +4136,7 @@
                                 </textFieldCell>
                             </textField>
                             <webView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ToI-Pn-XuJ">
-                                <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
                                     <nil key="identifier"/>

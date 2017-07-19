@@ -40,10 +40,10 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     //    })
 }
 - (void)viewDidAppear{
-    self.view.window.titleVisibility=NSWindowTitleHidden;
-    self.view.window.titlebarAppearsTransparent = YES;
-    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
-    self.view.window.movableByWindowBackground=NO;
+//    self.view.window.titleVisibility=NSWindowTitleHidden;
+//    self.view.window.titlebarAppearsTransparent = YES;
+//    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+//    self.view.window.movableByWindowBackground=NO;
    
         //        if([_keyHandle readAppInfo:nil]){
         //            NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];

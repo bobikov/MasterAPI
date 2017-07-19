@@ -10,30 +10,98 @@
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="bkQ-a2-MYe">
+            <objects>
+                <viewController storyboardIdentifier="GeneralPrefsController" id="jYs-8Z-gsn" sceneMemberID="viewController">
+                    <view key="view" autoresizesSubviews="NO" id="jx8-RQ-2ki">
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="137"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Ha-RM-Fh9">
+                                <rect key="frame" x="100" y="56" width="264" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="there is now settings yet" id="RTz-Lk-SDL">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="DuY-zn-J2z" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="725" y="-167.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="dYh-c0-8Tz">
+            <objects>
+                <windowController storyboardIdentifier="AppPrefsWindowController" id="ANy-bh-Lyz" customClass="PrefsWindowControllerWithToolbar" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="rSZ-5q-3F7">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" unifiedTitleAndToolbar="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="492" y="433" width="464" height="306"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <value key="minSize" type="size" width="464" height="306"/>
+                        <value key="maxSize" type="size" width="464" height="306"/>
+                        <toolbar key="toolbar" implicitIdentifier="7131567E-20EB-4C15-B21A-498664B6F517" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="GaC-NL-uwR">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="DZd-LB-j2i"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="qAq-sD-xLr"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="4Y6-0A-M0S"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="n1j-Du-UTH"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="kc0-Ez-QpC"/>
+                                <toolbarItem implicitItemIdentifier="EEAAD0FF-7BF2-4A44-9361-3C65C99F5EFA" explicitItemIdentifier="Tokens" label="Tokens" paletteLabel="Tokens" tag="1" image="keys1" visibilityPriority="-1" selectable="YES" id="WjH-NK-PXt">
+                                    <connections>
+                                        <action selector="showTokensPrefs:" target="ANy-bh-Lyz" id="bV9-Jj-avp"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="293F448A-D858-47FB-A941-FBA49655AE82" explicitItemIdentifier="General" label="General" paletteLabel="General" tag="-1" image="NSPreferencesGeneral" selectable="YES" id="42p-hJ-cLw">
+                                    <connections>
+                                        <action selector="showGeneralPrefs:" target="ANy-bh-Lyz" id="smq-J9-uHm"/>
+                                    </connections>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="WjH-NK-PXt"/>
+                                <toolbarItem reference="42p-hJ-cLw"/>
+                            </defaultToolbarItems>
+                        </toolbar>
+                    </window>
+                    <connections>
+                        <outlet property="tokensPrefs" destination="WjH-NK-PXt" id="ESc-Ne-7Bh"/>
+                        <segue destination="S8N-e8-DX9" kind="relationship" relationship="window.shadowedContentViewController" id="EaI-vk-fyr"/>
+                    </connections>
+                </windowController>
+                <customObject id="ZNi-6Q-VGx" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="184" y="-165"/>
+        </scene>
         <!--Apps Preferences Controller-->
         <scene sceneID="ftm-Yy-mza">
             <objects>
                 <viewController storyboardIdentifier="appPrefs" id="2zL-hq-c5j" customClass="AppsPreferencesController" sceneMemberID="viewController">
-                    <view key="view" id="t6L-EN-get">
-                        <rect key="frame" x="0.0" y="0.0" width="464" height="328"/>
+                    <view key="view" autoresizesSubviews="NO" id="t6L-EN-get">
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="306"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7dy-L8-2lD">
                                 <rect key="frame" x="131" y="0.0" width="333" height="306"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <connections>
                                     <segue destination="VeH-uj-HEh" kind="embed" id="crs-qj-5Cj"/>
                                 </connections>
                             </containerView>
                             <box autoresizesSubviews="NO" fixedFrame="YES" borderType="none" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="pNv-j0-0qm">
-                                <rect key="frame" x="-3" y="-5" width="134" height="335"/>
+                                <rect key="frame" x="-3" y="-4" width="134" height="312"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="0l6-O0-3NY">
-                                    <rect key="frame" x="0.0" y="0.0" width="134" height="335"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="134" height="312"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utp-OT-eWq">
-                                            <rect key="frame" x="3" y="5" width="128" height="306"/>
+                                            <rect key="frame" x="3" y="6" width="128" height="306"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="y51-Im-22w">
                                                 <rect key="frame" x="0.0" y="0.0" width="128" height="306"/>
@@ -105,14 +173,27 @@
                 </viewController>
                 <customObject id="t7n-tx-2Yy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="78" y="342"/>
+            <point key="canvasLocation" x="78" y="336"/>
+        </scene>
+        <!--Prefs Content Controller-->
+        <scene sceneID="ecu-SH-u7o">
+            <objects>
+                <viewController id="S8N-e8-DX9" customClass="PrefsContentController" sceneMemberID="viewController">
+                    <view key="view" id="5wk-Zd-XvX">
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="306"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="k94-qo-x8e" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="673" y="-567"/>
         </scene>
         <!--Apps Preferences Main Container Controller-->
         <scene sceneID="gVT-yD-C53">
             <objects>
                 <viewController id="VeH-uj-HEh" customClass="AppsPreferencesMainContainerController" sceneMemberID="viewController">
                     <view key="view" id="lTN-Ov-2AR">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="258"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="303"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
@@ -133,11 +214,11 @@
             <objects>
                 <viewController storyboardIdentifier="vkPrefs" id="1Rh-ZF-ct7" customClass="VKPrefsInfo" sceneMemberID="viewController">
                     <view key="view" id="bjM-vs-J3J">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="300"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jbt-Gx-4WO">
-                                <rect key="frame" x="26" y="118" width="288" height="170"/>
+                                <rect key="frame" x="22" y="118" width="288" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vNb-nK-Tzo">
@@ -328,35 +409,12 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IO2-9o-aXv">
-                                <rect key="frame" x="20" y="9" width="70" height="32"/>
+                                <rect key="frame" x="16" y="9" width="70" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4wm-nW-N2a">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
-                                        <color key="value" red="0.54416088159999998" green="0.4229396259" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                                        <real key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                                        <real key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
-                                        <color key="value" red="0.72884919150000005" green="0.58893873249999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                        <color key="value" red="1" green="0.13500926655003431" blue="0.12996250248382724" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="setupVKPrefs:" target="1Rh-ZF-ct7" id="eoE-1P-tQ8"/>
                                 </connections>
@@ -395,7 +453,7 @@
             <objects>
                 <viewController storyboardIdentifier="youtubePrefs" id="7qw-vU-nM3" customClass="YoutubePrefsInfo" sceneMemberID="viewController">
                     <view key="view" id="Rhj-ca-kjJ">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Cu-9P-8Pl">
@@ -618,7 +676,7 @@
             <objects>
                 <viewController storyboardIdentifier="twitterPrefs" id="6Mp-2u-EU5" customClass="TwitterPrefsInfo" sceneMemberID="viewController">
                     <view key="view" id="Jmt-lJ-kq7">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UVQ-RS-CyM">
@@ -841,11 +899,11 @@
             <objects>
                 <viewController storyboardIdentifier="tumblrPrefs" id="rRV-TF-Y4q" customClass="TumblrPrefsInfo" sceneMemberID="viewController">
                     <view key="view" id="ed7-Xu-mZJ">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Jp-Jv-veV">
-                                <rect key="frame" x="26" y="118" width="288" height="170"/>
+                                <rect key="frame" x="22" y="118" width="288" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zsf-nL-qKj">
@@ -1036,7 +1094,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5OF-0i-QIr">
-                                <rect key="frame" x="20" y="5" width="76" height="32"/>
+                                <rect key="frame" x="16" y="5" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e0Q-qM-jXv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3279,11 +3337,11 @@
             <objects>
                 <viewController storyboardIdentifier="instaPrefs" id="SYN-yI-peH" customClass="InstaPrefsInfo" sceneMemberID="viewController">
                     <view key="view" id="FLZ-Tj-9ac">
-                        <rect key="frame" x="0.0" y="0.0" width="334" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8XK-Os-ubE">
-                                <rect key="frame" x="26" y="118" width="288" height="170"/>
+                                <rect key="frame" x="24" y="118" width="288" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fTk-ak-DNB">
@@ -3474,7 +3532,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ml-en-zau">
-                                <rect key="frame" x="14" y="5" width="76" height="32"/>
+                                <rect key="frame" x="12" y="5" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Setup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="p1h-u7-pwM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3498,7 +3556,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="edit15px" width="15" height="15"/>
+        <image name="keys1" width="256" height="256"/>
         <image name="plus15px" width="15" height="15"/>
         <image name="remove15px" width="6.8789811134338379" height="6.8789811134338379"/>
     </resources>

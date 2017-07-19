@@ -32,12 +32,10 @@
     consumerSecret.stringValue = [appData count] ? appData[@"consumer_secret_key"] : @"none";
     secretToken.stringValue = [appData count] ? appData[@"secret_token"] : @"none";
     token.stringValue = [appData count] ? appData[@"token"] : @"none";
-   
 }
 
 
 - (IBAction)setupTwitterPrefs:(id)sender {
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AppsSetupPrefsSelect" object:nil userInfo:@{@"name":@"twitter"}];
 }
 
