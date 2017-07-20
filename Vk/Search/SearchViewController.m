@@ -12,6 +12,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <EventKit/EventKit.h>
 #import "MyTableRowView.h"
+#import <IRFAutoCompletionKit/IRFAutoCompletionKit.h>
 
 @interface SearchViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate,NSComboBoxDelegate>
 
@@ -43,6 +44,14 @@
     [religionsList removeAllItems];
     [self loadCountries];
     [self loadReligions];
+    
+//    IRFAutoCompletionTextFieldManager *complMan = [IRFAutoCompletionTextFieldManager new];
+//    IRFAutoCompletionProvider *cProvider = [IRFAutoCompletionProvider new];
+//    [complMan attachToTextField:searchBar];
+//    [complMan setTextFieldFowardingDelegate:self];
+//    [complMan setCompletionProviders:@[cProvider]];
+//    
+//    
 //    EKEventStore *store =[[EKEventStore alloc]init];
 //    [store calendarsForEntityType:EKEntityTypeEvent];
 //    NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
@@ -57,6 +66,7 @@
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@{@"apps":@[@{@"app1":@{@"token":@"token app1"}}]} forKey:@"testValue"];
 //    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation] );
+    
 }
 - (void)viewDidAppear{
     self.view.window.title=@"Global search";
@@ -77,14 +87,10 @@
     vibrantView.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
     [vibrantView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
-    
+    [self.view.window makeFirstResponder:searchBar];
 
 }
-- (void)viewDidLayout{
-    
-    [self.view.window makeFirstResponder:searchBar];
-    
-}
+
 - (void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[searchListScrollView contentView]bounds].origin.y+NSMaxY([searchListScrollView visibleRect]);
     //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
@@ -101,12 +107,17 @@
             }
         }
     }
-    //
-    //
-    
 }
 
 
+//- (void)viewSetupMethod {
+//    IRFEmojiAutoCompletionProvider *emojiCompletionProvider = [IRFEmojiAutoCompletionProvider new];
+//    NSArray *completionsProviders = @[emojiCompletionProvider];
+//    [self setAutoCompletionManager:[IRFAutoCompletionTextFieldManager new]];
+//    [self.autoCompletionManager setCompletionProviders:completionsProviders];
+//    [self.autoCompletionManager attachToTextField:searchBar];
+//    [self.autoCompletionManager setTextFieldFowardingDelegate:self];
+//}
 
 - (void)controlTextDidChange:(NSNotification *)obj{
  
@@ -315,7 +326,7 @@
     
     }else{
         if(byId.state==1){
-            [_app searchPeople:@[searchBar.stringValue]  queryString:nil offset:searchOffsetCounter  :^(NSMutableArray * _Nonnull people) {
+            [_app searchPeople:@[searchBar.stringValue]  queryString:nil offset:makeOffset  :^(NSMutableArray * _Nonnull people) {
                 foundListData = people;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [foundList reloadData];
@@ -325,7 +336,7 @@
             }];
             
         }else{
-            [_app searchPeople:nil queryString:queryString offset:searchOffsetCounter :^(NSMutableArray * _Nonnull people) {
+            [_app searchPeople:nil queryString:queryString offset:makeOffset :^(NSMutableArray * _Nonnull people) {
                 foundListData = people;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [foundList reloadData];

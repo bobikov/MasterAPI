@@ -30,7 +30,7 @@
     [nsImage addRepresentation:rep];
     return  nsImage;
 }
--(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV{
+-(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono{
     __block NSCIImageRep *rep;
     __block CIImage *ciImage;
     __block CIFilter *filterSaturation;
@@ -46,7 +46,8 @@
     }
     filterSaturation = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputImage":ciImage,@"inputSaturation" :saturation,@"inputBrightness":brightness,@"inputContrast":contrast}];
     exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust" withInputParameters:@{@"inputImage":filterSaturation.outputImage, @"inputEV":inputEV}];
-    outputCIImage = exposureFilter.outputImage;
+    monoFilter = [CIFilter filterWithName:@"CIPhotoEffectMono" withInputParameters:@{@"inputImage":exposureFilter.outputImage}];
+    outputCIImage = mono ? monoFilter.outputImage : exposureFilter.outputImage;
     context = [CIContext contextWithOptions:nil];
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];

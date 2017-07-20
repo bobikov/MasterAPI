@@ -75,16 +75,7 @@
 }
 
 - (IBAction)monoImage:(id)sender {
-    if(checkMono.state){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-            effectedImage = [effectedImage monoImage:_originalImageURLs[0]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                previewImage.image = effectedImage;
-            });
-        });
-    }else{
-        [self refresh];
-    }
+    [self updateWithEffects];
 }
 
 - (IBAction)blurImage:(id)sender {
@@ -117,7 +108,7 @@
 
 - (void)updateWithEffects{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] data:nil saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue]];
+        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] data:nil saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue] mono:checkMono.state];
          dispatch_async(dispatch_get_main_queue(), ^{
              previewImage.image = effectedImage;
          });

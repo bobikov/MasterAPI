@@ -521,7 +521,7 @@
         [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@", queryString, searchOffsetCounter, version, token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 if(data){
                     NSDictionary *searchPeopleResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"%@", searchPeopleResp);
+//                    NSLog(@"%@", searchPeopleResp);
                     if(searchPeopleResp[@"error"]){
                         NSLog(@"%@:%@", searchPeopleResp[@"error"][@"error_code"], searchPeopleResp[@"error"][@"error_msg"]);
                     }else{
@@ -692,4 +692,8 @@
     return object;
 
 }
+
+
+
+
 @end

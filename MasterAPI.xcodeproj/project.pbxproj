@@ -1211,8 +1211,8 @@
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
 		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
 		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
-		2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoEffectsViewController.h; path = ../PhotoEffectsViewController.h; sourceTree = "<group>"; };
-		2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoEffectsViewController.m; path = ../PhotoEffectsViewController.m; sourceTree = "<group>"; };
+		2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoEffectsViewController.h; sourceTree = "<group>"; };
+		2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoEffectsViewController.m; sourceTree = "<group>"; };
 		2BCACAFD1E4C683C00830583 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "../../../../Library/Developer/Xcode/DerivedData/MasterAPI-cmxdptazauuemicvegxdmflpbxdn/Build/Products/Debug/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
 		2BCACB031E4CDAB100830583 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2BCACB051E4CDAB800830583 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -1281,8 +1281,6 @@
 				2B1063441F1F680D00B059DC /* PrefsContentController.m */,
 				2B817C601F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.h */,
 				2B817C611F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.m */,
-				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
-				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */,
 				2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */,
 				2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */,
@@ -2388,6 +2386,8 @@
 				2BCBAA941E125A0C0083B95E /* ApiSourceSelectorItem.h */,
 				2BCBAA951E125A0D0083B95E /* ApiSourceSelectorItem.m */,
 				2BCBAA961E125A0D0083B95E /* ApiSourceSelectorItem.xib */,
+				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
+				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B5946CC1D72B26100F3A93D /* Frameworks */,
 				2B9F40DC1CC67B0D005C4716 /* Products */,
 				5121C3838560FE90FDF8F5FE /* Pods */,
