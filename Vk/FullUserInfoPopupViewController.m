@@ -312,7 +312,7 @@
     [cell updateConstraints];
     [cell setNeedsLayout:YES];
     double height;
-    height = tv.frame.size.height+15;
+    height = tv.frame.size.height+20;
     if([attrString length]<=100){
         return 20;
     }else{

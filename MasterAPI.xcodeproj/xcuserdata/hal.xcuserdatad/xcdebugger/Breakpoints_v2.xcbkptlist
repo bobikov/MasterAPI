@@ -671,11 +671,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Search/SearchViewController.m"
-            timestampString = "520775812.582795"
+            timestampString = "522236606.309568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "-loadPeople:useParams:"
             landmarkType = "7">
          </BreakpointContent>
@@ -687,11 +687,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Search/SearchViewController.m"
-            timestampString = "520775812.582795"
+            timestampString = "522236606.309568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
             landmarkName = "-loadPeople:useParams:"
             landmarkType = "7">
          </BreakpointContent>
@@ -703,11 +703,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Search/SearchViewController.m"
-            timestampString = "520775812.582795"
+            timestampString = "522236606.309568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "-loadPeople:useParams:"
             landmarkType = "7">
          </BreakpointContent>
@@ -719,11 +719,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Search/SearchViewController.m"
-            timestampString = "520775812.582795"
+            timestampString = "522236606.309568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "-loadPeople:useParams:"
             landmarkType = "7">
          </BreakpointContent>
@@ -735,11 +735,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Vk/Search/SearchViewController.m"
-            timestampString = "520775812.582795"
+            timestampString = "522236606.309568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "-loadPeople:useParams:"
             landmarkType = "7">
          </BreakpointContent>

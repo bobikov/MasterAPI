@@ -108,7 +108,7 @@
 
 
 
--(void)controlTextDidChange:(NSNotification *)obj{
+- (void)controlTextDidChange:(NSNotification *)obj{
  
     if([obj.object isEqual:citiesList]){
 //           NSLog(@"f333");
@@ -124,10 +124,11 @@
         }
     }
 }
--(void)loadReligions{
+- (void)loadReligions{
     NSArray *religions = @[@"Иудаизм", @"Христианство", @"Католицизм", @"Православие", @"Протестантизм", @"Гностицизм", @"Ислам", @"Бабизм", @"Вера Бахаи", @"Растафарианство", @"Айявари", @"Буддизм", @"Индуизм", @"Джайнизм", @"Сикхизм", @"Даосизм", @"Конфуцианство", @"Синтоизм", @"Неоязычество", @"Современные религии, духовные и мистические учения", @"Нью-эйдж", @"Эзотеризм и мистицизм"];
     [religionsList addItemsWithObjectValues:religions];
 }
+
 - (IBAction)selectCountry:(id)sender {
     if(![countriesList.stringValue isEqual:@""] && ![countriesList.stringValue isEqual:nil]){
         countryID = countries[[countriesList indexOfSelectedItem]];
@@ -252,67 +253,20 @@
     
 }
 - (void)loadGroupByIdInfo:(NSString*)groupId{
-    
-    url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%@&fields=description,city,country,members_count,status,site,start_date,finish_date,ban_info&access_token=%@&v=%@", groupId, _app.token, _app.version];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *groupByIdInfoResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for (NSDictionary *i in groupByIdInfoResp[@"response"]){
-                
-                NSString *desc;
-                NSString *photo;
-                NSString *deactivated;
-                NSString *city;
-                NSString *country;
-                NSNumber *membersCount;
-                NSString *status;
-                NSNumber *startDate;
-                NSNumber *finishDate;
-                NSNumber *isAdmin;
-                NSNumber *isClosed;
-                NSNumber *isMember;
-                NSString *site;
-                NSString *type;
-                NSString *screenName;
-                NSString *banInfo;
-              
-                desc = i[@"description"] && i[@"description"] != nil ? i[@"description"] : @"";
-                photo = i[@"photo_200"] ? i[@"photo_200"] : i[@"photo_100"] ?  i[@"photo_100"] : i[@"photo_50"];
-                deactivated = i[@"deactivated"] ? i[@"deactivated"] : @"";
-                membersCount = i[@"members_count"] && i[@"members_count"] != nil ? i[@"members_count"] : @0;
-                status = i[@"status"] && i[@"status"]  != nil ? i[@"status"] : @"";
-                startDate = i[@"start_date"] && i[@"start_date"]!=nil ? i[@"start_date"] : @0;
-                finishDate = i[@"finish_date"] && i[@"finish_date"]!=nil ? i[@"finish_date"]  : @0;
-                isClosed =  [i[@"is_closed"] intValue] == 0 ? @NO : @YES;
-                isAdmin =  [i[@"is_admin"] intValue]==0 ? @NO : @YES;
-                isMember =  [i[@"is_member"] intValue]==0 ? @NO : @YES;
-                site = i[@"site"] && i[@"site"] != nil ? i[@"site"] : @"";
-                country = i[@"country"] && i[@"country"][@"title"] != nil ? i[@"country"][@"title"] : @"";
-                type = i[@"type"] && i[@"type"] != nil ? i[@"type"] : @"";
-                screenName = i[@"screen_name"] && i[@"screen_name"] != nil ? i[@"screen_name"] : @"";
-                banInfo = i[@"ban_info"] && i[@"ban_info"]!=nil ? i[@"ban_info"] : @"";
-                city = i[@"city"] && i[@"city"][@"title"]!=nil ? i[@"city"][@"title"] : @"";
-                
-                
-                object = @{@"name":i[@"name"], @"id":[NSString stringWithFormat:@"%@",i[@"id"]], @"deactivated":deactivated, @"desc":desc, @"photo":photo, @"members_count":membersCount, @"status":status, @"site":site, @"start_date":startDate, @"country":country, @"city":city, @"type":type, @"screen_name":screenName, @"is_member":isMember, @"finish_date":finishDate, @"ban_info":banInfo};
-                
-                
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
-                FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"GroupFullInfo"];
-                NSPoint mouseLoc = [NSEvent mouseLocation];
-                //    int x = mouseLoc.x;
-                int y = mouseLoc.y;
-                //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
-          
-                CGRect rect=CGRectMake(0, y, 0, 0);
-                popuper.receivedData = object;
-//                NSLog(@"%@", object);
-                [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
-            });
-        }
-    }]resume];
+    [_app getGroupById:groupId :^(NSDictionary * _Nonnull groupInfoObject) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
+            FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"GroupFullInfo"];
+            NSPoint mouseLoc = [NSEvent mouseLocation];
+            //int x = mouseLoc.x;
+            int y = mouseLoc.y;
+            //int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
+            CGRect rect=CGRectMake(0, y, 0, 0);
+            popuper.receivedData = groupInfoObject;
+            //NSLog(@"%@", object);
+            [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:foundList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+        });
+    }];
 }
 
 - (void)searchFieldDidEndSearching:(NSSearchField *)sender{
@@ -321,11 +275,10 @@
 - (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     usedParams=NO;
     [self loadResults:NO];
-    
 }
+
 - (IBAction)searchTypeAction:(id)sender {
     if(searchType.selectedSegment == 0){
-        
         [addBut setEnabled:YES];
     }
     else{
@@ -333,14 +286,6 @@
     }
 }
 - (void)loadPeople:(BOOL)makeOffset useParams:(BOOL)useParams{
-    if(makeOffset){
-        searchOffsetCounter = searchOffsetCounter + 100;
-    }else{
-        searchOffsetCounter = 0;
-        [foundListData removeAllObjects];
-        [foundList reloadData];
-    }
-    
     queryString = [searchBar.stringValue length]>0?[searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]:nil;
     if(useParams){
         NSURLComponents *paramsComponents = [[NSURLComponents alloc]init];
@@ -369,147 +314,29 @@
         url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?%@sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,is_friend,verified&v=%@&access_token=%@", [paramsComponents.query stringByAppendingString:@"&"], searchOffsetCounter, _app.version, _app.token];
     
     }else{
-        
         if(byId.state==1){
-            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@", searchBar.stringValue, _app.version, _app.token];
+            [_app searchPeople:@[searchBar.stringValue]  queryString:nil offset:searchOffsetCounter  :^(NSMutableArray * _Nonnull people) {
+                foundListData = people;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [foundList reloadData];
+                    
+                    loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
+                });
+            }];
+            
         }else{
-            url = [NSString stringWithFormat:@"https://api.vk.com/method/users.search?q=%@&sort=0&count=100&offset=%li&fields=city,domain,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,blacklisted_by_me,relation,counters,verified&v=%@&access_token=%@",  queryString, searchOffsetCounter, _app.version, _app.token];
+            [_app searchPeople:nil queryString:queryString offset:searchOffsetCounter :^(NSMutableArray * _Nonnull people) {
+                foundListData = people;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [foundList reloadData];
+             
+                    loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
+                });
+            }];
         }
     }
-    __block NSInteger totalCountPeople;
-//    __block NSInteger startInsertIndex = [foundListData count];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            
-            NSDictionary *searchResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//            NSLog(@"%@", searchResponse);
-            totalCountPeople = byId.state==1 ? 0 : [searchResponse[@"response"][@"count"] intValue];
-            searchResponse = byId.state==1 ? searchResponse[@"response"] : searchResponse[@"response"][@"items"];
-            for (NSDictionary *a in searchResponse){
-                
-                NSString *city;
-                NSString *status;
-                NSString *bdate;
-                int online;
-//                NSString *firstName;
-//                NSString *lastName;
-                NSString *fullName;
-                NSString *countryName;
-                NSString *last_seen;
-                NSString *sex;
-                NSString *books;
-                NSString *site;
-                NSString *mobilePhone;
-//                NSString *phone;
-                NSString *photoBig;
-                NSString *photo;
-                NSString *about;
-                NSString *music;
-                NSString *schools;
-                NSString *education;
-                NSString *quotes;
-                NSString *deactivated;
-                NSString *relation;
-                NSString *domain;
-              
-                int verified;
-//                NSString *friendsCount;
-                int blacklisted;
-                int blacklisted_by_me;
-                verified = [a[@"verified"] intValue];
-                 fullName =  [NSString stringWithFormat:@"%@ %@", a[@"first_name"], a[@"last_name"]];
-                city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
-                status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
-                blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
-                
-                blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
-                if(a[@"bdate"] && a[@"bdate"] && a[@"bdate"]!=nil){
-                    bdate=a[@"bdate"];
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    NSString *templateLateTime2= @"yyyy";
-                    NSString *templateLateTime1= @"d.M.yyyy";
-                    //                            NSString *todayTemplate =@"d",
-                    [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                    [formatter setDateFormat:templateLateTime1];
-                    NSDate *date = [formatter dateFromString:bdate];
-                    [formatter setDateFormat:templateLateTime2];
-                    if(![bdate isEqual:@""]){
-                        bdate = [NSString stringWithFormat:@"%d", 2016 - [[formatter stringFromDate:date] intValue]];
-                    }
-                    if([bdate isEqual:@"2016" ]){
-                        bdate=@"";
-                    }
-                }
-                else{
-                    bdate=@"";
-                }
-                online =[a[@"online"] intValue];
-                if(a[@"last_seen"] && a[@"last_seen"]!=nil){
-                    double timestamp = [a[@"last_seen"][@"time"] intValue];
-                    NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: timestamp];
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    NSString *templateLateTime= @"dd.MM.yy HH:mm";
-                    //                            NSString *todayTemplate =@"d",
-                    [formatter setLocale:[[NSLocale alloc ] initWithLocaleIdentifier:@"ru"]];
-                    [formatter setDateFormat:templateLateTime];
-                    last_seen = [NSString stringWithFormat:@"%@", [formatter stringFromDate:gotDate]];
-                    
-                }
-                else{
-                    last_seen = @"";
-                }
-                if(online){
-                    last_seen=@"";
-                }
-                countryName = a[@"country"] && a[@"country"]!=nil ? a[@"country"][@"title"] : @"";
-                site = a[@"site"] && a[@"site"]!=nil ? a[@"site"] :  @"";
-                photoBig = a[@"photo_200"] ? a[@"photo_200"] : a[@"photo_200_orig"] ? a[@"photo_200_orig"] : a[@"photo_100"];
-                photo = a[@"photo_100"];
-                mobilePhone = a[@"mobile_phone"] && a[@"mobile_phone"]!=nil ? a[@"mobile_phone"] : @"";
-                sex = a[@"sex"] && [a[@"sex"] intValue]==1 ? @"W" :[a[@"sex"] intValue]==2 ?  @"M" : [a[@"sex"] intValue]==0 ? @"n/a" : @"";
-                books = a[@"books"] && a[@"books"]!=nil ? a[@"books"] : @"";
-                about = a[@"about"] && a[@"about"]!=nil ? a[@"about"] : @"";
-                music = a[@"music"] && a[@"music"]!=nil ? a[@"music"] : @"";
-                education = a[@"university_name"] && a[@"university_name"]!=nil ? a[@"university_name"] : @"";
-                schools = a[@"schools"] && a[@"schools"]!=nil &&  [a[@"schools"] count] > 0  ? a[@"schools"][0][@"name"] : @"";
-                quotes = a[@"quotes"] && a[@"quotes"]!=nil ? a[@"quotes"] : @"";
-                relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
-                deactivated = a[@"deactivated"] ? a[@"deactivated"] : @"";
-                domain = a[@"domain"] ? a[@"domain"] : @"";
-//                NSLog(@"%@", a[@"counters"] );
-                object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":bdate,@"country":countryName,  @"online":[NSNumber numberWithInt:online], @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"deactivated":deactivated,@"blacklisted":[NSNumber numberWithInt:blacklisted],@"blacklisted_by_me":[NSNumber numberWithInt:blacklisted_by_me], @"relation":relation, @"domain":domain, @"verified":[NSNumber numberWithInt:verified]};
-//                NSLog(@"%@", object);
-
-                
-                [foundListData addObject:object];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [foundList insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:[foundListData count]==1?0:[foundListData count]] withAnimation:NSTableViewAnimationEffectNone];
-                });
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-//                if(searchOffsetCounter != 1000){
-                
-//                    if(makeOffset && totalCountPeople > 0 && totalCountPeople > searchOffsetCounter){
-//                        [foundList insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(startInsertIndex, [foundListData count]-1)] withAnimation:NSTableViewAnimationSlideDown];
-////                        [foundList reloadData];
-//                    }else{
-//                        [foundList reloadData];
-//                    }
-                loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
-//                }
-            });
-        }
-    }] resume];
 }
 - (void)loadGroups:(BOOL)makeOffset useParams:(BOOL)useParams{
-    if(makeOffset){
-        
-        searchOffsetCounter = searchOffsetCounter + 100;
-    }else{
-        searchOffsetCounter = 0;
-        [foundListData removeAllObjects];
-        [foundList reloadData];
-    }
     queryString = [searchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     if(useParams){
         NSString *countryParam = countryID ? [NSString stringWithFormat:@"country_id=%@&", countryID] : nil;
@@ -517,55 +344,13 @@
     }else{
         url = [NSString stringWithFormat:@"https://api.vk.com/method/groups.search?q=%@&sort=0&count=100&offset=%li&v=%@&access_token=%@", queryString, searchOffsetCounter, _app.version, _app.token];
     }
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *searchResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for (NSDictionary *i in searchResponse[@"response"][@"items"]){
-                NSString *desc;
-                NSString *photo;
-                NSString *deactivated;
-                NSString *city;
-                NSString *country;
-                NSNumber *membersCount;
-                NSString *status;
-                NSNumber *startDate;
-                NSNumber *finishDate;
-                NSNumber *isAdmin;
-                NSNumber *isClosed;
-                NSNumber *isMember;
-                NSString *site;
-                NSString *type;
-                NSString *screenName;
-                
-                int online;
-                online= [i[@"online"] intValue];
-                desc = i[@"description"] && i[@"description"] != nil ? i[@"description"] : @"";
-                photo = i[@"photo_200"] ? i[@"photo_200"] : i[@"photo_100"] ?  i[@"photo_100"] : i[@"photo_50"];
-                deactivated = i[@"deactivated"] ? i[@"deactivated"] : @"";
-                membersCount = i[@"members_count"] && i[@"members_count"] != nil ? i[@"members_count"] : @0;
-                status = i[@"status"] && i[@"status"]  != nil ? i[@"status"] : @"";
-                startDate = i[@"start_date"] && i[@"start_date"]!=nil ? i[@"start_date"] : @0;
-                finishDate = i[@"finish_date"] && i[@"finish_date"]!=nil ? i[@"finish_date"]  : @0;
-                isClosed =  [i[@"is_closed"] intValue] == 0 ? @NO : @YES;
-                isAdmin =  [i[@"is_admin"] intValue]==0 ? @NO : @YES;
-                isMember =  [i[@"is_member"] intValue]==0 ? @NO : @YES;
-                site = i[@"site"] && i[@"site"] != nil ? i[@"site"] : @"";
-                country = i[@"country"] && i[@"country"][@"title"] != nil ? i[@"country"][@"title"] : @"";
-                type = i[@"type"] && i[@"type"] != nil ? i[@"type"] : @"";
-                screenName = i[@"screen_name"] && i[@"screen_name"] != nil ? i[@"screen_name"] : @"";
-    
-                city = i[@"city"] && i[@"city"][@"title"]!=nil ? i[@"city"][@"title"] : @"";
-                object = @{@"name":i[@"name"], @"id":[NSString stringWithFormat:@"%@",i[@"id"]], @"deactivated":deactivated, @"desc":desc, @"photo":photo, @"members_count":membersCount, @"status":status, @"site":site, @"start_date":startDate, @"country":country, @"city":city, @"type":type, @"screen_name":screenName, @"is_member":isMember, @"finish_date":finishDate};
-                
-                [foundListData addObject:object];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
-                [foundList reloadData];
-            });
-        }
-    }]resume];
-
+    [_app searchGroups:makeOffset queryString:queryString :^(NSMutableArray * _Nonnull groups) {
+        foundListData = groups;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            loadedCountResults.title = [NSString stringWithFormat:@"%li", [foundListData count]];
+            [foundList reloadData];
+        });
+    }];
 }
 
 
@@ -587,7 +372,6 @@
 }
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([foundListData count]>0){
-        
 //        cell.userStatus.stringValue =foundListData[row][@"status"];
 //        [cell.userStatus setFont:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular]];
         if(searchType.selectedSegment==1){

@@ -16,8 +16,21 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSMutableArray
         *usersListData,
-        *usersIDs;
+        *usersIDs,
+        *searchResults;
     
+    NSString *desc;
+    NSString *country;
+    NSNumber *membersCount;
+    NSNumber *startDate;
+    NSNumber *finishDate;
+    NSNumber *isAdmin;
+    NSNumber *isClosed;
+    NSNumber *isMember;
+    NSString *type;
+    NSString *screenName;
+    
+
     NSString
         *city,
         *status,
@@ -43,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
         *deactivated,
         *relation,
         *domain,
-        *verified;
+        *verified,
+        *banInfo;
     
     int
         blacklisted,
@@ -54,9 +68,11 @@ NS_ASSUME_NONNULL_BEGIN
         offsetCounter,
         totalCountBanned,
         offsetLoadFaveUsers,
-        totalFavesUsersCount;
+        totalFavesUsersCount,
+        searchOffsetCounter;
     
 }
+
 @property (nonatomic, readwrite) NSString *person;
 @property (nonatomic, readwrite) NSString *token;
 @property (nonatomic, readwrite) NSString *version;
@@ -72,18 +88,23 @@ typedef void(^OnLikedListComplete)(NSMutableArray *users);
 typedef void(^OnLikedUsersFullObjectsComplete)(NSMutableArray *fullObjectLikedPhotoUsers);
 typedef void(^OnGetBannedUsersIDsComplete)(NSMutableArray *bannedUsers);
 typedef void(^OnGetBannedUsersInfoComplete)(NSMutableArray *bannedUsersInfo, NSInteger offsetCounterResult, NSInteger totalBannedResult, NSInteger bannedUsersListCount, NSInteger offsetBanlistLoadResult);
-
 typedef void(^OnGetFavoriteUsersIDsComplete)(NSMutableArray *favesUsersIDs);
 typedef void(^OnGetFavoriteUsersInfoComplete)(NSMutableArray *favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount);
 
--(void)getLikedPhotoUsersIDs:(nonnull id)data :(OnLikedListComplete)completion ;
--(void)getUsersInfo:(nonnull id)ids :(nullable id)filters :(OnGetUsersInfoComplete)completion;
--(void)getLikedPhotoUsersInfo:(nonnull id)likedUsersIDs :(OnLikedUsersFullObjectsComplete)completion;
-- (void)getBannedUsersIDs:(NSInteger)offsetBannedUsersIDs :(OnGetBannedUsersIDsComplete)completion;
--(void)getBannedUsersInfo:(nullable id)filters :(BOOL)offset  :(OnGetBannedUsersInfoComplete)completion;
 
--(void)getFavoriteUsersIDs:(NSInteger)offsetFavoriteUsersIDs :(OnGetFavoriteUsersIDsComplete)completion;
--(void)getFavoriteUsersInfo:(nullable id)filters :(BOOL)offset :(OnGetFavoriteUsersInfoComplete)completion;
+
+
+- (void)getLikedPhotoUsersIDs:(nonnull id)data :(OnLikedListComplete)completion ;
+- (void)getUsersInfo:(nonnull id)ids filters:(nullable id)filters :(OnGetUsersInfoComplete)completion;
+- (void)getLikedPhotoUsersInfo:(nonnull id)likedUsersIDs :(OnLikedUsersFullObjectsComplete)completion;
+- (void)getBannedUsersIDs:(NSInteger)offsetBannedUsersIDs :(OnGetBannedUsersIDsComplete)completion;
+- (void)getBannedUsersInfo:(nullable id)filters :(BOOL)offset  :(OnGetBannedUsersInfoComplete)completion;
+- (void)getFavoriteUsersIDs:(NSInteger)offsetFavoriteUsersIDs :(OnGetFavoriteUsersIDsComplete)completion;
+- (void)getFavoriteUsersInfo:(nullable id)filters :(BOOL)offset :(OnGetFavoriteUsersInfoComplete)completion;
+
+- (void)searchGroups:(BOOL)offset queryString:(nonnull id)queryString :(void(^)(NSMutableArray *groups))completion;
+- (void)getGroupById:(nonnull id)groupId :(void(^)(NSDictionary*groupInfoObject))completion;
+- (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray *people))completion;
 
 
 NS_ASSUME_NONNULL_END

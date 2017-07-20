@@ -518,8 +518,8 @@
 		275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		2B07BCD61F122D4B00605869 /* SYFlatButton+ButtonsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SYFlatButton+ButtonsStyle.h"; sourceTree = "<group>"; };
 		2B07BCD71F122D4B00605869 /* SYFlatButton+ButtonsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SYFlatButton+ButtonsStyle.m"; sourceTree = "<group>"; };
-		2B1063431F1F680D00B059DC /* PrefsContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsContentController.h; sourceTree = "<group>"; };
-		2B1063441F1F680D00B059DC /* PrefsContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsContentController.m; sourceTree = "<group>"; };
+		2B1063431F1F680D00B059DC /* PrefsContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefsContentController.h; path = ../PrefsContentController.h; sourceTree = "<group>"; };
+		2B1063441F1F680D00B059DC /* PrefsContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefsContentController.m; path = ../PrefsContentController.m; sourceTree = "<group>"; };
 		2B1063461F1F9F5600B059DC /* keys1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keys1.png; sourceTree = "<group>"; };
 		2B1914C81E28FC5900FB714E /* SearchGroupsCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchGroupsCellView.xib; sourceTree = "<group>"; };
 		2B1914CA1E28FC8C00FB714E /* SearchGroupsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchGroupsCellView.h; sourceTree = "<group>"; };
@@ -1189,8 +1189,8 @@
 		2B66CF891F0FE1C100C87D63 /* close-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-circle.png"; sourceTree = "<group>"; };
 		2B7CAC121F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullInfoUserCustomTableCell.h; sourceTree = "<group>"; };
 		2B7CAC131F1A8A6900ACDE11 /* FullInfoUserCustomTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullInfoUserCustomTableCell.m; sourceTree = "<group>"; };
-		2B817C601F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsWindowControllerWithToolbar.h; sourceTree = "<group>"; };
-		2B817C611F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsWindowControllerWithToolbar.m; sourceTree = "<group>"; };
+		2B817C601F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefsWindowControllerWithToolbar.h; path = ../PrefsWindowControllerWithToolbar.h; sourceTree = "<group>"; };
+		2B817C611F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrefsWindowControllerWithToolbar.m; path = ../PrefsWindowControllerWithToolbar.m; sourceTree = "<group>"; };
 		2B81D5621F040EAB00F1DEE6 /* YoutubeLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YoutubeLoginViewController.h; sourceTree = "<group>"; };
 		2B81D5631F040EAB00F1DEE6 /* YoutubeLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YoutubeLoginViewController.m; sourceTree = "<group>"; };
 		2B81D5651F04177300F1DEE6 /* Third.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Third.storyboard; sourceTree = "<group>"; };
@@ -1211,8 +1211,8 @@
 		2BB8DD801E2393DF003E975A /* tasks_icon_99_25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_icon_99_25.png; sourceTree = "<group>"; };
 		2BB8DD851E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveVideoAndPhotoItemsViewController.h; sourceTree = "<group>"; };
 		2BB8DD861E2777B8003E975A /* RemoveVideoAndPhotoItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveVideoAndPhotoItemsViewController.m; sourceTree = "<group>"; };
-		2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoEffectsViewController.h; sourceTree = "<group>"; };
-		2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoEffectsViewController.m; sourceTree = "<group>"; };
+		2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoEffectsViewController.h; path = ../PhotoEffectsViewController.h; sourceTree = "<group>"; };
+		2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoEffectsViewController.m; path = ../PhotoEffectsViewController.m; sourceTree = "<group>"; };
 		2BCACAFD1E4C683C00830583 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "../../../../Library/Developer/Xcode/DerivedData/MasterAPI-cmxdptazauuemicvegxdmflpbxdn/Build/Products/Debug/SDWebImage/libSDWebImage.a"; sourceTree = "<group>"; };
 		2BCACB031E4CDAB100830583 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2BCACB051E4CDAB800830583 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -1277,6 +1277,12 @@
 		2B41F9C81E02D3F50013AC86 /* AppsPreferences  */ = {
 			isa = PBXGroup;
 			children = (
+				2B1063431F1F680D00B059DC /* PrefsContentController.h */,
+				2B1063441F1F680D00B059DC /* PrefsContentController.m */,
+				2B817C601F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.h */,
+				2B817C611F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.m */,
+				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
+				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */,
 				2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */,
 				2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */,
@@ -2349,12 +2355,6 @@
 		2B9F40D21CC67B0D005C4716 = {
 			isa = PBXGroup;
 			children = (
-				2B1063431F1F680D00B059DC /* PrefsContentController.h */,
-				2B1063441F1F680D00B059DC /* PrefsContentController.m */,
-				2B817C601F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.h */,
-				2B817C611F1E82F200D6B0FB /* PrefsWindowControllerWithToolbar.m */,
-				2BBE2BE01F1C8C3D00172010 /* PhotoEffectsViewController.h */,
-				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B41F9DD1E02D3F50013AC86 /* CoreDataModels */,
 				2B41F9C81E02D3F50013AC86 /* AppsPreferences  */,
 				2B41F9D51E02D3F50013AC86 /* AppsStartSettings */,

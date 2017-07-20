@@ -63,6 +63,8 @@
     
     [mainWindow setFrame:windowRect display:YES animate:YES];
     [self.view addSubview:currentView];
+    
+    
     NSLog(@"%@", name);
     NSLog(@"%@", mainWindow);
     NSLog(@"%@", currentView);
