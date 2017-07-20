@@ -18,6 +18,7 @@
     __weak IBOutlet NSImageView *previewImage;
     __weak IBOutlet NSButton *makeTriangles;
     __weak IBOutlet NSButton *makeBlur;
+    __weak IBOutlet NSSlider *sharpnessControl;
     
     __weak IBOutlet NSSlider *exposure;
     NSImage *effectedImage;

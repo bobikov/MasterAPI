@@ -59,6 +59,9 @@
 - (IBAction)contrast:(id)sender {
     [self updateWithEffects];
 }
+- (IBAction)sharpnessAdjust:(id)sender {
+    [self updateWithEffects];
+}
 
 - (IBAction)imageWithTriangles:(id)sender {
     if(makeTriangles.state){
@@ -108,7 +111,7 @@
 
 - (void)updateWithEffects{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] data:nil saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue] mono:checkMono.state];
+        effectedImage = [effectedImage imageSaturation:_originalImageURLs[0] data:nil saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue] mono:checkMono.state sharpness:[NSNumber numberWithDouble:sharpnessControl.doubleValue]];
          dispatch_async(dispatch_get_main_queue(), ^{
              previewImage.image = effectedImage;
          });

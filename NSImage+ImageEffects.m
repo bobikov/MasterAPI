@@ -30,13 +30,14 @@
     [nsImage addRepresentation:rep];
     return  nsImage;
 }
--(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono{
+-(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono sharpness:(nonnull NSNumber *)sharpness{
     __block NSCIImageRep *rep;
     __block CIImage *ciImage;
     __block CIFilter *filterSaturation;
     __block CIImage *outputCIImage;
     __block CIFilter *exposureFilter;
     __block CIFilter *monoFilter;
+    __block CIFilter *sharpFilter;
     __block CIContext *context;
     __block NSImage *nsImage;
     if(imageData == nil){
@@ -47,7 +48,8 @@
     filterSaturation = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputImage":ciImage,@"inputSaturation" :saturation,@"inputBrightness":brightness,@"inputContrast":contrast}];
     exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust" withInputParameters:@{@"inputImage":filterSaturation.outputImage, @"inputEV":inputEV}];
     monoFilter = [CIFilter filterWithName:@"CIPhotoEffectMono" withInputParameters:@{@"inputImage":exposureFilter.outputImage}];
-    outputCIImage = mono ? monoFilter.outputImage : exposureFilter.outputImage;
+    sharpFilter = [CIFilter filterWithName:@"CISharpenLuminance" withInputParameters:@{@"inputImage":mono ? monoFilter.outputImage : exposureFilter.outputImage,@"inputSharpness":sharpness}];
+    outputCIImage = sharpFilter.outputImage;
     context = [CIContext contextWithOptions:nil];
     ciImage = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent]];
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];
@@ -88,6 +90,8 @@
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];
     nsImage = [[NSImage alloc] initWithSize:rep.size];
     [nsImage addRepresentation:rep];
+    
+    
     return nsImage;
 }
 -(NSImage*)imageWithTriangulars:(NSURL*)imageURL scale:(NSNumber*)scale center:(CIVector*)center vertexAngle:(NSNumber*)vertexAngle{
