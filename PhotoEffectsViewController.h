@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <CoreImage/CoreImage.h>
+#import <YUCIImageView/YUCIImageView.h>
 @interface PhotoEffectsViewController : NSViewController{
     
     __weak IBOutlet NSSlider *saturationControl;
@@ -20,11 +21,19 @@
     __weak IBOutlet NSButton *makeBlur;
     __weak IBOutlet NSSlider *sharpnessControl;
     
+    __weak IBOutlet YUCIImageView *yuciiMageView;
     __weak IBOutlet NSSlider *exposure;
     NSImage *effectedImage;
+    CIImage *ciEffectedImage;
     NSMutableDictionary *controlsData;
     NSImage *originalImage;
     NSWindow *mainWindow;
+    CIContext *context;
+    NSImage *_image;
+    __weak IBOutlet NSButton *makeToneCurve;
+    NSData *imageData;
+    CIImage *ciImageC;
+    __weak IBOutlet NSButton *makeClahe;
 }
 @property(nonatomic)NSArray* originalImageURLs;
 @property(nonatomic)BOOL profilePhoto;

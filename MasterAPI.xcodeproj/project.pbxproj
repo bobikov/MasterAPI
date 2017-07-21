@@ -509,6 +509,7 @@
 		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
 		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
 		2BE606A01F1B62120020442A /* NSImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */; };
+		2BF342171F21DADB00C7A0D1 /* JPNG.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF342161F21DADB00C7A0D1 /* JPNG.m */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 		2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB992D1F19018E00544B75 /* VKLikesViewController.m */; };
 		2BFB99311F1906AE00544B75 /* VKLikesCellTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */; };
@@ -1239,6 +1240,8 @@
 		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
 		2BE6069E1F1B62110020442A /* NSImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageEffects.h"; sourceTree = "<group>"; };
 		2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageEffects.m"; sourceTree = "<group>"; };
+		2BF342151F21DADB00C7A0D1 /* JPNG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPNG.h; sourceTree = "<group>"; };
+		2BF342161F21DADB00C7A0D1 /* JPNG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPNG.m; sourceTree = "<group>"; };
 		2BFB77641E4A0B86006D020F /* PrefsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsTableView.h; sourceTree = "<group>"; };
 		2BFB77651E4A0B86006D020F /* PrefsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsTableView.m; sourceTree = "<group>"; };
 		2BFB992C1F19018E00544B75 /* VKLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesViewController.h; sourceTree = "<group>"; };
@@ -1440,6 +1443,7 @@
 		2B41FA251E02D3F50013AC86 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				2BF342141F21DADB00C7A0D1 /* JPNG */,
 				2BDB2B481E4DC3A00072B0B2 /* MXButton.h */,
 				2BDB2B491E4DC3A00072B0B2 /* MXButton.m */,
 				2BCACB5F1E4DA1A400830583 /* NSImage-Resizing-master */,
@@ -2423,6 +2427,15 @@
 			path = "NSImage-Resizing-master";
 			sourceTree = "<group>";
 		};
+		2BF342141F21DADB00C7A0D1 /* JPNG */ = {
+			isa = PBXGroup;
+			children = (
+				2BF342151F21DADB00C7A0D1 /* JPNG.h */,
+				2BF342161F21DADB00C7A0D1 /* JPNG.m */,
+			);
+			path = JPNG;
+			sourceTree = "<group>";
+		};
 		5121C3838560FE90FDF8F5FE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2908,6 +2921,7 @@
 				2B41FBE51E02D3F60013AC86 /* InstagramAuth.m in Sources */,
 				2B41FC5E1E02D3F70013AC86 /* AudioAlbumsListCustomCell.m in Sources */,
 				2B41FBD91E02D3F60013AC86 /* CustomMenuItemView.m in Sources */,
+				2BF342171F21DADB00C7A0D1 /* JPNG.m in Sources */,
 				2B41FCBB1E02D3F70013AC86 /* WallRepostViewController.m in Sources */,
 				2B41FCB61E02D3F70013AC86 /* removePostsViewController.m in Sources */,
 				2B41FCBC1E02D3F70013AC86 /* YoutubeAuth.m in Sources */,

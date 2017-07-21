@@ -140,10 +140,10 @@
                                     <action selector="brightness:" target="3ve-NV-otZ" id="AWk-EG-7Eg"/>
                                 </connections>
                             </slider>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwc-S7-ARI">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwc-S7-ARI" customClass="YUCIImageView">
                                 <rect key="frame" x="54" y="160" width="358" height="323"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="JIw-2V-ux8"/>
+                                <imageCell key="cell" continuous="YES" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" id="JIw-2V-ux8"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ago-Xc-iLE" customClass="SYFlatButton">
                                 <rect key="frame" x="191" y="8" width="83" height="25"/>
@@ -209,7 +209,7 @@
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fYo-zV-knc">
                                 <rect key="frame" x="200" y="67" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="ibw-W6-FQR"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="ibw-W6-FQR"/>
                                 <connections>
                                     <action selector="exposureAdjust:" target="3ve-NV-otZ" id="hgn-Yc-jU1"/>
                                 </connections>
@@ -217,7 +217,7 @@
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y1c-UE-sJW">
                                 <rect key="frame" x="200" y="44" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="cPK-41-oI4"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="cPK-41-oI4"/>
                                 <connections>
                                     <action selector="sharpnessAdjust:" target="3ve-NV-otZ" id="yon-f7-2Fk"/>
                                 </connections>
@@ -267,6 +267,28 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Lv-ac-BHl">
+                                <rect key="frame" x="26" y="38" width="50" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="tone" bezelStyle="regularSquare" imagePosition="left" inset="2" id="u5t-AW-EjS">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toneCurveAdjust:" target="3ve-NV-otZ" id="ozI-VM-Vnb"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sek-Pk-fdl">
+                                <rect key="frame" x="26" y="10" width="55" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="clahe" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6WX-UL-Q9X">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="claheImage:" target="3ve-NV-otZ" id="YLE-zL-e4c"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -276,10 +298,12 @@
                         <outlet property="contrastControl" destination="HyZ-cR-P4O" id="Sr5-Zu-k4G"/>
                         <outlet property="exposure" destination="fYo-zV-knc" id="1LL-TR-4ai"/>
                         <outlet property="makeBlur" destination="PT0-Jn-922" id="FpV-X0-N97"/>
+                        <outlet property="makeClahe" destination="Sek-Pk-fdl" id="7uv-Z4-Yaw"/>
+                        <outlet property="makeToneCurve" destination="8Lv-ac-BHl" id="6Ih-BC-hO8"/>
                         <outlet property="makeTriangles" destination="F8I-fx-Mbg" id="VqJ-Ve-vcJ"/>
-                        <outlet property="previewImage" destination="dwc-S7-ARI" id="TQv-8L-T0T"/>
                         <outlet property="saturationControl" destination="FEC-xk-oED" id="ngA-b3-WwV"/>
                         <outlet property="sharpnessControl" destination="Y1c-UE-sJW" id="exY-ip-HGA"/>
+                        <outlet property="yuciiMageView" destination="dwc-S7-ARI" id="zPR-yD-nYB"/>
                     </connections>
                 </viewController>
                 <customObject id="GeB-bU-1pv" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

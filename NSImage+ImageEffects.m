@@ -30,7 +30,7 @@
     [nsImage addRepresentation:rep];
     return  nsImage;
 }
--(NSImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono sharpness:(nonnull NSNumber *)sharpness{
+-(CIImage*)imageSaturation:(NSURL*)imageURL data:(nullable  NSData*)imageData saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono sharpness:(nonnull NSNumber *)sharpness{
     __block NSCIImageRep *rep;
     __block CIImage *ciImage;
     __block CIFilter *filterSaturation;
@@ -55,7 +55,7 @@
     rep = [NSCIImageRep imageRepWithCIImage:ciImage];
     nsImage = [[NSImage alloc] initWithSize:rep.size];
     [nsImage addRepresentation:rep];
-    return nsImage;
+    return ciImage;
 }
 -(NSImage*)monochromeImage:(NSURL *)imageURL color:(CIColor *)color intensity:(NSNumber *)intensity{
     __block NSCIImageRep *rep;
@@ -104,6 +104,7 @@
     
     ciImage = [CIImage imageWithContentsOfURL:imageURL];
     filter = [[YUCITriangularPixellate alloc]init];
+    
     [filter setInputImage:ciImage];
     [filter setInputCenter:center];
     [filter setInputScale:scale];
