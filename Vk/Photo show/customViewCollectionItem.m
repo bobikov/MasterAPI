@@ -50,6 +50,7 @@ typedef void (^OnComplete)(NSData *serverURL);
     _downloadAndUploadStatusOver.layer.cornerRadius=5;
     _uploadByURLsButton.hidden=YES;
     _uploadPhoto.hidden=YES;
+    isURLsUpload = NO;
 
 }
 
@@ -85,6 +86,7 @@ typedef void (^OnComplete)(NSData *serverURL);
 }
 - (void)prepareURLsForUpload:(NSString*)urlsString{
    filesForUpload = [self urlsFromString:urlsString];
+    isURLsUpload = YES;
     NSLog(@"%@", filesForUpload);
     if([filesForUpload count]>0){
         [self getUploadURL:albumToUploadTo completion:^(NSData *serverURL) {
@@ -570,10 +572,10 @@ typedef void (^OnComplete)(NSData *serverURL);
 
 //    fileName = [filesForUpload[uploadCounter] lastPathComponent];
     fileName = [self createRandomName];
-        NSLog(@"%@", filesForUpload[uploadCounter]);
-        NSLog(@"%@", fileName);
-        NSLog(@"%@", uploadURL);
-    
+    NSLog(@"%@", filesForUpload[uploadCounter]);
+    NSLog(@"%@", fileName);
+    NSLog(@"%@", uploadURL);
+    NSLog(@"%li", uploadCounter);
   
 //        NSLog(@"%@", url);
     //    NSURLSessionUploadTask *uploadPhotoTask = [backgroundSession uploadTaskWithRequest:[NSURLRequest requestWithURL:url] fromFile:files[0]];
@@ -583,11 +585,11 @@ typedef void (^OnComplete)(NSData *serverURL);
     //        NSBundle *mainBundle = [NSBundle mainBundle];
     //        NSString *filename = [file lastPathComponent];
 //    NSData *contents = [[NSData alloc]initWithContentsOfFile:filesForUpload[uploadCounter]];
-    NSLog(@"%li", uploadCounter);
    
-    NSLog(@"%@", filesForUpload[uploadCounter]);
+   
+   
     
-    if(!contents){
+    if(isURLsUpload){
         if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
             contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
         }else{

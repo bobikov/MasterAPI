@@ -33,11 +33,11 @@
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     
-    [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@","] forType:NSStringPboardType];
+    [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@"\n"] forType:NSStringPboardType];
     
     
 }
--(void)viewDidScroll:(NSNotification*)notificaion{
+- (void)viewDidScroll:(NSNotification*)notificaion{
     NSInteger scrollOrigin = [[postsListScroll contentView]bounds].origin.y+NSMaxY([postsListScroll visibleRect]);
     //    NSInteger numberRowHeights = [collectionViewListAlbums numberOfItemsInSection:0];
     NSInteger boundsHeight = postsList.bounds.size.height;
@@ -46,22 +46,21 @@
         [self loadMediaPostsByTag:searchField.stringValue];
     }
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [postsData removeAllObjects];
     [mediaURLS removeAllObjects];
     endCursor = nil;
     [self loadMediaPostsByTag:searchField.stringValue];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
   
 }
 - (IBAction)copyMediaURLs:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     [pasteBoard setString:[[mediaURLS objectsAtIndexes:[postsList selectedRowIndexes]] componentsJoinedByString:@"\n"]   forType:NSStringPboardType];
-    
 }
--(void)searchFieldMenu{
+- (void)searchFieldMenu{
     NSMenuItem *item;
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Clear", @"Clear menu title")
                                       action:NULL keyEquivalent:@""];
@@ -95,7 +94,7 @@
 }
 
 
--(void)loadMediaPostsByTag:(NSString*)tag{
+- (void)loadMediaPostsByTag:(NSString*)tag{
     
    
     [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@/?__a=1%@", tag, endCursor ? [NSString stringWithFormat:@"&max_id=%@", endCursor] : @""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -121,7 +120,7 @@
         }
     }]resume];
 }
--(NSString *)formatDate:(NSString*)timestamp{
+- (NSString *)formatDate:(NSString*)timestamp{
     NSString *date;
     NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: [timestamp intValue]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
@@ -131,11 +130,11 @@
     
     return date;;
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     
     return [postsData count];
 }
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     MediaPostsCustomCell *cell = (MediaPostsCustomCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
     cell.caption.stringValue = postsData[row][@"caption"];
     cell.date.stringValue = postsData[row][@"date"];

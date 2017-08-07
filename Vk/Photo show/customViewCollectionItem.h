@@ -40,6 +40,7 @@
     NSMenu *theDropdownContextMenu;
     NSInteger overAlbumId;
     NSData *contents;
+    BOOL isURLsUpload;
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;
