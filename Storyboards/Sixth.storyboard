@@ -113,11 +113,11 @@
             <objects>
                 <viewController storyboardIdentifier="PhotoEffectsView" id="3ve-NV-otZ" customClass="PhotoEffectsViewController" sceneMemberID="viewController">
                     <view key="view" id="ybh-qf-a7L">
-                        <rect key="frame" x="0.0" y="0.0" width="466" height="503"/>
+                        <rect key="frame" x="0.0" y="0.0" width="466" height="558"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FEC-xk-oED">
-                                <rect key="frame" x="200" y="137" width="200" height="21"/>
+                                <rect key="frame" x="200" y="192" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="XTs-sX-W3O"/>
                                 <connections>
@@ -125,7 +125,7 @@
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HyZ-cR-P4O">
-                                <rect key="frame" x="200" y="89" width="200" height="21"/>
+                                <rect key="frame" x="200" y="144" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="2" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="9Yg-Sd-5fQ"/>
                                 <connections>
@@ -133,7 +133,7 @@
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gP1-N7-ESe">
-                                <rect key="frame" x="200" y="113" width="200" height="21"/>
+                                <rect key="frame" x="200" y="168" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="0.5" tickMarkPosition="above" sliderType="linear" id="g4H-yY-daM"/>
                                 <connections>
@@ -141,12 +141,12 @@
                                 </connections>
                             </slider>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwc-S7-ARI" customClass="YUCIImageView">
-                                <rect key="frame" x="54" y="160" width="358" height="323"/>
+                                <rect key="frame" x="54" y="215" width="358" height="323"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" continuous="YES" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" id="JIw-2V-ux8"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ago-Xc-iLE" customClass="SYFlatButton">
-                                <rect key="frame" x="191" y="8" width="83" height="25"/>
+                                <rect key="frame" x="192" y="9" width="83" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Accept" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bqG-Vf-zk8">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -157,7 +157,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gAc-ja-v5R" customClass="NIKFontAwesomeButton">
-                                <rect key="frame" x="410" y="138" width="20" height="20"/>
+                                <rect key="frame" x="410" y="193" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="9Y2-hV-ZY1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -174,7 +174,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F8I-fx-Mbg">
-                                <rect key="frame" x="26" y="102" width="88" height="18"/>
+                                <rect key="frame" x="26" y="157" width="88" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="triangles" bezelStyle="regularSquare" imagePosition="left" inset="2" id="EWK-oe-5C3">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -185,7 +185,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PT0-Jn-922">
-                                <rect key="frame" x="26" y="71" width="82" height="18"/>
+                                <rect key="frame" x="26" y="126" width="82" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="blur" bezelStyle="regularSquare" imagePosition="left" inset="2" id="B0N-DK-Rcj">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -196,7 +196,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zw2-kf-wxg">
-                                <rect key="frame" x="26" y="134" width="71" height="18"/>
+                                <rect key="frame" x="26" y="189" width="71" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="mono" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Zhf-8b-RMm">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -207,7 +207,7 @@
                                 </connections>
                             </button>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fYo-zV-knc">
-                                <rect key="frame" x="200" y="67" width="200" height="21"/>
+                                <rect key="frame" x="199" y="122" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="ibw-W6-FQR"/>
                                 <connections>
@@ -215,7 +215,7 @@
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y1c-UE-sJW">
-                                <rect key="frame" x="200" y="44" width="200" height="21"/>
+                                <rect key="frame" x="199" y="99" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="cPK-41-oI4"/>
                                 <connections>
@@ -223,7 +223,7 @@
                                 </connections>
                             </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ylr-YY-Y5b">
-                                <rect key="frame" x="111" y="141" width="85" height="17"/>
+                                <rect key="frame" x="111" y="196" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Saturation:" id="AkC-tH-STx">
                                     <font key="font" metaFont="system"/>
@@ -232,7 +232,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bx2-jv-NXj">
-                                <rect key="frame" x="111" y="118" width="85" height="17"/>
+                                <rect key="frame" x="111" y="173" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Brightness:" id="JsR-ib-ceV">
                                     <font key="font" metaFont="system"/>
@@ -241,7 +241,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1QL-3B-fot">
-                                <rect key="frame" x="111" y="94" width="85" height="17"/>
+                                <rect key="frame" x="111" y="149" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Contrast:" id="zyS-4g-Ujg">
                                     <font key="font" metaFont="system"/>
@@ -250,7 +250,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qjM-dQ-BAI">
-                                <rect key="frame" x="111" y="72" width="85" height="17"/>
+                                <rect key="frame" x="111" y="127" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Exposure:" id="Fo9-7X-bg0">
                                     <font key="font" metaFont="system"/>
@@ -259,7 +259,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xEx-KQ-kOF">
-                                <rect key="frame" x="111" y="47" width="85" height="17"/>
+                                <rect key="frame" x="111" y="102" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sharpness:" id="fa4-IO-ViY">
                                     <font key="font" metaFont="system"/>
@@ -267,8 +267,25 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8c-vM-QId">
+                                <rect key="frame" x="199" y="76" width="200" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="0.80000000000000004" tickMarkPosition="above" sliderType="linear" id="RkS-29-6gg"/>
+                                <connections>
+                                    <action selector="pixelateScale:" target="3ve-NV-otZ" id="d15-ry-Agm"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SpS-Wd-jX8">
+                                <rect key="frame" x="111" y="79" width="85" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Pixelate:" id="0Km-mZ-Wip">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="knobColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Lv-ac-BHl">
-                                <rect key="frame" x="26" y="38" width="50" height="18"/>
+                                <rect key="frame" x="26" y="93" width="50" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="tone" bezelStyle="regularSquare" imagePosition="left" inset="2" id="u5t-AW-EjS">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -279,7 +296,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sek-Pk-fdl">
-                                <rect key="frame" x="26" y="10" width="55" height="18"/>
+                                <rect key="frame" x="26" y="65" width="55" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="clahe" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6WX-UL-Q9X">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -287,6 +304,17 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="claheImage:" target="3ve-NV-otZ" id="YLE-zL-e4c"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PaC-Za-QCZ">
+                                <rect key="frame" x="26" y="38" width="69" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="pixelate" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iQj-j0-n3e">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="makePixelate:" target="3ve-NV-otZ" id="vvj-O7-CMO"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -299,8 +327,10 @@
                         <outlet property="exposure" destination="fYo-zV-knc" id="1LL-TR-4ai"/>
                         <outlet property="makeBlur" destination="PT0-Jn-922" id="FpV-X0-N97"/>
                         <outlet property="makeClahe" destination="Sek-Pk-fdl" id="7uv-Z4-Yaw"/>
+                        <outlet property="makePixelate" destination="PaC-Za-QCZ" id="hSv-Vm-IT5"/>
                         <outlet property="makeToneCurve" destination="8Lv-ac-BHl" id="6Ih-BC-hO8"/>
                         <outlet property="makeTriangles" destination="F8I-fx-Mbg" id="VqJ-Ve-vcJ"/>
+                        <outlet property="pixeleteScale" destination="U8c-vM-QId" id="MQV-LB-pcF"/>
                         <outlet property="saturationControl" destination="FEC-xk-oED" id="ngA-b3-WwV"/>
                         <outlet property="sharpnessControl" destination="Y1c-UE-sJW" id="exY-ip-HGA"/>
                         <outlet property="yuciiMageView" destination="dwc-S7-ARI" id="zPR-yD-nYB"/>
@@ -308,7 +338,7 @@
                 </viewController>
                 <customObject id="GeB-bU-1pv" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1292" y="362.5"/>
+            <point key="canvasLocation" x="1292" y="390"/>
         </scene>
     </scenes>
 </document>

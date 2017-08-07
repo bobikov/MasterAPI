@@ -28,10 +28,12 @@
     ciEffectedImage = [[CIImage alloc]init];
     controlsData = [NSMutableDictionary dictionaryWithDictionary:@{@"saturation":@1, @"brightness":@0, @"contrast":@1}];
      ;
+    
     yuciiMageView.wantsLayer=YES;
     
     yuciiMageView.imageContentMode=YUCIImageViewContentModeDefault;
     yuciiMageView.renderer=YUCIImageRenderingSuggestedRenderer();
+
     
     self.preferredContentSize = NSMakeSize(self.view.frame.size.width, self.view.frame.size.height);
     SYFlatButton *flatBut = [[SYFlatButton alloc]init];
@@ -39,8 +41,12 @@
 //    metalPreview = [[YUCIImageView alloc]initWithFrame:previewImage.frame];
 
   
-//    [self.view addSubview:metalPreview];
     
+    imageView = [[NSImageView alloc]initWithFrame:yuciiMageView.frame];
+//    yuciiMageView.hidden=YES;
+//    [self.view addSubview:imageView];
+//    [self.view addSubview:metalPreview];
+  
      [self setImagePreview:originalImage];
     
 }
@@ -51,21 +57,22 @@
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     self.view.window.movableByWindowBackground=NO;
     self.view.window.movable=YES;
-    self.view.wantsLayer=YES;
-    self.view.layer.masksToBounds=YES;
-    self.view.layer.cornerRadius=3;
-    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
+//    self.view.wantsLayer=YES;
+//    self.view.layer.masksToBounds=YES;
+//    self.view.layer.cornerRadius=3;
+//    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
     [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowCloseButton].hidden=NO;
 }
 
 - (void)setImagePreview:(NSImage*)image{
-//    previewImage.image = image;
-
-    yuciiMageView.image = [CIImage imageWithContentsOfURL:_originalImageURLs[0]];
     
-    previewImage.hidden=YES;
+  
+    ciEffectedImage = [CIImage imageWithContentsOfURL:_originalImageURLs[0]];
+//    _image = [[NSImage alloc]initWithContentsOfURL:_originalImageURLs[0]];
+    yuciiMageView.image = ciEffectedImage;
+//    imageView.image = _image;
 }
 
 - (IBAction)saturation:(id)sender {
@@ -120,6 +127,7 @@
 }
 
 
+
 - (IBAction)refreshToOriginal:(id)sender {
     [self refresh];
 }
@@ -141,31 +149,30 @@
 //         dispatch_async(dispatch_get_main_queue(), ^{
 //             previewImage.image = effectedImage;
     
-    yuciiMageView.image=[self imageSaturation:_originalImageURLs[0]  saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue] mono:checkMono.state sharpness:[NSNumber numberWithDouble:sharpnessControl.doubleValue] toneCurve:makeToneCurve?@[[CIVector vectorWithX:0.2 Y:0.2],[CIVector vectorWithX:0.6 Y:0.6 ],[CIVector vectorWithX:1 Y:1.5]]:@[] clahe:makeClahe.state?@{@"clip":@5, @"tile":[CIVector vectorWithX:12 Y:12 Z:12]}:@{} triangles:@{@"scale":@50, @"center":[CIVector vectorWithX:10 Y:10 Z:60],@"vertex":@30} blur:makeBlur.state];
+    [self imageSaturation:_originalImageURLs[0]  saturation:[NSNumber numberWithDouble:saturationControl.doubleValue] brightness:[NSNumber numberWithDouble:brightnessControl.doubleValue] contrast:[NSNumber numberWithDouble:contrastControl.doubleValue ]inputEV:[NSNumber numberWithDouble:exposure.doubleValue] mono:checkMono.state sharpness:[NSNumber numberWithDouble:sharpnessControl.doubleValue] toneCurve:makeToneCurve?@[[CIVector vectorWithX:0.2 Y:0.2],[CIVector vectorWithX:0.6 Y:0.6 ],[CIVector vectorWithX:1 Y:1.5]]:@[] clahe:makeClahe.state?@{@"clip":@5, @"tile":[CIVector vectorWithX:12 Y:12 Z:12]}:@{} triangles:@{@"scale":@50, @"center":[CIVector vectorWithX:10 Y:10 Z:60],@"vertex":@30} blur:makeBlur.state pixelate:makePixelate.state ? YES :NO];
 //         });
 //    });
   
 }
+- (IBAction)makePixelate:(id)sender {
+    [self updateWithEffects];
+}
 
 - (IBAction)acceptEffects:(id)sender {
-    NSCIImageRep *rep2 = [NSCIImageRep imageRepWithCIImage:ciImageC];
-    [rep2 setColorSpaceName:NSDeviceRGBColorSpace];
+//    NSCIImageRep *rep2 = [NSCIImageRep imageRepWithCIImage:ciEffectedImage];
+//    [rep2 setColorSpaceName:NSDeviceRGBColorSpace];
     NSDictionary* imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1] forKey:NSImageCompressionFactor];
-    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]initWithCIImage:ciImageC];
-//    [rep setColorSpaceName:NSDeviceRGBColorSpace];
-//    [rep setBitsPerSample:8];
-//    [rep setAlpha:NO];
-//    [rep setOpaque:NO];
-    _image = [[NSImage alloc]initWithSize:[rep2 size]];
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]initWithCIImage:ciEffectedImage];
+//    _image = [[NSImage alloc]initWithSize:NSMakeSize([rep2 size].height*2,[rep2 size].width*2)];
     
-    [_image addRepresentation:rep2];
+//    [_image addRepresentation:rep2];
     
-//    imageData = [rep representationUsingType:NSJPEGFileType properties:imageProps];
-    imageData =[_image TIFFRepresentation];
+    imageData = [rep representationUsingType:NSJPEGFileType properties:imageProps];
+//    imageData =[_image TIFFRepresentation];
 //    imageData = CGImageJPNGRepresentation([context createCGImage:ciEffectedImage fromRect:ciEffectedImage.extent], 1.0);
     
     if(_profilePhoto){
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadProfilePhotoWithEffects" object:nil  userInfo:@{@"photo":[_image TIFFRepresentation]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadProfilePhotoWithEffects" object:nil  userInfo:@{@"photo":imageData}];
         
     }
     else{
@@ -180,8 +187,14 @@
     [self updateWithEffects];
 }
 
+- (IBAction)pixelateScale:(id)sender {
+    pixelScale = pixeleteScale.doubleValue;
+    [self updateWithEffects];
+}
 
--(CIImage*)imageSaturation:(NSURL*)imageURL  saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono sharpness:(nonnull NSNumber *)sharpness toneCurve:(NSArray*)toneCurve clahe:(NSDictionary*)clahe triangles:(NSDictionary*)triangles blur:(BOOL)blur{
+
+
+-(void)imageSaturation:(NSURL*)imageURL  saturation:(NSNumber*)saturation brightness:(NSNumber*)brightness contrast:(NSNumber*)contrast inputEV:(NSNumber*)inputEV mono:(BOOL)mono sharpness:(nonnull NSNumber *)sharpness toneCurve:(NSArray*)toneCurve clahe:(NSDictionary*)clahe triangles:(NSDictionary*)triangles blur:(BOOL)blur pixelate:(BOOL)pixelate{
     
     CIImage *ciImage;
     CIFilter *filterSaturation;
@@ -193,6 +206,7 @@
     YUCICLAHE *claheFilter;
     YUCITriangularPixellate *trianglesFilter;
     CIFilter *blurFilter;
+    CIFilter *pixelateFilter;
     
     trianglesFilter = [[YUCITriangularPixellate alloc]init];
     toneCurveFilter = [[YUCIRGBToneCurve alloc]init];
@@ -232,12 +246,21 @@
     
     blurFilter = [CIFilter filterWithName:@"CIGaussianBlur" withInputParameters:@{@"inputImage":outputCIImage, @"inputRadius":@5}];
     outputCIImage = blur ? blurFilter.outputImage : outputCIImage;
-                  
-    context = [CIContext contextWithOptions:nil];
-    ciEffectedImage = outputCIImage;
-    ciImageC = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent format:kCIFormatARGB8 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceSRGB)]];
     
-    return outputCIImage;
+    pixelateFilter = [CIFilter filterWithName:@"CIPixellate" withInputParameters:@{@"inputImage":outputCIImage, @"inputCenter":[CIVector vectorWithX:150 Y:150], @"inputScale":[NSNumber numberWithFloat:pixeleteScale.doubleValue]}];
+    outputCIImage = pixelate ? pixelateFilter.outputImage : outputCIImage;
+    
+//    context = [CIContext contextWithOptions:nil];
+    ciEffectedImage = outputCIImage;
+//    ciImageC = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent] ];
+    
+//    NSCIImageRep *rep2 = [NSCIImageRep imageRepWithCIImage:ciEffectedImage];
+//     [rep2 setColorSpaceName:NSDeviceRGBColorSpace];
+//    _image = [[NSImage alloc]initWithSize:[rep2 size]];
+    
+//    [_image addRepresentation:rep2];
+    yuciiMageView.image = outputCIImage;
+//    imageView.image = _image;
 }
 
 @end

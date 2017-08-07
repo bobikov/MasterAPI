@@ -16,7 +16,7 @@
     __weak IBOutlet NSButton *prevPhoto;
     __weak IBOutlet NSButton *nextPhoto;
     NSInteger currentIndex;
-    NSMutableArray *data;
+   
     __weak IBOutlet NSProgressIndicator *progressSpin;
     NSTrackingArea *photoCaptionTrackingArea;
     NSTrackingArea *photoCaptionTrackingArea2;
@@ -32,4 +32,5 @@
 @property (weak) IBOutlet NSLayoutConstraint *photoViewWidthConstr;
 @property (weak) IBOutlet NSLayoutConstraint *photoViewHeightConst;
 @property(nonatomic)appInfo *app;
+@property (nonatomic) NSMutableArray *data;
 @end

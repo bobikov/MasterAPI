@@ -17,9 +17,13 @@
 }
 -(NSMenu*)menuForEvent:(NSEvent*)theEvent
 {
-    NSPoint mousePoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    _row = [self rowAtPoint:mousePoint];
+//    _rows = [[NSMutableArray alloc]init];
+//    NSPoint mousePoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+//    _row = [self rowAtPoint:mousePoint];
     
+    _rows = [self selectedRowIndexes];
+       
+   
     if (theEvent.type==NSRightMouseDown) {
         
         NSMenu *menu=[[NSMenu alloc] initWithTitle:@"Media posts context menu"];
@@ -33,6 +37,10 @@
     return nil;
 }
 -(void)copyImageURL:(NSNotification*)notification{
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"Copy instagram image URL" object:nil userInfo:@{@"row":[NSNumber numberWithInteger:_row]}];
+    if([self.identifier isEqualToString:@"searchPostsList"]){
+         [[NSNotificationCenter defaultCenter]postNotificationName:@"Copy instagram search image URL" object:nil userInfo:@{@"rows":_rows}];
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"Copy instagram image URL" object:nil userInfo:@{@"rows":_rows}];
+    }
 }
 @end

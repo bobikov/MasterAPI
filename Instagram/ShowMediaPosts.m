@@ -9,7 +9,7 @@
 #import "ShowMediaPosts.h"
 #import "HTMLReader.h"
 #import "MediaPostsCustomCell.h"
-
+#import "PhotoSliderViewController.h"
 @interface ShowMediaPosts ()<NSSearchFieldDelegate,NSTableViewDelegate, NSTableViewDataSource,NSControlTextEditingDelegate>
 
 @end
@@ -33,7 +33,10 @@
 - (void)copyImageURL:(NSNotification*)obj{
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-    [pasteBoard setString:mediaURLS[[obj.userInfo[@"row"] intValue]] forType:NSStringPboardType];
+    
+    [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@","] forType:NSStringPboardType];
+
+ 
 }
 //-(void)controlTextDidEndEditing:(NSNotification *)obj{
 //
@@ -64,8 +67,18 @@
     }
 
 }
-- (IBAction)showMedia:(id)sender {
+- (IBAction)showInBrowser:(id)sender {
     
+    
+}
+- (IBAction)showMedia:(id)sender {
+    NSInteger index = [mediaPostsList rowForView:[sender superview]];
+    NSLog(@"CURRENT INDEX %li", index);
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+    _sliderWindowContr = [story instantiateControllerWithIdentifier:@"PhotoController"];
+    [_sliderWindowContr showWindow:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowPhotoSlider" object:nil userInfo:@{@"data":mediaURLS, @"current":[NSNumber numberWithInteger:index+1]}];
+ 
 }
 - (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     postID = nil;
@@ -74,7 +87,6 @@
    
     [self loadMediaPosts:searchField.stringValue];
     [self loadProfileInfo:searchField.stringValue];
-    
     
     //username search https://www.instagram.com/web/search/topsearch/?query=name
     //logined user feed https://www.instagram.com/?__a=1
@@ -143,20 +155,22 @@
 }
 - (void)loadMediaPosts:(NSString*)username{
     [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
-//        NSLog(@"%@",mediaResp);
-        for(NSDictionary *i in mediaResp[@"items"]){
-            NSString *caption = ![i[@"caption"] isEqual:[NSNull null]] && ![i[@"caption"][@"text"] isEqual:[NSNull null]] ? i[@"caption"][@"text"] : @"";
-            [postsData addObject:@{@"thumb":i[@"images"][@"thumbnail"][@"url"],@"caption":caption,@"date":[self formatDate:i[@"created_time"]]}];
-//
-            [mediaURLS addObject:[i[@"type"] isEqual:@"video"]?i[@"videos"][@"standard_resolution"][@"url"]:i[@"images"][@"standard_resolution"][@"url"]];
-//            NSLog(@"%@", caption);
+        if(data){
+            NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
+            //        NSLog(@"%@",mediaResp);
+            for(NSDictionary *i in mediaResp[@"items"]){
+                NSString *caption = ![i[@"caption"] isEqual:[NSNull null]] && ![i[@"caption"][@"text"] isEqual:[NSNull null]] ? i[@"caption"][@"text"] : @"";
+                [postsData addObject:@{@"thumb":i[@"images"][@"thumbnail"][@"url"],@"caption":caption,@"date":[self formatDate:i[@"created_time"]]}];
+                //
+                [mediaURLS addObject:[i[@"type"] isEqual:@"video"]?i[@"videos"][@"standard_resolution"][@"url"]:i[@"images"][@"standard_resolution"][@"url"]];
+                //            NSLog(@"%@", caption);
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [mediaPostsList reloadData];
+                loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [mediaPostsList reloadData];
-            loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
-        });
     }]resume];
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
@@ -191,7 +205,6 @@
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
 
     date = [dateFormatter stringFromDate:gotDate];
-    
     return date;;
 }
 @end

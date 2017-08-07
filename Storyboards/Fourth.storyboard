@@ -636,7 +636,7 @@
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5O-vZ-bnc">
@@ -934,6 +934,14 @@
             </objects>
             <point key="canvasLocation" x="539" y="3044"/>
         </scene>
+        <!--PhotoSliderView-->
+        <scene sceneID="Chx-Ka-RTP">
+            <objects>
+                <controllerPlaceholder storyboardName="Main" referencedIdentifier="PhotoSliderView" id="C1a-Y1-ekY" sceneMemberID="viewController"/>
+                <customObject id="3Y0-Ja-w4i" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1897" y="2679"/>
+        </scene>
         <!--Show Media Posts-->
         <scene sceneID="qFV-h5-ccB">
             <objects>
@@ -1005,14 +1013,6 @@
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANg-cO-0lr">
-                                                                                <rect key="frame" x="362" y="-4" width="79" height="32"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="push" title="browser" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wMh-du-nk8">
-                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                    <font key="font" metaFont="system"/>
-                                                                                </buttonCell>
-                                                                            </button>
                                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qaz-4j-4H3">
                                                                                 <rect key="frame" x="185" y="2" width="123" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1031,6 +1031,23 @@
                                                                                 </buttonCell>
                                                                                 <connections>
                                                                                     <action selector="showMedia:" target="gyE-QD-M6B" id="Fjw-4z-RiV"/>
+                                                                                </connections>
+                                                                            </button>
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANg-cO-0lr" customClass="NIKFontAwesomeButton">
+                                                                                <rect key="frame" x="405" y="5" width="40" height="23"/>
+                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" inset="2" id="wMh-du-nk8">
+                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                    <font key="font" metaFont="system"/>
+                                                                                </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f08e"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="18"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                                <connections>
+                                                                                    <action selector="showInBrowser:" target="gyE-QD-M6B" id="iFJ-dh-89m"/>
                                                                                 </connections>
                                                                             </button>
                                                                         </subviews>
@@ -1513,7 +1530,7 @@
                                                 <rect key="frame" x="1" y="1" width="542" height="593"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="4ct-3f-af7">
+                                                    <tableView identifier="searchPostsList" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="73" viewBased="YES" id="4ct-3f-af7" customClass="InstagramMediaPostsTableView">
                                                         <rect key="frame" x="0.0" y="0.0" width="542" height="593"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -1580,6 +1597,26 @@
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <connections>
+                                                                                    <action selector="showMedia:" target="lxn-mC-jqv" id="NSu-pr-5QG"/>
+                                                                                </connections>
+                                                                            </button>
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YEs-Z4-qe0" customClass="NIKFontAwesomeButton">
+                                                                                <rect key="frame" x="405" y="3" width="40" height="23"/>
+                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" inset="2" id="NiW-Nk-dTh">
+                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                    <font key="font" metaFont="system"/>
+                                                                                </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="string" keyPath="iconHex" value="f08e"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                                                                        <real key="value" value="18"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                                <connections>
+                                                                                    <action selector="showInBrowser:" target="lxn-mC-jqv" id="ui0-Sr-Mgs"/>
+                                                                                </connections>
                                                                             </button>
                                                                         </subviews>
                                                                         <connections>

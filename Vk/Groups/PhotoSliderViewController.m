@@ -14,7 +14,7 @@
 @end
 
 @implementation PhotoSliderViewController
-
+@synthesize data;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
@@ -70,6 +70,7 @@
     [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowCloseButton].hidden=NO;
+    
 }
 - (void)viewDidLayout{
     [self updatePhotoCaptionButTrackingArea];
@@ -160,6 +161,8 @@
 - (void)ShowSlider:(NSNotification *)notification{
     data = [[NSMutableArray alloc]initWithArray:notification.userInfo[@"data"]];
     currentIndex = [notification.userInfo[@"current"] intValue]-1;
+    NSLog(@"%@", data[currentIndex]);
+//    NSLog(@"%li", currentIndex);
     [self switchSlide:NO prev:NO];
 }
 - (void)switchSlide:(BOOL)next prev:(BOOL)prev{
@@ -181,7 +184,7 @@
     NSLog(@"%lu", currentIndex);
     progressSpin.minValue=0;
     progressSpin.doubleValue=0;
-    [photoView sd_setImageWithURL:[NSURL URLWithString:data[currentIndex][@"items"]? data[currentIndex][@"items"][@"photoBig"] : data[currentIndex][@"photo"][@"original"]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+    [photoView sd_setImageWithURL:[NSURL URLWithString:data[currentIndex][@"items"][@"photoBig"] ? data[currentIndex][@"items"][@"photoBig"] : data[currentIndex][@"photo"][@"original"] ? data[currentIndex][@"photo"][@"original"] : data[currentIndex]] placeholderImage:nil options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         progressSpin.maxValue=expectedSize;
         dispatch_async(dispatch_get_main_queue(), ^{
             progressSpin.doubleValue=receivedSize;
@@ -199,14 +202,16 @@
 //            float ory = superWindow.frame.origin.y+(superWindow.frame.size.height-self.view.window.frame.size.height)/2;
             [self.view.window.windowController.window setFrame:popupRect display:YES animate:YES];
             NSLog(@"%f, %f", superWindow.frame.origin.x,superWindow.frame.origin.y);
-            if([data[currentIndex][@"items"][@"userLikes"] intValue]){
-                userLikeBut.iconHex=@"f004";
-            }else{
-                userLikeBut.iconHex=@"f08a";
+            if(data[currentIndex][@"items"]){
+                if([data[currentIndex][@"items"][@"userLikes"] intValue]){
+                    userLikeBut.iconHex=@"f004";
+                }else{
+                    userLikeBut.iconHex=@"f08a";
+                }
             }
         });
     }];
-    likesCount.title = data[currentIndex][@"items"][@"likesCount"];
+    likesCount.title = data[currentIndex][@"items"] ? data[currentIndex][@"items"][@"likesCount"] : @"";
     self.view.window.title = [NSString stringWithFormat:@"%li/%li %@ ",  currentIndex+1, [data count], data[0][@"title"] && ![data[0][@"title"] isEqual:@""] ? data[0][@"title"] : @""];
 }
 - (IBAction)leaveLike:(id)sender {

@@ -20,7 +20,6 @@
     __weak IBOutlet NSButton *makeTriangles;
     __weak IBOutlet NSButton *makeBlur;
     __weak IBOutlet NSSlider *sharpnessControl;
-    
     __weak IBOutlet YUCIImageView *yuciiMageView;
     __weak IBOutlet NSSlider *exposure;
     NSImage *effectedImage;
@@ -33,7 +32,12 @@
     __weak IBOutlet NSButton *makeToneCurve;
     NSData *imageData;
     CIImage *ciImageC;
+    __weak IBOutlet NSButton *makePixelate;
     __weak IBOutlet NSButton *makeClahe;
+    NSImageView *imageView;
+    double pixelScale;
+    
+    __weak IBOutlet NSSlider *pixeleteScale;
 }
 @property(nonatomic)NSArray* originalImageURLs;
 @property(nonatomic)BOOL profilePhoto;

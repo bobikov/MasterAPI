@@ -21,5 +21,5 @@
     NSMutableArray *mediaURLS;
     NSMenu *cellMenu ;
 }
-
+@property(retain,strong)NSWindowController *sliderWindowContr;
 @end

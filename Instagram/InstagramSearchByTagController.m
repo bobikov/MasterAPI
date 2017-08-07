@@ -22,11 +22,20 @@
     postsData = [[NSMutableArray alloc]init];
     mediaURLS = [[NSMutableArray alloc]init];
     searchField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(copyImageURL:) name:@"Copy instagram search image URL" object:nil];
     [[postsListScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
      cellMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Search Menu", @"Search Menu title")];
     [self searchFieldMenu];
 
+}
+- (void)copyImageURL:(NSNotification*)obj{
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+    
+    [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@","] forType:NSStringPboardType];
+    
+    
 }
 -(void)viewDidScroll:(NSNotification*)notificaion{
     NSInteger scrollOrigin = [[postsListScroll contentView]bounds].origin.y+NSMaxY([postsListScroll visibleRect]);
@@ -53,31 +62,39 @@
     
 }
 -(void)searchFieldMenu{
-    
     NSMenuItem *item;
-    
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Clear", @"Clear menu title")
                                       action:NULL keyEquivalent:@""];
     [item setTag:NSSearchFieldClearRecentsMenuItemTag];
     [cellMenu insertItem:item atIndex:0];
-    
     item = [NSMenuItem separatorItem];
     [item setTag:NSSearchFieldRecentsTitleMenuItemTag];
     [cellMenu insertItem:item atIndex:1];
-    
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Recent Searches", @"Recent Searches menu title")
                                       action:NULL keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsTitleMenuItemTag];
     [cellMenu insertItem:item atIndex:2];
-    
     item = [[NSMenuItem alloc] initWithTitle:@"Recents"
                                       action:NULL keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsMenuItemTag];
     [cellMenu insertItem:item atIndex:3];
-    
-    
     [searchField setSearchMenuTemplate:cellMenu];
 }
+- (IBAction)showInBrowser:(id)sender {
+    
+    
+}
+- (IBAction)showMedia:(id)sender {
+    
+    NSInteger index = [postsList rowForView:[sender superview]];
+    NSLog(@"CURRENT INDEX %li", index);
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+    _sliderWindowContr = [story instantiateControllerWithIdentifier:@"PhotoController"];
+    [_sliderWindowContr showWindow:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowPhotoSlider" object:nil userInfo:@{@"data":mediaURLS, @"current":[NSNumber numberWithInteger:index+1]}];
+}
+
+
 -(void)loadMediaPostsByTag:(NSString*)tag{
     
    

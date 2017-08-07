@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface InstagramMediaPostsTableView : NSTableView
-@property(nonatomic,readwrite)NSUInteger row;
+@property(nonatomic,readwrite)NSIndexSet *rows;
 @end
