@@ -26,6 +26,7 @@
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
 		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
+		2B36E0E71F3F2F4E003EB150 /* PhotoSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
 		2B41FBD01E02D3F60013AC86 /* InstaPrefsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CE1E02D3F50013AC86 /* InstaPrefsInfo.m */; };
@@ -199,7 +200,6 @@
 		2B41FC8B1E02D3F70013AC86 /* GroupsFromFileCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB3E1E02D3F50013AC86 /* GroupsFromFileCustomCell.m */; };
 		2B41FC8C1E02D3F70013AC86 /* GroupsFromFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB401E02D3F50013AC86 /* GroupsFromFileViewController.m */; };
 		2B41FC8D1E02D3F70013AC86 /* GroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB421E02D3F50013AC86 /* GroupsViewController.m */; };
-		2B41FC8E1E02D3F70013AC86 /* PhotoSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */; };
 		2B41FC8F1E02D3F70013AC86 /* groupsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB461E02D3F50013AC86 /* groupsHandler.m */; };
 		2B41FC901E02D3F70013AC86 /* keyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB481E02D3F50013AC86 /* keyHandler.m */; };
 		2B41FC911E02D3F70013AC86 /* LongPoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41FB4A1E02D3F50013AC86 /* LongPoll.m */; };
@@ -548,6 +548,7 @@
 		2B20F0121E47144200816124 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutAppViewController.m; path = Storyboards/AboutAppViewController.m; sourceTree = "<group>"; };
 		2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_110x110.png; sourceTree = "<group>"; };
 		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
+		2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSliderViewController.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
 		2B41F9CB1E02D3F50013AC86 /* AppsPreferencesMainContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesMainContainerController.h; sourceTree = "<group>"; };
@@ -845,8 +846,7 @@
 		2B41FB401E02D3F50013AC86 /* GroupsFromFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsFromFileViewController.m; sourceTree = "<group>"; };
 		2B41FB411E02D3F50013AC86 /* GroupsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsViewController.h; sourceTree = "<group>"; };
 		2B41FB421E02D3F50013AC86 /* GroupsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsViewController.m; sourceTree = "<group>"; };
-		2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoSliderViewController.h; path = ../Groups/PhotoSliderViewController.h; sourceTree = "<group>"; };
-		2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoSliderViewController.m; path = ../Groups/PhotoSliderViewController.m; sourceTree = "<group>"; };
+		2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSliderViewController.h; sourceTree = "<group>"; };
 		2B41FB451E02D3F50013AC86 /* groupsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupsHandler.h; sourceTree = "<group>"; };
 		2B41FB461E02D3F50013AC86 /* groupsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupsHandler.m; sourceTree = "<group>"; };
 		2B41FB471E02D3F50013AC86 /* keyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyHandler.h; sourceTree = "<group>"; };
@@ -1955,7 +1955,7 @@
 				2B41FB5D1E02D3F60013AC86 /* URLsViewController.h */,
 				2B41FB5E1E02D3F60013AC86 /* URLsViewController.m */,
 				2B41FB431E02D3F50013AC86 /* PhotoSliderViewController.h */,
-				2B41FB441E02D3F50013AC86 /* PhotoSliderViewController.m */,
+				2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */,
 			);
 			path = "Photo show";
 			sourceTree = "<group>";
@@ -3015,7 +3015,6 @@
 				2B41FC531E02D3F60013AC86 /* TwitterClient.m in Sources */,
 				2B41FC681E02D3F70013AC86 /* VolumeView.m in Sources */,
 				2B41FBE61E02D3F60013AC86 /* InstagramClient.m in Sources */,
-				2B41FC8E1E02D3F70013AC86 /* PhotoSliderViewController.m in Sources */,
 				2B41FCBA1E02D3F70013AC86 /* WallRepostGroupsCustomCellView.m in Sources */,
 				2B41FC931E02D3F70013AC86 /* PrivacyPhotoViewController.m in Sources */,
 				2B41FBEB1E02D3F60013AC86 /* Headbar.m in Sources */,
@@ -3030,6 +3029,7 @@
 				2B41FC821E02D3F70013AC86 /* FriendsViewController.m in Sources */,
 				2B41FBDB1E02D3F60013AC86 /* CustomScrollView.m in Sources */,
 				2B41FC9E1E02D3F70013AC86 /* SearchViewController.m in Sources */,
+				2B36E0E71F3F2F4E003EB150 /* PhotoSliderViewController.m in Sources */,
 				2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */,
 				2B41FCA41E02D3F70013AC86 /* VideoCopyViewController.m in Sources */,
 				2B41FCB21E02D3F70013AC86 /* VKLoginViewController.m in Sources */,

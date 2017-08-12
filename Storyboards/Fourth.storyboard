@@ -1034,7 +1034,7 @@
                                                                                 </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANg-cO-0lr" customClass="NIKFontAwesomeButton">
-                                                                                <rect key="frame" x="405" y="5" width="40" height="23"/>
+                                                                                <rect key="frame" x="433" y="5" width="23" height="23"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" inset="2" id="wMh-du-nk8">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1602,7 +1602,7 @@
                                                                                 </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YEs-Z4-qe0" customClass="NIKFontAwesomeButton">
-                                                                                <rect key="frame" x="405" y="3" width="40" height="23"/>
+                                                                                <rect key="frame" x="430" y="3" width="23" height="23"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" inset="2" id="NiW-Nk-dTh">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

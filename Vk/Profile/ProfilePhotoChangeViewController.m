@@ -229,7 +229,7 @@
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
     PhotoEffectsViewController *contr = [story instantiateControllerWithIdentifier:@"PhotoEffectsView"];
     contr.profilePhoto=YES;
-    contr.originalImageURLs = @[[NSURL URLWithString:filePath]];
+    contr.originalImageURLs = @[[NSURL URLWithString: uploadByURLCheck.state ? fieldWithURL.stringValue : filePath]];
     [self presentViewControllerAsModalWindow:contr];
     NSLog(@"%@", filePath);
 }

@@ -10,6 +10,7 @@
 #import "HTMLReader.h"
 #import "MediaPostsCustomCell.h"
 #import "PhotoSliderViewController.h"
+#import "MyTableRowView.h"
 @interface ShowMediaPosts ()<NSSearchFieldDelegate,NSTableViewDelegate, NSTableViewDataSource,NSControlTextEditingDelegate>
 
 @end
@@ -33,10 +34,7 @@
 - (void)copyImageURL:(NSNotification*)obj{
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-    
     [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@"\n"] forType:NSStringPboardType];
-
- 
 }
 //-(void)controlTextDidEndEditing:(NSNotification *)obj{
 //
@@ -68,8 +66,9 @@
 
 }
 - (IBAction)showInBrowser:(id)sender {
+    NSInteger index = [mediaPostsList rowForView:[sender superview]];
     
-    
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:mediaURLS[index]]];
 }
 - (IBAction)showMedia:(id)sender {
     NSInteger index = [mediaPostsList rowForView:[sender superview]];
@@ -172,6 +171,10 @@
             });
         }
     }]resume];
+}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [postsData count];

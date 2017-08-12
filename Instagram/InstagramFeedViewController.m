@@ -24,7 +24,7 @@
     [[postsListScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
     cursor = nil;
-    [self loadUserFeed];
+//    [self loadUserFeed];
 //    [self loadFololowing];
 }
 -(void)viewDidScroll:(NSNotification*)notificaion{

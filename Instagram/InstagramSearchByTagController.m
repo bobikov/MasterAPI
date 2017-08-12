@@ -8,6 +8,7 @@
 
 #import "InstagramSearchByTagController.h"
 #import "MediaPostsCustomCell.h"
+#import "MyTableRowView.h"
 @interface InstagramSearchByTagController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -129,6 +130,10 @@
     date = [dateFormatter stringFromDate:gotDate];
     
     return date;;
+}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     
