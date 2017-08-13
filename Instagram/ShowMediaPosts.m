@@ -153,9 +153,9 @@
     [mediaPostsList selectRowIndexes:indexes byExtendingSelection:NO];
 }
 - (void)loadMediaPosts:(NSString*)username{
-    [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data){
-            NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    [instaClient apiRequest:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]  completion:^(NSData *userInfoData) {
+        if(userInfoData){
+            NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:userInfoData options:0 error:nil];
             postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
             //        NSLog(@"%@",mediaResp);
             for(NSDictionary *i in mediaResp[@"items"]){
@@ -170,7 +170,7 @@
                 loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
             });
         }
-    }]resume];
+    }];
 }
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
     MyTableRowView *rowView = [[MyTableRowView alloc]init];

@@ -36,13 +36,15 @@
 
 - (void)getUsersInfo:(nonnull id)ids filters:(nullable id)filters  :(OnGetUsersInfoComplete)completion {
     
-   
+    
     [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,verified,blacklisted_by_me,relation&v=%@&access_token=%@", [ids componentsJoinedByString:@","], version, token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
         if(userGetResponse[@"error"]){
             NSLog(@"%@:%@", userGetResponse[@"error"][@"error_code"], userGetResponse[@"error_msg"]);
         }
         else{
+            
             for(NSDictionary *a in userGetResponse[@"response"]){
                 
                 NSMutableDictionary *object = [self unpackUsersInfo:a];
@@ -55,7 +57,7 @@
                         //[FriendsData removeAllObjects];
                         if (!a[@"deactivated"]){
                             if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
-                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                     if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
                                         if(blacklisted){
                                             offsetCounter++;
@@ -121,8 +123,8 @@
                         
                         
                         if (![online  isEqual: @"1"]){
-                            if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
-                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                            if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1 ){
+                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                     if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
                                         if(blacklisted){
                                             offsetCounter++;
@@ -188,7 +190,7 @@
                         
                         if ([online  isEqual: @"1"]){
                             if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
-                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                     if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
                                         if(blacklisted){
                                             offsetCounter++;
@@ -255,7 +257,7 @@
                         
                         if (a[@"deactivated"]){
                             if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
-                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                     if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
                                         if(blacklisted){
                                             offsetCounter++;
@@ -322,8 +324,8 @@
                     else if([filters[@"online"] intValue]==1 && [filters[@"offline"] intValue] == 1 && [filters[@"active"] intValue] == 0) {
                         
                         if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
-                            if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
-                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2){
+                            if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1 ){
+                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                     if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
                                         if(blacklisted){
                                             offsetCounter++;
@@ -490,7 +492,7 @@
     getFavesUsersBlock();
 
 }
-- (void)getFavoriteUsersInfo:(id)filters :(BOOL)offset :(OnGetFavoriteUsersInfoComplete)completion{
+- (void)getFavoriteUsersInfo:(id)filters :(BOOL)offset data:(nullable id)data :(nonnull OnGetFavoriteUsersInfoComplete)completion{
     if(offset){
         offsetLoadFaveUsers=offsetLoadFaveUsers+50;
     }else{
@@ -500,14 +502,20 @@
         offsetLoadFaveUsers=0;
         offsetCounter=0;
     }
-    [self getFavoriteUsersIDs:offsetLoadFaveUsers :^(NSMutableArray * _Nonnull favesUsersIDs) {
-        if(favesUsersIDs){
-//            NSLog(@"%@", favesUsersIDs);
-            [self getUsersInfo:favesUsersIDs filters:filters :^(NSMutableArray * _Nonnull usersFullObjectsInfo) {
-               completion(usersFullObjectsInfo, offsetCounter, totalFavesUsersCount, offsetLoadFaveUsers, [usersListData count]);
-            }];
-        }
-    }];
+    if(data == nil){
+        [self getFavoriteUsersIDs:offsetLoadFaveUsers :^(NSMutableArray * _Nonnull favesUsersIDs) {
+            if(favesUsersIDs){
+                //            NSLog(@"%@", favesUsersIDs);
+                [self getUsersInfo:favesUsersIDs filters:filters :^(NSMutableArray * _Nonnull usersFullObjectsInfo) {
+                    completion(usersFullObjectsInfo, offsetCounter, totalFavesUsersCount, offsetLoadFaveUsers, [usersListData count]);
+                }];
+            }
+        }];
+    }else{
+        [self getUsersInfo:data filters:filters :^(NSMutableArray * _Nonnull usersFullObjectsInfo) {
+            completion(usersFullObjectsInfo, offsetCounter, totalFavesUsersCount, offsetLoadFaveUsers, [usersListData count]);
+        }];
+    }
 }
 - (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray * _Nonnull))completion{
     if(searchById == nil){

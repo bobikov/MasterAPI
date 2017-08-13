@@ -23,4 +23,5 @@ typedef void(^OnComplete)(NSData *data);
 -(void)APIRequest:(NSString *)params completion:(OnComplete)completion;
 typedef void(^OnComplete)(NSData  *userInfoData);
 -(void)getUserInfo:(OnComplete)completion;
+-(void)apiRequest:(NSString *)params completion:(OnComplete)completion;
 @end

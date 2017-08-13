@@ -100,7 +100,7 @@ typedef void(^OnGetFavoriteUsersInfoComplete)(NSMutableArray *favesUsersObjectsI
 - (void)getBannedUsersIDs:(NSInteger)offsetBannedUsersIDs :(OnGetBannedUsersIDsComplete)completion;
 - (void)getBannedUsersInfo:(nullable id)filters :(BOOL)offset  :(OnGetBannedUsersInfoComplete)completion;
 - (void)getFavoriteUsersIDs:(NSInteger)offsetFavoriteUsersIDs :(OnGetFavoriteUsersIDsComplete)completion;
-- (void)getFavoriteUsersInfo:(nullable id)filters :(BOOL)offset :(OnGetFavoriteUsersInfoComplete)completion;
+- (void)getFavoriteUsersInfo:(nullable id)filters :(BOOL)offset data:(nullable id)data :(OnGetFavoriteUsersInfoComplete)completion;
 
 - (void)searchGroups:(BOOL)offset queryString:(nonnull id)queryString :(void(^)(NSMutableArray *groups))completion;
 - (void)getGroupById:(nonnull id)groupId :(void(^)(NSDictionary*groupInfoObject))completion;

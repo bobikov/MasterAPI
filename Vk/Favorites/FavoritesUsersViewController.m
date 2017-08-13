@@ -28,6 +28,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 @end
 
 @implementation FavoritesUsersViewController
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     favesUsersList.delegate=self;
@@ -162,7 +164,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         if (scrollOrigin == boundsHeight+2) {
             //Refresh here
             //         NSLog(@"The end of table");
-            if([favesUsersData count] > 0 && !loadFromUserGroup && !loading){
+            if([favesUsersData count] > 0 && !loading){
                 [self loadFavesUsers:NO :YES];
             }
         }
@@ -216,13 +218,14 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 }
 - (void)loadFavesUserGroups{
     [self readItemsInUserFavesGroup];
-    //    NSLog(@"%@", userGroupsNames);
+//        NSLog(@"%@", userGroupsNames);
 }
 - (IBAction)userFavesGroupsPrefsSelect:(id)sender {
     if([userFavesGroupsPrefs indexOfSelectedItem]==1){
         NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
         CreateFavesGroupController *contr = [story instantiateControllerWithIdentifier:@"CreateFavesGroupView"];
         contr.onlyCreate=YES;
+        contr.source=@"users";
         [self presentViewControllerAsSheet:contr];
         
     }else if([userFavesGroupsPrefs indexOfSelectedItem]==2){
@@ -233,7 +236,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
   
     [restoredUserIDs removeAllObjects];
     if([[[favesUserGroups selectedItem]title] isEqual:@"No group"]){
-          loadFromUserGroup=NO;
+        
+        restoredUserIDs = nil;
         [self loadFavesUsers:NO :NO];
     }else{
         loadFromUserGroup=YES;
@@ -250,7 +254,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
             }
         }
         [self loadFavesUsers:NO :NO];
-//        NSLog(@"%@", restoredUserIDs);
+        NSLog(@"%@", restoredUserIDs);
     }
 }
 
@@ -277,6 +281,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         [favesUserGroupsMenu addItem:item];
     }
     [favesUserGroups setMenu:favesUserGroupsMenu];
+
     dispatch_after(6, dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter]postNotificationName:@"getUserFavesGroupsForContextMenu" object:nil userInfo:@{@"groups":[userGroupsNames mutableCopy]}];
     });
@@ -623,7 +628,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         [progressSpin startAnimation:self];
         NSDictionary *filters = @{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state]};
         
-        [_app getFavoriteUsersInfo:filters :offset :^(NSMutableArray * _Nonnull favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount) {
+        [_app getFavoriteUsersInfo:filters :offset data:[restoredUserIDs count ] ? restoredUserIDs : nil :^(NSMutableArray * _Nonnull favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount) {
             favesUsersData = favesUsersObjectsInfo;
             totalCount = totalFavesUsersResult;
             NSLog(@"%li, %li , %li, %li", offsetCounterResult, totalFavesUsersResult, offsefFavesUsersLoadResult,favesUsersListCount);

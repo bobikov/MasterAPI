@@ -16,9 +16,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%@", _source);
 }
 - (IBAction)create:(id)sender {
+    NSLog(@"CREATE");
     if([_source isEqual:@"users"]){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"CreateFavesGroup" object:nil userInfo:@{@"group_name":groupNameField.stringValue, @"only_create":[NSNumber numberWithInteger:_onlyCreate], @"source":_source}];
         [self dismissController:self];
