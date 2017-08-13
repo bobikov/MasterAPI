@@ -164,7 +164,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         if (scrollOrigin == boundsHeight+2) {
             //Refresh here
             //         NSLog(@"The end of table");
-            if([favesUsersData count] > 0 && !loading){
+            if([favesUsersData count] > 0 && !loading && [restoredUserIDs count]==0){
                 [self loadFavesUsers:NO :YES];
             }
         }
@@ -237,10 +237,9 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     [restoredUserIDs removeAllObjects];
     if([[[favesUserGroups selectedItem]title] isEqual:@"No group"]){
         
-        restoredUserIDs = nil;
+//        restoredUserIDs = nil;
         [self loadFavesUsers:NO :NO];
     }else{
-        loadFromUserGroup=YES;
         NSFetchRequest *fetchGroupsRequest = [NSFetchRequest fetchRequestWithEntityName:@"VKFavesUserGroupsNames"];
         [fetchGroupsRequest setReturnsObjectsAsFaults:NO];
         [fetchGroupsRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", [[favesUserGroups selectedItem]title]]];
@@ -637,13 +636,12 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                     //NSLog(@"%@", favesUsersData);
                     //NSLog(@"%li", [favesUsersData count]);
                     totalCountLabel.title = [NSString stringWithFormat:@"%li", totalFavesUsersResult];
+                    loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounterResult];
                     [favesUsersList reloadData];
                     [progressSpin stopAnimation:self];
                     loading=NO;
                     if(favesUsersListCount>0 && offsefFavesUsersLoadResult<totalFavesUsersResult){
-                        NSLog(@"BAD END");
-                        loadedCount.title=[NSString stringWithFormat:@"%lu",offsetCounterResult];
-                      
+                     
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"banAndUnbanUserInFaves" object:nil userInfo:@{@"favesUsersData":favesUsersData}];
                         if(favesUsersListCount<15 && totalFavesUsersResult>=15 && offsetCounterResult < totalFavesUsersResult && [restoredUserIDs count]==0 && !loading){
                             dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

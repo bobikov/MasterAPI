@@ -481,9 +481,11 @@
                 }else{
                     totalFavesUsersCount = [getFavesUsersResponse[@"response"][@"count"] intValue];
                     usersIDs = [[NSMutableArray alloc]init];
+                 
                     for(NSDictionary *i in getFavesUsersResponse[@"response"][@"items"]){
                         [usersIDs addObject:i[@"id"]];
                     }
+                    
                     completion(usersIDs);
                 }
             }
@@ -512,6 +514,7 @@
             }
         }];
     }else{
+        totalFavesUsersCount = [data count];
         [self getUsersInfo:data filters:filters :^(NSMutableArray * _Nonnull usersFullObjectsInfo) {
             completion(usersFullObjectsInfo, offsetCounter, totalFavesUsersCount, offsetLoadFaveUsers, [usersListData count]);
         }];
