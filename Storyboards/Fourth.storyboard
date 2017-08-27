@@ -987,7 +987,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="erT-iM-7Sh">
-                                                                                <rect key="frame" x="3" y="24" width="444" height="36"/>
+                                                                                <rect key="frame" x="3" y="19" width="444" height="36"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="FBf-LP-Ta8">
                                                                                     <font key="font" metaFont="cellTitle"/>
@@ -1005,7 +1005,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sSR-Nj-MDd">
-                                                                                <rect key="frame" x="245" y="56" width="202" height="17"/>
+                                                                                <rect key="frame" x="245" y="58" width="202" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" id="aWD-x7-qUa">
                                                                                     <font key="font" metaFont="systemMedium" size="11"/>

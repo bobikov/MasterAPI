@@ -630,6 +630,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
         [_app getFavoriteUsersInfo:filters :offset data:[restoredUserIDs count ] ? restoredUserIDs : nil :^(NSMutableArray * _Nonnull favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount) {
             favesUsersData = favesUsersObjectsInfo;
             totalCount = totalFavesUsersResult;
+//            NSLog(@"%@",favesUsersData );
             NSLog(@"%li, %li , %li, %li", offsetCounterResult, totalFavesUsersResult, offsefFavesUsersLoadResult,favesUsersListCount);
             if(favesUsersListCount>0 && offsetCounterResult <= favesUsersListCount){
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -727,7 +728,13 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     cell.photo.layer.cornerRadius=40;
     cell.photo.layer.masksToBounds=YES;
     cell.verified.hidden=![favesUsersData[row][@"verified"] intValue];
-    cell.blacklisted.hidden = ![favesUsersData[row][@"blacklisted_by_me"] intValue];
+    
+    if([favesUsersData[row][@"blacklisted_by_me"] intValue] || [favesUsersData[row][@"blacklisted"] intValue]){
+        cell.blacklisted.hidden = NO;
+    }else{
+        cell.blacklisted.hidden = YES;
+    }
+   
     
     if([favesUsersData[row][@"deactivated"] isEqual:@""]){
         cell.deactivatedStatus.hidden=YES;

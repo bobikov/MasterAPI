@@ -316,27 +316,29 @@
             totalCountBanned = totalBannedResult;
             offsetLoadBanlist = offsetBanlistLoadResult;
             
-            if([bannedUsersInfo count]>0 & offsetCounterResult <= bannedUsersListCount ){
+//            if([bannedUsersInfo count]>0  && offsetCounterResult <= bannedUsersListCount ){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     loading=NO;
-                    if (bannedUsersListCount>0 && offsetBanlistLoadResult < totalBannedResult){
+//                    if (bannedUsersListCount>0 && offsetBanlistLoadResult < totalBannedResult){
                         [progressSpin stopAnimation:self];
                         loadedCount.title=[NSString stringWithFormat:@"%li", bannedUsersListCount];
                         totalCount.title = [NSString stringWithFormat:@"%li", totalBannedResult];
                         [banList reloadData];
                         
                         dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                            if(bannedUsersListCount<15 && totalBannedResult>=15 && offsetBanlistLoadResult < totalBannedResult && !loading){
+                            if( (bannedUsersListCount<15 && totalBannedResult>=15 && offsetBanlistLoadResult < totalBannedResult && !loading)){
+                                NSLog(@"OFFSET LOAD");
                                 getBannedBlock(YES);
                                 
                             }
                         });
-                    }
+//                    }
                 });
-            }
-            else{
-                
-            }
+//            }
+//            else{
+//                
+//            }
+            
             NSLog(@"OFFSET BANLIST %li", offsetBanlistLoadResult);
             NSLog(@"OFFSET BANLIST COUNTER %li", offsetCounterResult);
         }];

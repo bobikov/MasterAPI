@@ -39,6 +39,7 @@
     
     [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,verified,blacklisted_by_me,relation&v=%@&access_token=%@", [ids componentsJoinedByString:@","], version, token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        
 
         if(userGetResponse[@"error"]){
             NSLog(@"%@:%@", userGetResponse[@"error"][@"error_code"], userGetResponse[@"error_msg"]);
@@ -49,22 +50,34 @@
                 
                 NSMutableDictionary *object = [self unpackUsersInfo:a];
                 
+               
                 if(filters == nil){
+                    
                     [usersListData addObject:object];
                 }
                 else{
+//
                     if([filters[@"online"] intValue]==1 && [filters[@"offline"] intValue] ==1 && [filters[@"active"] intValue] == 1){
-                        //[FriendsData removeAllObjects];
+                      
                         if (!a[@"deactivated"]){
+                           
                             if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
                                 if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
-                                    if(filters[@"blacklist"]  && [filters[@"blacklist"] intValue]==1){
-                                        if(blacklisted){
-                                            offsetCounter++;
-                                            [usersListData addObject:object];
+                                    if(filters[@"blacklist"]){
+                                        if([filters[@"blacklist"] intValue]==1){
+                                            if(blacklisted){
+                                                NSLog(@"BLACKLISTED");
+                                                offsetCounter++;
+                                                [usersListData addObject:object];
+                                            }
+                                        }else{
+                                            if(!blacklisted){
+                                                offsetCounter++;
+                                                [usersListData addObject:object];
+                                            }
                                         }
                                     }else{
-                                        if(!blacklisted){
+                                        if(blacklisted || !blacklisted){
                                             offsetCounter++;
                                             [usersListData addObject:object];
                                         }
@@ -452,7 +465,7 @@
         offsetLoadBanlist=offsetLoadBanlist+200;
     }else{
         [usersListData removeAllObjects];
-        //            [banList reloadData];
+
         offsetLoadBanlist=0;
         offsetCounter=0;
     }
@@ -520,7 +533,7 @@
         }];
     }
 }
-- (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray * _Nonnull))completion{
+- (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset ge:(void (^)(NSMutableArray * _Nonnull))completion{
     if(searchById == nil){
         if(offset){
             searchOffsetCounter = searchOffsetCounter + 100;
@@ -595,7 +608,7 @@
         fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         city = a[@"city"] && a[@"city"][@"title"]!=nil ? a[@"city"][@"title"] : @"";
         status = a[@"status"] && a[@"status"]!=nil ? a[@"status"] : @"";
-        blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil?  [a[@"blacklisted"] intValue] : 0;
+        blacklisted = a[@"blacklisted"] && a[@"blacklisted"]!=nil ?  [a[@"blacklisted"] intValue] : 0;
         blacklisted_by_me = a[@"blacklisted_by_me"] && a[@"blacklisted_by_me"]!=nil ?  [a[@"blacklisted_by_me"] intValue] : 0;
         domain = a[@"domain"] && a[@"domain"]!=nil ? a[@"domain"] : @"";
         if(a[@"bdate"] && a[@"bdate"] && a[@"bdate"]!=nil){
