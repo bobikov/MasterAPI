@@ -533,7 +533,7 @@
         }];
     }
 }
-- (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset ge:(void (^)(NSMutableArray * _Nonnull))completion{
+- (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray * _Nonnull))completion{
     if(searchById == nil){
         if(offset){
             searchOffsetCounter = searchOffsetCounter + 100;

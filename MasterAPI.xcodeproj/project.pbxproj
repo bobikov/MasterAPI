@@ -3078,7 +3078,7 @@
 				2B41F9DC1E02D3F50013AC86 /* Base */,
 			);
 			name = Main.storyboard;
-			path = "/Users/hal/Desktop/obj-c projects/MasterAPI/master_api_without_bindings/Storyboards";
+			path = "/Users/hal/Cloud@Mail.Ru/obj-c projects/MasterAPI/master_api_without_bindings/Storyboards";
 			sourceTree = "<absolute>";
 		};
 /* End PBXVariantGroup section */
