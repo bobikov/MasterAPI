@@ -57,7 +57,8 @@
     }
 }
 - (void)AddFavesUserGroupsItemIntoGroup:(NSNotification*)notification{
-    [self addNewItemsInToSelectedUserGroup:notification.userInfo[@"group_name"]];
+    groupName = notification.userInfo[@"group_name"];
+    [self addNewItemsInToSelectedUserGroup:groupName];
 }
 - (void)VisitUserPageFromFavoriteUsers:(NSNotification *)notification{
     NSInteger row = [notification.userInfo[@"row"] intValue];
@@ -90,7 +91,11 @@
         NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
         CreateFavesGroupController *contr = [story instantiateControllerWithIdentifier:@"CreateFavesGroupView"];
         contr.onlyCreate=YES;
-        [self presentViewControllerAsSheet:contr];
+        contr.source = @"groups";
+//        [self setNextResponder:contr.view];
+//        [self presentViewControllerAsSheet:contr];
+        
+        [self presentViewControllerAsModalWindow:contr];
         
     }else if([userFavesGroupsPrefs indexOfSelectedItem]==2){
         [self deleteUserFavesGroup];
@@ -99,7 +104,7 @@
 - (IBAction)selectUserFavesGroup:(id)sender {
     
     [restoredUserIDs removeAllObjects];
-    if([[[favesUserGroups selectedItem]title] isEqual:@"No group"]){
+    if([[[favesUserGroups selectedItem]title] isEqualToString:@"No group"]){
         loadFromUserGroup=NO;
         [self loadFavesGroups:NO :NO];
     }else{
@@ -107,19 +112,54 @@
         NSFetchRequest *fetchGroupsRequest = [NSFetchRequest fetchRequestWithEntityName:@"VKFavesGroupsUserGroupsNames"];
         [fetchGroupsRequest setReturnsObjectsAsFaults:NO];
         [fetchGroupsRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", [[favesUserGroups selectedItem]title]]];
-        NSArray *fetchedGroups = [moc executeFetchRequest:fetchGroupsRequest error:nil];
-        for(NSManagedObject *i in fetchedGroups ){
-            for(NSManagedObject *a in [[i valueForKey:@"userGroupsFavesGroups"] allObjects]){
-                if([[[i valueForKey:@"userGroupsFavesGroups"] allObjects] count]>0){
-                    //NSLog(@"%@", [a valueForKey:@"name"]);
-                    [restoredUserIDs addObject:[a valueForKey:@"id"]];
-                }else{
-                    break;
+        NSError *saveDeleteObject ;
+        __block NSArray *fetchedGroups = [moc executeFetchRequest:fetchGroupsRequest error:nil];
+        __block NSInteger countObjectsInGroupCD = [[[(NSManagedObject*)fetchedGroups[0] valueForKey:@"userGroupsFavesGroups"]allObjects]count];
+        __block void(^fetchGroupsBlock)();
+        NSLog(@"COUNT %li", countObjectsInGroupCD);
+        __block int from = 0;
+        __block int fetchCount=400;
+        fetchGroupsBlock=^(){
+            NSInteger step = countObjectsInGroupCD - (countObjectsInGroupCD % fetchCount);
+            step =  step != fetchCount ? step / fetchCount : step;
+            step = from == countObjectsInGroupCD - (countObjectsInGroupCD % fetchCount) ? countObjectsInGroupCD % fetchCount : step;
+            for(NSManagedObject *i in fetchedGroups ){
+                NSInteger size = [[[i valueForKey:@"userGroupsFavesGroups"] allObjects]count]-from;
+                NSInteger size2 = countObjectsInGroupCD > fetchCount ? step : countObjectsInGroupCD < fetchCount ? countObjectsInGroupCD : fetchCount;
+                
+                for(NSManagedObject *a in [[[i valueForKey:@"userGroupsFavesGroups"] allObjects] subarrayWithRange:NSMakeRange(from, MIN([[[i valueForKey:@"userGroupsFavesGroups"] allObjects]count]-from,size2)) ]){
+                    if([[[i valueForKey:@"userGroupsFavesGroups"] allObjects] count]>0){
+                        //NSLog(@"%@", [a valueForKey:@"name"]);
+                        if(![restoredUserIDs containsObject:[a valueForKey:@"id"]]){
+                            
+                            [restoredUserIDs addObject:[a valueForKey:@"id"]];
+                        }else{
+                            //                        [moc deleteObject:a];
+                            //                        if(![moc save:&saveDeleteObject]){
+                            //                            NSLog(@"Error delete object");
+                            //                        }else{
+                            //                            NSLog(@"Object is sucessfully deleted");
+                            //                        }
+                        }
+                    }else{
+                        break;
+                    }
                 }
             }
-        }
-//        NSLog(@"%@", restoredUserIDs);
-        [self loadFavesGroups:NO :NO];
+            
+            restoredUserIDs = [NSMutableArray arrayWithArray:[NSOrderedSet orderedSetWithArray:restoredUserIDs].array];
+            //NSLog(@"%@", restoredUserIDs);
+            NSLog(@"FROM %i", from);
+            NSLog(@"STEP %li", step);
+             [self loadFavesGroups:NO :NO];
+            sleep(1);
+            if(from < countObjectsInGroupCD -(countObjectsInGroupCD % fetchCount)&& countObjectsInGroupCD > fetchCount ){
+                from+=step;
+                [restoredUserIDs removeAllObjects];
+                fetchGroupsBlock();
+            }
+        };
+        fetchGroupsBlock();
     }
 }
 
@@ -242,7 +282,7 @@
         }
     }];
 }
-- (void)addNewItemsInToSelectedUserGroup:(NSString*)groupName{
+- (void)addNewItemsInToSelectedUserGroup:(NSString*)groupNamea{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
     
@@ -251,7 +291,7 @@
         NSError *readError;
         NSMutableArray *allItemsInGroup = [[NSMutableArray alloc]init];
         NSFetchRequest *fetchGroupsNamesRequest = [ NSFetchRequest fetchRequestWithEntityName:@"VKFavesGroupsUserGroupsNames"];
-        [fetchGroupsNamesRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@",groupName]];
+        [fetchGroupsNamesRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@",groupNamea]];
         
         NSArray *fetechedGroupsNames = [temporaryContext executeFetchRequest:fetchGroupsNamesRequest error:&readError];
         for(NSManagedObject *group in fetechedGroupsNames){
@@ -405,45 +445,45 @@
     [selectedGroups removeAllObjects];
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     NSMutableIndexSet *indexes2 = [NSMutableIndexSet indexSet];
+    
     void(^deleteFromFavesBlock)()=^void(){
-        for (NSInteger i = [rows firstIndex]; i != NSNotFound; i = [rows indexGreaterThanIndex: i]){
-            [selectedGroups addObject:favesGroupsData[i]];
-//            [indexes addIndex:[favesGroupsData[i][@"index"] intValue]];
-           
-        }
-        NSLog(@"Selected groups:%@", selectedGroups);
-       for(NSDictionary *i in selectedGroups){
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.removeLink?link_id=%@&v=%@&access_token=%@", i[@"id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-               NSDictionary *deleteUsersFromFavesResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
-               NSLog(@"%@", deleteUsersFromFavesResponse);
+        
+        NSLog(@"Selected groups:%@",[favesGroupsList selectedRowIndexes]);
+        for(NSDictionary *i in [favesGroupsData objectsAtIndexes:rows]){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.removeLink?link_id=%@&v=%@&access_token=%@", i[@"link_id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *deleteUsersFromFavesResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
+                NSLog(@"%@", deleteUsersFromFavesResponse);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [favesGroupsList deselectRow:[favesGroupsData  indexOfObject:i]];
+//                    [favesGroupsData removeObjectAtIndex:[favesGroupsData  indexOfObject:i]];
+                    totalCount.title =[NSString stringWithFormat:@"%i", [totalCount.title intValue]-1];
+                    countLoaded.title =[NSString stringWithFormat:@"%li", [favesGroupsData count] ==0 ? [favesGroupsDataCopy count] : [favesGroupsData count]];
+                    offsetCounter-=1;
+                });
             }]resume];
-           dispatch_async(dispatch_get_main_queue(), ^{
-               [favesGroupsList deselectRow:[selectedGroups indexOfObject:i]];
-               totalCount.title =[NSString stringWithFormat:@"%i", [totalCount.title intValue]-1];
-               countLoaded.title =[NSString stringWithFormat:@"%li", [favesGroupsData count] ==0 ? [favesGroupsDataCopy count] : [favesGroupsData count]];
-               offsetCounter-=1;
-           });
-           sleep(1);
-       }
-       
-//
+            
+            sleep(1);
+        }
+        
+        //
         for(NSDictionary *i in favesGroupsDataCopy){
             if([selectedGroups containsObject:i]){
                 NSLog(@"%@", i);
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    [favesGroupsList deselectRow:[selectedGroups indexOfObject:i]];
+                    //                    [favesGroupsList deselectRow:[selectedGroups indexOfObject:i]];
                     
                 });
                 [indexes addIndex:[favesGroupsDataCopy indexOfObject:i]];
                 
-//                 [favesGroupsDataCopy removeObjectAtIndex:];
-//                sleep(1);
+                //                 [favesGroupsDataCopy removeObjectAtIndex:];
+                //                sleep(1);
                 
-               
+                
             }
         }
         [favesGroupsDataCopy removeObjectsAtIndexes:indexes];
-         [favesGroupsData removeObjectsAtIndexes:rows];
+        [favesGroupsData removeObjectsAtIndexes:rows];
         if([favesGroupsDataCopySearch count]>0){
             for(NSDictionary *i in favesGroupsDataCopySearch){
                 if([selectedGroups containsObject:i]){
@@ -463,13 +503,13 @@
             [favesGroupsDataCopySearch removeObjectsAtIndexes:indexes2];
         }
         
-//        NSLog(@"%@", indexes);
-//        NSLog(@"%@", [favesGroupsDataCopy objectsAtIndexes:indexes]);
+        //        NSLog(@"%@", indexes);
+        //        NSLog(@"%@", [favesGroupsDataCopy objectsAtIndexes:indexes]);
         dispatch_async(dispatch_get_main_queue(), ^{
-//            [favesGroupsTemp removeObjectsAtIndexes:rows];
-
+            //            [favesGroupsTemp removeObjectsAtIndexes:rows];
+            
             [favesGroupsList reloadData];
-        
+            
             
         });
     };
@@ -610,7 +650,7 @@
         [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_ids=%@&fields=description&offset=%li&access_token=%@&v=%@", [restoredUserIDs componentsJoinedByString:@","], offsetLoadFaveGroups, _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if(data){
                 NSDictionary *getFavesGroupsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//                NSLog(@"%@", getFavesGroupsResponse);
+                NSLog(@"%@", getFavesGroupsResponse);
                 if (getFavesGroupsResponse[@"error"]){
                     NSLog(@"%@:%@", getFavesGroupsResponse[@"error"][@"error_code"], getFavesGroupsResponse[@"error"][@"error_msg"]);
                 }

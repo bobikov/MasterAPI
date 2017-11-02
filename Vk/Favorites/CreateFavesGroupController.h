@@ -8,10 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CreateFavesGroupController : NSViewController{
+@interface CreateFavesGroupController : NSViewController {
     
     __weak IBOutlet NSTextField *groupNameField;
+ 
 }
 @property(nonatomic)BOOL onlyCreate;
 @property(nonatomic)NSString *source;
+
 @end

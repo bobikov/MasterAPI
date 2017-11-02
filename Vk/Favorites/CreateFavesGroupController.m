@@ -7,6 +7,7 @@
 //
 
 #import "CreateFavesGroupController.h"
+#import "AppDelegate.h"
 
 @interface CreateFavesGroupController ()
 
@@ -17,6 +18,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%@", _source);
+    
+}
+- (void)keyDown:(NSEvent *)event{
+    NSLog(@"%d", event.keyCode);
+    //    NSLog(@"%d", NSRightArrowFunctionKey);
+    NSString*   const   character   =   [event charactersIgnoringModifiers];
+    unichar     const   code        =   [character characterAtIndex:0];
+    switch (event.keyCode){
+        case 53:
+            [self dismissController:self];
+            break;
+    }
+}
+
+-(BOOL)acceptsFirstResponder{
+    return YES;
+}
+
+-(void)mouseDown:(NSEvent *)event{
+    AppDelegate *appDelegate = ((AppDelegate *)[NSApplication sharedApplication].delegate);
+    
+   [self.view.window makeFirstResponder:nil];
+    NSLog(@"KKKKKK");
+    
+
+}
+-(void)viewDidAppear{
+//    [self.view.window setAcceptsMouseMovedEvents:YES];
+    [self.view.window makeFirstResponder:self];
+//    self.view.window.delegate=self;
+   
 }
 - (IBAction)create:(id)sender {
     NSLog(@"CREATE");

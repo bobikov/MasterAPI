@@ -633,6 +633,14 @@
             </objects>
             <point key="canvasLocation" x="1782.5" y="1300"/>
         </scene>
+        <!--createFavesGroupsController-->
+        <scene sceneID="fMa-NV-0PZ">
+            <objects>
+                <controllerPlaceholder storyboardName="Fifth" referencedIdentifier="createFavesGroupsController" id="KGo-JE-ngB" sceneMemberID="viewController"/>
+                <customObject id="X7K-xT-g6z" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="101" y="1387"/>
+        </scene>
         <!--Groups-->
         <scene sceneID="36J-VV-Lxa">
             <objects>
@@ -1064,7 +1072,7 @@
                 </viewController>
                 <customObject id="kKZ-ph-elN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="227.5" y="1890"/>
+            <point key="canvasLocation" x="218" y="1890"/>
         </scene>
         <!--Full Group Info View Controller-->
         <scene sceneID="lWX-ng-ZGh">
