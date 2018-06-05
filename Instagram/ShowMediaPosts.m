@@ -159,7 +159,7 @@
             postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
             //        NSLog(@"%@",mediaResp);
             for(NSDictionary *i in mediaResp[@"items"]){
-                NSString *caption = ![i[@"caption"] isEqual:[NSNull null]] && ![i[@"caption"][@"text"] isEqual:[NSNull null]] ? i[@"caption"][@"text"] : @"";
+                NSString *caption = [i[@"node"][@"edge_media_to_caption"][@"edges"] count] ? i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] : @"";
                 [postsData addObject:@{@"thumb":i[@"images"][@"thumbnail"][@"url"],@"caption":caption,@"date":[self formatDate:i[@"created_time"]]}];
                 //
                 [mediaURLS addObject:[i[@"type"] isEqual:@"video"]?i[@"videos"][@"standard_resolution"][@"url"]:i[@"images"][@"standard_resolution"][@"url"]];
@@ -182,9 +182,10 @@
 - (void)loadMediaPostsByTag:(NSString*)tag{
     [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@/?__a=1", tag]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *tagSearchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
-            NSLog(@"%@", i[@"display_src"]);
-        }
+        NSLog(@"TAGS SEARCH %@", tagSearchResp);
+//        for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
+//            NSLog(@"%@", i[@"display_src"]);
+//        }
     }]resume];
 
 

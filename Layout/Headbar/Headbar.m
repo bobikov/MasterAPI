@@ -256,19 +256,20 @@
     [button setAttributedTitle:attrString];
 }
 -(void)loadInstagramInfo{
-    if(appPhotoURLs[@"instagram"]){
-        [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
-        mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
-    }else{
-        InstagramClient *client = [[InstagramClient alloc]init];
-        [client getUserInfo:^(NSData *userInfoData) {
-            NSDictionary *userDataResp = [NSJSONSerialization JSONObjectWithData:userInfoData options:0 error:nil];
-            appPhotoURLs[@"instagram"] = @{@"photo":[NSURL URLWithString:userDataResp[@"user"][@"profile_pic_url"]], @"name":userDataResp[@"user"][@"username"]};
-            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
-            mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
-            NSLog(@"%@",userDataResp);
-        }];
-    }
+    NSLog(@"%@", appPhotoURLs);
+//    if(appPhotoURLs[@"instagram"]){
+//        [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+//        mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
+//    }else{
+//        InstagramClient *client = [[InstagramClient alloc]init];
+//        [client getUserInfo:^(NSData *userInfoData) {
+//            NSDictionary *userDataResp = [NSJSONSerialization JSONObjectWithData:userInfoData options:0 error:nil];
+//            appPhotoURLs[@"instagram"] = @{@"photo":[NSURL URLWithString:userDataResp[@"user"][@"profile_pic_url"]], @"name":userDataResp[@"user"][@"username"]};
+//            [mainProfilePhoto sd_setImageWithURL:appPhotoURLs[@"instagram"][@"photo"] placeholderImage:nil options:SDWebImageRefreshCached];
+//            mainProfilePhoto.toolTip=appPhotoURLs[@"instagram"][@"name"];
+//            NSLog(@"%@",userDataResp);
+//        }];
+//    }
 }
 - (void)loadTwitterInfo{
     if(appPhotoURLs[@"twitter"]){

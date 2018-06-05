@@ -4427,8 +4427,22 @@ Gw
                                 <rect key="frame" x="48" y="25" width="256" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eg5-NG-PNV">
+                                <rect key="frame" x="55" y="1" width="82" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Buv-bl-ovM">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="plD-aV-7qG" id="F7m-QH-Tmf"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qk-Y0-SdR">
-                                <rect key="frame" x="130" y="1" width="81" height="32"/>
+                                <rect key="frame" x="199" y="1" width="81" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Create" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vTU-QF-92o">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -6059,6 +6073,6 @@ Gw
         <image name="volume" width="95" height="140"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Djy-ZH-8Zc"/>
+        <segue reference="ngi-Ei-XeG"/>
     </inferredMetricsTieBreakers>
 </document>

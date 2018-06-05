@@ -102,19 +102,21 @@
         if(data){
             
             NSDictionary *tagSearchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            int hasNextPage = [tagSearchResp[@"tag"][@"media"][@"page_info"][@"has_next_page"] intValue];
+            int hasNextPage = [tagSearchResp[@"graphql"][@"hashtag"][@"edge_hashtag_to_media"][@"page_info"][@"has_next_page"] intValue];
+//            NSLog(@"%@", tagSearchResp);
             NSLog(@"Has next page %i", hasNextPage);
-            endCursor = hasNextPage ? tagSearchResp[@"tag"][@"media"][@"page_info"][@"end_cursor"] : nil;
+            endCursor = hasNextPage ? tagSearchResp[@"graphql"][@"hashtag"][@"edge_hashtag_to_media"][@"page_info"][@"end_cursor"] : nil;
             NSLog(@"%@", endCursor);
-            for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
+            for(NSDictionary *i in tagSearchResp[@"graphql"][@"hashtag"][@"edge_hashtag_to_media"][@"edges"]){
                 
-                [mediaURLS addObject:i[@"display_src"]];
-                NSString *caption  = i[@"caption"] && ![i[@"caption"] isEqual:[NSNull null]] &&  ![i[@"caption"] isEqual:nil] && ![i[@"caption"] isEqual:@""]? i[@"caption"]: @"";
-//                NSString *caption  = @"";
-                [postsData addObject:@{@"thumb":i[@"thumbnail_src"], @"caption":caption, @"date":[self formatDate:i[@"date"]]}];
+                [mediaURLS addObject:i[@"node"][@"display_url"]];
+//                NSString *caption  = i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] && ![i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] isEqual:[NSNull null]] &&  ![i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] isEqual:nil] && ![i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] isEqual:@""]? i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] : @"";
+                NSString *caption = [i[@"node"][@"edge_media_to_caption"][@"edges"] count] ? i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] : @"";
+            
+                [postsData addObject:@{@"thumb":i[@"node"][@"thumbnail_src"], @"caption":caption, @"date":[self formatDate:i[@"node"][@"taken_at_timestamp"]]}];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                totalCountTitle.title = [NSString stringWithFormat:@"%i", [tagSearchResp[@"tag"][@"media"][@"count"] intValue]];
+                totalCountTitle.title = [NSString stringWithFormat:@"%i", [tagSearchResp[@"graphql"][@"hashtag"][@"edge_hashtag_to_media"][@"count"] intValue]];
                 loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
                 [postsList reloadData];
             });

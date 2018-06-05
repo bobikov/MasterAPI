@@ -29,6 +29,7 @@
     _captchaHandle = [[VKCaptchaHandler alloc]init];
     _ownerInMainVideoController = [NSString stringWithFormat:@"%i", abs([_ownerInMainVideoController intValue])];
     newAlbumTitle.stringValue = _selectedAlbumNames ? _selectedAlbumNames : @"";
+    
 //    self.view.layer.
 //    NSVisualEffectView* vibrantView = [[NSVisualEffectView alloc] initWithFrame:self.view.frame];
 //    vibrantView.material=NSVisualEffectMaterialSidebar;
@@ -43,6 +44,38 @@
 //    
 //    [self.view addSubview:vibrantView positioned:NSWindowBelow relativeTo:self.view];
 
+}
+-(BOOL) acceptsFirstResponder
+{
+    return YES;
+}
+
+-(BOOL) becomeFirstResponder
+{
+    return YES;
+}
+
+-(BOOL) resignFirstResponder
+{
+    return YES;
+}
+- (BOOL)canBecomeKeyWindow
+{
+    return YES;
+}
+
+- (BOOL)canBecomeMainWindow
+{
+    return YES;
+}
+
+
+
+- (void)keyDown:(NSEvent *)event{
+//    if (event.keyCode == 53){
+//        [self dismissController:self];
+//    }
+    NSLog(@"%hu", event.keyCode);
 }
 -(void)loadGroupsByAdminPopup{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "VKCaptchaHandler.h"
+
 @interface createNewVideoAlbumController : NSViewController{
     
     __weak IBOutlet NSTextField *newAlbumTitle;

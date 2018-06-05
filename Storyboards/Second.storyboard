@@ -243,10 +243,10 @@
                                                                                         <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                                                                                        <color key="value" red="0.31868330309999998" green="0.47525432080000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                                                                                        <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     </userDefinedRuntimeAttribute>
                                                                                 </userDefinedRuntimeAttributes>
                                                                                 <connections>
@@ -620,14 +620,106 @@
             </objects>
             <point key="canvasLocation" x="1026.5" y="812"/>
         </scene>
+        <!--Progress View Controller-->
+        <scene sceneID="1v8-5B-ujb">
+            <objects>
+                <viewController storyboardIdentifier="ProgressController" id="nW5-7P-QLD" customClass="ProgressViewController" sceneMemberID="viewController">
+                    <view key="view" id="Ik5-ff-RpI">
+                        <rect key="frame" x="0.0" y="0.0" width="268" height="159"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-iF-kjQ">
+                                <rect key="frame" x="64" y="71" width="142" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="mJ2-oJ-AWZ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQK-VD-ZHJ">
+                                <rect key="frame" x="71" y="115" width="135" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Unlike:" id="bLm-5I-vhV">
+                                    <font key="font" metaFont="system" size="15"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="proccessLabel" destination="y4Q-iF-kjQ" id="0QC-YO-oCW"/>
+                    </connections>
+                </viewController>
+                <customObject id="95l-5C-zVw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2445" y="977.5"/>
+        </scene>
         <!--Video-->
         <scene sceneID="dXz-rK-lcF">
             <objects>
-                <viewController title="Video" id="iZh-D9-g4M" sceneMemberID="viewController">
+                <viewController title="Video" storyboardIdentifier="FaveVideoController" id="iZh-D9-g4M" customClass="FavoritesVideoController" sceneMemberID="viewController">
                     <view key="view" id="rxr-pO-gIX">
                         <rect key="frame" x="0.0" y="0.0" width="723" height="612"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView wantsLayer="YES" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3i-ns-Tn6">
+                                <rect key="frame" x="9" y="12" width="701" height="560"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="EWf-Lw-psO">
+                                    <rect key="frame" x="1" y="1" width="699" height="558"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <collectionView ambiguous="YES" selectable="YES" allowsMultipleSelection="YES" id="sZG-sl-EDk">
+                                            <rect key="frame" x="0.0" y="0.0" width="699" height="558"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" id="ePe-oY-So9">
+                                                <size key="itemSize" width="150" height="150"/>
+                                            </collectionViewFlowLayout>
+                                            <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </collectionView>
+                                    </subviews>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Ii0-33-KhY">
+                                    <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="j5n-b1-gui">
+                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyL-9V-CTi">
+                                <rect key="frame" x="597" y="572" width="119" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Move to" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8S5-ex-Amz">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="moveToAlbum:" target="iZh-D9-g4M" id="OnV-0n-F39"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZL0-Ga-yi0">
+                                <rect key="frame" x="507" y="572" width="78" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Unlike" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4fw-fi-C1p">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="unlike:" target="iZh-D9-g4M" id="luY-AR-KQ5"/>
+                                    <segue destination="nW5-7P-QLD" kind="modal" identifier="ProgressSegue" id="VqJ-zQ-Vsu"/>
+                                </connections>
+                            </button>
+                        </subviews>
                     </view>
+                    <connections>
+                        <outlet property="CollectionViewList" destination="sZG-sl-EDk" id="Vqv-4j-FOy"/>
+                        <outlet property="addVideoTo" destination="uyL-9V-CTi" id="Lea-WG-2A9"/>
+                    </connections>
                 </viewController>
                 <customObject id="BrF-tg-JJf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -730,13 +822,40 @@
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
                                                                             </textField>
-                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eWI-J2-mWT">
-                                                                                <rect key="frame" x="383" y="-5" width="63" height="32"/>
+                                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eWI-J2-mWT" customClass="SYFlatButton">
+                                                                                <rect key="frame" x="378" y="3" width="70" height="25"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="push" title="info" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sla-op-k3M">
+                                                                                <buttonCell key="cell" type="square" title="info" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sla-op-k3M">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                        <real key="value" value="3"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                                        <real key="value" value="1"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                                                                                        <real key="value" value="0.0"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                                                                                        <real key="value" value="0.0"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                                                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                                                                                        <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                                                                                        <color key="value" red="0.15008696869999999" green="0.32892853440000003" blue="0.5646233974" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                                                                                        <color key="value" red="0.31764705879999999" green="0.47450980390000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
                                                                                 <connections>
                                                                                     <action selector="groupInfoPopup:" target="EE9-vs-Mm3" id="eKA-ze-lka"/>
                                                                                 </connections>
@@ -781,16 +900,19 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qc0-jb-Skd">
-                                            <rect key="frame" x="0.0" y="394" width="139" height="32"/>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qc0-jb-Skd" customClass="SYFlatButton">
+                                            <rect key="frame" x="6" y="401" width="127" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="127" id="FRV-rV-mqx"/>
                                                 <constraint firstAttribute="height" constant="21" id="IaX-GW-niI"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Delete from faves" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b1G-J4-NyK">
+                                            <buttonCell key="cell" type="square" title="Delete from faves" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b1G-J4-NyK">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="deleteGroupsFromFavesAction:" target="EE9-vs-Mm3" id="TCC-Gn-eud"/>
                                             </connections>
@@ -807,16 +929,19 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </searchFieldCell>
                                         </searchField>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sxo-8w-Fdp">
-                                            <rect key="frame" x="0.0" y="357" width="139" height="32"/>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sxo-8w-Fdp" customClass="SYFlatButton">
+                                            <rect key="frame" x="6" y="364" width="127" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="127" id="GVM-Z1-fqS"/>
                                                 <constraint firstAttribute="height" constant="21" id="hi6-Mo-xTp"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Message" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cub-8e-1po">
+                                            <buttonCell key="cell" type="square" title="Message" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cub-8e-1po">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fub-fV-gUm">
                                             <rect key="frame" x="688" y="208" width="20" height="20"/>
@@ -907,16 +1032,19 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wwu-i6-ppa">
-                                            <rect key="frame" x="0.0" y="432" width="139" height="32"/>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wwu-i6-ppa" customClass="SYFlatButton">
+                                            <rect key="frame" x="6" y="439" width="127" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="TEj-6N-1Sr"/>
                                                 <constraint firstAttribute="width" constant="127" id="Wtu-xL-fxi"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="push" title="Join" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nl0-lQ-aQj">
+                                            <buttonCell key="cell" type="square" title="Join" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nl0-lQ-aQj">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMp-s9-GWJ">
                                             <rect key="frame" x="28" y="536" width="105" height="26"/>

@@ -20,7 +20,7 @@
     [self setAppInfo];
     
 //    NSLog(@"%@", appData);
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateAppInfo:) name:@"updateVkAppInfo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAppInfo:) name:@"updateVkAppInfo" object:nil];
 //    appToken = [[NSSecureTextField alloc]init];
 }
 -(void)updateAppInfo:(NSNotification*)obj{

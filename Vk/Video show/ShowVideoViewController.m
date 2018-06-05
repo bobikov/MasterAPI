@@ -860,8 +860,7 @@ sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
         }
     }
     return item1;
-    
-    
+
 }
 static NSString *StringFromCollectionViewDropOperation(NSCollectionViewDropOperation dropOperation) {
     switch (dropOperation) {

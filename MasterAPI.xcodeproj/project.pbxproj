@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C04F8D1E2F6658BAA9F66F1 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */; };
+		123760FDF53E14138B24F8A6 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */; };
 		2B07BCD81F122D4B00605869 /* SYFlatButton+ButtonsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B07BCD71F122D4B00605869 /* SYFlatButton+ButtonsStyle.m */; };
 		2B1063451F1F680D00B059DC /* PrefsContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1063441F1F680D00B059DC /* PrefsContentController.m */; };
 		2B1063471F1F9F5600B059DC /* keys1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1063461F1F9F5600B059DC /* keys1.png */; };
@@ -273,6 +273,10 @@
 		2B440A3F1F0CC2C7008463DA /* HTTP-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B440A3E1F0CC2C7008463DA /* HTTP-icon.png */; };
 		2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B462FE91E5481910022E039 /* APIClientsProtocol.m */; };
 		2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */; };
+		2B54F6A020C6BCA900054B24 /* FavoritesVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B54F69F20C6BCA900054B24 /* FavoritesVideoController.m */; };
+		2B54F6A920C6CC3300054B24 /* FaveVideoControllerViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B54F6A720C6CC3300054B24 /* FaveVideoControllerViewItem.m */; };
+		2B54F6AA20C6CC3300054B24 /* FaveVideoControllerViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B54F6A820C6CC3300054B24 /* FaveVideoControllerViewItem.xib */; };
+		2B54F6AD20C73A6A00054B24 /* ProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B54F6AC20C73A6A00054B24 /* ProgressViewController.m */; };
 		2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5946CA1D72B24D00F3A93D /* CoreData.framework */; };
 		2B66CDD91F0FB38C00C87D63 /* add-user.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2B66CD0F1F0FB38B00C87D63 /* add-user.svg */; };
 		2B66CDDA1F0FB38C00C87D63 /* airplay.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2B66CD101F0FB38B00C87D63 /* airplay.svg */; };
@@ -516,7 +520,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		2B07BCD61F122D4B00605869 /* SYFlatButton+ButtonsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SYFlatButton+ButtonsStyle.h"; sourceTree = "<group>"; };
 		2B07BCD71F122D4B00605869 /* SYFlatButton+ButtonsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SYFlatButton+ButtonsStyle.m"; sourceTree = "<group>"; };
 		2B1063431F1F680D00B059DC /* PrefsContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefsContentController.h; path = ../PrefsContentController.h; sourceTree = "<group>"; };
@@ -984,6 +987,13 @@
 		2B462FE91E5481910022E039 /* APIClientsProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APIClientsProtocol.m; path = Youtube/APIClientsProtocol.m; sourceTree = "<group>"; };
 		2B5361821E18E1E80048F8E9 /* InstagramFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramFeedViewController.h; sourceTree = "<group>"; };
 		2B5361831E18E1E80048F8E9 /* InstagramFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramFeedViewController.m; sourceTree = "<group>"; };
+		2B54F69E20C6BCA900054B24 /* FavoritesVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesVideoController.h; sourceTree = "<group>"; };
+		2B54F69F20C6BCA900054B24 /* FavoritesVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesVideoController.m; sourceTree = "<group>"; };
+		2B54F6A620C6CC3300054B24 /* FaveVideoControllerViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaveVideoControllerViewItem.h; sourceTree = "<group>"; };
+		2B54F6A720C6CC3300054B24 /* FaveVideoControllerViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaveVideoControllerViewItem.m; sourceTree = "<group>"; };
+		2B54F6A820C6CC3300054B24 /* FaveVideoControllerViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaveVideoControllerViewItem.xib; sourceTree = "<group>"; };
+		2B54F6AB20C73A6900054B24 /* ProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressViewController.h; sourceTree = "<group>"; };
+		2B54F6AC20C73A6A00054B24 /* ProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressViewController.m; sourceTree = "<group>"; };
 		2B5946CA1D72B24D00F3A93D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2B66CD0F1F0FB38B00C87D63 /* add-user.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "add-user.svg"; sourceTree = "<group>"; };
 		2B66CD101F0FB38B00C87D63 /* airplay.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = airplay.svg; sourceTree = "<group>"; };
@@ -1248,8 +1258,9 @@
 		2BFB992D1F19018E00544B75 /* VKLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesViewController.m; sourceTree = "<group>"; };
 		2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesCellTableView.h; sourceTree = "<group>"; };
 		2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesCellTableView.m; sourceTree = "<group>"; };
-		4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
-		D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
+		C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1259,13 +1270,22 @@
 			files = (
 				2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */,
 				2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */,
-				0C04F8D1E2F6658BAA9F66F1 /* libPods-MasterAPI.a in Frameworks */,
+				123760FDF53E14138B24F8A6 /* libPods-MasterAPI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0429CECC9AB9A5CAD21D944C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */,
+				DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		2B07BCD91F124B1C00605869 /* Custom_categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1863,6 +1883,13 @@
 				2BAE47EA1F0E401E006E507F /* MyTableRowView.m */,
 				2B1914DB1E2E466800FB714E /* CreateFavesGroupController.h */,
 				2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */,
+				2B54F69E20C6BCA900054B24 /* FavoritesVideoController.h */,
+				2B54F69F20C6BCA900054B24 /* FavoritesVideoController.m */,
+				2B54F6A620C6CC3300054B24 /* FaveVideoControllerViewItem.h */,
+				2B54F6A720C6CC3300054B24 /* FaveVideoControllerViewItem.m */,
+				2B54F6A820C6CC3300054B24 /* FaveVideoControllerViewItem.xib */,
+				2B54F6AB20C73A6900054B24 /* ProgressViewController.h */,
+				2B54F6AC20C73A6A00054B24 /* ProgressViewController.m */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -2128,7 +2155,7 @@
 				2BCACAFD1E4C683C00830583 /* libSDWebImage.a */,
 				2B5946CA1D72B24D00F3A93D /* CoreData.framework */,
 				2B8FD92E1CF8225B002027ED /* WebKit.framework */,
-				D6BEC40E0CF5348208D13A2F /* libPods-MasterAPI.a */,
+				C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2394,7 +2421,7 @@
 				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B5946CC1D72B26100F3A93D /* Frameworks */,
 				2B9F40DC1CC67B0D005C4716 /* Products */,
-				5121C3838560FE90FDF8F5FE /* Pods */,
+				0429CECC9AB9A5CAD21D944C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2436,15 +2463,6 @@
 			path = JPNG;
 			sourceTree = "<group>";
 		};
-		5121C3838560FE90FDF8F5FE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */,
-				4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2452,12 +2470,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B9F40EF1CC67B0D005C4716 /* Build configuration list for PBXNativeTarget "MasterAPI" */;
 			buildPhases = (
-				AE61DAA80DBA9CDB0D31D24B /* [CP] Check Pods Manifest.lock */,
+				DA6084CB9EF71E3D5724901E /* [CP] Check Pods Manifest.lock */,
 				2B9F40D71CC67B0D005C4716 /* Sources */,
 				2B9F40D81CC67B0D005C4716 /* Frameworks */,
 				2B9F40D91CC67B0D005C4716 /* Resources */,
-				894F26DF230EB61E6ABED117 /* [CP] Embed Pods Frameworks */,
-				6040576A082B8AFAE730D78A /* [CP] Copy Pods Resources */,
+				7089BC8580BAF7A73EB361E0 /* [CP] Embed Pods Frameworks */,
+				7050D6AF5A883C59BABA09D0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2768,6 +2786,7 @@
 				2B66CE8B1F0FB38E00C87D63 /* target.svg in Resources */,
 				2B66CE741F0FB38E00C87D63 /* refresh.svg in Resources */,
 				2B66CE2D1F0FB38D00C87D63 /* helm.svg in Resources */,
+				2B54F6AA20C6CC3300054B24 /* FaveVideoControllerViewItem.xib in Resources */,
 				2B66CE561F0FB38D00C87D63 /* network.svg in Resources */,
 				2B66CE711F0FB38E00C87D63 /* radio.svg in Resources */,
 				2B66CE9B1F0FB38E00C87D63 /* volume.svg in Resources */,
@@ -2809,22 +2828,43 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6040576A082B8AFAE730D78A /* [CP] Copy Pods Resources */ = {
+		7050D6AF5A883C59BABA09D0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-resources.sh",
+				"${PODS_ROOT}/DCOAboutWindow/DCOAboutWindow/DCOAboutWindow.xib",
+				"${PODS_ROOT}/FontAwesomeIconFactory/Font-Awesome/fonts/FontAwesome.otf",
+				"${PODS_ROOT}/Vivid/Sources/YUCIBilateralFilter.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIBlobsGenerator.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCICLAHE.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIColorLookup.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIColorLookupTableDefault.png",
+				"${PODS_ROOT}/Vivid/Sources/YUCICrossZoomTransition.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIFilmBurnTransition.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIFlashTransition.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIFXAA.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIHSLToRGB.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIReflectedTile.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIRGBToHSL.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIRGBToneCurve.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCISkyGenerator.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCIStarfieldGenerator.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCISurfaceBlur.cikernel",
+				"${PODS_ROOT}/Vivid/Sources/YUCITriangularPixellate.cikernel",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		894F26DF230EB61E6ABED117 /* [CP] Embed Pods Frameworks */ = {
+		7089BC8580BAF7A73EB361E0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2839,19 +2879,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AE61DAA80DBA9CDB0D31D24B /* [CP] Check Pods Manifest.lock */ = {
+		DA6084CB9EF71E3D5724901E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MasterAPI-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2900,6 +2943,7 @@
 				2B41FCCA1E02D3F70013AC86 /* YoutubeVideosCustomCell.m in Sources */,
 				2B5361841E18E1E80048F8E9 /* InstagramFeedViewController.m in Sources */,
 				2B41FC5A1E02D3F70013AC86 /* TwitterUpdateAvatarController.m in Sources */,
+				2B54F6AD20C73A6A00054B24 /* ProgressViewController.m in Sources */,
 				2B41FC631E02D3F70013AC86 /* CustomAudiolistTableView.m in Sources */,
 				2B41FBDD1E02D3F60013AC86 /* CustomSlider.m in Sources */,
 				2B41FC9C1E02D3F70013AC86 /* CustomSearchCell.m in Sources */,
@@ -2934,6 +2978,7 @@
 				2B41FC481E02D3F60013AC86 /* TumblrRWData.m in Sources */,
 				2B41FC6A1E02D3F70013AC86 /* BanlistCustomTableView.m in Sources */,
 				2B41FC461E02D3F60013AC86 /* TumblrAuth.m in Sources */,
+				2B54F6A920C6CC3300054B24 /* FaveVideoControllerViewItem.m in Sources */,
 				2B41FC4E1E02D3F60013AC86 /* TumblrPermsController.m in Sources */,
 				2B41FC711E02D3F70013AC86 /* DocsCustomTableCellViewPersonal.m in Sources */,
 				2B41FC9F1E02D3F70013AC86 /* StatusChangeViewController.m in Sources */,
@@ -2988,6 +3033,7 @@
 				2B41FC551E02D3F60013AC86 /* TwitterFriends.m in Sources */,
 				2B41FCA31E02D3F70013AC86 /* updatesHandler.m in Sources */,
 				2B41FC041E02D3F60013AC86 /* SmilesViewController.m in Sources */,
+				2B54F6A020C6BCA900054B24 /* FavoritesVideoController.m in Sources */,
 				2B41FC641E02D3F70013AC86 /* EditAudioAlbumViewController.m in Sources */,
 				2B41FCAD1E02D3F70013AC86 /* VideoPlayerViewController.m in Sources */,
 				2B41FBE71E02D3F60013AC86 /* InstagramLoginViewController.m in Sources */,
@@ -3165,7 +3211,7 @@
 		};
 		2B9F40F01CC67B0D005C4716 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 275F0521861A49D7D5C110A1 /* Pods-MasterAPI.debug.xcconfig */;
+			baseConfigurationReference = 35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3191,7 +3237,7 @@
 		};
 		2B9F40F11CC67B0D005C4716 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F59D502755024614C322E83 /* Pods-MasterAPI.release.xcconfig */;
+			baseConfigurationReference = DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

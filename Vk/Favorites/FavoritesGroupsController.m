@@ -14,6 +14,9 @@
 #import "CreateFavesGroupController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AppDelegate.h"
+#import <NSColor+HexString.h>
+#import "MyTableRowView.h"
+#import "SYFlatButton+ButtonsStyle.h"
 @interface FavoritesGroupsController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -46,6 +49,16 @@
     [favesUserGroups removeAllItems];
     [self loadFavesUserGroups];
     [self loadUserFavesGroupsPrefs];
+    [self setFlatButtonStyle];
+}
+- (void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+            [button simpleButton:(SYFlatButton*)v];
+        }
+    }
 }
 - (void)CreateFavesGroup:(NSNotification*)obj{
     NSLog(@"New group name %@", obj.userInfo[@"group_name"]);
@@ -181,13 +194,17 @@
     [fetchGroupsRequest setResultType:NSDictionaryResultType];
     NSArray *fetchedGroups = [moc executeFetchRequest:fetchGroupsRequest error:nil];
     for(NSDictionary *i in fetchedGroups){
-        item = [[NSMenuItem alloc]initWithTitle:i[@"name"] action:NULL keyEquivalent:@""];
+        //item = [[NSMenuItem alloc]initWithTitle:i[@"name"] action:NULL keyEquivalent:@""];
         [userGroupsNames addObject:i[@"name"]];
+        //[favesUserGroupsMenu addItem:item];
+    }
+    for(NSString *i in [userGroupsNames sortedArrayUsingSelector:@selector(compare:)]){
+        item = [[NSMenuItem alloc]initWithTitle:i action:NULL keyEquivalent:@""];
         [favesUserGroupsMenu addItem:item];
     }
     [favesUserGroups setMenu:favesUserGroupsMenu];
     dispatch_after(6, dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"getUserFavesGroupsForContextMenu" object:nil userInfo:@{@"groups":[userGroupsNames mutableCopy]}];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"getUserFavesGroupsForContextMenu" object:nil userInfo:@{@"groups":[[userGroupsNames sortedArrayUsingSelector:@selector(compare:)] mutableCopy]}];
     });
     
 }
@@ -650,7 +667,7 @@
         [[_app.session dataTaskWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_ids=%@&fields=description&offset=%li&access_token=%@&v=%@", [restoredUserIDs componentsJoinedByString:@","], offsetLoadFaveGroups, _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if(data){
                 NSDictionary *getFavesGroupsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSLog(@"%@", getFavesGroupsResponse);
+//                NSLog(@"%@", getFavesGroupsResponse);
                 if (getFavesGroupsResponse[@"error"]){
                     NSLog(@"%@:%@", getFavesGroupsResponse[@"error"][@"error_code"], getFavesGroupsResponse[@"error"][@"error_msg"]);
                 }
@@ -739,6 +756,11 @@
     }]resume];
 }
 
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    
+    return rowView;
+}
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[favesGroupsList selectedRowIndexes]count]>0){
@@ -773,7 +795,7 @@
         //            cell.deactivatedStatus.hidden=NO;
         //        }
         
-
+        
         [cell.groupImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", favesGroupsData[row][@"photo"]]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             image.size=imSize;
             [cell.groupImage setImage:image];

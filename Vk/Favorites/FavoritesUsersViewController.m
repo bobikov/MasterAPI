@@ -641,9 +641,12 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
                     [favesUsersList reloadData];
                     [progressSpin stopAnimation:self];
                     loading=NO;
+                   
                     if(favesUsersListCount>0 && offsefFavesUsersLoadResult<totalFavesUsersResult){
                      
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"banAndUnbanUserInFaves" object:nil userInfo:@{@"favesUsersData":favesUsersData}];
+                         NSLog(@"TOTAL FAVES USERS %li", totalFavesUsersResult);
+                        NSLog(@"COUNT FAVES USERS %li", favesUsersListCount);
                         if(favesUsersListCount<15 && totalFavesUsersResult>=15 && offsetCounterResult < totalFavesUsersResult && [restoredUserIDs count]==0 && !loading){
                             dispatch_after(2, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                 loadFavesBlock(YES);

@@ -126,6 +126,7 @@ typedef void(^OnComplete) (NSMutableArray *data);
 }
 -(void)addMultipleVideos{
     videoIdsInAlbum = _selectedItems;
+    NSLog(@"%@", _selectedItems);
     progressBar.maxValue=[videoIdsInAlbum count];
     __block void (^addToAlbumVideos)( BOOL, NSInteger, NSString *, NSString *);
     addToAlbumVideos = ^void(BOOL captcha, NSInteger offset, NSString *captcha_sid, NSString *captcha_key){
