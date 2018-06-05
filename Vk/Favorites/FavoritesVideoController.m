@@ -23,6 +23,7 @@
     _app = [[appInfo alloc]init];
     itemsList = [[NSMutableArray alloc]init];
     addVideoTo.enabled=NO;
+    unlikeBut.enabled=NO;
 
     [self loadFaveVideo];
 }
@@ -76,11 +77,12 @@
 }
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     addVideoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
-    
+    unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
 }
 
 -(void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     addVideoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
+    unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
     NSLog(@"%li", [collectionView.selectionIndexes count]);
 }
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{

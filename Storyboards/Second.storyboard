@@ -711,7 +711,7 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="unlike:" target="iZh-D9-g4M" id="luY-AR-KQ5"/>
-                                    <segue destination="nW5-7P-QLD" kind="modal" identifier="ProgressSegue" id="VqJ-zQ-Vsu"/>
+                                    <segue destination="nW5-7P-QLD" kind="sheet" identifier="ProgressSegue" id="VqJ-zQ-Vsu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -719,6 +719,7 @@
                     <connections>
                         <outlet property="CollectionViewList" destination="sZG-sl-EDk" id="Vqv-4j-FOy"/>
                         <outlet property="addVideoTo" destination="uyL-9V-CTi" id="Lea-WG-2A9"/>
+                        <outlet property="unlikeBut" destination="ZL0-Ga-yi0" id="LtW-Tw-Aou"/>
                     </connections>
                 </viewController>
                 <customObject id="BrF-tg-JJf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
