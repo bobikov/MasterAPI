@@ -25,15 +25,16 @@
     addVideoTo.enabled=NO;
     unlikeBut.enabled=NO;
 
-    [self loadFaveVideo];
+   
 }
 - (void)viewDidAppear{
-  
+   [self loadFaveVideo];
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+    NSMutableArray *selectedItems =  [[NSMutableArray alloc] initWithArray:[CollectionViewList.content objectsAtIndexes:[CollectionViewList selectionIndexes]]];
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
     contr.total = [CollectionViewList.selectionIndexes count];
-    
+    contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
 }
 
 - (void)loadFaveVideo{
@@ -65,11 +66,8 @@
     
 }
 - (IBAction)unlike:(id)sender {
-   NSMutableArray *selectedItems =  [[NSMutableArray alloc] initWithArray:[CollectionViewList.content objectsAtIndexes:[CollectionViewList selectionIndexes]]];
-    for (NSDictionary *i in selectedItems){
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"id"], i[@"owner_id"], _app.token, _app.version]]]resume];
-        
-    }
+   
+    
 }
 
 -(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

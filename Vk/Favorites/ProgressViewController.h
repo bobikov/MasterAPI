@@ -7,11 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "appInfo.h"
 @interface ProgressViewController : NSViewController{
     
     __weak IBOutlet NSTextField *proccessLabel;
 }
 @property NSInteger total;
 @property NSInteger current;
+@property NSMutableArray *items;
+@property appInfo *app;
 @end
