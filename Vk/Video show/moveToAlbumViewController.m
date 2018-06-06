@@ -133,7 +133,7 @@ typedef void(^OnComplete) (NSMutableArray *data);
         stopFlag=NO;
         next=NO;
         offsetCounter = offset ? offset : offsetCounter;
-        for(NSDictionary *i in videoIdsInAlbum){
+        for(NSDictionary *i in [videoIdsInAlbum subarrayWithRange:NSMakeRange(offsetCounter, [videoIdsInAlbum count])]){
             if(next){
                 next=NO;
                 continue;
@@ -288,14 +288,10 @@ typedef void(^OnComplete) (NSMutableArray *data);
                                 if(result == NSAlertFirstButtonReturn){
                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                         movePhotosToAlbumBlock(YES, offsetCounter, movePhotoToAlbumResponse[@"error"][@"captcha_sid"],_captchaHandle.enterCode.stringValue);
-                                        
                                     });
-                                    
-                                    
                                 }
                             });
                         }
-                        
                     }
                     else if([movePhotoToAlbumResponse[@"error"][@"error_code"] intValue] == 800){
                         NSLog(@"%@:%@", movePhotoToAlbumResponse[@"error"][@"error_msg"], movePhotoToAlbumResponse[@"error"][@"error_code"]);
@@ -303,7 +299,7 @@ typedef void(^OnComplete) (NSMutableArray *data);
                         offsetCounter+=1;
                         
                     }
-                    //                    NSLog(@"%@", videoAddToAlbumResposne[@"error"]);
+                    //NSLog(@"%@", videoAddToAlbumResposne[@"error"]);
                 }else{
                     offsetCounter+=1;
                     NSLog(@"Photo %@ moved successfully to album %@",i[@"items"][@"id"], targetAlbum);

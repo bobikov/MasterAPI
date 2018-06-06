@@ -657,7 +657,7 @@ Gw
 </string>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="dismissController:" target="95l-5C-zVw" id="pAA-nF-sJo"/>
+                                    <action selector="cancel:" target="nW5-7P-QLD" id="5IO-EH-h0E"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -668,7 +668,7 @@ Gw
                 </viewController>
                 <customObject id="95l-5C-zVw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2445" y="977.5"/>
+            <point key="canvasLocation" x="2349" y="978"/>
         </scene>
         <!--Video-->
         <scene sceneID="dXz-rK-lcF">
