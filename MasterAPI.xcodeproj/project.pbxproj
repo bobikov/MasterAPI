@@ -516,6 +516,7 @@
 		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
 		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
 		2BE0C78220CD9DDF006BBE16 /* VKStoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0C78120CD9DDF006BBE16 /* VKStoriesViewController.m */; };
+		2BE0C78620CEA9DE006BBE16 /* gif2mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2BE0C78520CEA9DD006BBE16 /* gif2mp4 */; };
 		2BE606A01F1B62120020442A /* NSImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */; };
 		2BF342171F21DADB00C7A0D1 /* JPNG.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF342161F21DADB00C7A0D1 /* JPNG.m */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
@@ -1259,6 +1260,7 @@
 		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
 		2BE0C78020CD9DDF006BBE16 /* VKStoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKStoriesViewController.h; sourceTree = "<group>"; };
 		2BE0C78120CD9DDF006BBE16 /* VKStoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKStoriesViewController.m; sourceTree = "<group>"; };
+		2BE0C78520CEA9DD006BBE16 /* gif2mp4 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gif2mp4; sourceTree = "<group>"; };
 		2BE6069E1F1B62110020442A /* NSImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageEffects.h"; sourceTree = "<group>"; };
 		2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageEffects.m"; sourceTree = "<group>"; };
 		2BF342151F21DADB00C7A0D1 /* JPNG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPNG.h; sourceTree = "<group>"; };
@@ -1474,6 +1476,7 @@
 		2B41FA251E02D3F50013AC86 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				2BE0C78520CEA9DD006BBE16 /* gif2mp4 */,
 				2BF342141F21DADB00C7A0D1 /* JPNG */,
 				2BDB2B481E4DC3A00072B0B2 /* MXButton.h */,
 				2BDB2B491E4DC3A00072B0B2 /* MXButton.m */,
@@ -2635,6 +2638,7 @@
 				2B66CE271F0FB38D00C87D63 /* graph1.svg in Resources */,
 				2B66CE1E1F0FB38D00C87D63 /* film.svg in Resources */,
 				2B41FC1E1E02D3F60013AC86 /* empty.png in Resources */,
+				2BE0C78620CEA9DE006BBE16 /* gif2mp4 in Resources */,
 				2B66CE541F0FB38D00C87D63 /* musiclist.svg in Resources */,
 				2B66CE801F0FB38E00C87D63 /* shield.svg in Resources */,
 				2B41FC251E02D3F60013AC86 /* onAir.png in Resources */,
