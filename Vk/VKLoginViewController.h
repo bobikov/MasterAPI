@@ -31,6 +31,7 @@
     NSString *screenName;
     NSString *desc;
     NSArray *apps;
+    NSString *service_token;
     NSManagedObject *prevObject;
     BOOL selected;
     __weak IBOutlet NSPopUpButton *appList;

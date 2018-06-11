@@ -13,7 +13,7 @@
 @end
 
 @implementation MainViewController
-@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView,searchView;
+@synthesize friendsView, photoCopyView, welcomeView, videoCopyView, wallPostView, privacyPhotoAlbumsView, changeStatusView, dialogsView, subscribersView, videoPrivacyView, audioCopyView, audioMoveView, audioRemoveView, profilePhotoChangeView,ShowVideoView, ShowPhotoView, BanlistView, DocsView, GroupsView, GroupInvitesView, OutRequestsView, WallRemovePostsView,FavesTabView, TumblrAvatar, TumblrFollowing, TumblrFollowers, TumblrPosts, TwitterFriends, YoutubeSubscriptions, YoutubeVideos, TwitterProfile, InstagramFollowsView,InstagramMediaPosts,TasksView,InstagramSearchByTagView,InstagramFeedView,searchView,VKStoriesView;
 
 - (void)viewDidLoad {
     
@@ -25,6 +25,7 @@
     NSStoryboard *story3 =[NSStoryboard storyboardWithName:@"Third" bundle:nil];
     NSStoryboard *story4 =[NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
     NSStoryboard *story5 =[NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    NSStoryboard *story6 = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
     
     friendsView = [story instantiateControllerWithIdentifier:@"Friends"];
     photoCopyView = [story5 instantiateControllerWithIdentifier:@"PhotoCopy"];
@@ -64,6 +65,7 @@
     TasksView = [story5 instantiateControllerWithIdentifier:@"TasksView"];
     InstagramSearchByTagView = [story4 instantiateControllerWithIdentifier:@"InstagramSearchByTagView"];
     InstagramFeedView = [story4 instantiateControllerWithIdentifier:@"InstagramFeedViewController"];
+    VKStoriesView = [story6 instantiateControllerWithIdentifier:@"VKStoriesController"];
     
 //    secCon = [story instantiateControllerWithIdentifier:@"secondController"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTasksManager:) name:@"ShowTasksManager" object:nil];
@@ -105,7 +107,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"search media by tag" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"user media feed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"global search" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display:) name:@"show stories" object:nil];
     
     
     
@@ -343,6 +345,10 @@
     else if ([notification.name isEqual:@"global search"]){
         [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :searchView];
         [self switchControllers:searchView];
+    }
+    else if ([notification.name isEqual:@"show stories"]){
+        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] : VKStoriesView];
+        [self switchControllers:VKStoriesView];
     }
 }
 - (void)setCurrentSelectedMain:(id)name :(NSViewController*)controller{

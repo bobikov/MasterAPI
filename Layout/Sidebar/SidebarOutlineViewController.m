@@ -66,6 +66,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectTwitterApi:) name:@"SelectTwitterApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectYoutubeApi:) name:@"SelectYoutubeApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectInstagramApi:) name:@"SelectInstagramApi" object:nil];
+    
 //    self.view.window.titleVisibility=NSWindowTitleVisible;
 //    self.view.window.titlebarAppearsTransparent = YES;
 //    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
@@ -84,7 +85,7 @@
 -(void)loadVK{
 //    NSLog(@"VK API LOAD HERE");
     currentSelectorName = @"vk";
-    _topLevelItems = @[@"Profile", @"Friends",  @"Dialogs", @"Status", @"Video", @"Audio", @"Photo",@"Docs", @"Wall", @"Groups", @"Banlist", @"Favorites"];
+    _topLevelItems = @[@"Profile", @"Friends",  @"Dialogs", @"Status", @"Video", @"Audio", @"Photo",@"Docs", @"Wall", @"Groups", @"Banlist", @"Favorites", @"Stories"];
     
     // The data is stored ina  dictionary. The objects are the nib names to load.
     //    _childrenDictionary = [NSMutableDictionary new];
@@ -101,7 +102,7 @@
     [_childrenDictionary setObject:@[@"show groups"] forKey:@"Groups"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"in black list?", @"show banned", nil] forKey:@"Banlist"];
     [_childrenDictionary setObject:@[@"show favorites"] forKey:@"Favorites"];
-    
+    [_childrenDictionary setObject:@[@"show stories"] forKey:@"Stories"];
     //        NSLog(@"%@", _childrenDictionary);
     [OutlineSidebar reloadData];
     [OutlineSidebar expandItem:nil expandChildren:YES];

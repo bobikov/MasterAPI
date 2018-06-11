@@ -22,6 +22,9 @@
 		2B1914DD1E2E466900FB714E /* CreateFavesGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914DC1E2E466900FB714E /* CreateFavesGroupController.m */; };
 		2B1914E31E30AFDE00FB714E /* ApiSourceSelecterCustomLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */; };
 		2B1914E61E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */; };
+		2B1F4CE420CD25D100919EAE /* FavePhotoCollectionViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F4CE220CD25D100919EAE /* FavePhotoCollectionViewItem.m */; };
+		2B1F4CE520CD25D100919EAE /* FavePhotoCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B1F4CE320CD25D100919EAE /* FavePhotoCollectionViewItem.xib */; };
+		2B1F4CEB20CD28B400919EAE /* FavoritesPhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F4CEA20CD28B400919EAE /* FavoritesPhotoController.m */; };
 		2B20F0101E460F5A00816124 /* EditVideoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */; };
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
@@ -512,6 +515,7 @@
 		2BDB2B4E1E4E5E3B0072B0B2 /* photo_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */; };
 		2BDB2B501E4E5F130072B0B2 /* video_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */; };
 		2BDB2B521E4E5F760072B0B2 /* docs_color_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */; };
+		2BE0C78220CD9DDF006BBE16 /* VKStoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE0C78120CD9DDF006BBE16 /* VKStoriesViewController.m */; };
 		2BE606A01F1B62120020442A /* NSImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */; };
 		2BF342171F21DADB00C7A0D1 /* JPNG.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF342161F21DADB00C7A0D1 /* JPNG.m */; };
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
@@ -545,6 +549,11 @@
 		2B1914E21E30AFDD00FB714E /* ApiSourceSelecterCustomLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelecterCustomLayout.m; sourceTree = "<group>"; };
 		2B1914E41E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiSourceSelectorCustomFlowLayout.h; sourceTree = "<group>"; };
 		2B1914E51E30B01700FB714E /* ApiSourceSelectorCustomFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiSourceSelectorCustomFlowLayout.m; sourceTree = "<group>"; };
+		2B1F4CE120CD25D100919EAE /* FavePhotoCollectionViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavePhotoCollectionViewItem.h; sourceTree = "<group>"; };
+		2B1F4CE220CD25D100919EAE /* FavePhotoCollectionViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavePhotoCollectionViewItem.m; sourceTree = "<group>"; };
+		2B1F4CE320CD25D100919EAE /* FavePhotoCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavePhotoCollectionViewItem.xib; sourceTree = "<group>"; };
+		2B1F4CE920CD28B400919EAE /* FavoritesPhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesPhotoController.h; sourceTree = "<group>"; };
+		2B1F4CEA20CD28B400919EAE /* FavoritesPhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesPhotoController.m; sourceTree = "<group>"; };
 		2B20F00E1E460F5A00816124 /* EditVideoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditVideoPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		2B20F00F1E460F5A00816124 /* EditVideoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditVideoPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		2B20F0111E47144200816124 /* AboutAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutAppViewController.h; path = Storyboards/AboutAppViewController.h; sourceTree = "<group>"; };
@@ -1248,6 +1257,8 @@
 		2BDB2B4D1E4E5E3B0072B0B2 /* photo_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_color_icon_1.png; sourceTree = "<group>"; };
 		2BDB2B4F1E4E5F130072B0B2 /* video_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_color_icon_1.png; sourceTree = "<group>"; };
 		2BDB2B511E4E5F760072B0B2 /* docs_color_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docs_color_icon_1.png; sourceTree = "<group>"; };
+		2BE0C78020CD9DDF006BBE16 /* VKStoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKStoriesViewController.h; sourceTree = "<group>"; };
+		2BE0C78120CD9DDF006BBE16 /* VKStoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKStoriesViewController.m; sourceTree = "<group>"; };
 		2BE6069E1F1B62110020442A /* NSImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+ImageEffects.h"; sourceTree = "<group>"; };
 		2BE6069F1F1B62110020442A /* NSImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+ImageEffects.m"; sourceTree = "<group>"; };
 		2BF342151F21DADB00C7A0D1 /* JPNG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPNG.h; sourceTree = "<group>"; };
@@ -1725,6 +1736,7 @@
 		2B41FAD31E02D3F50013AC86 /* Vk */ = {
 			isa = PBXGroup;
 			children = (
+				2BE0C77F20CD9DBF006BBE16 /* Stories */,
 				2B41FAD41E02D3F50013AC86 /* appInfo.h */,
 				2B41FAD51E02D3F50013AC86 /* appInfo.m */,
 				2B41FAD61E02D3F50013AC86 /* Audio */,
@@ -1890,6 +1902,11 @@
 				2B54F6A820C6CC3300054B24 /* FaveVideoControllerViewItem.xib */,
 				2B54F6AB20C73A6900054B24 /* ProgressViewController.h */,
 				2B54F6AC20C73A6A00054B24 /* ProgressViewController.m */,
+				2B1F4CE120CD25D100919EAE /* FavePhotoCollectionViewItem.h */,
+				2B1F4CE220CD25D100919EAE /* FavePhotoCollectionViewItem.m */,
+				2B1F4CE920CD28B400919EAE /* FavoritesPhotoController.h */,
+				2B1F4CEA20CD28B400919EAE /* FavoritesPhotoController.m */,
+				2B1F4CE320CD25D100919EAE /* FavePhotoCollectionViewItem.xib */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -2454,6 +2471,15 @@
 			path = "NSImage-Resizing-master";
 			sourceTree = "<group>";
 		};
+		2BE0C77F20CD9DBF006BBE16 /* Stories */ = {
+			isa = PBXGroup;
+			children = (
+				2BE0C78020CD9DDF006BBE16 /* VKStoriesViewController.h */,
+				2BE0C78120CD9DDF006BBE16 /* VKStoriesViewController.m */,
+			);
+			name = Stories;
+			sourceTree = "<group>";
+		};
 		2BF342141F21DADB00C7A0D1 /* JPNG */ = {
 			isa = PBXGroup;
 			children = (
@@ -2569,6 +2595,7 @@
 				2B41FC0C1E02D3F60013AC86 /* audio_min.png in Resources */,
 				2B66CE0B1F0FB38D00C87D63 /* culture.svg in Resources */,
 				2B66CDFB1F0FB38D00C87D63 /* cash.svg in Resources */,
+				2B1F4CE520CD25D100919EAE /* FavePhotoCollectionViewItem.xib in Resources */,
 				2B66CE891F0FB38E00C87D63 /* sun.svg in Resources */,
 				2B66CE421F0FB38D00C87D63 /* loop.svg in Resources */,
 				2B66CE1F1F0FB38D00C87D63 /* filter.svg in Resources */,
@@ -3016,6 +3043,7 @@
 				2B41FBED1E02D3F60013AC86 /* SidebarOutlineViewController.m in Sources */,
 				2B41FC831E02D3F70013AC86 /* OutRequestsController.m in Sources */,
 				2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */,
+				2BE0C78220CD9DDF006BBE16 /* VKStoriesViewController.m in Sources */,
 				2B41FBD81E02D3F60013AC86 /* CustomAnimator.m in Sources */,
 				2B41FBE81E02D3F60013AC86 /* InstagramRWD.m in Sources */,
 				2B41FCA51E02D3F70013AC86 /* VideoPrivacyViewController.m in Sources */,
@@ -3070,6 +3098,7 @@
 				2B41FCAA1E02D3F70013AC86 /* MyVideoWindowController.m in Sources */,
 				2B41FC451E02D3F60013AC86 /* DownloadUploadMainViewController.m in Sources */,
 				2B41FC8F1E02D3F70013AC86 /* groupsHandler.m in Sources */,
+				2B1F4CE420CD25D100919EAE /* FavePhotoCollectionViewItem.m in Sources */,
 				2B41FBE91E02D3F60013AC86 /* MediaPostsCustomCell.m in Sources */,
 				2B41FC851E02D3F70013AC86 /* FullUserInfoPopupViewController.m in Sources */,
 				2B41FC821E02D3F70013AC86 /* FriendsViewController.m in Sources */,
@@ -3097,6 +3126,7 @@
 				2B41FCD01E02D3F70013AC86 /* ViewController.m in Sources */,
 				2B41FCCB1E02D3F70013AC86 /* AppControllerMenu.m in Sources */,
 				2B41FCB41E02D3F70013AC86 /* PostAttachmentsCustomItem.m in Sources */,
+				2B1F4CEB20CD28B400919EAE /* FavoritesPhotoController.m in Sources */,
 				2B41FC501E02D3F60013AC86 /* TumblrPosts.m in Sources */,
 				2B41FC921E02D3F70013AC86 /* PhotoCopyViewController.m in Sources */,
 				2B41FC791E02D3F70013AC86 /* FavesUsersCustomCell.m in Sources */,

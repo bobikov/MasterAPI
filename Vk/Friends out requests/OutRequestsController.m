@@ -42,8 +42,8 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     [self setFlatButtonStyle];
 }
 -(void)setFlatButtonStyle{
-    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
-    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+    NSLog(@"%@", self.view.subviews);
+    for(NSArray *v in self.view.subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             button = [[SYFlatButton alloc]initWithFrame:((SYFlatButton*)v).frame];
             [button simpleButton:(SYFlatButton*)v];

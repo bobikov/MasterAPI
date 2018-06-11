@@ -22,7 +22,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
     moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
-    
+    service_token = @"526f1c52526f1c52526adb8cf252355a395526f526f1c520aad6ba5219fcf1a64e514f5";
     [appList removeAllItems];
     superWindow = [NSApplication sharedApplication].keyWindow;
     self.view.layer.cornerRadius = 10.0;
@@ -147,7 +147,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
 
 - (void)getAppInfo:(OnCompleteGetAppInfo)completion{
     [progressLoad startAnimation:self];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/apps.get?app_id=%@&extended=1&v=%@",app_id, version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/apps.get?app_id=%@&extended=1&access_token=%@&v=%@",app_id, service_token, version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *getAppResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             NSLog(@"%@", getAppResp);
@@ -175,7 +175,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
         
             dispatch_async(dispatch_get_main_queue(),^{
                 _WebView.hidden=YES;
-                url = [NSString stringWithFormat:@"https://oauth.vk.com/authorize?client_id=%@&scope=wall,offline,status,messages,ads,groups,notes,photos,video,docs,friends,audio&redirect_url=%@&response_type=token&v=%@&display=wap", app_id, @"https://oauth.vk.com/blank.html", version];
+                url = [NSString stringWithFormat:@"https://oauth.vk.com/authorize?client_id=%@&scope=wall,offline,status,messages,ads,groups,notes,photos,video,docs,friends,audio,stories&redirect_url=%@&response_type=token&v=%@&display=wap", app_id, @"https://oauth.vk.com/blank.html", version];
                 NSLog(@"%@", url);
                 [[_WebView mainFrame]loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
                 currentURL = [_WebView stringByEvaluatingJavaScriptFromString:@"window.location"];

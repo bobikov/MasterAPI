@@ -55,5 +55,6 @@
 @property(nonatomic)NSViewController *InstagramFeedView;
 @property(nonatomic)NSViewController *TasksView;
 @property(nonatomic)NSViewController *searchView;
+@property(nonatomic) NSViewController *VKStoriesView;
 //-(id)showCurrentController;
 @end
