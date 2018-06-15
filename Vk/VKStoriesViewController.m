@@ -8,19 +8,90 @@
 
 #import "VKStoriesViewController.h"
 
-@interface VKStoriesViewController () <NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
+@interface VKStoriesViewController () <NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
 
 
 @end
 
 @implementation VKStoriesViewController
-
+//@synthesize cameraView;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _app = [[appInfo alloc]init];
     manager = [NSFileManager defaultManager];
     image_formats = @[@"jpg",@"png",@"jpeg",@"gif"];
-    video_formats = @[@"mp4", @"mov"];
+    video_formats = @[@"mp4"];
+    
+    [self configCameraLayer];
+    
+  
+}
+- (void)viewDidAppear{
+    [self cameraCapture];
+}
+-(void)configCameraLayer{
+   
+   
+    
+}
+-(void)configCameraSession{
+    
+}
+- (void)cameraCapture{
+    
+        NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    NSMutableArray *mainDevices = [[NSMutableArray alloc] init];
+    for (AVCaptureDevice *device in devices) {
+        if([[device localizedName] containsString:@"iSight"]){
+            [mainDevices addObject:device];
+        }
+    }
+  
+    session = [[AVCaptureSession alloc] init];
+    
+    
+//    [session beginConfiguration];
+    
+    NSError *error;
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:devices[0] error:&error];
+     [session addInput:input];
+    AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc]init];
+    [output setAlwaysDiscardsLateVideoFrames:YES];
+    
+    output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+//    output.videoSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG,AVVideoCodecKey,nil];
+    
+       NSLog(@"%@", mainDevices);
+    
+//    output.minFrameDuration = CMTimeMake(1, 15);
+   
+    [session addOutput:output];
+    
+//    dispatch_queue_t queue = dispatch_queue_create("MyQueue", nil);
+//    [output setSampleBufferDelegate:self queue:queue];
+    preview = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    [preview setVideoGravity:AVLayerVideoGravityResizeAspect];
+//    preview.connection.videoOrientation=AVCaptureVideoOrientationLandscapeRight;
+    
+    CALayer *layer = cameraView.layer;
+//    cameraView.layer.mask=layer;
+//    cameraView.wantsLayer=YES;
+  
+//    layer.masksToBounds=YES;
+
+    preview.frame = layer.bounds;
+    [layer addSublayer:preview];
+//    [layer insertSublayer:preview atIndex:0];
+    [session setSessionPreset:AVCaptureSessionPreset640x480];
+//    [session commitConfiguration];
+    [session startRunning];
+}
+- (IBAction)stopCamera:(id)sender {
+    if([session isRunning]){
+        [session stopRunning];
+    }else{
+        [session startRunning];
+    }
 }
 - (NSArray*)getFilesForUpload{
     
@@ -39,7 +110,7 @@
     
     return files;
 }
-- (void)convertMptoGif{
+- (void)convertGifToMp4{
 //    NSData *gif = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://i.imgur.com/xqG0QP3.gif"]];
 //    NSString *outputPath = [NSTemporaryDirectory() stringByAppendingString:@"output.mp4"];
 //    
@@ -54,6 +125,7 @@
     rfformat = sender == uploadPhoto ? file : video_file;
     files = [self getFilesForUpload];
 }
+
 - (void)prepareForUpload{
     uploadCounter = 0;
     if(!files){
@@ -85,7 +157,7 @@
     }
  
 }
--(void)startUpload{
+- (void)startUpload{
     fileName = [files[uploadCounter] lastPathComponent];
     extension = [fileName pathExtension];
     contents = [NSData dataWithContentsOfFile:files[uploadCounter]];
@@ -123,7 +195,7 @@
     uploadProgress.hidden=NO;
     [uploadTask resume];
 }
--(void)getStories{
+- (void)getStories{
     
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
@@ -148,14 +220,23 @@
                 [self startUpload];
             }
             NSLog(@"Story is uploaded successfully");
+        }else{
+            [backgroundSession invalidateAndCancel];
         }
     }
 }
+
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     
         uploadProgress.maxValue = totalBytesExpectedToSend;
         uploadProgress.doubleValue = totalBytesSent;
 
+}
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection {
+    
+//    UIImage *image = imageFromSampleBuffer(sampleBuffer);
 }
 
 @end
