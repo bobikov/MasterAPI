@@ -58,7 +58,7 @@
     AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc]init];
     [output setAlwaysDiscardsLateVideoFrames:YES];
     
-    output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+//    output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
     output.videoSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG,AVVideoCodecKey,nil];
     
        NSLog(@"%@", mainDevices);
