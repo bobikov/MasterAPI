@@ -16,4 +16,5 @@
     __weak IBOutlet NSButton *unlikeBut;
 }
 @property(nonatomic)appInfo *app;
+@property(strong) NSWindowController *myWindowContr;
 @end

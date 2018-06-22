@@ -71,8 +71,8 @@
     [videoOutput setSampleBufferDelegate:self queue:video_queue];
 
     [videoOutput setAlwaysDiscardsLateVideoFrames:YES];
-    videoOutput.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-
+    videoOutput.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA)};
+    
 //            output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8Planar) };
 //    output.videoSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecH264,AVVideoCodecKey,nil];
     
@@ -108,7 +108,7 @@
 
     assetVideoWriterInput = [AVAssetWriterInput  assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:outputSettings];
     assetVideoWriterInput.expectsMediaDataInRealTime = YES;
-
+    
     pixelBufferAdaptor = [[AVAssetWriterInputPixelBufferAdaptor alloc]
      initWithAssetWriterInput:assetVideoWriterInput sourcePixelBufferAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA],kCVPixelBufferPixelFormatTypeKey,
       nil]];
@@ -139,11 +139,11 @@
 //                            AVSampleRateKey: @(44100),
 //                            AVChannelLayoutKey: [NSData dataWithBytes:&acl length:sizeof(acl)],
 //                            };
-    assetAudioWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings: audioOutputSettings ];
+//    assetAudioWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings: audioOutputSettings ];
 
     assetAudioWriterInput.expectsMediaDataInRealTime=YES;
     [assetWriterMyData addInput:assetVideoWriterInput];
-    [assetWriterMyData addInput:assetAudioWriterInput];
+//    [assetWriterMyData addInput:assetAudioWriterInput];
 
 
 
