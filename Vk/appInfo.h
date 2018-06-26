@@ -9,7 +9,7 @@
 #import "keyHandler.h"
 #import <CoreData/CoreData.h>
 #import <Cocoa/Cocoa.h>
-
+#import "VKCaptchaHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface appInfo : NSObject{
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readwrite) BOOL selected;
 @property (nonatomic, readwrite) NSString *appId;
 @property (nonatomic) keyHandler *keyHandle;
-
+@property (nonatomic, readwrite) VKCaptchaHandler *captchaHandler;
 
 typedef void(^OnGetUsersInfoComplete)(NSMutableArray *usersFullObjectsInfo);
 typedef void(^OnLikedListComplete)(NSMutableArray *users);
@@ -105,6 +105,7 @@ typedef void(^OnGetFavoriteUsersInfoComplete)(NSMutableArray *favesUsersObjectsI
 - (void)searchGroups:(BOOL)offset queryString:(nonnull id)queryString :(void(^)(NSMutableArray *groups))completion;
 - (void)getGroupById:(nonnull id)groupId :(void(^)(NSDictionary*groupInfoObject))completion;
 - (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray *people))completion;
+- (void)addToSavedPhotos:(NSDictionary*)params captcha_sid:( NSString* _Nullable )captcha_sid captcha_key:(NSString* _Nullable)captcha_key captcha:(BOOL)captcha comletionHandler:(void(^)(NSDictionary *response))completion;
 
 
 NS_ASSUME_NONNULL_END

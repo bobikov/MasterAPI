@@ -29,6 +29,7 @@
 		2B20F0131E47144200816124 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B20F0121E47144200816124 /* AboutAppViewController.m */; };
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
 		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
+		2B27476620DEC83D00779CF9 /* FavoritesPostsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B27476520DEC83D00779CF9 /* FavoritesPostsController.m */; };
 		2B36E0E71F3F2F4E003EB150 /* PhotoSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
@@ -560,6 +561,8 @@
 		2B20F0121E47144200816124 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutAppViewController.m; path = Storyboards/AboutAppViewController.m; sourceTree = "<group>"; };
 		2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_110x110.png; sourceTree = "<group>"; };
 		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
+		2B27476420DEC83C00779CF9 /* FavoritesPostsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesPostsController.h; sourceTree = "<group>"; };
+		2B27476520DEC83D00779CF9 /* FavoritesPostsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesPostsController.m; sourceTree = "<group>"; };
 		2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSliderViewController.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
@@ -1908,6 +1911,8 @@
 				2B1F4CE920CD28B400919EAE /* FavoritesPhotoController.h */,
 				2B1F4CEA20CD28B400919EAE /* FavoritesPhotoController.m */,
 				2B1F4CE320CD25D100919EAE /* FavePhotoCollectionViewItem.xib */,
+				2B27476420DEC83C00779CF9 /* FavoritesPostsController.h */,
+				2B27476520DEC83D00779CF9 /* FavoritesPostsController.m */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -3006,6 +3011,7 @@
 				2B41FC6B1E02D3F70013AC86 /* BanlistViewController.m in Sources */,
 				2B41FC481E02D3F60013AC86 /* TumblrRWData.m in Sources */,
 				2B41FC6A1E02D3F70013AC86 /* BanlistCustomTableView.m in Sources */,
+				2B27476620DEC83D00779CF9 /* FavoritesPostsController.m in Sources */,
 				2B41FC461E02D3F60013AC86 /* TumblrAuth.m in Sources */,
 				2B54F6A920C6CC3300054B24 /* FaveVideoControllerViewItem.m in Sources */,
 				2B41FC4E1E02D3F60013AC86 /* TumblrPermsController.m in Sources */,

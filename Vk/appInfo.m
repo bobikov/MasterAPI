@@ -23,16 +23,31 @@
         token = object[@"token"];
         version = object[@"version"];
 //        _selected = [object[@"selected"] boolValue];
+        offsetCounter = 0;
         icon = object[@"icon"];
         session=[NSURLSession  sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
+        _captchaHandler = [[VKCaptchaHandler alloc]init];
         usersListData = [[NSMutableArray alloc]init];
         searchResults = [[NSMutableArray alloc]init];
     return self;
 //    }
 //    return nil;
 }
-
+- (void)addToSavedPhotos:(NSDictionary*)params captcha_sid:(NSString *)captcha_sid captcha_key:(NSString *)captcha_key captcha:(BOOL)captcha comletionHandler:(nonnull void (^)(NSDictionary * _Nonnull))completion{
+        NSString *url;
+        if(captcha){
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/photos.copy?owner_id=%@&photo_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", params[@"owner_id"],params[@"photo_id"], token, version, captcha_sid, captcha_key];
+        }
+        else{
+            url = [NSString stringWithFormat:@"https://api.vk.com/method/photos.copy?owner_id=%@&photo_id=%@&access_token=%@&v=%@", params[@"owner_id"],params[@"photo_id"], token, version];
+        }
+        [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *addToSavedPhotoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            NSLog(@"%@", addToSavedPhotoResponse);
+            completion(addToSavedPhotoResponse);
+        }]resume];
+}
 
 - (void)getUsersInfo:(nonnull id)ids filters:(nullable id)filters  :(OnGetUsersInfoComplete)completion {
     

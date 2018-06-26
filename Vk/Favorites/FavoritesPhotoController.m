@@ -36,8 +36,11 @@
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
     contr.total = [CollectionViewList.selectionIndexes count];
     contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
+    
 }
-
+- (void)addToSavedAlbum{
+    
+}
 - (void)loadFavePhoto{
    
     [itemsList removeAllObjects];
@@ -59,7 +62,7 @@
                     bigPhoto = i[@"photo_130"];
                 }
                 
-                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
+                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"owner_id":i[@"owner_id"], @"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
                 [itemsList addObject:object];
               
             }
@@ -75,11 +78,12 @@
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
     //    controller.videoId=self.representedObject[@"id"];
-    controller.selectedItems =  [[NSMutableArray alloc] initWithArray:[CollectionViewList.content objectsAtIndexes:[CollectionViewList selectionIndexes]]];
+    controller.savePhotoToSaved=YES;
+    controller.selectedItems =  [[NSMutableArray alloc] initWithArray:[itemsList objectsAtIndexes:[CollectionViewList selectionIndexes]]];
     controller.type = @"photo";
     controller.mediaType = @"photo";
     
-    
+   
     [self presentViewControllerAsSheet:controller];
     
 }
@@ -88,14 +92,15 @@
     
 }
 
--(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [itemsList count];
 }
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
     addPhotoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
     unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
-    
+    NSLog(@"Selected count: %li", [collectionView.selectionIndexes count]);
+    NSLog(@"Selection indexes:%@", collectionView.selectionIndexes );
     if(!([currentEvent modifierFlags] & NSCommandKeyMask) && [collectionView.selectionIndexes count]==1){
         NSStoryboard *board1 = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
         myWindowContr = [board1 instantiateControllerWithIdentifier:@"PhotoController"];
@@ -106,12 +111,12 @@
     }
 }
 
--(void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+- (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     addPhotoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
     unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
     NSLog(@"%li", [collectionView.selectionIndexes count]);
 }
--(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+- (NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     FavePhotoCollectionViewItem *item1 = (FavePhotoCollectionViewItem*)[collectionView makeItemWithIdentifier:@"FavePhotoCollectionViewItem" forIndexPath:indexPath];
     [item1.thumb sd_setImageWithURL:[NSURL URLWithString:[itemsList objectAtIndex:indexPath.item][@"items"][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {

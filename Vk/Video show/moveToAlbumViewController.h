@@ -44,4 +44,5 @@
 @property(nonatomic,readwrite) VKCaptchaHandler *captchaHandle;
 @property(nonatomic,readwrite) NSMutableArray *selectedItems;
 @property(nonatomic,readwrite) NSString *mediaType;
+@property(nonatomic,readwrite) BOOL savePhotoToSaved;
 @end

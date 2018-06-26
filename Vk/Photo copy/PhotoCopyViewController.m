@@ -44,7 +44,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
     [self loadGroupsPopup];
 
 }
--(void)controlTextDidChange:(NSNotification *)obj{
+- (void)controlTextDidChange:(NSNotification *)obj{
     if(obj.object == publicId){
         [self setControlButtonsState];
     }
@@ -62,7 +62,7 @@ typedef void(^OnCompleteCreateNewAlbumName)(NSString *albumName);
     publicId.stringValue = ownerID;
     
 }
--(void)setControlButtonsState{
+- (void)setControlButtonsState{
     if(isCopying){
         stop.enabled=YES;
         copy.enabled=NO;
