@@ -107,6 +107,7 @@ typedef void(^OnGetFavoriteUsersInfoComplete)(NSMutableArray *favesUsersObjectsI
 - (void)searchPeople:(nullable id)searchById queryString:(nullable id)queryString offset:(BOOL)offset :(void (^)(NSMutableArray *people))completion;
 - (void)addToSavedPhotos:(NSDictionary*)params captcha_sid:( NSString* _Nullable )captcha_sid captcha_key:(NSString* _Nullable)captcha_key captcha:(BOOL)captcha comletionHandler:(void(^)(NSDictionary *response))completion;
 
+- (NSMutableURLRequest*)getMutableURLRequestWithMultipartData:(NSURL*)upload_url filename:(NSString*)filename bodyData:(NSData*)bodyData fformat:(NSString*)fformat;
 
 NS_ASSUME_NONNULL_END
 @end

@@ -601,29 +601,12 @@ typedef void (^OnComplete)(NSData *serverURL);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];
     if(contents){
        
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:uploadURL]];
+        
         NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
         NSData *data1 = [imageRep representationUsingType:NSJPEGFileType properties:nil];
         
+        NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData:uploadUrl filename:fileName bodyData:data1 fformat:@"file"];
         //    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-        [request setHTTPShouldHandleCookies:NO];
-        [request setTimeoutInterval:30];
-        [request setHTTPMethod:@"POST"];
-        
-        NSString *kStringBoundary = @"*******";
-        [request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@",kStringBoundary] forHTTPHeaderField:@"Content-Type"];
-        NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kStringBoundary];
-        NSMutableData *body = [NSMutableData data];
-        
-        [body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\";  filename=\"%@\"\r\n",fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-        //    [body appendData:[@"Content-Type: image/jpg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n\r\n",(int)[data1 length]] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:data1];
-        [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [request setHTTPBody:body];
         
         NSURLSessionDataTask *uploadTask = [backgroundSession dataTaskWithRequest:request];
         

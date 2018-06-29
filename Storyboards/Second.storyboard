@@ -1187,7 +1187,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llh-OF-50J">
-                                            <rect key="frame" x="0.0" y="-1" width="446" height="240"/>
+                                            <rect key="frame" x="0.0" y="14" width="446" height="240"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vLl-CF-7cF">
                                                     <rect key="frame" x="0.0" y="221" width="446" height="19"/>
@@ -1391,7 +1391,7 @@ Gw
                                     <rect key="frame" x="0.0" y="239" width="446" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Gba-JY-MPa">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Gba-JY-MPa">
                                     <rect key="frame" x="446" y="0.0" width="15" height="239"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>

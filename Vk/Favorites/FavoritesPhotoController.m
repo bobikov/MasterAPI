@@ -44,14 +44,17 @@
 - (void)loadFavePhoto{
    
     [itemsList removeAllObjects];
+    [CollectionViewList setContent:itemsList];
+    [CollectionViewList reloadData];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getPhotos?count=600&access_token=%@&v=%@", _app.token,_app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (data){
             NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             for (NSDictionary *i in obj[@"response"][@"items"] ){
-                //                NSLog(@"%@", i);
+                //  NSLog(@"%@", i);
                 NSString *bigPhoto;
                 NSString *likesCount = @"";
                 NSString *userLikesCount = @"";
+                
                 if(i[@"photo_807"] && i[@"photo_807"]!=nil ){
                     bigPhoto = i[@"photo_807"];
                 }
@@ -101,6 +104,7 @@
     unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
     NSLog(@"Selected count: %li", [collectionView.selectionIndexes count]);
     NSLog(@"Selection indexes:%@", collectionView.selectionIndexes );
+    sleep(1);
     if(!([currentEvent modifierFlags] & NSCommandKeyMask) && [collectionView.selectionIndexes count]==1){
         NSStoryboard *board1 = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
         myWindowContr = [board1 instantiateControllerWithIdentifier:@"PhotoController"];

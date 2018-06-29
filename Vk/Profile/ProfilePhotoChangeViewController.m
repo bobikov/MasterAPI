@@ -298,25 +298,9 @@
 
 //        NSImage *image = [[NSImage alloc] initWithData:contents];
         if(contents){
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverUrl]];
             NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
             NSData *data1 = [imageRep representationUsingType:NSPNGFileType properties:nil];
-            
-            [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-            [request setTimeoutInterval:30];
-            [request setHTTPMethod:@"POST"];
-            
-            NSString *kStringBoundary = @"*******";
-            [request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@",kStringBoundary] forHTTPHeaderField:@"Content-Type"];
-            NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kStringBoundary];
-            NSMutableData *body = [NSMutableData data];
-            [body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n",filename] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n\r\n",(int)[data1 length]] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:data1];
-            [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [request setHTTPBody:body];
-            
+            NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData:[NSURL URLWithString:serverUrl] filename:filename bodyData:data1 fformat:@"file"];
             
             NSURLSessionDataTask *uploadTask;
             progressUploadBar.hidden=NO;

@@ -10,7 +10,6 @@
 
 @interface moveToAlbumViewController () <NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnComplete) (NSMutableArray *data);
-typedef void(^OnCompleteAddToSavedPhotos) (BOOL ready);
 - (void)getVideoInAlbum:(OnComplete)completion;
 - (void)addToSavedPhotos;
 @end
@@ -42,7 +41,7 @@ typedef void(^OnCompleteAddToSavedPhotos) (BOOL ready);
     [self loadGroupsByAdminPopup];
     offsetAlbums=0;
     targetId = targetId == nil ? _app.person : targetId;
-    _captchaHandle = [[VKCaptchaHandler alloc]init];
+    
   
  
 }
@@ -159,10 +158,10 @@ typedef void(^OnCompleteAddToSavedPhotos) (BOOL ready);
                         if(!stopFlag){
                             stopFlag=YES;
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                NSInteger result = [[_captchaHandle handleCaptcha:videoAddToAlbumResposne[@"error"][@"captcha_img"]]runModal];
+                                NSInteger result = [[_app.captchaHandler handleCaptcha:videoAddToAlbumResposne[@"error"][@"captcha_img"]]runModal];
                                 if(result == NSAlertFirstButtonReturn){
                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                        addToAlbumVideos(YES, offsetCounter, videoAddToAlbumResposne[@"error"][@"captcha_sid"],_captchaHandle.enterCode.stringValue);
+                                        addToAlbumVideos(YES, offsetCounter, videoAddToAlbumResposne[@"error"][@"captcha_sid"],_app.captchaHandler.enterCode.stringValue);
                                         
                                     });
                                     
@@ -330,10 +329,10 @@ typedef void(^OnCompleteAddToSavedPhotos) (BOOL ready);
                         if(!stopFlag){
                             stopFlag=YES;
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                NSInteger result = [[_captchaHandle handleCaptcha:movePhotoToAlbumResponse[@"error"][@"captcha_img"]]runModal];
+                                NSInteger result = [[_app.captchaHandler handleCaptcha:movePhotoToAlbumResponse[@"error"][@"captcha_img"]]runModal];
                                 if(result == NSAlertFirstButtonReturn){
                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                        movePhotosToAlbumBlock(YES, offsetCounter, movePhotoToAlbumResponse[@"error"][@"captcha_sid"],_captchaHandle.enterCode.stringValue);
+                                        movePhotosToAlbumBlock(YES, offsetCounter, movePhotoToAlbumResponse[@"error"][@"captcha_sid"],_app.captchaHandler.enterCode.stringValue);
                                     });
                                 }
                             });

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
-#import "VKCaptchaHandler.h"
+
 @interface moveToAlbumViewController : NSViewController{
     
     __weak IBOutlet NSTableView *moveToAlbumTableView;
@@ -41,7 +41,6 @@
 @property(nonatomic,readwrite) NSString *albumIdToGetVideos;
 @property(nonatomic,readwrite) NSString *type;
 @property(nonatomic,readwrite) NSString *publicOrOwnerOfAlbums;
-@property(nonatomic,readwrite) VKCaptchaHandler *captchaHandle;
 @property(nonatomic,readwrite) NSMutableArray *selectedItems;
 @property(nonatomic,readwrite) NSString *mediaType;
 @property(nonatomic,readwrite) BOOL savePhotoToSaved;
