@@ -601,15 +601,11 @@ typedef void (^OnComplete)(NSData *serverURL);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];
     if(contents){
        
-        
         NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
         NSData *data1 = [imageRep representationUsingType:NSJPEGFileType properties:nil];
-        
         NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData:uploadUrl filename:fileName bodyData:data1 fformat:@"file"];
         //    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-        
         NSURLSessionDataTask *uploadTask = [backgroundSession dataTaskWithRequest:request];
-        
         [uploadTask resume];
         [self.collectionView setSelectable:NO];
     }

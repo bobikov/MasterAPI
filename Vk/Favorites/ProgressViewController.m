@@ -18,10 +18,15 @@
     [super viewDidLoad];
     _current=0;
     _total=_total?_total:0;
-    captchaHandler = [[VKCaptchaHandler alloc]init];
     _app = [[appInfo alloc]init];
     [self setProcess];
-    [self unlike];
+    if(_savePhotoToSaved){
+        [self addToSavedPhotos];
+        titleLabel.stringValue = @"Add to saved:";
+    }else{
+        titleLabel.stringValue = @"Unlike:";
+        [self unlike];
+    }
 //    NSLog(@"HAHA");
     offset_counter=0;
 }
@@ -33,10 +38,55 @@
     [self dismissController:self];
 }
 
-
+- (void)addToSavedPhotos{
+    //    NSLog(@"Selected _items: %@", items);
+    _total = [_items count];
+    if(offset_counter<_total){
+        _ownerId = _items[offset_counter][@"items"][@"owner_id"];
+        _photoId = _items[offset_counter][@"items"][@"id"];
+//        progressBar.maxValue=[_items count];
+        NSDictionary *params = @{@"owner_id":_ownerId,@"photo_id":_photoId};
+        NSLog(@"%li", offset_counter);
+        NSLog(@"%@", params);
+        [_app addToSavedPhotos:params captcha_sid:nil captcha_key:nil captcha:NO comletionHandler:^(NSDictionary * _Nonnull response) {
+            if(response[@"error"]){
+                if([response[@"error"][@"error_code"] intValue] == 14){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSInteger result = [[_app.captchaHandler handleCaptcha:response[@"error"][@"captcha_img"]]runModal];
+                        if(result == NSAlertFirstButtonReturn){
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                [_app addToSavedPhotos:params captcha_sid:response[@"captcha_sid"] captcha_key:_app.captchaHandler.enterCode.stringValue captcha:YES comletionHandler:^(NSDictionary * _Nonnull response) {
+                                    
+                                }];
+                            });
+                        }
+                    });
+                }
+                else if([response[@"error"][@"error_code"] intValue] == 800){
+                    NSLog(@"%@:%@", response[@"error"][@"error_msg"], response[@"error"][@"error_code"]);
+                    offset_counter++;
+                }
+            }else{
+                offset_counter++;
+                _current = offset_counter;
+                NSLog(@"Photo saved successfully to saved album");
+                sleep(1);
+                dispatch_async(dispatch_get_main_queue(), ^{
+//                    progressBar.doubleValue=offset_counter;
+                    [self setProcess];
+                    if(_current==_total){
+                        [self dismissController:self];
+                    }
+                    
+                });
+                [self addToSavedPhotos];
+            }
+        }];
+    }
+}
 - (void)unlike{
-    __block void (^unlikeBlock)(NSString *captcha_key, NSString *captcha_sid, int offset, BOOL unlikeVideoCaptcha);
-    unlikeBlock = ^(NSString *captcha_key,NSString *captcha_sid, int offset, BOOL unlikeVideoCaptcha){
+    __block void (^unlikeBlock)(NSString *captcha_key, NSString *captcha_sid, NSInteger offset, BOOL unlikeVideoCaptcha);
+    unlikeBlock = ^(NSString *captcha_key,NSString *captcha_sid, NSInteger offset, BOOL unlikeVideoCaptcha){
         stopped=NO;
         captchaOpened=NO;
        
@@ -60,9 +110,9 @@
                                     
                                     dispatch_async(dispatch_get_main_queue(), ^{
                                         
-                                        NSInteger result = [[captchaHandler handleCaptcha:obj[@"error"][@"captcha_img"]] runModal];
+                                        NSInteger result = [[_app.captchaHandler handleCaptcha:obj[@"error"][@"captcha_img"]] runModal];
                                         if (result == NSAlertFirstButtonReturn){
-                                            captchaKey=[captchaHandler readCode];
+                                            captchaKey=[_app.captchaHandler readCode];
                                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                 unlikeBlock(captchaKey, obj[@"error"][@"captcha_sid"], offset_counter, YES);
                                             });

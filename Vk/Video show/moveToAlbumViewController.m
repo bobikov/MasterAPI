@@ -107,11 +107,11 @@ typedef void(^OnComplete) (NSMutableArray *data);
             }
         }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                if(_savePhotoToSaved){
-                    [self addToSavedPhotos];
-                }else{
+//                if(_savePhotoToSaved){
+////                    [self addToSavedPhotos];
+//                }else{
                     [self moveMutiplePhotos];
-                }
+//                }
             });
         }
     
@@ -260,45 +260,7 @@ typedef void(^OnComplete) (NSMutableArray *data);
     }]resume];
 }
 
-- (void)addToSavedPhotos{
-//    NSLog(@"Selected items: %@", _selectedItems);
-    if(offsetCounter<[_selectedItems count]){
-        _ownerId = _selectedItems[offsetCounter][@"items"][@"owner_id"];
-        _photoId = _selectedItems[offsetCounter][@"items"][@"id"];
-        progressBar.maxValue=[_selectedItems count];
-        NSDictionary *params = @{@"owner_id":_ownerId,@"photo_id":_photoId};
-        NSLog(@"%li", offsetCounter);
-        NSLog(@"%@", params);
-        [_app addToSavedPhotos:params captcha_sid:nil captcha_key:nil captcha:NO comletionHandler:^(NSDictionary * _Nonnull response) {
-            if(response[@"error"]){
-                if([response[@"error"][@"error_code"] intValue] == 14){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSInteger result = [[_app.captchaHandler handleCaptcha:response[@"error"][@"captcha_img"]]runModal];
-                        if(result == NSAlertFirstButtonReturn){
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                               [_app addToSavedPhotos:params captcha_sid:response[@"captcha_sid"] captcha_key:_app.captchaHandler.enterCode.stringValue captcha:YES comletionHandler:^(NSDictionary * _Nonnull response) {
-                                   
-                               }];
-                            });
-                        }
-                    });
-                }
-                else if([response[@"error"][@"error_code"] intValue] == 800){
-                    NSLog(@"%@:%@", response[@"error"][@"error_msg"], response[@"error"][@"error_code"]);
-                    offsetCounter++;
-                }
-            }else{
-                offsetCounter++;
-                NSLog(@"Photo saved successfully to saved album");
-                sleep(1);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    progressBar.doubleValue=offsetCounter;
-                });
-                [self addToSavedPhotos];
-            }
-        }];
-    }
-}
+
 - (void)moveMutiplePhotos{
     
     targetAlbum = [albumsData objectAtIndex:[moveToAlbumTableView selectedRow]][@"id"];

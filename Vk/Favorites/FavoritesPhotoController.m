@@ -23,12 +23,16 @@
     CollectionViewList.dataSource = self;
     _app = [[appInfo alloc]init];
     itemsList = [[NSMutableArray alloc]init];
-    addPhotoTo.enabled=NO;
-    unlikeBut.enabled=NO;
-    
+   
     
 }
+- (void)setButtonsState{
+    addPhotoTo.enabled = [CollectionViewList.selectionIndexes count] ? YES : NO;
+    unlikeBut.enabled = [CollectionViewList.selectionIndexes count] ? YES : NO;
+    addToSavedBut.enabled = [CollectionViewList.selectionIndexes count] ? YES : NO;
+}
 - (void)viewDidAppear{
+    [self setButtonsState];
     [self loadFavePhoto];
 }
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
@@ -36,7 +40,9 @@
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
     contr.total = [CollectionViewList.selectionIndexes count];
     contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
-    
+    if(sender == addToSavedBut){
+        contr.savePhotoToSaved=YES;
+    }
 }
 - (void)addToSavedAlbum{
     
@@ -81,7 +87,7 @@
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
     //    controller.videoId=self.representedObject[@"id"];
-    controller.savePhotoToSaved=YES;
+//    controller.savePhotoToSaved=YES;
     controller.selectedItems =  [[NSMutableArray alloc] initWithArray:[itemsList objectsAtIndexes:[CollectionViewList selectionIndexes]]];
     controller.type = @"photo";
     controller.mediaType = @"photo";
@@ -95,13 +101,13 @@
     
 }
 
+
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return [itemsList count];
 }
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
     NSEvent *currentEvent = [NSApp currentEvent];
-    addPhotoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
-    unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
+    [self setButtonsState];
     NSLog(@"Selected count: %li", [collectionView.selectionIndexes count]);
     NSLog(@"Selection indexes:%@", collectionView.selectionIndexes );
     sleep(1);
@@ -116,8 +122,7 @@
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
-    addPhotoTo.enabled = [collectionView.selectionIndexes count] ? YES : NO;
-    unlikeBut.enabled = [collectionView.selectionIndexes count] ? YES : NO;
+    [self setButtonsState];
     NSLog(@"%li", [collectionView.selectionIndexes count]);
 }
 - (NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{

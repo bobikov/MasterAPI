@@ -8,19 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
-#import "VKCaptchaHandler.h"
+
 @interface ProgressViewController : NSViewController{
     
     __weak IBOutlet NSTextField *proccessLabel;
-    VKCaptchaHandler *captchaHandler;
+    
      BOOL captchaOpened, stopped;
     NSString *url;
-    int offset_counter;
+    NSInteger offset_counter;
+    __weak IBOutlet NSTextField *titleLabel;
 }
 @property NSInteger total;
 @property NSInteger current;
 @property NSMutableArray *items;
 @property appInfo *app;
-
+@property NSString *photoId;
+@property NSString *ownerId;
 //extern unlikeBlock ulike(NSString *captcha_sid, NSString *captcha_img, NSInteger offset, unlikeBlock handler);
+@property(nonatomic,readwrite) BOOL savePhotoToSaved;
 @end

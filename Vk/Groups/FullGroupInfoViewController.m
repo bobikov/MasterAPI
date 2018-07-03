@@ -23,10 +23,11 @@
     photo.layer.masksToBounds=YES;
     photo.layer.cornerRadius = 5;
     _stringHighlighter = [[StringHighlighter alloc]init];
-     [self prepareLoadInfo];
     [status setAllowsEditingTextAttributes:YES];
     [site setAllowsEditingTextAttributes:YES];
-    
+    [screenName setAllowsEditingTextAttributes:YES];
+     [self prepareLoadInfo];
+   
 }
 
 -(void)viewDidAppear{
@@ -46,7 +47,10 @@
     
     desc.stringValue = _receivedData[@"desc"];
     name.stringValue = _receivedData[@"name"];
-    screenName.stringValue = _receivedData[@"screen_name"];
+  
+    [_stringHighlighter highlightStringWithURLs:[NSString stringWithFormat:@"https://vk.com/%@", _receivedData[@"screen_name"]] Emails:NO fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
+        screenName.attributedStringValue = highlightedString;
+    }];
 //    status.stringValue = _receivedData[@"status"];
     [_stringHighlighter highlightStringWithURLs:_receivedData[@"status"] Emails:NO fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
 //        site.attributedStringValue = highlightedString;

@@ -14,6 +14,7 @@
     __weak IBOutlet NSCollectionView *CollectionViewList;
     NSMutableArray *itemsList;
     __weak IBOutlet NSButton *unlikeBut;
+    __weak IBOutlet NSButton *addToSavedBut;
     
 }
 @property(nonatomic)appInfo *app;
