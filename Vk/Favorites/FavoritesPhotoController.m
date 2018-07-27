@@ -52,35 +52,40 @@
     [itemsList removeAllObjects];
     [CollectionViewList setContent:itemsList];
     [CollectionViewList reloadData];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getPhotos?count=600&access_token=%@&v=%@", _app.token,_app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (data){
-            NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for (NSDictionary *i in obj[@"response"][@"items"] ){
-                //  NSLog(@"%@", i);
-                NSString *bigPhoto;
-                NSString *likesCount = @"";
-                NSString *userLikesCount = @"";
-                
-                if(i[@"photo_807"] && i[@"photo_807"]!=nil ){
-                    bigPhoto = i[@"photo_807"];
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getPhotos?count=1000&offset=500&access_token=%@&v=%@", _app.token,_app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (data){
+                NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//                NSLog(@"%@", obj);
+                for (NSDictionary *i in obj[@"response"][@"items"] ){
+                    //  NSLog(@"%@", i);
+                    NSString *bigPhoto;
+                    NSString *likesCount = @"";
+                    NSString *userLikesCount = @"";
+                    NSString *prPhoto;
+                    for (NSDictionary *a in i[@"sizes"]){
+                        if([a[@"type"] isEqual:@"y"]){
+                            bigPhoto = a[@"url"];
+                        }
+                        else if([a[@"type"] isEqual:@"x"] && !bigPhoto){
+                            bigPhoto = a[@"url"];
+                        }
+                        else if([a[@"type"] isEqual:@"o"]){
+                            prPhoto = a[@"url"];
+                        }
+//                        NSLog(@"%@", a);
+                    }
+//                    NSLog(@"bigPhoto:%@\nprPhoto:%@", bigPhoto, prPhoto);
+                    NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"owner_id":i[@"owner_id"], @"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":prPhoto, @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
+                    [itemsList addObject:object];
+    //
+    //            }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [CollectionViewList setContent:itemsList];
+                        [CollectionViewList reloadData];
+                        
+                    });
                 }
-                else if(i[@"photo_604"] && !i[@"photo_807"]){
-                    bigPhoto = i[@"photo_604"];
-                }
-                else if(!i[@"photo_604"]){
-                    bigPhoto = i[@"photo_130"];
-                }
-                
-                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"owner_id":i[@"owner_id"], @"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
-                [itemsList addObject:object];
-              
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [CollectionViewList setContent:itemsList];
-                [CollectionViewList reloadData];
-                
-            });
-        }
     }]resume];
 }
 - (IBAction)moveToAlbum:(id)sender {

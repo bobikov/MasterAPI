@@ -229,17 +229,21 @@
                 NSString *bigPhoto;
                 NSString *likesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"count"]];
                 NSString *userLikesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"user_likes"]];
-                if(i[@"photo_807"] && i[@"photo_807"]!=nil ){
-                    bigPhoto = i[@"photo_807"];
-                }
-                else if(i[@"photo_604"] && !i[@"photo_807"]){
-                    bigPhoto = i[@"photo_604"];
-                }
-                else if(!i[@"photo_604"]){
-                    bigPhoto = i[@"photo_130"];
+                NSString *prPhoto;
+                for (NSDictionary *a in i[@"sizes"]){
+                    if([a[@"type"] isEqual:@"y"]){
+                        bigPhoto = a[@"url"];
+                    }
+                    else if([a[@"type"] isEqual:@"x"] && !bigPhoto){
+                        bigPhoto = a[@"url"];
+                    }
+                    else if([a[@"type"] isEqual:@"o"]){
+                        prPhoto = a[@"url"];
+                    }
+                    //                        NSLog(@"%@", a);
                 }
 
-                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":i[@"photo_130"]?i[@"photo_130"]:i[@"photo_75"], @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
+                NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":prPhoto, @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
                 
                 [albumsData addObject:object ];
             }

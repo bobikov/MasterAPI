@@ -27,7 +27,7 @@
     currentPhoto.wantsLayer=YES;
     currentPhoto.layer.masksToBounds=YES;
     currentPhoto.layer.cornerRadius=4;
-    [self loadGroupsByAdminPopup];
+//    [self loadGroupsByAdminPopup];
 }
 - (void)viewDidAppear{
     [self loadCurrentPhoto];
@@ -81,7 +81,7 @@
         if(data){
             NSDictionary *photoGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(photoGetResponse[@"response"]){
-                NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"photo_604"]]];
+                NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"sizes"][3][@"url"]]];
                 ownerPhoto = [self prepareImageForProfile:ownerPhoto];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [currentPhoto setImage:ownerPhoto];

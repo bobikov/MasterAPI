@@ -29,7 +29,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     _WebView.frameLoadDelegate=self;
     [self loadPopupAppList];
     [self setAdvancedOptions];
-    [self setAppVersion:5.73];
+    [self setAppVersion:5.80];
     //    params = urlencode({
     //        'client_id' : "5040349",
     //        'scope' : "wall, offline, status, messages, ads, groups, notes, photos, video, docs, friends, audio",
