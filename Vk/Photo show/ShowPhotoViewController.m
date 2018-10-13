@@ -224,12 +224,14 @@
         if(data){
             NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //            NSLog(@"%@", getAlbumResponse);
+            
             for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
                 index++;
                 NSString *bigPhoto;
                 NSString *likesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"count"]];
                 NSString *userLikesCount = [NSString stringWithFormat:@"%@", i[@"likes"][@"user_likes"]];
                 NSString *prPhoto;
+                
                 for (NSDictionary *a in i[@"sizes"]){
                     if([a[@"type"] isEqual:@"y"]){
                         bigPhoto = a[@"url"];
@@ -237,10 +239,10 @@
                     else if([a[@"type"] isEqual:@"x"] && !bigPhoto){
                         bigPhoto = a[@"url"];
                     }
-                    else if([a[@"type"] isEqual:@"o"]){
+                    else if([a[@"type"] isEqual:@"m"]){
                         prPhoto = a[@"url"];
                     }
-                    //                        NSLog(@"%@", a);
+                 
                 }
 
                 NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": albumTitle,  @"owner_id":ownerId == nil?_app.person:ownerId, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"index":[NSNumber numberWithInteger:index], @"id":i[@"id"], @"photo":prPhoto, @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];

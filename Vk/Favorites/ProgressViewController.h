@@ -24,6 +24,7 @@
 @property appInfo *app;
 @property NSString *photoId;
 @property NSString *ownerId;
+@property NSString *mediaType;
 //extern unlikeBlock ulike(NSString *captcha_sid, NSString *captcha_img, NSInteger offset, unlikeBlock handler);
 @property(nonatomic,readwrite) BOOL savePhotoToSaved;
 @end

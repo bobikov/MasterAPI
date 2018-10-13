@@ -30,6 +30,7 @@
 		2B20F0151E4738A400816124 /* masterapi_icon_110x110.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0141E4738A400816124 /* masterapi_icon_110x110.png */; };
 		2B20F0211E47468500816124 /* masterapi_icon_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B20F0201E47468500816124 /* masterapi_icon_about.png */; };
 		2B27476620DEC83D00779CF9 /* FavoritesPostsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B27476520DEC83D00779CF9 /* FavoritesPostsController.m */; };
+		2B35C925211C59C80017B67E /* CDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B35C924211C59C80017B67E /* CDataHandler.m */; };
 		2B36E0E71F3F2F4E003EB150 /* PhotoSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */; };
 		2B41FBCE1E02D3F60013AC86 /* AppsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */; };
 		2B41FBCF1E02D3F60013AC86 /* AppsPreferencesMainContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9CC1E02D3F50013AC86 /* AppsPreferencesMainContainerController.m */; };
@@ -563,6 +564,8 @@
 		2B20F0201E47468500816124 /* masterapi_icon_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterapi_icon_about.png; sourceTree = "<group>"; };
 		2B27476420DEC83C00779CF9 /* FavoritesPostsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesPostsController.h; sourceTree = "<group>"; };
 		2B27476520DEC83D00779CF9 /* FavoritesPostsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesPostsController.m; sourceTree = "<group>"; };
+		2B35C923211C59C70017B67E /* CDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataHandler.h; sourceTree = "<group>"; };
+		2B35C924211C59C80017B67E /* CDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataHandler.m; sourceTree = "<group>"; };
 		2B36E0E61F3F2F4E003EB150 /* PhotoSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSliderViewController.m; sourceTree = "<group>"; };
 		2B41F9C91E02D3F50013AC86 /* AppsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsPreferencesController.h; sourceTree = "<group>"; };
 		2B41F9CA1E02D3F50013AC86 /* AppsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppsPreferencesController.m; sourceTree = "<group>"; };
@@ -1787,6 +1790,8 @@
 				2BFB992D1F19018E00544B75 /* VKLikesViewController.m */,
 				2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */,
 				2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */,
+				2B35C923211C59C70017B67E /* CDataHandler.h */,
+				2B35C924211C59C80017B67E /* CDataHandler.m */,
 			);
 			path = Vk;
 			sourceTree = "<group>";
@@ -3048,6 +3053,7 @@
 				2BAE47EB1F0E401E006E507F /* MyTableRowView.m in Sources */,
 				2B41FCAE1E02D3F70013AC86 /* VideoShowCollectionView.m in Sources */,
 				2B41FC691E02D3F70013AC86 /* BanlistCustomCell.m in Sources */,
+				2B35C925211C59C80017B67E /* CDataHandler.m in Sources */,
 				2B41FBED1E02D3F60013AC86 /* SidebarOutlineViewController.m in Sources */,
 				2B41FC831E02D3F70013AC86 /* OutRequestsController.m in Sources */,
 				2B462FEA1E5481910022E039 /* APIClientsProtocol.m in Sources */,

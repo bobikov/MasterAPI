@@ -11,6 +11,7 @@
 #import "StringHighlighter.h"
 #import <SBJson/SBJson5.h>
 #import <SYFlatButton+ButtonsStyle.h>
+#import "CDataHandler.h"
 @interface FavoritesUsersViewController : NSViewController{
     
     __weak IBOutlet NSButton *sendMessage;
@@ -32,7 +33,7 @@
     __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
     __weak IBOutlet NSButton *loadedCount;
     __weak IBOutlet NSButton *totalCountLabel;
-    
+    CDataHandler *CDHandle;
     StringHighlighter *stringHighlighter;
     NSInteger offsetLoadFaveUsers,offsetCounter,totalCount;
     NSDictionary *receiverDataForMessage;

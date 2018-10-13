@@ -175,6 +175,9 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadProfilePhotoWithEffects" object:nil  userInfo:@{@"photo":imageData}];
         
     }
+    else if (_vkStory){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadVKStoryPhotoWithEffects" object:nil  userInfo:@{@"photo":imageData}];
+    }
     else{
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UploadPhotoToAlbumWithEffects" object:nil  userInfo:@{@"photo":imageData}];

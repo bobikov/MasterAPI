@@ -40,6 +40,7 @@
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
     contr.total = [CollectionViewList.selectionIndexes count];
     contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
+//    contr.mediaType = @"photo";
     if(sender == addToSavedBut){
         contr.savePhotoToSaved=YES;
     }
@@ -52,7 +53,7 @@
     [itemsList removeAllObjects];
     [CollectionViewList setContent:itemsList];
     [CollectionViewList reloadData];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getPhotos?count=1000&offset=500&access_token=%@&v=%@", _app.token,_app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/fave.getPhotos?count=1000&offset=0&access_token=%@&v=%@", _app.token,_app.version]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if (data){
                 NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //                NSLog(@"%@", obj);
@@ -76,6 +77,7 @@
                     }
 //                    NSLog(@"bigPhoto:%@\nprPhoto:%@", bigPhoto, prPhoto);
                     NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"owner_id":i[@"owner_id"], @"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":prPhoto, @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
+//                    NSLog(@"%@", object);
                     [itemsList addObject:object];
     //
     //            }

@@ -21,10 +21,13 @@
     manager = [NSFileManager defaultManager];
     image_formats = @[@"jpg",@"png",@"jpeg",@"gif"];
     video_formats = @[@"mp4"];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVkStoryWithEffects:) name:@"UploadVKStoryPhotoWithEffects" object:nil];
     [self configCameraLayer];
     
   
+}
+-(void)uploadVkStoryWithEffects:(NSNotification*)obj{
+    
 }
 - (void)viewDidAppear{
     cameraLayer = cameraView.layer;
@@ -248,6 +251,16 @@
 //            NSLog(@"Converted video!");
 //    }];
 }
+- (void)openPhotoEffectsWindow{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageDataWidthEffects:) name:@"UploadPhotoToAlbumWithEffects" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
+    efvc = [story instantiateControllerWithIdentifier:@"PhotoEffectsView"];
+    efvc.profilePhoto = NO;
+    efvc.vkStory = YES;
+    efvc.originalImageURLs = @[filePath];
+    [self presentViewControllerAsModalWindow:efvc];
+}
 - (IBAction)upload:(id)sender {
     
     rfformat = sender == uploadPhoto ? file : video_file;
@@ -257,7 +270,8 @@
 - (void)prepareForUpload{
     backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"myBackgroundSessionIdentifier1"];
     backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    
+  
+   
     uploadCounter = 0;
     if(!files){
         NSLog(@"Files have not got");

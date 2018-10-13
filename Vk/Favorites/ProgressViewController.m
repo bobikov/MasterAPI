@@ -91,7 +91,7 @@
         captchaOpened=NO;
        
         for (NSDictionary *i in [_items subarrayWithRange:NSMakeRange(offset_counter, [_items count])]){
-             url = unlikeVideoCaptcha ? [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"id"], i[@"owner_id"], _app.token, _app.version, captcha_sid, captcha_key] : [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"id"], i[@"owner_id"], _app.token, _app.version];
+             url = unlikeVideoCaptcha ? [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version, captcha_sid, captcha_key] : [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=photo&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version];
             if(stopped){
                 break;
             }

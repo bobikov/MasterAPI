@@ -15,6 +15,7 @@ typedef enum {
 #import "appInfo.h"
 #import <AVFoundation/AVFoundation.h>
 #import <QuartzCore/CALayer.h>
+#import "PhotoEffectsViewController.h"
  static int64_t frameNumber;
 @interface VKStoriesViewController : NSViewController{
     NSFileManager *manager;
@@ -43,7 +44,7 @@ typedef enum {
     BOOL sessionCreated;
     
     NSURL *filePath;
-   
+    PhotoEffectsViewController *efvc;
 
 }
 //@property (weak) IBOutlet NSView *cameraView;

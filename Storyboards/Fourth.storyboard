@@ -636,7 +636,7 @@
                                 </scroller>
                             </scrollView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SCy-OM-xbS">
-                                <rect key="frame" x="376" y="0.0" width="9" height="306"/>
+                                <rect key="frame" x="376" y="0.0" width="4" height="306"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5O-vZ-bnc">

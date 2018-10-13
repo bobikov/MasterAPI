@@ -41,4 +41,5 @@
 }
 @property(nonatomic)NSArray* originalImageURLs;
 @property(nonatomic)BOOL profilePhoto;
+@property(nonatomic)BOOL vkStory;
 @end

@@ -65,7 +65,8 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 //    [favesUsersList setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
     [self setFlatButtonStyle];
     showFavesUsersStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
-    
+    CDHandle = [[CDataHandler alloc]init];
+    NSLog(@"Today date is: %@", CDHandle.today);
     NSString *statS = @"\U0000E64B";
     showFavesUsersStatBut.title = statS;
     

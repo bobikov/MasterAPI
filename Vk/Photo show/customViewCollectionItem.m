@@ -657,16 +657,29 @@ typedef void (^OnComplete)(NSData *serverURL);
                 NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
                     NSString *photoURL;
-                    if(i[@"photo_1280"]){
-                        photoURL = i[@"photo_1280"];
+                    NSString *bigPhoto;
+//                    NSLog(@"%@", i);
+//                    if(i[@"photo_1280"]){
+//                        photoURL = i[@"photo_1280"];
+//                    }
+//                    else{
+//                        photoURL = i[@"photo_807"] ?  i[@"photo_807"] : i[@"photo_604"] ;
+//                    }
+                    for (NSDictionary *a in i[@"sizes"]){
+                        if([a[@"type"] isEqual:@"y"]){
+                            bigPhoto = a[@"url"];
+                        }
+                        else if([a[@"type"] isEqual:@"x"] && !bigPhoto){
+                            bigPhoto = a[@"url"];
+                        }
+//                        else if([a[@"type"] isEqual:@"m"]){
+//                            bigPhoto = a[@"url"];
+//                        }
+                        
                     }
-                    else{
-                        photoURL = i[@"photo_807"] ?  i[@"photo_807"] : i[@"photo_604"] ;
-                    }
-                    
                     url = photoURL;
-                    currentFileName = [url lastPathComponent];
-                    downloadFile = [backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", url]]];
+                    currentFileName = [bigPhoto lastPathComponent];
+                    downloadFile = [backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", bigPhoto]]];
                     next=NO;
                     downloading=YES;
                     [downloadFile resume];
