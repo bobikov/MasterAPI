@@ -64,7 +64,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 //    [self loadURL];
 //    [favesUsersList setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
     [self setFlatButtonStyle];
-    showFavesUsersStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+//    showFavesUsersStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
     CDHandle = [[CDataHandler alloc]init];
     NSLog(@"Today date is: %@", CDHandle.today);
     NSString *statS = @"\U0000E64B";
@@ -76,9 +76,10 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = [[SYFlatButton alloc]init];
-//            [button simpleButton:(SYFlatButton*)v];
+            [button simpleButton:(SYFlatButton*)v];
         }
     }
+    
 }
 - (void)AddFavesUserToBanOrUnbun:(NSNotification*)obj{
     NSLog(@"%@", obj);

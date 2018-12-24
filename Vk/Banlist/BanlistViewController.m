@@ -51,6 +51,7 @@
 //    button = [[SYFlatButton alloc]init];
     NSString *s = @"\U0000E64B";
     banlistStatBut.title = s;
+    
 }
 
 -(void)setFlatButtonStyle{
