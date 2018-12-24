@@ -7,7 +7,7 @@
 //
 
 #import "TumblrClient.h"
-#import "NSString+RMURLEncoding.h"
+//#import "NSString+RMURLEncoding.h"
 #import <NSHash/NSString+NSHash.h>
 #import <NAHMAC.h>
 #import "NSString+SHA1HMAC.h"
@@ -231,8 +231,8 @@
     NSString *sortedSignComponents = [self sortSignComponents:[preparedSignatureComponents componentsSeparatedByString:@"&"]];
     
 //    encodedSignComponents = [[[[[[[[[[[[sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"&" withString:@"%26"] stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"]stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"]stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"] stringByReplacingOccurrencesOfString:@"!" withString:@"%21"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"'" withString:@"%27"]stringByReplacingOccurrencesOfString:@"(" withString:@"%28"]stringByReplacingOccurrencesOfString:@")" withString:@"%29"];
-//    encodedSignComponents = sortedSignComponents;
-    encodedSignComponents = [sortedSignComponents rm_URLEncodedString];
+    encodedSignComponents = sortedSignComponents;
+//    encodedSignComponents = [sortedSignComponents rm_URLEncodedString];
 //    encodedSignComponents = [sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@" \"#%/:<>?@[\\]^`{|}"] invertedSet]];
     NSLog(@"%@", encodedSignComponents);
     if(httpMethod==nil && mediaData==nil && query==nil){

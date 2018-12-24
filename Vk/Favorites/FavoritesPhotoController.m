@@ -40,7 +40,7 @@
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
     contr.total = [CollectionViewList.selectionIndexes count];
     contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
-//    contr.mediaType = @"photo";
+    contr.mediaType = @"photo";
     if(sender == addToSavedBut){
         contr.savePhotoToSaved=YES;
     }

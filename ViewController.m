@@ -80,7 +80,7 @@
 
 -(void)viewDidAppear{
     self.view.window.titleVisibility=NSWindowTitleHidden;
-    self.view.window.titlebarAppearsTransparent = YES;
+    self.view.window.titlebarAppearsTransparent = NO;
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     self.view.window.movableByWindowBackground=YES;
    

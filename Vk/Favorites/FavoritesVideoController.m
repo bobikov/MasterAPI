@@ -33,6 +33,7 @@
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     NSMutableArray *selectedItems =  [[NSMutableArray alloc] initWithArray:[CollectionViewList.content objectsAtIndexes:[CollectionViewList selectionIndexes]]];
     ProgressViewController *contr = (ProgressViewController*)segue.destinationController;
+    contr.mediaType = @"video";
     contr.total = [CollectionViewList.selectionIndexes count];
     contr.items = [[NSMutableArray alloc] initWithArray:selectedItems];
 }

@@ -10,7 +10,7 @@
 #import "appInfo.h"
 #import"FriendsCustomCellView.h"
 #import "StringHighlighter.h"
-#import <SYFlatButton+ButtonsStyle.h>
+#import <SYFlatButton/SYFlatButton.h>
 @interface FriendsViewController : NSViewController{
 
     __weak IBOutlet NSSearchField *searchBar;

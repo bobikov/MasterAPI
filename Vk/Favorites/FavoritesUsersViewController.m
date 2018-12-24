@@ -76,7 +76,7 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = [[SYFlatButton alloc]init];
-            [button simpleButton:(SYFlatButton*)v];
+//            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }

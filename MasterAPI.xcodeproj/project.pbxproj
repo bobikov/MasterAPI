@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		123760FDF53E14138B24F8A6 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */; };
 		2B07BCD81F122D4B00605869 /* SYFlatButton+ButtonsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B07BCD71F122D4B00605869 /* SYFlatButton+ButtonsStyle.m */; };
 		2B1063451F1F680D00B059DC /* PrefsContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1063441F1F680D00B059DC /* PrefsContentController.m */; };
 		2B1063471F1F9F5600B059DC /* keys1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1063461F1F9F5600B059DC /* keys1.png */; };
@@ -523,6 +522,7 @@
 		2BFB77661E4A0B86006D020F /* PrefsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB77651E4A0B86006D020F /* PrefsTableView.m */; };
 		2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB992D1F19018E00544B75 /* VKLikesViewController.m */; };
 		2BFB99311F1906AE00544B75 /* VKLikesCellTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */; };
+		4EE0232A91B1F753F5BAACB6 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A88348361C00E9E3C6CEC9D /* libPods-MasterAPI.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1276,9 +1276,9 @@
 		2BFB992D1F19018E00544B75 /* VKLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesViewController.m; sourceTree = "<group>"; };
 		2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesCellTableView.h; sourceTree = "<group>"; };
 		2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesCellTableView.m; sourceTree = "<group>"; };
-		35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
-		C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
+		7A88348361C00E9E3C6CEC9D /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93C0889B05967FF98AAAB568 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
+		AED19B57C3CE88F0D446F869 /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1288,22 +1288,13 @@
 			files = (
 				2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */,
 				2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */,
-				123760FDF53E14138B24F8A6 /* libPods-MasterAPI.a in Frameworks */,
+				4EE0232A91B1F753F5BAACB6 /* libPods-MasterAPI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0429CECC9AB9A5CAD21D944C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */,
-				DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		2B07BCD91F124B1C00605869 /* Custom_categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -2184,7 +2175,7 @@
 				2BCACAFD1E4C683C00830583 /* libSDWebImage.a */,
 				2B5946CA1D72B24D00F3A93D /* CoreData.framework */,
 				2B8FD92E1CF8225B002027ED /* WebKit.framework */,
-				C0D91B3FE9487114DB09F967 /* libPods-MasterAPI.a */,
+				7A88348361C00E9E3C6CEC9D /* libPods-MasterAPI.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2450,7 +2441,7 @@
 				2BBE2BE11F1C8C3E00172010 /* PhotoEffectsViewController.m */,
 				2B5946CC1D72B26100F3A93D /* Frameworks */,
 				2B9F40DC1CC67B0D005C4716 /* Products */,
-				0429CECC9AB9A5CAD21D944C /* Pods */,
+				62A0D24CC93120FBB32789F6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2501,6 +2492,15 @@
 			path = JPNG;
 			sourceTree = "<group>";
 		};
+		62A0D24CC93120FBB32789F6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AED19B57C3CE88F0D446F869 /* Pods-MasterAPI.debug.xcconfig */,
+				93C0889B05967FF98AAAB568 /* Pods-MasterAPI.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2508,12 +2508,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B9F40EF1CC67B0D005C4716 /* Build configuration list for PBXNativeTarget "MasterAPI" */;
 			buildPhases = (
-				DA6084CB9EF71E3D5724901E /* [CP] Check Pods Manifest.lock */,
+				8B5E935359C2B79CAEFAD6EC /* [CP] Check Pods Manifest.lock */,
 				2B9F40D71CC67B0D005C4716 /* Sources */,
 				2B9F40D81CC67B0D005C4716 /* Frameworks */,
 				2B9F40D91CC67B0D005C4716 /* Resources */,
-				7089BC8580BAF7A73EB361E0 /* [CP] Embed Pods Frameworks */,
-				7050D6AF5A883C59BABA09D0 /* [CP] Copy Pods Resources */,
+				37CE01329D5E0580AADC71A0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2539,7 +2538,7 @@
 				};
 			};
 			buildConfigurationList = 2B9F40D61CC67B0D005C4716 /* Build configuration list for PBXProject "MasterAPI" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2867,10 +2866,12 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7050D6AF5A883C59BABA09D0 /* [CP] Copy Pods Resources */ = {
+		37CE01329D5E0580AADC71A0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-resources.sh",
@@ -2895,39 +2896,48 @@
 				"${PODS_ROOT}/Vivid/Sources/YUCITriangularPixellate.cikernel",
 			);
 			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DCOAboutWindow.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.otf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIBilateralFilter.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIBlobsGenerator.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCICLAHE.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIColorLookup.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIColorLookupTableDefault.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCICrossZoomTransition.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIFilmBurnTransition.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIFlashTransition.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIFXAA.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIHSLToRGB.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIReflectedTile.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIRGBToHSL.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIRGBToneCurve.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCISkyGenerator.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCIStarfieldGenerator.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCISurfaceBlur.cikernel",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YUCITriangularPixellate.cikernel",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7089BC8580BAF7A73EB361E0 /* [CP] Embed Pods Frameworks */ = {
+		8B5E935359C2B79CAEFAD6EC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DA6084CB9EF71E3D5724901E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-MasterAPI-checkManifestLockResult.txt",
 			);
@@ -3168,7 +3178,7 @@
 				2B41F9DC1E02D3F50013AC86 /* Base */,
 			);
 			name = Main.storyboard;
-			path = "/Users/hal/Cloud@Mail.Ru/obj-c projects/MasterAPI/master_api_without_bindings/Storyboards";
+			path = "/Volumes/HDD/obj-c projects/MasterAPI/master_api_without_bindings/Storyboards";
 			sourceTree = "<absolute>";
 		};
 /* End PBXVariantGroup section */
@@ -3188,6 +3198,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -3231,6 +3242,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -3255,19 +3267,23 @@
 		};
 		2B9F40F01CC67B0D005C4716 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35185255EF88AD07187BB73C /* Pods-MasterAPI.debug.xcconfig */;
+			baseConfigurationReference = AED19B57C3CE88F0D446F869 /* Pods-MasterAPI.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -3281,19 +3297,23 @@
 		};
 		2B9F40F11CC67B0D005C4716 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA0AA95E5783B39E777BD9C3 /* Pods-MasterAPI.release.xcconfig */;
+			baseConfigurationReference = 93C0889B05967FF98AAAB568 /* Pods-MasterAPI.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",

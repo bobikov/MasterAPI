@@ -11,7 +11,7 @@
 #import "AddRepostGroupController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "AppDelegate.h"
-#import <SYFlatButton+ButtonsStyle.h>
+#import <SYFlatButton/SYFlatButton.h>
 @interface WallRepostViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -54,7 +54,7 @@
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = [[SYFlatButton alloc]init];
-            [button simpleButton:(SYFlatButton*)v];
+//            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }

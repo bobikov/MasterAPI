@@ -91,7 +91,13 @@
         captchaOpened=NO;
        
         for (NSDictionary *i in [_items subarrayWithRange:NSMakeRange(offset_counter, [_items count])]){
-             url = unlikeVideoCaptcha ? [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version, captcha_sid, captcha_key] : [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=photo&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version];
+            if(i[@"items"]){
+                url = unlikeVideoCaptcha ?  [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version, captcha_sid, captcha_key]  : [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=photo&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"items"][@"id"], i[@"items"][@"owner_id"], _app.token, _app.version];
+
+            }
+            else{
+                 url = unlikeVideoCaptcha ?  [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=video&item_id=%@&owner_id=%@&access_token=%@&v=%@&captcha_sid=%@&captcha_key=%@", i[@"id"], i[@"owner_id"], _app.token, _app.version, captcha_sid, captcha_key]  : [NSString stringWithFormat:@"https://api.vk.com/method/likes.delete?type=photo&item_id=%@&owner_id=%@&access_token=%@&v=%@", i[@"id"], i[@"owner_id"], _app.token, _app.version];
+            }
             if(stopped){
                 break;
             }
@@ -150,7 +156,7 @@
         }
     };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        unlikeBlock(nil, nil, 0,  NO);
+        unlikeBlock(nil, nil, 0, [_mediaType isEqual:@"video"]);
     });
     
    

@@ -110,12 +110,14 @@
                     NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
                     image.size=NSMakeSize(30,30);
                     [menuItem setImage:image];
-                    viewControllerItem.photo.wantsLayer=YES;
-                    viewControllerItem.photo.layer.masksToBounds=YES;
-                    viewControllerItem.photo.layer.cornerRadius=39/2;
-                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
-                    [viewControllerItem.photo setImage:image];
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        viewControllerItem.photo.wantsLayer=YES;
+                        viewControllerItem.photo.layer.masksToBounds=YES;
+                        viewControllerItem.photo.layer.cornerRadius=39/2;
+                        [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                        viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
+                         [viewControllerItem.photo setImage:image];
+                    });
                     [menuItem setView:[viewControllerItem view]];
                     [menu1 addItem:menuItem];
                 }

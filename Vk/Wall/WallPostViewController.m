@@ -16,7 +16,7 @@
 #import <EventKit/EventKit.h>
 #import <IGFastImage/IGFastImage.h>
 #import <Carbon/Carbon.h>
-#import <NSString+RMURLEncoding/NSString+RMURLEncoding.h>
+//#import <NSString+RMURLEncoding/NSString+RMURLEncoding.h>
 #import "AppDelegate.h"
 #import "MyTableRowView.h"
 @interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
