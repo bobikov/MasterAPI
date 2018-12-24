@@ -47,12 +47,15 @@
     NSRect popupRect = NSMakeRect(superWindow.frame.origin.x+(superWindow.frame.size.width-self.view.frame.size.width)/2,superWindow.frame.origin.y+(superWindow.frame.size.height-self.view.frame.size.height)/2, self.view.frame.size.width,self.view.frame.size.height);
     NSUInteger masks = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSUnifiedTitleAndToolbarWindowMask | NSTexturedBackgroundWindowMask;
     mainWindow = [[NSWindow alloc] initWithContentRect:popupRect styleMask:masks backing:NSBackingStoreBuffered defer:NO];
+   
     _windowController = [[NSWindowController alloc]initWithWindow:mainWindow];
+    
     mainWindow.titleVisibility=NSWindowTitleHidden;
     mainWindow.titlebarAppearsTransparent = YES;
     mainWindow.styleMask|=NSFullSizeContentViewWindowMask;
     mainWindow.movableByWindowBackground=NO;
     mainWindow.movable=NO;
+    mainWindow.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
     mainWindow.contentViewController=self;
 //    RBBSpringAnimation *spring = [RBBSpringAnimation animationWithKeyPath:@"position.y"];
 //    spring.fromValue = @(-100.0f);
@@ -114,10 +117,10 @@
     }
 }
 - (void)setBackground{
-    self.view.wantsLayer=YES;
-    self.view.layer.masksToBounds=YES;
-    self.view.layer.cornerRadius=3;
-    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
+//    self.view.wantsLayer=YES;
+//    self.view.layer.masksToBounds=YES;
+//    self.view.layer.cornerRadius=3;
+//    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
     
 }
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
