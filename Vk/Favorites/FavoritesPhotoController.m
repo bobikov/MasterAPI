@@ -77,16 +77,17 @@
                     }
 //                    NSLog(@"bigPhoto:%@\nprPhoto:%@", bigPhoto, prPhoto);
                     NSMutableDictionary *object = [NSMutableDictionary dictionaryWithDictionary:@{@"title": @"",  @"owner_id":_app.person, @"items":[NSMutableDictionary dictionaryWithDictionary:@{@"owner_id":i[@"owner_id"], @"index":[NSNumber numberWithInteger:[obj[@"response"][@"items"] indexOfObject:i]+1], @"id":i[@"id"], @"photo":prPhoto, @"photoBig":bigPhoto, @"caption":i[@"text"], @"likesCount":likesCount, @"userLikes":userLikesCount}]}];
-//                    NSLog(@"%@", object);
+                    NSLog(@"%@", object);
                     [itemsList addObject:object];
     //
     //            }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [CollectionViewList setContent:itemsList];
-                        [CollectionViewList reloadData];
-                        
-                    });
+                   
                 }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [CollectionViewList setContent:itemsList];
+                    [CollectionViewList reloadData];
+                    
+                });
             }
     }]resume];
 }
