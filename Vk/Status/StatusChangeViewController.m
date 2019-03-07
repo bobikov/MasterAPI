@@ -62,7 +62,6 @@
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = (SYFlatButton *)v;
             [button simpleButton:button];
-
         }
     }
 }

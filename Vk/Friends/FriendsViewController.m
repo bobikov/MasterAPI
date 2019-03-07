@@ -15,6 +15,8 @@
 #import <NSColor-HexString/NSColor+HexString.h>
 #import <BOString/BOString.h>
 #import "MyTableRowView.h"
+#import "SYFlatButton+ButtonsStyle.h"
+
 @interface FriendsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -37,8 +39,8 @@
     [friendsListPopup removeAllItems];
      _stringHighlighter = [[StringHighlighter alloc]init];
     [self loadFriendsPopup];
-    cachedImage = [[NSMutableDictionary alloc]init];
-    cachedStatus = [[NSMutableDictionary alloc]init];
+//    cachedImage = [[NSMutableDictionary alloc]init];
+//    cachedStatus = [[NSMutableDictionary alloc]init];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
 //    FriendsMessageSendViewController *fac = [[FriendsMessageSendViewController alloc]init];
@@ -58,9 +60,9 @@
     layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
     FriendsTableView.enclosingScrollView.wantsLayer = TRUE;
     FriendsTableView.enclosingScrollView.layer = layer;
-    NSString *s = @"\U0000E64B";
-    friendsStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
-    friendsStatBut.title = s;
+//    NSString *s = @"\U0000E64B";
+//    friendsStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+//    friendsStatBut.title = s;
     NSAttributedString *atrS = [friendsStatBut.title bos_makeString:^(BOStringMaker *make) {
         make.baselineOffset([NSNumber numberWithInt:-25]);
     }];
@@ -73,7 +75,7 @@
     for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = [[SYFlatButton alloc]init];
-//            [button simpleButton:(SYFlatButton*)v];
+            [button simpleButton:(SYFlatButton*)v];
         }
     }
 }
@@ -340,6 +342,7 @@
     [FriendsData removeAllObjects];
     _ownerId = _ownerId == nil ? _app.person : _ownerId;
     __block NSDictionary *object;
+    __block NSRegularExpression *regex;
     NSURLSessionDataTask *dataTask = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?user_id=%@&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,books,site,contacts,about,music,schools,education,quotes,relation,blacklisted_by_me,blacklisted&count=1000&access_token=%@&v=%@", _ownerId, _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if(data){
             if (error){
@@ -365,8 +368,10 @@
                 NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
             }
             else{
-                
-                NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
+                });
+          
                 
                 NSString *city;
                 NSString *status;
@@ -381,7 +386,7 @@
                 NSString *books;
                 NSString *site;
                 NSString *mobilePhone;
-                //                        NSString *phone;
+                //NSString *phone;
                 NSString *photoBig;
                 NSString *photo;
                 NSString *about;
@@ -654,6 +659,7 @@
     [dataTask resume];
     
 }
+
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
     MyTableRowView *rowView = [[MyTableRowView alloc]init];
     return rowView;

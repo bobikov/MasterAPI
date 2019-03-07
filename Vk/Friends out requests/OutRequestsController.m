@@ -15,7 +15,7 @@
 #import <NSColor-HexString/NSColor+HexString.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
--(void)getRequests:(OnGetRequestsComplete)completion;
+- (void)getRequests:(OnGetRequestsComplete)completion;
 @end
 
 @implementation OutRequestsController
@@ -41,7 +41,7 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
     outRequestsList.enclosingScrollView.layer = layer;
     [self setFlatButtonStyle];
 }
--(void)setFlatButtonStyle{
+- (void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews);
     for(NSArray *v in self.view.subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
@@ -50,10 +50,10 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
         }
     }
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     [self loadOutRequests:NO];
 }
--(void)viewDidScroll{
+- (void)viewDidScroll{
     
     
     
