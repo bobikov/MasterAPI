@@ -48,12 +48,12 @@
             NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
                 [userGroupsByAdminData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-                viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                [viewControllerItem loadView];
-                menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
-               __block NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+              
                 dispatch_async(dispatch_get_main_queue(),^{
-                   
+                    viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                    [viewControllerItem loadView];
+                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
+                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
                     viewControllerItem.photo.wantsLayer=YES;
                     viewControllerItem.photo.layer.masksToBounds=YES;
                     viewControllerItem.photo.layer.cornerRadius=39/2;
@@ -63,13 +63,8 @@
                     [menuItem setImage:image];
                     viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
                     [viewControllerItem.photo setImage:image];
+                    [menu1 addItem:menuItem];
                  });
-              
-           
-            
-               [menu1 addItem:menuItem];
-              
-             
             }
             dispatch_async(dispatch_get_main_queue(),^{
                 [userGroupsByAdminPopup setMenu:menu1];

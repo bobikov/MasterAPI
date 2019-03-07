@@ -622,13 +622,15 @@ typedef void(^OnFaveUsersGetComplete)(NSMutableArray*faveUsers);
 }
 
 - (void)loadFavesUsers:(BOOL)searchByName :(BOOL)makeOffset{
-
+    __block NSDictionary *filters = @{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state]};
     __block void (^loadFavesBlock)(BOOL);
     loadFavesBlock = ^void(BOOL offset){
+ 
         loading=YES;
-        [progressSpin startAnimation:self];
-        NSDictionary *filters = @{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state]};
-        
+        dispatch_async(dispatch_get_main_queue(),^{
+            [progressSpin startAnimation:self];
+            
+        });
         [_app getFavoriteUsersInfo:filters :offset data:[restoredUserIDs count ] ? restoredUserIDs : nil :^(NSMutableArray * _Nonnull favesUsersObjectsInfo, NSInteger offsetCounterResult, NSInteger totalFavesUsersResult, NSInteger offsefFavesUsersLoadResult, NSInteger favesUsersListCount) {
             favesUsersData = favesUsersObjectsInfo;
             totalCount = totalFavesUsersResult;

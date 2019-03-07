@@ -210,56 +210,19 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                                 relation = a[@"relation"] && a[@"relation"]!=nil ? a[@"relation"] : @"";
                                 object = @{@"id":a[@"id"], @"full_name":fullName, @"city":city, @"status":status, @"user_photo":photo, @"bdate":@"", @"country":countryName, @"online":online, @"user_photo_big":photoBig,  @"last_seen":last_seen, @"books":books, @"site":site, @"about":about, @"mobile":mobilePhone, @"sex":sex, @"verified":verified, @"music":music, @"schools":schools, @"university_name":education, @"quotes":quotes, @"relation":relation,@"domain":domain};
                                 
-                                
-                                if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
-                                    
-                                    //                            if(searchByName){
-                                    //                                NSArray *found = [regex matchesInString:fullName  options:0 range:NSMakeRange(0, [fullName length])];
-                                    //                                if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
-                                    //                                    counter++;
-                                    //                                    [outRequestsData addObject:object];
-                                    //                                }
-                                    //                            }
-                                    //                            else{
-                                    
-                                    if(!a[@"deactivated"]){
-                                        if(filterWomen.state==1 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==1 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==1){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                            
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                            
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==0){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                            
-                                        }
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    if(filterOnline.state==1 && filterOffline.state ==1 && filterActive.state == 1){
                                         
-                                    }
-                                    //                            }
-                                }
-                                else if(filterOnline.state==0 && filterOffline.state ==1 && filterActive.state == 1 ) {
-                                    
-                                    
-                                    if(!a[@"deactivated"]){
-                                        if ([online intValue] != 1){
-                                            
+                                        //                            if(searchByName){
+                                        //                                NSArray *found = [regex matchesInString:fullName  options:0 range:NSMakeRange(0, [fullName length])];
+                                        //                                if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
+                                        //                                    counter++;
+                                        //                                    [outRequestsData addObject:object];
+                                        //                                }
+                                        //                            }
+                                        //                            else{
+                                        
+                                        if(!a[@"deactivated"]){
                                             if(filterWomen.state==1 && filterMen.state==1){
                                                 if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
                                                     counter++;
@@ -287,102 +250,141 @@ typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
                                                 }
                                                 
                                             }
+                                            
                                         }
+                                        //                            }
                                     }
-                                }
-                                else if(filterOnline.state==1 && filterOffline.state ==0 && filterActive.state == 1) {
-                                    
-                                    if ([online  isEqual: @"1"]){
+                                    else if(filterOnline.state==0 && filterOffline.state ==1 && filterActive.state == 1 ) {
                                         
-                                        if(filterWomen.state==1 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==1 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==1){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==0){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                    }
-                                }
-                                else if(filterOnline.state==0 && filterOffline.state == 1 && filterActive.state == 0) {
-                                    
-                                    if (a[@"deactivated"]){
                                         
-                                        if(filterWomen.state==1 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==1 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==1){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
-                                            }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==0){
-                                                counter++;
-                                                [outRequestsData addObject:object];
+                                        if(!a[@"deactivated"]){
+                                            if ([online intValue] != 1){
+                                                
+                                                if(filterWomen.state==1 && filterMen.state==1){
+                                                    if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
+                                                        counter++;
+                                                        [outRequestsData addObject:object];
+                                                    }
+                                                }
+                                                else if(filterWomen.state==1 && filterMen.state==0){
+                                                    if([a[@"sex"] intValue]==1){
+                                                        counter++;
+                                                        [outRequestsData addObject:object];
+                                                    }
+                                                    
+                                                }
+                                                else if(filterWomen.state==0 && filterMen.state==1){
+                                                    if([a[@"sex"] intValue]==2){
+                                                        counter++;
+                                                        [outRequestsData addObject:object];
+                                                    }
+                                                    
+                                                }
+                                                else if(filterWomen.state==0 && filterMen.state==0){
+                                                    if([a[@"sex"] intValue]==0){
+                                                        counter++;
+                                                        [outRequestsData addObject:object];
+                                                    }
+                                                    
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                else if(filterOnline.state==1 && filterOffline.state == 1 && filterActive.state == 0) {
-                                    
-                                    if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
+                                    else if(filterOnline.state==1 && filterOffline.state ==0 && filterActive.state == 1) {
                                         
-                                        if(filterWomen.state==1 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
+                                        if ([online  isEqual: @"1"]){
+                                            
+                                            if(filterWomen.state==1 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
                                             }
-                                        }
-                                        else if(filterWomen.state==1 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==1){
-                                                counter++;
-                                                [outRequestsData addObject:object];
+                                            else if(filterWomen.state==1 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==1){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
                                             }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==1){
-                                            if([a[@"sex"] intValue]==2){
-                                                counter++;
-                                                [outRequestsData addObject:object];
+                                            else if(filterWomen.state==0 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
                                             }
-                                        }
-                                        else if(filterWomen.state==0 && filterMen.state==0){
-                                            if([a[@"sex"] intValue]==0){
-                                                counter++;
-                                                [outRequestsData addObject:object];
+                                            else if(filterWomen.state==0 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==0){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                    else if(filterOnline.state==0 && filterOffline.state == 1 && filterActive.state == 0) {
+                                        
+                                        if (a[@"deactivated"]){
+                                            
+                                            if(filterWomen.state==1 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==1 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==1){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==0 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==0 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==0){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(filterOnline.state==1 && filterOffline.state == 1 && filterActive.state == 0) {
+                                        
+                                        if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
+                                            
+                                            if(filterWomen.state==1 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] ==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==1 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==1){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==0 && filterMen.state==1){
+                                                if([a[@"sex"] intValue]==2){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                            else if(filterWomen.state==0 && filterMen.state==0){
+                                                if([a[@"sex"] intValue]==0){
+                                                    counter++;
+                                                    [outRequestsData addObject:object];
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
                             }
                             
                         }
+                                              
                         dispatch_async(dispatch_get_main_queue(), ^{
                             loading=NO;
                             NSLog(@"%li",[outRequestsData count]);
