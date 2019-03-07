@@ -34,8 +34,8 @@
     NSView *backG = [[NSView alloc]init];
     border.wantsLayer=YES;
     backG.wantsLayer=YES;
-    border.layer.backgroundColor = [[NSColor colorWithWhite:0.6 alpha:1.0]CGColor];
-    backG.layer.backgroundColor = [[NSColor colorWithWhite:0.8 alpha:1.0]CGColor];
+    border.layer.backgroundColor = [[NSColor colorWithWhite:0.6 alpha:0.0]CGColor];
+    backG.layer.backgroundColor = [[NSColor colorWithWhite:0.8 alpha:0.0]CGColor];
 //    [border setAutoresizingMask:NSConst
 //    border.translatesAutoresizingMaskIntoConstraints = YES;
     border.layer.autoresizingMask=NSViewWidthSizable;
@@ -208,11 +208,11 @@
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     ApiSourceSelectorItem *item = (ApiSourceSelectorItem*)[collectionView makeItemWithIdentifier:@"ApiSourceSelectorItem" forIndexPath:indexPath];
     item.sourceName.attributedStringValue = [apiSourceListData[indexPath.item] bos_makeString:^(BOStringMaker *make) {
-        NSShadow *tshadow = [[NSShadow alloc]init];
-        tshadow.shadowColor=[NSColor colorWithHexString:@"EAEAEA"];
-        tshadow.shadowOffset=NSMakeSize(0, -1);
-        tshadow.shadowBlurRadius=2;
-        make.shadow(tshadow);
+//        NSShadow *tshadow = [[NSShadow alloc]init];
+//        tshadow.shadowColor=[NSColor colorWithHexString:@"EAEAEA"];
+//        tshadow.shadowOffset=NSMakeSize(0, -1);
+//        tshadow.shadowBlurRadius=2;
+//        make.shadow(tshadow);
         NSMutableParagraphStyle *par = [[NSMutableParagraphStyle alloc]init];
         par.alignment=NSCenterTextAlignment;
         

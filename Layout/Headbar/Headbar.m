@@ -26,16 +26,16 @@
 //    protocol =[[APIClientsProtocol alloc]init];
 //    playlist = [[NSMutableDictionary alloc]init];
 //    appPhotoURLs = [[NSMutableDictionary alloc]init];
-//    _app = [[appInfo alloc]init];
+    _app = [[appInfo alloc]init];
 ////    [self loadVKMainInfo];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setProfileImage:) name:@"loadProfileImage" object:nil];
 //    tasksButton.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:20];
 //    globalSearch.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
-//
-    NSString *tasksS = @"\U0000E69D";
-    NSString *searchS = @"\U0000E618";
-    tasksButton.title = tasksS;
-    globalSearch.title = searchS;
+
+//    NSString *tasksS = @"\U0000E69D";
+//    NSString *searchS = @"\U0000E618";
+//    tasksButton.title = tasksS;
+//    globalSearch.title = searchS;
 //    [self setButtonStyle:globalSearch];
 //    NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:_app.icon]];
 //    [appIcon setImage:image];
@@ -45,11 +45,20 @@
 //    isPlaying = NO;
 //    [self setFlatButtonStyle];
 //
-//    NSAttributedString *ssA = [globalSearch.title bos_makeString:^(BOStringMaker *make) {
-//        make.baselineOffset(@10);
-//        make.ligature(@2);
-//    }];
-//    globalSearch.attributedTitle = ssA;
+    NSAttributedString *ssA = [globalSearch.title bos_makeString:^(BOStringMaker *make) {
+        make.baselineOffset(@10);
+        make.ligature(@2);
+    }];
+    globalSearch.attributedTitle = ssA;
+     ;
+  
+//    for(NSString* family in [UIFont familyNames]) {
+//        NSLog(@"%@", family);
+//        for(NSString* name in [UIFont fontNamesForFamilyName: family]) {
+//            NSLog(@"  %@", name);
+//        }
+//    }
+//    NSLog(@"%@", [[NSFontManager sharedFontManager] availableFontFamilies]);
 }
 -(void)setFlatButtonStyle{
     NSLog(@"%@", self.view.subviews);

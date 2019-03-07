@@ -27,7 +27,7 @@
     currentPhoto.wantsLayer=YES;
     currentPhoto.layer.masksToBounds=YES;
     currentPhoto.layer.cornerRadius=4;
-//    [self loadGroupsByAdminPopup];
+    [self loadGroupsByAdminPopup];
 }
 - (void)viewDidAppear{
     [self loadCurrentPhoto];
@@ -51,17 +51,25 @@
                 viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
                 [viewControllerItem loadView];
                 menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
-                NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                viewControllerItem.photo.wantsLayer=YES;
-                viewControllerItem.photo.layer.masksToBounds=YES;
-                viewControllerItem.photo.layer.cornerRadius=39/2;
-                [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                image.size=NSMakeSize(30,30);
-                [menuItem setImage:image];
-                viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
-                [viewControllerItem.photo setImage:image];
-                [menuItem setView:[viewControllerItem view]];
-                [menu1 addItem:menuItem];
+               __block NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                dispatch_async(dispatch_get_main_queue(),^{
+                   
+                    viewControllerItem.photo.wantsLayer=YES;
+                    viewControllerItem.photo.layer.masksToBounds=YES;
+                    viewControllerItem.photo.layer.cornerRadius=39/2;
+                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                   
+                    image.size=NSMakeSize(30,30);
+                    [menuItem setImage:image];
+                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
+                    [viewControllerItem.photo setImage:image];
+                 });
+              
+           
+            
+               [menu1 addItem:menuItem];
+              
+             
             }
             dispatch_async(dispatch_get_main_queue(),^{
                 [userGroupsByAdminPopup setMenu:menu1];
@@ -81,9 +89,10 @@
         if(data){
             NSDictionary *photoGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(photoGetResponse[@"response"]){
-                NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"sizes"][3][@"url"]]];
-                ownerPhoto = [self prepareImageForProfile:ownerPhoto];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    NSImage *ownerPhoto = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:photoGetResponse[@"response"][0][@"crop_photo"][@"photo"][@"sizes"][3][@"url"]]];
+                    ownerPhoto = [self prepareImageForProfile:ownerPhoto];
+
                     [currentPhoto setImage:ownerPhoto];
                     [progressSpin stopAnimation:self];
 //                    if(currentPhoto.frame.origin.y<15){

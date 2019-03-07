@@ -10,7 +10,8 @@
 #import <Quartz/Quartz.h>
 @implementation CustomView
 -(void)awakeFromNib{
-    bgColr = [NSColor colorWithWhite:0.82 alpha:1.0];
+//    bgColr = [NSColor colorWithWhite:0.82 alpha:1.0];
+    bgColr = [NSColor darkGrayColor];
     borderColor = [NSColor colorWithWhite:0.6 alpha:1.0];
     
 }
@@ -68,11 +69,11 @@
     [NSBezierPath fillRect:dirtyRect];
     if (selected){
     
-        [bgGradient drawInRect:dirtyRect angle:90];
+//        [bgGradient drawInRect:dirtyRect angle:90];
         
         
     }else{
-         [bgGradient drawInRect:dirtyRect angle:90];
+//         [bgGradient drawInRect:dirtyRect angle:90];
         
     }
     [borderColor set];

@@ -523,6 +523,11 @@
 		2BFB992E1F19018E00544B75 /* VKLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB992D1F19018E00544B75 /* VKLikesViewController.m */; };
 		2BFB99311F1906AE00544B75 /* VKLikesCellTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */; };
 		4EE0232A91B1F753F5BAACB6 /* libPods-MasterAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A88348361C00E9E3C6CEC9D /* libPods-MasterAPI.a */; };
+		B5548E242230209400C03BEE /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B5548E232230209400C03BEE /* Shaders.metal */; };
+		B5548E282230434300C03BEE /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135B6223004680087C064 /* Metal.framework */; };
+		B5548E292230434300C03BEE /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135B8223004720087C064 /* MetalKit.framework */; };
+		B5548E2A2230434300C03BEE /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */; };
+		B5D0B4E821D267D600C2E654 /* Pe-icon-7-stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1279,6 +1284,11 @@
 		7A88348361C00E9E3C6CEC9D /* libPods-MasterAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MasterAPI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C0889B05967FF98AAAB568 /* Pods-MasterAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.release.xcconfig"; sourceTree = "<group>"; };
 		AED19B57C3CE88F0D446F869 /* Pods-MasterAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MasterAPI/Pods-MasterAPI.debug.xcconfig"; sourceTree = "<group>"; };
+		B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pe-icon-7-stroke.ttf"; sourceTree = "<group>"; };
+		B5548E232230209400C03BEE /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		B5C135B6223004680087C064 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		B5C135B8223004720087C064 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1286,6 +1296,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5548E282230434300C03BEE /* Metal.framework in Frameworks */,
+				B5548E292230434300C03BEE /* MetalKit.framework in Frameworks */,
+				B5548E2A2230434300C03BEE /* MetalPerformanceShaders.framework in Frameworks */,
 				2B5946CB1D72B24D00F3A93D /* CoreData.framework in Frameworks */,
 				2B8FD92F1CF8225B002027ED /* WebKit.framework in Frameworks */,
 				4EE0232A91B1F753F5BAACB6 /* libPods-MasterAPI.a in Frameworks */,
@@ -1532,6 +1545,7 @@
 		2B41FA621E02D3F50013AC86 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				B50FB1AE21D25F3000714875 /* Resources */,
 				2B41FA631E02D3F50013AC86 /* css */,
 				2B41FA651E02D3F50013AC86 /* images */,
 				2B41FA9E1E02D3F50013AC86 /* js */,
@@ -2168,6 +2182,9 @@
 		2B5946CC1D72B26100F3A93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */,
+				B5C135B8223004720087C064 /* MetalKit.framework */,
+				B5C135B6223004680087C064 /* Metal.framework */,
 				2B803FBE20D25824008D756A /* QTKit.framework */,
 				2BCACB071E4CDAFE00830583 /* CoreGraphics.framework */,
 				2BCACB051E4CDAB800830583 /* Quartz.framework */,
@@ -2424,6 +2441,7 @@
 				2B41FBC51E02D3F60013AC86 /* AppControllerMenu.h */,
 				2B41FBC61E02D3F60013AC86 /* AppControllerMenu.m */,
 				2B41FBC71E02D3F60013AC86 /* AppDelegate.h */,
+				B5548E232230209400C03BEE /* Shaders.metal */,
 				2B41FBC81E02D3F60013AC86 /* AppDelegate.m */,
 				2B41FBC91E02D3F60013AC86 /* Assets.xcassets */,
 				2B462FE81E5481910022E039 /* APIClientsProtocol.h */,
@@ -2499,6 +2517,15 @@
 				93C0889B05967FF98AAAB568 /* Pods-MasterAPI.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B50FB1AE21D25F3000714875 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */,
+			);
+			name = Resources;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2655,6 +2682,7 @@
 				2B66CE0E1F0FB38D00C87D63 /* delete-user.svg in Resources */,
 				2B66CE0F1F0FB38D00C87D63 /* diamond.svg in Resources */,
 				2B41FC991E02D3F70013AC86 /* ShowPhotoViewController.xib in Resources */,
+				B5D0B4E821D267D600C2E654 /* Pe-icon-7-stroke.ttf in Resources */,
 				2B66CE941F0FB38E00C87D63 /* usb.svg in Resources */,
 				2B66CE311F0FB38D00C87D63 /* hourglass.svg in Resources */,
 				2B66CE081F0FB38D00C87D63 /* copy-file.svg in Resources */,
@@ -3055,6 +3083,7 @@
 				2B41FC5B1E02D3F70013AC86 /* appInfo.m in Sources */,
 				2B41FC891E02D3F70013AC86 /* GroupsCustomCellView.m in Sources */,
 				2B41FBEC1E02D3F60013AC86 /* MainViewController.m in Sources */,
+				B5548E242230209400C03BEE /* Shaders.metal in Sources */,
 				2B41FC511E02D3F60013AC86 /* TumblrSession.m in Sources */,
 				2B41FC611E02D3F70013AC86 /* AudioMoveViewController.m in Sources */,
 				2B41FBD11E02D3F60013AC86 /* TumblrPrefsInfo.m in Sources */,

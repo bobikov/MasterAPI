@@ -1201,11 +1201,11 @@
             <objects>
                 <viewController storyboardIdentifier="ProfilePhoto" id="Rbe-M8-YOd" customClass="ProfilePhotoChangeViewController" sceneMemberID="viewController">
                     <view key="view" id="daD-kE-YKI">
-                        <rect key="frame" x="0.0" y="0.0" width="748" height="640"/>
+                        <rect key="frame" x="0.0" y="0.0" width="717" height="563"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box autoresizesSubviews="NO" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="3kb-g0-8bJ">
-                                <rect key="frame" x="67" y="320" width="529" height="311"/>
+                                <rect key="frame" x="68" y="221" width="529" height="311"/>
                                 <view key="contentView" id="oiH-Xg-Qhs">
                                     <rect key="frame" x="3" y="3" width="523" height="305"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1377,11 +1377,11 @@
                                         </progressIndicator>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="3yn-qE-5VZ" secondAttribute="trailing" constant="63" id="0jw-Ya-Csk"/>
+                                        <constraint firstAttribute="trailing" secondItem="3yn-qE-5VZ" secondAttribute="trailing" constant="59" id="0jw-Ya-Csk"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="NGR-QU-e0J" secondAttribute="trailing" constant="25" id="2Z6-Ww-tra"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="fH1-Xf-RAC" secondAttribute="trailing" constant="192" id="2jO-iO-0Ax"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="9lg-xo-lTm" secondAttribute="trailing" constant="154" id="76K-P3-XNE"/>
-                                        <constraint firstAttribute="trailing" secondItem="mAa-bU-XBd" secondAttribute="trailing" constant="165" id="8C8-Ag-viE"/>
+                                        <constraint firstAttribute="trailing" secondItem="mAa-bU-XBd" secondAttribute="trailing" constant="161" id="8C8-Ag-viE"/>
                                         <constraint firstItem="OIo-FK-QPI" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="27" id="FHb-hh-Yu2"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="Yrn-dS-PD3" secondAttribute="trailing" constant="216" id="Gy6-LS-WK9"/>
                                         <constraint firstItem="fH1-Xf-RAC" firstAttribute="top" secondItem="9lg-xo-lTm" secondAttribute="bottom" constant="8" id="HQg-GE-syw"/>
@@ -1397,7 +1397,7 @@
                                         <constraint firstItem="9lg-xo-lTm" firstAttribute="top" secondItem="thO-yO-RQh" secondAttribute="bottom" constant="7" id="afw-Cv-jWy"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="leading" secondItem="fng-qN-xFg" secondAttribute="trailing" constant="150" id="bfl-wQ-gmX"/>
                                         <constraint firstItem="mAa-bU-XBd" firstAttribute="top" secondItem="oiH-Xg-Qhs" secondAttribute="top" constant="24" id="esA-yd-alE"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3yn-qE-5VZ" secondAttribute="bottom" constant="14" id="imL-Bj-wN0"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3yn-qE-5VZ" secondAttribute="bottom" constant="69" id="imL-Bj-wN0"/>
                                         <constraint firstItem="thO-yO-RQh" firstAttribute="leading" secondItem="oiH-Xg-Qhs" secondAttribute="leading" constant="26" id="j08-wQ-3hJ"/>
                                         <constraint firstItem="thO-yO-RQh" firstAttribute="top" secondItem="oiH-Xg-Qhs" secondAttribute="top" constant="22" id="lS2-1E-rGf"/>
                                         <constraint firstItem="3yn-qE-5VZ" firstAttribute="top" secondItem="mAa-bU-XBd" secondAttribute="bottom" constant="7" id="mBn-5u-tt4"/>
@@ -1417,11 +1417,11 @@
                             </box>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="centerX" secondItem="daD-kE-YKI" secondAttribute="centerX" constant="-42.5" id="8vd-Ao-xEM"/>
-                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="top" secondItem="daD-kE-YKI" secondAttribute="top" constant="11" id="JmB-aW-d7s"/>
+                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="centerX" secondItem="daD-kE-YKI" secondAttribute="centerX" constant="-26" id="8vd-Ao-xEM"/>
+                            <constraint firstItem="3kb-g0-8bJ" firstAttribute="top" secondItem="daD-kE-YKI" secondAttribute="top" constant="33" id="JmB-aW-d7s"/>
                             <constraint firstItem="3kb-g0-8bJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="daD-kE-YKI" secondAttribute="leading" constant="70" id="cJi-Vz-5If"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3kb-g0-8bJ" secondAttribute="trailing" constant="155" id="fkw-4Y-74e"/>
-                            <constraint firstAttribute="bottom" secondItem="3kb-g0-8bJ" secondAttribute="bottom" constant="324" id="y1g-zS-PbG"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3kb-g0-8bJ" secondAttribute="trailing" constant="123" id="fkw-4Y-74e"/>
+                            <constraint firstAttribute="bottom" secondItem="3kb-g0-8bJ" secondAttribute="bottom" constant="225" id="y1g-zS-PbG"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1440,7 +1440,7 @@
                 </viewController>
                 <customObject id="PKu-A7-DgD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="897" y="7202"/>
+            <point key="canvasLocation" x="881.5" y="7163.5"/>
         </scene>
         <!--Instagram Search By Tag Controller-->
         <scene sceneID="HW8-cT-y9K">

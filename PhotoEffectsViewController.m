@@ -15,7 +15,7 @@
 #import <Vivid/YUCICLAHE.h>
 #import <Vivid/YUCITriangularPixellate.h>
 
-@interface PhotoEffectsViewController ()
+@interface PhotoEffectsViewController ()  
 
 @end
 
@@ -23,6 +23,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    MTIContextOptions *options = [[MTIContextOptions alloc] init];
+//    options.enablesRenderGraphOptimization = NO;
+//    options.workingPixelFormat = MTLPixelFormatRGBA16Float;
+    NSLog(@"MTL LIBRARY PATH TEST: %@",options.defaultLibraryURL.path);
+    NSLog(@"METAL DEVICES%@", MTLCreateSystemDefaultDevice());
+    NSError *error;
+    MTIContext *context3 = [[MTIContext alloc] initWithDevice:MTLCreateSystemDefaultDevice() options:options error:&error];
+    rContext = context3;
+    renderView.wantsLayer = YES;
+    renderView.layer.masksToBounds=YES;
+    renderView.device = rContext.device;
+    renderView.delegate = self;
+    renderView.layer.opaque = NO;
+    
+    
     effectedImage = [[NSImage alloc]init];
     originalImage = [[NSImage alloc]initWithContentsOfURL:_originalImageURLs[0]];
     ciEffectedImage = [[CIImage alloc]init];
@@ -30,7 +45,7 @@
      ;
     
     yuciiMageView.wantsLayer=YES;
-    
+//
     yuciiMageView.imageContentMode=YUCIImageViewContentModeDefault;
     yuciiMageView.renderer=YUCIImageRenderingSuggestedRenderer();
 
@@ -47,7 +62,9 @@
 //    [self.view addSubview:imageView];
 //    [self.view addSubview:metalPreview];
   
-     [self setImagePreview:originalImage];
+//     [self setImagePreview:originalImage];
+    
+//    [self drawImage];
     
 }
 
@@ -57,13 +74,15 @@
     self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
     self.view.window.movableByWindowBackground=NO;
     self.view.window.movable=YES;
-//    self.view.wantsLayer=YES;
-//    self.view.layer.masksToBounds=YES;
-//    self.view.layer.cornerRadius=3;
-//    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
+
     [self.view.window standardWindowButton:NSWindowMiniaturizeButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowZoomButton].hidden=YES;
     [self.view.window standardWindowButton:NSWindowCloseButton].hidden=NO;
+    
+    //    self.view.wantsLayer=YES;
+    //    self.view.layer.masksToBounds=YES;
+    //    self.view.layer.cornerRadius=3;
+    //    self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
 }
 
 - (void)setImagePreview:(NSImage*)image{
@@ -214,28 +233,28 @@
     trianglesFilter = [[YUCITriangularPixellate alloc]init];
     toneCurveFilter = [[YUCIRGBToneCurve alloc]init];
     claheFilter = [[YUCICLAHE alloc]init];
-    
-    
+
+
     ciImage = [CIImage imageWithContentsOfURL:_originalImageURLs[0]];
-    
-    
+
+
     filterSaturation = [CIFilter filterWithName:@"CIColorControls" withInputParameters:@{@"inputImage":ciImage,@"inputSaturation" :saturation,@"inputBrightness":brightness,@"inputContrast":contrast}];
     outputCIImage = filterSaturation.outputImage;
-    
+
     exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust" withInputParameters:@{@"inputImage":outputCIImage, @"inputEV":inputEV}];
-    
+
     outputCIImage = exposureFilter.outputImage;
     monoFilter = [CIFilter filterWithName:@"CIPhotoEffectMono" withInputParameters:@{@"inputImage":outputCIImage}];
     outputCIImage = mono ? monoFilter.outputImage : outputCIImage;
-    
+
     [toneCurveFilter setInputImage:outputCIImage];
     [toneCurveFilter setInputRGBCompositeControlPoints:toneCurve];
     outputCIImage = makeToneCurve.state ? toneCurveFilter.outputImage : outputCIImage;
-    
+
     sharpFilter = [CIFilter filterWithName:@"CISharpenLuminance" withInputParameters:@{@"inputImage":outputCIImage, @"inputSharpness":sharpness}];
     outputCIImage = sharpFilter.outputImage;
-    
-    
+
+
     [claheFilter setInputImage:outputCIImage];
     [claheFilter setInputClipLimit:clahe[@"limit"]];
     [claheFilter setInputTileGridSize:clahe[@"tile"]];
@@ -246,24 +265,47 @@
     [trianglesFilter setInputScale:triangles[@"scale"]];
     [trianglesFilter setInputVertexAngle:triangles[@"vertex"]];
     outputCIImage = makeTriangles.state ? trianglesFilter.outputImage : outputCIImage;
-    
+
     blurFilter = [CIFilter filterWithName:@"CIGaussianBlur" withInputParameters:@{@"inputImage":outputCIImage, @"inputRadius":@5}];
     outputCIImage = blur ? blurFilter.outputImage : outputCIImage;
-    
+
     pixelateFilter = [CIFilter filterWithName:@"CIPixellate" withInputParameters:@{@"inputImage":outputCIImage, @"inputCenter":[CIVector vectorWithX:150 Y:150], @"inputScale":[NSNumber numberWithFloat:pixeleteScale.doubleValue]}];
     outputCIImage = pixelate ? pixelateFilter.outputImage : outputCIImage;
-    
-//    context = [CIContext contextWithOptions:nil];
+
+////    context = [CIContext contextWithOptions:nil];
     ciEffectedImage = outputCIImage;
 //    ciImageC = [CIImage imageWithCGImage:[context createCGImage:outputCIImage fromRect:ciImage.extent] ];
-    
-//    NSCIImageRep *rep2 = [NSCIImageRep imageRepWithCIImage:ciEffectedImage];
-//     [rep2 setColorSpaceName:NSDeviceRGBColorSpace];
-//    _image = [[NSImage alloc]initWithSize:[rep2 size]];
-    
-//    [_image addRepresentation:rep2];
+//
+    NSCIImageRep *rep2 = [NSCIImageRep imageRepWithCIImage:ciEffectedImage];
+    [rep2 setColorSpaceName:NSDeviceRGBColorSpace];
+////    _image = [[NSImage alloc]initWithSize:[rep2 size]];
+//
+    [_image addRepresentation:rep2];
     yuciiMageView.image = outputCIImage;
-//    imageView.image = _image;
+    imageView.image = _image;
+
 }
 
+#pragma mark ----------
+-(void)drawInMTKView:(MTKView *)view{
+//    @autoreleasepool {
+//        if (@available(iOS 10.0, *)) {
+//            kdebug_signpost_start(1, 0, 0, 0, 1);
+//        }
+//        ciEffectedImage = [CIImage imageWithContentsOfURL:_originalImageURLs[0]];
+    
+    MTIImage *outputImage = [[MTIImage alloc] initWithContentsOfURL:_originalImageURLs[0] options:@{MTKTextureLoaderOptionSRGB: @NO}];
+//        MTIImage *outputImage = [[MTIImage alloc] initWithCIImage:ciEffectedImage];
+        //        MTIImage *outputImage = [self saturationTestOutputImage];
+        MTIDrawableRenderingRequest *request = [[MTIDrawableRenderingRequest alloc] init];
+        request.drawableProvider = renderView;
+//        request.resizingMode = MTIDrawableRenderingResizingModeAspect;
+        NSError *error;
+        [rContext renderImage:outputImage toDrawableWithRequest:request error:&error];
+//        if (@available(iOS 10.0, *)) {
+//            kdebug_signpost_end(1, 0, 0, 0, 1);
+//        }
+//    }
+    NSLog(@"Drawing image here");
+}
 @end

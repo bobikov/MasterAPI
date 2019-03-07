@@ -275,10 +275,10 @@
                                     <action selector="brightness:" target="3ve-NV-otZ" id="AWk-EG-7Eg"/>
                                 </connections>
                             </slider>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwc-S7-ARI" customClass="YUCIImageView">
-                                <rect key="frame" x="54" y="215" width="358" height="323"/>
+                            <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwc-S7-ARI" customClass="YUCIImageView">
+                                <rect key="frame" x="51" y="212" width="364" height="329"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" continuous="YES" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" id="JIw-2V-ux8"/>
+                                <imageCell key="cell" continuous="YES" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="photo" id="JIw-2V-ux8"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ago-Xc-iLE" customClass="SYFlatButton">
                                 <rect key="frame" x="192" y="9" width="83" height="25"/>
@@ -452,6 +452,10 @@
                                     <action selector="makePixelate:" target="3ve-NV-otZ" id="vvj-O7-CMO"/>
                                 </connections>
                             </button>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2l-Uy-r5G" customClass="MTKView">
+                                <rect key="frame" x="54" y="213" width="358" height="325"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
                         </subviews>
                     </view>
                     <connections>
@@ -466,9 +470,10 @@
                         <outlet property="makeToneCurve" destination="8Lv-ac-BHl" id="6Ih-BC-hO8"/>
                         <outlet property="makeTriangles" destination="F8I-fx-Mbg" id="VqJ-Ve-vcJ"/>
                         <outlet property="pixeleteScale" destination="U8c-vM-QId" id="MQV-LB-pcF"/>
+                        <outlet property="renderView" destination="l2l-Uy-r5G" id="8EH-qp-oaK"/>
                         <outlet property="saturationControl" destination="FEC-xk-oED" id="ngA-b3-WwV"/>
                         <outlet property="sharpnessControl" destination="Y1c-UE-sJW" id="exY-ip-HGA"/>
-                        <outlet property="yuciiMageView" destination="dwc-S7-ARI" id="zPR-yD-nYB"/>
+                        <outlet property="yuciiMageView" destination="dwc-S7-ARI" id="3TM-FB-i41"/>
                     </connections>
                 </viewController>
                 <customObject id="GeB-bU-1pv" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
