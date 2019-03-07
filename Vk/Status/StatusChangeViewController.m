@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
 #import <SYFlatButton/SYFlatButton.h>
+#import "SYFlatButton+ButtonsStyle.h"
 #import <NSColor-HexString/NSColor+HexString.h>
 
 @interface StatusChangeViewController ()<NSTextViewDelegate, NSTableViewDataSource, NSTableViewDelegate,NSTextFieldDelegate>
@@ -60,7 +61,8 @@
     for(id v in self.view.subviews[0].subviews[0].subviews){
         if([v isKindOfClass:[SYFlatButton class]]){
             SYFlatButton *button = (SYFlatButton *)v;
-//            [button simpleButton:button];
+            [button simpleButton:button];
+
         }
     }
 }

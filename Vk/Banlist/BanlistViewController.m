@@ -304,13 +304,18 @@
 
 - (void)loadBanlist:(BOOL)searchByName :(BOOL)makeOffset{
     __block void(^getBannedBlock)(BOOL);
+    __block NSDictionary *filters =@{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state], @"blacklist":[NSNumber numberWithInteger:filterInUserBlacklist.state]};
     
     getBannedBlock = ^void(BOOL offset){
         loading=YES;
         searchMode=NO;
-        [progressSpin startAnimation:self];
+       
+        dispatch_async(dispatch_get_main_queue(),^{
+            [progressSpin startAnimation:self];
+        });
+        
      
-        NSDictionary *filters =@{@"women":[NSNumber numberWithInteger:filterWomen.state],@"men":[NSNumber numberWithInteger:filterMen.state],@"online":[NSNumber numberWithInteger:filterOnline.state], @"offline":[NSNumber numberWithInteger:filterOffline.state], @"active":[NSNumber numberWithInteger:filterActive.state], @"blacklist":[NSNumber numberWithInteger:filterInUserBlacklist.state]};
+        
   
         [_app getBannedUsersInfo:filters :offset :^(NSMutableArray * _Nonnull bannedUsersInfo, NSInteger offsetCounterResult, NSInteger totalBannedResult, NSInteger bannedUsersListCount, NSInteger offsetBanlistLoadResult) {
             banlistData = bannedUsersInfo;
