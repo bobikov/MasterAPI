@@ -29,7 +29,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     _WebView.frameLoadDelegate=self;
     [self loadPopupAppList];
     [self setAdvancedOptions];
-    [self setAppVersion:5.80];
+    [self setAppVersion:5.103];
     //    params = urlencode({
     //        'client_id' : "5040349",
     //        'scope' : "wall, offline, status, messages, ads, groups, notes, photos, video, docs, friends, audio",
@@ -119,7 +119,7 @@ typedef void(^OnCompleteGetAppInfo)(NSDictionary *appData);
     [[NSNotificationCenter defaultCenter]postNotificationName:@"backToInfo" object:nil userInfo:@{@"name":@"vkontakte"}];
 }
 - (void)setAppVersion:(float)vers{
-    version = [NSString stringWithFormat:@"%.2f", vers];
+    version = [NSString stringWithFormat:@"%.3f", vers];
 }
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame{
     NSString *fullQuery = [[NSURL URLWithString:[[sender mainFrameURL] stringByReplacingOccurrencesOfString:@"#" withString:@"?"]]query];
