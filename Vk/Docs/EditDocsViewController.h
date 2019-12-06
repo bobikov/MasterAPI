@@ -13,6 +13,7 @@
     __weak IBOutlet NSTextField *titleField;
     __weak IBOutlet NSTextField *tagsField;
     __weak IBOutlet NSButton *indexCheck;
+    __weak IBOutlet NSButton *checkOwnerID;
         
 }
 @property(nonatomic,readwrite)NSMutableArray *receivedData;

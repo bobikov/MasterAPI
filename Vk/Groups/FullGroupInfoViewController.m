@@ -22,9 +22,14 @@
     photo.wantsLayer=YES;
     photo.layer.masksToBounds=YES;
     photo.layer.cornerRadius = 5;
-     [self prepareLoadInfo];
+    _stringHighlighter = [[StringHighlighter alloc]init];
+    [status setAllowsEditingTextAttributes:YES];
     [site setAllowsEditingTextAttributes:YES];
+    [screenName setAllowsEditingTextAttributes:YES];
+     [self prepareLoadInfo];
+   
 }
+
 -(void)viewDidAppear{
  
 }
@@ -42,17 +47,28 @@
     
     desc.stringValue = _receivedData[@"desc"];
     name.stringValue = _receivedData[@"name"];
-    screenName.stringValue = _receivedData[@"screen_name"];
-    status.stringValue = _receivedData[@"status"];
-    site.attributedStringValue = [self getAttributedStringWithURLExternSites:_receivedData[@"site"]];
-    [site setFont:[NSFont systemFontOfSize:13 weight:NSFontWeightRegular]];
+  
+    [_stringHighlighter highlightStringWithURLs:[NSString stringWithFormat:@"https://vk.com/%@", _receivedData[@"screen_name"]] Emails:NO fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
+        screenName.attributedStringValue = highlightedString;
+    }];
+//    status.stringValue = _receivedData[@"status"];
+    [_stringHighlighter highlightStringWithURLs:_receivedData[@"status"] Emails:NO fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
+//        site.attributedStringValue = highlightedString;
+         status.attributedStringValue = highlightedString ;
+    }];
+    [_stringHighlighter highlightStringWithURLs:_receivedData[@"site"] Emails:NO fontSize:13 completion:^(NSMutableAttributedString *highlightedString) {
+        site.attributedStringValue = highlightedString;
+       
+    }];
     groupId.stringValue = _receivedData[@"id"];
 //    site.stringValue = _receivedData[@"site"];
     city.stringValue = _receivedData[@"city"];
     country.stringValue = _receivedData[@"country"];
     startDate.stringValue =  [self formatStartDateGroup:0];
     membersCount.stringValue =  [NSString stringWithFormat:@"Members count: %@",_receivedData[@"members_count"]];
-    NSLog(@"%@", _receivedData);
+//    NSLog(@"%@", _receivedData);
+    
+    
 //    NSLog(@"%@",[self formatStartDateGroup:0]);
     //    NSLog(@"%@", year, month, day);
     //    NSLog(@"%f", timestamp );
@@ -189,36 +205,5 @@
         date = @"";
     }
     return date;
-}
--(id)getAttributedStringWithURLExternSites:(NSString*)fullString{
-    NSMutableAttributedString *string;
-    string = [[NSMutableAttributedString alloc]initWithString:fullString];
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))" options:NSRegularExpressionCaseInsensitive error:&error];
-    //    NSUInteger numberOfMatches = [regex numberOfMatchesInString:fullString options:0 range:NSMakeRange(0, [_receivedData[@"site"] length])];
-    NSArray *matches = [regex matchesInString:fullString options:0 range:NSMakeRange(0, [fullString length])];
-    //        NSLog(@"%@", matches);
-    //        NSLog(@"Found %li",numberOfMatches);
-    for (NSTextCheckingResult *match in matches){
-        //            NSRange matchRange = match.range;
-        NSRange range = [match rangeAtIndex:[matches indexOfObject:match]];
-        //        NSLog(@"match: %@", [fullString substringWithRange:range]);
-        
-        NSRange foundRange = [string.mutableString rangeOfString:[fullString substringWithRange:range]  options:NSCaseInsensitiveSearch];
-        if (foundRange.location != NSNotFound) {
-            //                       NSLog(@"range found");
-            [string addAttribute:NSLinkAttributeName value:[[NSURL URLWithString:[fullString substringWithRange:range]]absoluteString] range:foundRange];
-            [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:foundRange];
-            [string addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor]  range:foundRange];
-       
-            
-            
-        }
-        
-    }
-    [string addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:12 weight:NSFontWeightRegular] range:NSMakeRange(0, [string length])];
-    return string;
-    
-    
 }
 @end

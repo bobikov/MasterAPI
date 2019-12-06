@@ -13,11 +13,16 @@
 
 }
 @property (weak) IBOutlet NSTextField *userStatus;
+@property (weak) IBOutlet NSTextField *country;
 
 @property (weak) IBOutlet NSTextField *name;
 @property (weak) IBOutlet NSTextField *fieldId;
 @property (weak) IBOutlet NSImageView *photo;
 @property (weak) IBOutlet NSImageView *status;
 @property (weak) IBOutlet NSImageView *blacklisted;
+@property (weak) IBOutlet NSTextField *lastSeen;
+@property (weak) IBOutlet NSTextField *age;
+@property (weak) IBOutlet NSImageView *verified;
+@property (weak) IBOutlet NSTextField *city;
 
 @end

@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@interface CustomScrollView : NSScrollView
+#import <Quartz/Quartz.h>
+@interface CustomScrollView : NSScrollView{
+    CALayer *border;
+    CALayer *backG;
+}
 
 @end

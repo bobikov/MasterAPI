@@ -35,10 +35,12 @@
     NSMutableArray *foundData;
     NSMutableArray *subscribersDataCopy;
     __weak IBOutlet NSButton *subscribersTotalCount;
+    NSMutableArray *friendsListPopupData;
    
 }
 @property (nonatomic) appInfo *app;
-@property (strong) IBOutlet NSArrayController *arrayController;
-@property (nonatomic) NSMutableArray *value;
+@property (nonatomic,readwrite) NSDictionary *userDataFromFullUserInfo;
+@property (nonatomic,readwrite) NSString *ownerId;
+@property(nonatomic,readwrite) BOOL loadFromFullUserInfo;
 @property (nonatomic) StringHighlighter *stringHighlighter;
 @end

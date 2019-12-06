@@ -10,24 +10,18 @@
 
 @implementation CustomScrollView
 -(void)awakeFromNib{
- 
-  
+    border = [CALayer layer];
+    backG = [CALayer layer];
+    self.wantsLayer=YES;
+     border.backgroundColor = [[NSColor lightGrayColor]CGColor];
+    border.frame = NSMakeRect(0, self.frame.size.height - 1.0, self.frame.size.width, 1.0);
+//    [self.view.layer addSublayer:backG];
+    [self.layer addSublayer:border];
+    
 }
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-   
-    // Drawing code here.
-}
-- (void)tile {
-    [super tile];
-//    self.wantsLayer=YES;
-//    self.layer.masksToBounds=YES;
-//    self.contentView.wantsLayer=YES;
-//    self.contentView.layer.masksToBounds=YES;
-//    [[self contentView] setFrame:NSMakeRect(1, 1, self.frame.size.width-2, self.frame.size.height-2)];
-//     [[self contentView] setFrame:[self bounds]];
-    NSRect scrollViewFrame = [[self contentView] frame];
-    scrollViewFrame.size.width = self.frame.size.width-3;
-    [[self contentView] setFrame:scrollViewFrame];
+
+-(void)layoutSublayersOfLayer:(CALayer *)layer{
+    //[super layoutSublayersOfLayer:layer];
+     border.frame=NSMakeRect(0, self.frame.size.height - 1.0, self.frame.size.width, 1.0);
 }
 @end

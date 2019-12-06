@@ -9,21 +9,27 @@
 #import "customViewCollectionItem.h"
 #import "moveToAlbumViewController.h"
 #import "URLsViewController.h"
+#import "RemoveVideoAndPhotoItemsViewController.h"
+#import "NSImage+Resizing.h"
+#import "EditVideoPhotoAlbumViewController.h"
+#import "NSImage+ImageEffects.h"
+#import <CoreImage/CoreImage.h>
+#import "PhotoEffectsViewController.h"
 @interface customViewCollectionItem ()<NSURLSessionDelegate, NSURLSessionDownloadDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
+typedef void (^OnComplete)(NSData *serverURL);
+-(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
 @end
 
 @implementation customViewCollectionItem
 @synthesize  backgroundSession;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
     [self createTrackingArea];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
     self.view.layer.cornerRadius=5;
     _downloadButton.hidden=YES;
-  
     _app = [[appInfo alloc]init];
     manager = [NSFileManager defaultManager];
     _countInAlbum.wantsLayer=YES;
@@ -43,13 +49,11 @@
     _downloadAndUploadStatusOver.layer.masksToBounds=YES;
     _downloadAndUploadStatusOver.layer.cornerRadius=5;
     _uploadByURLsButton.hidden=YES;
-      _uploadPhoto.hidden=YES;
-    
-    
+    _uploadPhoto.hidden=YES;
+    isURLsUpload = NO;
 
-//     [[NSNotificationCenter defaultCenter]removeObserver:@"haha"];
-//   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"haha" object:nil];
 }
+
 - (IBAction)moveToAlbum:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     moveToAlbumViewController *controller = [story instantiateControllerWithIdentifier:@"MoveToAlbumPopup"];
@@ -67,21 +71,22 @@
     [self presentViewControllerAsSheet:controller];
 }
 
--(void)getStringWithURLs:(NSNotification*)notification{
+- (void)getStringWithURLs:(NSNotification*)notification{
     
     [self prepareURLsForUpload:notification.userInfo[@"urls_string"]];
 //    NSLog(@"dddd");
      [[NSNotificationCenter defaultCenter] removeObserver:self name:@"uploadPhotoURLs" object:nil];
 }
--(void)setProgress{
+- (void)setProgress{
 //     self.downloadAndUploadProgress.maxValue=expectedBytes;
 //    self.downloadAndUploadProgress.doubleValue=progress;
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
     albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu",uploadCounter == 0 ? 0 : uploadCounter+1, [filesForUpload count] ];
 }
--(void)prepareURLsForUpload:(NSString*)urlsString{
+- (void)prepareURLsForUpload:(NSString*)urlsString{
    filesForUpload = [self urlsFromString:urlsString];
+    isURLsUpload = YES;
     NSLog(@"%@", filesForUpload);
     if([filesForUpload count]>0){
         [self getUploadURL:albumToUploadTo completion:^(NSData *serverURL) {
@@ -94,8 +99,9 @@
             }
         }];
     }
+
 }
--(NSMutableArray*)urlsFromString:(NSString*)fullString{
+- (NSMutableArray*)urlsFromString:(NSString*)fullString{
     NSMutableArray *urls = [[NSMutableArray alloc]init];
     
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?i)\\b((?:https?|ftp:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[\\w0-9.\\-]+[.][\\w]{2,4}/)(?:[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|\\(([^|\\s()<>]+|(\\([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+\\)))*\\))+(?:\\(([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|(\\([^|\\s()<>]+\\)))*\\)|[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))" options:NSRegularExpressionCaseInsensitive error:nil];
@@ -112,8 +118,7 @@
 //    }
     return urls;
 }
-
--(NSString*)createRandomName{
+- (NSString*)createRandomName{
     NSString *alphabetPlusDigits = @"0123456789abcdefghijklmopqrstuvwxyz";
     int length =  (int) [alphabetPlusDigits length];
     
@@ -125,40 +130,59 @@
     }
     return [nonceString stringByAppendingPathExtension:@"jpg"];
 }
+- (void)openPhotoEffectsWindow{
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImageDataWidthEffects:) name:@"UploadPhotoToAlbumWithEffects" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Sixth" bundle:nil];
+    PhotoEffectsViewController *contr = [story instantiateControllerWithIdentifier:@"PhotoEffectsView"];
+    selectedObject = self.representedObject;
+    contr.profilePhoto=NO;
+    contr.originalImageURLs = @[filesForUpload[0]];
+    [self presentViewControllerAsModalWindow:contr];
+}
 - (IBAction)uploadButtonAction:(id)sender {
-    [self removeDownloadAndUploadStatuOver];
+//    [self removeDownloadAndUploadStatuOver];
+//    [backgroundSession invalidateAndCancel];
+   
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
-    albumToUploadTo = self.representedObject[@"id"];
+    albumToUploadTo = selectedObject[@"id"] ;
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     [self setProgress];
     [self chooseDirectoryToUpload];
-
+//    [self openPhotoEffectsWindow];
+}
+- (void)setImageDataWidthEffects:(NSNotification*)obj{
+    contents = [[NSData dataWithData:obj.userInfo[@"photo"]]mutableCopy];
+    NSLog(@"DATA LENGTH %li", [contents length]);
+    [self prepareForUpload];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UploadPhotoToAlbumWithEffects" object:nil];
 }
 - (IBAction)uploadByURLsAction:(id)sender {
-    [self removeDownloadAndUploadStatuOver];
+//   [self removeDownloadAndUploadStatuOver];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStringWithURLs:) name:@"uploadPhotoURLs" object:nil];
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
-    albumToUploadTo = self.representedObject[@"id"];
+    albumToUploadTo = selectedObject[@"id"];
+    
     ownerId = [NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fourth" bundle:nil];
     URLsViewController *contr = [story instantiateControllerWithIdentifier:@"UploadURLsViewController"];
     contr.mediaType=@"photo";
     [self presentViewControllerAsModalWindow:contr];
     [self setProgress];
-
-  
 }
--(void)removeDownloadAndUploadStatuOver{
+- (void)removeDownloadAndUploadStatuOver{
     if(selectedObject){
+        
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
-        customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+//        customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         selectedObject[@"busy"]=@0;
-        albumItem.downloadAndUploadStatusOver.hidden=YES;
+//        albumItem.downloadAndUploadStatusOver.hidden=YES;
+        [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
     }
 }
--(void)addProgressView{
+- (void)addProgressView{
     _indicator = [[ NSProgressIndicator alloc]initWithFrame:NSMakeRect(0, 0, 100, 10)];
     [_indicator setStyle:NSProgressIndicatorBarStyle];
     _indicator.indeterminate=NO;
@@ -189,18 +213,27 @@
         }else{
             baseURL = [NSString stringWithFormat:@"https://api.vk.com/method/photos.deleteAlbum?owner_id=%@&album_id=%@&access_token=%@&v=%@",_app.person, self.representedObject[@"id"], _app.token, _app.version];
         }
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", photoDeleteResponse);
+        NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+        removeAlbumAlert.informativeText = [NSString stringWithFormat:@"Do you really want to delete photo album %@", self.representedObject[@"title"]];
+        removeAlbumAlert.messageText=@"Remove photo album";
+        [removeAlbumAlert addButtonWithTitle:@"OK"];
+        [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+        
+        if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", photoDeleteResponse);
+                
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"removePhotoAlbum" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:[self.collectionView.content indexOfObject:self.representedObject]]}];
+                
+            }] resume];
+        }else{
             
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"removePhotoAlbum" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:[self.collectionView.content indexOfObject:self.representedObject]]}];
-            
-        }] resume];
-        //        NSLog(@"%@", self.representedObject);
+        }
     }
 }
-
--(void)setSelected:(BOOL)selected{
+- (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.alignment=NSTextAlignmentCenter;
@@ -243,8 +276,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"album", @"data":[self representedObject]}];
     NSLog(@"%@", self.representedObject);
 }
-
-
 - (void)createTrackingArea{
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.bounds options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
     [self.view addTrackingArea:_trackingArea];
@@ -264,8 +295,8 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent{
-    
-    [[NSCursor pointingHandCursor]set];
+  
+//    [[NSCursor pointingHandCursor]set];
     //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
     //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
     //     self.view.layer.borderWidth=1;
@@ -287,6 +318,17 @@
         if(self.representedObject[@"items"][@"photoBig"]){
             _removeItem.hidden=NO;
         }
+        else{
+            [self.view setToolTip:self.representedObject[@"desc"]];
+            overAlbumId = [self.representedObject[@"id"] intValue];
+            NSLog(@"%li", overAlbumId);
+            if(overAlbumId==-7 || overAlbumId==-6 || overAlbumId==-15){
+                _uploadPhoto.hidden=YES;
+                _removeItem.hidden=YES;
+                _uploadByURLsButton.hidden=YES;
+                
+            }
+        }
         
         
     }else{
@@ -295,10 +337,11 @@
         _removeItem.hidden=YES;
         _uploadByURLsButton.hidden=YES;
     }
+ 
     
 }
-
 - (void)mouseExited:(NSEvent *)theEvent{
+    
     //  [[NSCursor currentCursor]set];
     //   self.view.layer.backgroundColor=[[NSColor whiteColor]CGColor];
     //     self.view.layer.borderWidth=0;
@@ -309,20 +352,89 @@
     _textLabel.hidden = self.representedObject[@"items"][@"photoBig"] ? YES : NO;
     _uploadByURLsButton.hidden=YES;
 }
-
+- (void)rightMouseDown:(NSEvent *)theEvent{
+    theDropdownContextMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
+    NSMenuItem *removeItemsItem = [[NSMenuItem alloc]initWithTitle:@"Remove items" action:@selector(removeItems) keyEquivalent:@""];
+     NSMenuItem *editItemsItem = [[NSMenuItem alloc]initWithTitle:@"Edit items" action:@selector(editItems) keyEquivalent:@""];
+    [theDropdownContextMenu setAutoenablesItems:NO];
+    
+    [theDropdownContextMenu insertItem:removeItemsItem atIndex:0];
+    [theDropdownContextMenu insertItem:editItemsItem atIndex:1];
+    [removeItemsItem setEnabled:[[self.collectionView selectionIndexes]count]];
+    [editItemsItem setEnabled:YES];
+//    [theDropdownContextMenu insertItemWithTitle:@"Show album names" action:@selector(showAlbumNames) keyEquivalent:@"" atIndex:1];
+//    [theDropdownContextMenu insertItemWithTitle:@"Move item to the end" action:@selector(MoveItemToTheEnd) keyEquivalent:@"" atIndex:2];
+//    [theDropdownContextMenu insertItemWithTitle:@"Move item to the beginning" action:@selector(MoveItemToTheBeginning) keyEquivalent:@"" atIndex:2];
+    
+    [NSMenu popUpContextMenu:theDropdownContextMenu withEvent:theEvent forView:self.view];
+    
+    return [super rightMouseDown:theEvent];
+}
+- (void)editAlbumReload:(NSNotification*)obj{
+    NSLog(@"Reload album here");
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
+    customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+//    NSLog(@"%@", selectedObject);
+    albumItem.representedObject[@"title"] = obj.userInfo[@"title"];
+    albumItem.representedObject[@"desc"] = obj.userInfo[@"desc"];
+    [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+}
+- (void)editItems{
+   
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"editPhotoAblumReload" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editAlbumReload:) name:@"editPhotoAblumReload" object:nil];
+    
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    EditVideoPhotoAlbumViewController *contr = [story instantiateControllerWithIdentifier:@"editVideoPhotoAlbumView"];
+    selectedObject = self.representedObject;
+    contr.mediaType = @"photo";
+    contr.receivedData=selectedObject;
+    [self presentViewControllerAsSheet:contr];
+}
+- (void)removeItems{
+    NSArray *itemsToDelete = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    NSString *messageText;
+    NSString *informativeText;
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
+    contr.mediaType=@"photo";
+    if(!self.representedObject[@"items"][@"photoBig"]){
+        contr.itemType=@"album";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li photo albums?", [itemsToDelete count]];
+        messageText = @"Remove photo albums";
+    }
+    else{
+        contr.itemType=@"item";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li photos?", [itemsToDelete count]];
+        messageText = @"Remove photos";
+    }
+    contr.receivedData = itemsToDelete;
+    NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+    removeAlbumAlert.informativeText = informativeText;
+    removeAlbumAlert.messageText = messageText;
+    [removeAlbumAlert addButtonWithTitle:@"OK"];
+    [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+    
+    if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+        [self presentViewControllerAsSheet:contr];
+    }else{
+        
+    }
+    
+}
 - (IBAction)closeProgressOver:(id)sender {
+     [self.collectionView setSelectable:YES];
     _downloadAndUploadStatusOver.hidden=YES;
     _albumsCover.layer.opacity=1;
     self.representedObject[@"busy"]=@0;
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:self.representedObject] inSection:0];
+//    [backgroundSession invalidateAndCancel];
+   
     [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-}
-
-
-
-- (IBAction)downloadButtonAction:(id)sender {
     
- 
+
+}
+- (IBAction)downloadButtonAction:(id)sender{
     selectedObject = [[NSMutableDictionary alloc]init];
     selectedObject = self.representedObject;
     selectedObject[@"busy"]=@1;
@@ -331,13 +443,10 @@
         [self chooseDirectory];
     }
     else{
-       
         [self chooseDirectoryForAlbumDownload:selectedObject[@"title"] :selectedObject[@"id"] :_app.person :self.representedObject[@"size"]];
     }
-    
 }
-
--(void)getUploadURL:(id)album_id completion:(OnComplete)completion{
+- (void)getUploadURL:(id)album_id completion:(OnComplete)completion{
 //   ownerId=[NSString stringWithFormat:@"%@",self.representedObject[@"owner"] ];
 //    NSLog(@"%@", self.representedObject);
     if(ownerId && [ownerId isEqual:_app.person]){
@@ -358,17 +467,13 @@
     }] resume];
     
 }
-
-
--(void)chooseDirectoryToUpload{
-    
+- (void)chooseDirectoryToUpload{
     NSOpenPanel* openDlgUpload = [NSOpenPanel openPanel];
     [openDlgUpload setPrompt:@"Select"];
     [openDlgUpload setCanChooseFiles:YES];
     [openDlgUpload setCanChooseDirectories:YES];
     [openDlgUpload setAllowsMultipleSelection:YES];
     [openDlgUpload setAllowedFileTypes:@[@"jpg",@"png",@"jpeg",@"gif"]];
-    
     if ( [openDlgUpload runModal] == NSFileHandlingPanelOKButton)
     {
         filesForUpload = [openDlgUpload URLs];
@@ -378,7 +483,11 @@
                 if(serverURL){
                     NSDictionary *getServerResponse = [NSJSONSerialization JSONObjectWithData:serverURL options:0 error:nil];
                     uploadURL = getServerResponse[@"response"][@"upload_url"];
-                     [self prepareForUpload];
+//                     [self prepareForUpload];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self openPhotoEffectsWindow];
+                    });
+                    
                 }else{
                     NSLog(@"UPLOAD URL NOT RECEIVED");
                 }
@@ -388,8 +497,7 @@
 
     
 }
-
--(void)chooseDirectoryForAlbumDownload:(id)title :(id)albumId :(id)owner :(id)size{
+- (void)chooseDirectoryForAlbumDownload:(id)title :(id)albumId :(id)owner :(id)size{
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setPrompt:@"Select"];
     [openDlg setCanChooseDirectories:YES];
@@ -422,9 +530,7 @@
     }
     
 }
-
--(void)chooseDirectory{
-    
+- (void)chooseDirectory{
     NSSavePanel* openDlg = [NSSavePanel savePanel];
     [openDlg setNameFieldStringValue:[self.representedObject[@"items"][@"photoBig"] lastPathComponent]];
     [openDlg setCanCreateDirectories:YES];
@@ -448,31 +554,28 @@
     }
 }
 
--(void)prepareForUpload{
+- (void)prepareForUpload{
     NSURLSessionConfiguration *backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"UploadToAlbumSession"];
     backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     uploadCounter=0;
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
         customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
         albumItem.representedObject[@"busy"]=@1;
-            albumItem.downloadAndUploadProgress.maxValue=[filesForUpload count];
-            albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu", uploadCounter, [filesForUpload count] ];
-         [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
-        
+        albumItem.downloadAndUploadProgress.maxValue=[filesForUpload count];
+        albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu", uploadCounter, [filesForUpload count] ];
+        [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
         [self uploadToAlbum];
     });
 }
-
--(void)uploadToAlbum{
+- (void)uploadToAlbum{
 
 //    fileName = [filesForUpload[uploadCounter] lastPathComponent];
     fileName = [self createRandomName];
-        NSLog(@"%@", filesForUpload[uploadCounter]);
-        NSLog(@"%@", fileName);
-        NSLog(@"%@", uploadURL);
-    
+    NSLog(@"%@", filesForUpload[uploadCounter]);
+    NSLog(@"%@", fileName);
+    NSLog(@"%@", uploadURL);
+    NSLog(@"%li", uploadCounter);
   
 //        NSLog(@"%@", url);
     //    NSURLSessionUploadTask *uploadPhotoTask = [backgroundSession uploadTaskWithRequest:[NSURLRequest requestWithURL:url] fromFile:files[0]];
@@ -482,45 +585,27 @@
     //        NSBundle *mainBundle = [NSBundle mainBundle];
     //        NSString *filename = [file lastPathComponent];
 //    NSData *contents = [[NSData alloc]initWithContentsOfFile:filesForUpload[uploadCounter]];
-    NSLog(@"%li", uploadCounter);
    
-    NSLog(@"%@", filesForUpload[uploadCounter]);
-    NSData *contents;
-    if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
-        contents = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
-    }else{
-        contents =[[NSData alloc]initWithContentsOfFile:filesForUpload[uploadCounter]];
+   
+   
+    
+    if(isURLsUpload){
+        if([[NSString stringWithFormat:@"%@", filesForUpload[uploadCounter]] containsString:@"http"]){
+            contents = [NSData dataWithContentsOfURL:[NSURL URLWithString:filesForUpload[uploadCounter]]];
+        }else{
+            contents = [NSData dataWithContentsOfFile:filesForUpload[uploadCounter]];
+            
+        }
     }
 //    NSLog(@"%@", contents);
 //    NSImage *image = [[NSImage alloc] initWithData:contents];
     if(contents){
        
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:uploadURL]];
         NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
         NSData *data1 = [imageRep representationUsingType:NSJPEGFileType properties:nil];
-        
+        NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData: [NSURL URLWithString:uploadURL] filename:fileName bodyData:data1 fformat:@"file"];
         //    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-        [request setHTTPShouldHandleCookies:NO];
-        [request setTimeoutInterval:30];
-        [request setHTTPMethod:@"POST"];
-        
-        NSString *kStringBoundary = @"*******";
-        [request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@",kStringBoundary] forHTTPHeaderField:@"Content-Type"];
-        NSString *beginLine = [NSString stringWithFormat:@"\r\n--%@\r\n", kStringBoundary];
-        NSMutableData *body = [NSMutableData data];
-        
-        [body appendData:[beginLine dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\";  filename=\"%@\"\r\n",fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-        //    [body appendData:[@"Content-Type: image/jpg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n\r\n",(int)[data1 length]] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:data1];
-        [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", kStringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [request setHTTPBody:body];
-        
         NSURLSessionDataTask *uploadTask = [backgroundSession dataTaskWithRequest:request];
-        
         [uploadTask resume];
         [self.collectionView setSelectable:NO];
     }
@@ -548,7 +633,7 @@
     //    }
 }
 
--(void)downloadPhoto{
+- (void)downloadPhoto{
     _downloadAndUploadProgress.maxValue=1;
     void (^downloadPhotoBlock)() = ^{
         currentFileName =  fileName;
@@ -558,8 +643,7 @@
     };
     downloadPhotoBlock();
 }
-
--(void)downloadAlbum:(id)albumId :(id)owner :(id)size{
+- (void)downloadAlbum:(id)albumId :(id)owner :(id)size{
     _downloadAndUploadProgress.maxValue=[size intValue];
     
     //    NSLog(@"%@ %@ %@", albumId, owner, size);
@@ -573,16 +657,29 @@
                 NSDictionary *getAlbumResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 for(NSDictionary *i in getAlbumResponse[@"response"][@"items"]){
                     NSString *photoURL;
-                    if(i[@"photo_1280"]){
-                        photoURL = i[@"photo_1280"];
+                    NSString *bigPhoto;
+//                    NSLog(@"%@", i);
+//                    if(i[@"photo_1280"]){
+//                        photoURL = i[@"photo_1280"];
+//                    }
+//                    else{
+//                        photoURL = i[@"photo_807"] ?  i[@"photo_807"] : i[@"photo_604"] ;
+//                    }
+                    for (NSDictionary *a in i[@"sizes"]){
+                        if([a[@"type"] isEqual:@"y"]){
+                            bigPhoto = a[@"url"];
+                        }
+                        else if([a[@"type"] isEqual:@"x"] && !bigPhoto){
+                            bigPhoto = a[@"url"];
+                        }
+//                        else if([a[@"type"] isEqual:@"m"]){
+//                            bigPhoto = a[@"url"];
+//                        }
+                        
                     }
-                    else{
-                        photoURL = i[@"photo_807"] ?  i[@"photo_807"] : i[@"photo_604"] ;
-                    }
-                    
                     url = photoURL;
-                    currentFileName = [url lastPathComponent];
-                    downloadFile = [backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", url]]];
+                    currentFileName = [bigPhoto lastPathComponent];
+                    downloadFile = [backgroundSession downloadTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", bigPhoto]]];
                     next=NO;
                     downloading=YES;
                     [downloadFile resume];
@@ -622,11 +719,11 @@
     });
     
 }
-//-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
-//    _downloadAndUploadProgress.maxValue = totalBytesExpectedToSend;
-//    _downloadAndUploadProgress.doubleValue = totalBytesSent;
-//
-//}
+
+
+
+
+
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
     
     
@@ -666,11 +763,9 @@
 //    progressUploadBar.hidden=YES;
 //    filePathLabel.hidden=YES;
 }
--(void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
     NSDictionary *uploadPhotoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 //      NSLog(@"%@", uploadPhotoResponse);
-   
-
         if(![uploadPhotoResponse[@"photos_list"] isEqual:@"[]"]){
             
             ownerId = [NSString stringWithFormat:@"%@", self.representedObject[@"owner"]];
@@ -696,11 +791,11 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
                             customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
-                        
+                            
                             albumItem.downloadAndUploadProgressLabel.stringValue = [NSString stringWithFormat:@"%li/%lu",uploadCounter+1, [filesForUpload count] ];
                             
                             NSLog(@"All files successfully uploaded in to album");
-                            [self.collectionView setSelectable:YES];
+                           
                         });
                        
                     }else{
@@ -713,6 +808,8 @@
                         });
                         [self uploadToAlbum];
                     }
+                    NSLog(@"UPLOAD COUNTER %li", uploadCounter);
+                    NSLog(@"SESSION STATUS %@", backgroundSession.sessionDescription);
 //                    NSLog(@"%@", savePhotoResponse);
                 }
             }]resume];
@@ -728,9 +825,8 @@
                 [self uploadToAlbum];
             }
         }
-    
 }
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
     customViewCollectionItem *albumItem =  (customViewCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
     if(!albumItem.downloadAndUploadStatusOver.hidden){
@@ -747,17 +843,10 @@
         
     }
 }
-
-// 3
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes{
     //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"PDFDownloader" message:@"Download is resumed successfully" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     //    [alert show];
 }
 
-//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
-//    
-//    downloadFile = nil;
-//    //    currentFileProgress.doubleValue=0;
-//    
-//}
+
 @end

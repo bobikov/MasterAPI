@@ -10,6 +10,16 @@
 #import "YoutubeClient.h"
 #import "YoutubeRWData.h"
 #import "appInfo.h"
+
+typedef enum {
+    PLAYLIST_LOADED = 0,
+    CHANNEL_VIDEOS_LOADED,
+    BROADCASTS_LOADED,
+    LIKED_LOADED,
+    GLOBAL_SEARCH_LOADED,
+    USER_PLAYLISTS_LOADED
+}last_action;
+
 @interface YoutubeVideosController : NSViewController{
     
     __weak IBOutlet NSButton *AddToPlaylistsButton;
@@ -29,12 +39,14 @@
     NSString *videoVkURL;
     NSDictionary *videoVkData;
     NSDictionary *dataForPlayer;
+    NSString *playlistID;
+    NSString *playlist;
     BOOL playlistLoaded;
     int subsOffsetCounter;
     __weak IBOutlet NSScrollView *subscriptionsScroll;
     __weak IBOutlet NSClipView *subscriptionsClip;
     __weak IBOutlet NSSearchField *searchSubscriptionsBar;
-    NSInteger lastAction;
+    
     NSString *pageToken;
     NSString *channel;
     NSDictionary *queryParams;
@@ -42,6 +54,7 @@
     __weak IBOutlet NSSearchField *videosSearchBar;
     __weak IBOutlet NSSegmentedControl *subscriptionsSearchSelector;
     BOOL loadSubscriptions;
+    last_action lastAction;
     
 }
 @property(nonatomic)YoutubeClient *youtubeClient;

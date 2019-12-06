@@ -11,9 +11,13 @@
 #import <Cocoa/Cocoa.h>
 @interface keyHandler : NSObject{
     NSFileManager *manager;
+    NSManagedObjectContext *moc;
 }
 -(id)writeAppInfo:(NSDictionary *)newData;
 -(id)readAppInfo:(id)publicId;
 -(void)clearAppInfo;
 -(BOOL)VKTokensEcxistsInCoreData;
+-(NSArray*)readApps;
+-(void)storeSelectedAppInfo:(NSDictionary*)app;
+-(id)removeApp:(NSString*)appId appName:(NSString*)appName;
 @end

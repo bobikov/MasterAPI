@@ -22,7 +22,7 @@
     NSString *title = [titleField.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     NSString *tags = [tagsField.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"VKEditDocs" object:nil userInfo:@{@"title":title, @"tags":tags, @"indexed":[NSNumber numberWithInteger:indexCheck.state]}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"VKEditDocs" object:nil userInfo:@{@"title":title, @"tags":tags, @"indexed":[NSNumber numberWithInteger:indexCheck.state], @"ownerID":[NSNumber numberWithInteger:checkOwnerID.state]}];
 }
 
 @end

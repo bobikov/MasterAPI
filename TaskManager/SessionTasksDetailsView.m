@@ -83,13 +83,15 @@
     return [collectionView.content count];
 }
 -(NSCollectionViewItem*)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+    
     PostAttachmentsCustomItem *item = (PostAttachmentsCustomItem*)[collectionView makeItemWithIdentifier:@"PostAttachmentsCustomItem" forIndexPath:indexPath];
+     item.removeItem.hidden=YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSImage *image = [[NSImage alloc]init];
 //            NSString *ph = i[@"data"][@"items"][@"photo"] ? i[@"items"][@"photo"] : i[@"data"][@"photo"]?i[@"data"][@"photo"]:i[@"data"][@"cover"];
-            NSString *ph = collectionView.content[indexPath.item][@"data"][@"items"][@"photo"] ;
+            NSString *ph = collectionView.content[indexPath.item][@"data"][@"items"] ? collectionView.content[indexPath.item][@"data"][@"items"][@"photo"] :collectionView.content[indexPath.item][@"data"][@"photo"];
             image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:ph]];
-            
+           
             dispatch_async(dispatch_get_main_queue(), ^{
                 [item.previewItem setImage:image];
             });

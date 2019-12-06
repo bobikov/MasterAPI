@@ -8,12 +8,18 @@
 
 #import "SubscribersViewController.h"
 #import "FullUserInfoPopupViewController.h"
+#import "ViewControllerMenuItem.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
+#import "MyTableRowView.h"
+#import <SYFlatButton/SYFlatButton.h>
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
 
 @implementation SubscribersViewController
-@synthesize value, arrayController;
+@synthesize  ownerId;
 - (void)viewDidLoad {
     [super viewDidLoad];
     subscribersList.delegate = self;
@@ -25,48 +31,84 @@
      _app = [[appInfo alloc]init];
     offsetCounter = 0;
     foundData = [[NSMutableArray alloc]init];
-    value=[[NSMutableArray alloc]init];
+    friendsListPopupData = [[NSMutableArray alloc]init];
+
     selectedUsers = [[NSMutableArray alloc]init];
     _stringHighlighter = [[StringHighlighter alloc]init];
+    [friendsListPopup removeAllItems];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    subscribersList.enclosingScrollView.wantsLayer = TRUE;
+    subscribersList.enclosingScrollView.layer = layer;
+    [self setFlatButtonStyle];
+    
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(VisitUserPageFromSubscribers:) name:@"VisitUserPageFromSubscribers" object:nil];
+    [self loadSubscribersPopup];
     
 }
--(void)VisitUserPageFromSubscribers:(NSNotification*)notification{
+-(void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = (SYFlatButton *)v;
+            [button setBezelStyle:NSRegularSquareBezelStyle];
+            button.state=0;
+            button.momentary = YES;
+            button.cornerRadius = 4.0;
+            button.borderWidth=1;
+            button.backgroundNormalColor = [NSColor colorWithHexString:@"ecf0f1"];
+            button.backgroundHighlightColor = [NSColor colorWithHexString:@"bdc3c7"];
+            button.titleHighlightColor = [NSColor colorWithHexString:@"2c3e50"];
+            //            button.titleNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+            button.titleNormalColor = [NSColor colorWithHexString:@"34495e"];
+            button.borderHighlightColor = [NSColor colorWithHexString:@"7f8c8d"];
+            button.borderNormalColor = [NSColor colorWithHexString:@"95a5a6"];
+        }
+    }
+}
+- (void)viewDidAppear{
+    [self loadSubscribers:NO :NO];
+    
+    
+}
+- (void)viewDidScroll:(NSNotification *)notification{
+    if([notification.object isEqual:subscribersClipView]){
+        NSInteger scrollOrigin = [[subscribersScrollView contentView]bounds].origin.y+NSMaxY([subscribersScrollView visibleRect]);
+        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
+        NSInteger boundsHeight = subscribersList.bounds.size.height;
+        //    NSInteger frameHeight = subscribersList.frame.size.height;
+        if (scrollOrigin == boundsHeight+2) {
+            //Refresh here
+            //         NSLog(@"The end of table");
+            if([foundData count] <=0){
+                [self loadSubscribers:NO :YES];
+            }
+        }
+        //        NSLog(@"%ld", scrollOrigin);
+        //        NSLog(@"%ld", boundsHeight);
+        //    NSLog(@"%fld", frameHeight-300);
+        //
+    }
+}
+- (void)VisitUserPageFromSubscribers:(NSNotification*)notification{
     
         NSInteger row = [notification.userInfo[@"row"] intValue];
         NSLog(@"%@", subscribersData[row]);
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://vk.com/id%@",subscribersData[row][@"id"]]]];
     
 }
-- (void)viewDidAppear{
-    [self loadSubscribers:NO :NO];
-    
-}
+
 - (IBAction)friendsListPopupSelect:(id)sender {
-    
-    
+    ownerId = subscribersData[[friendsListPopup indexOfSelectedItem]][@"id"];
+    [self loadSubscribers:NO :NO];
 }
--(void)viewDidScroll:(NSNotification *)notification{
-    if([notification.object isEqual:subscribersClipView]){
-    NSInteger scrollOrigin = [[subscribersScrollView contentView]bounds].origin.y+NSMaxY([subscribersScrollView visibleRect]);
-//    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
-    NSInteger boundsHeight = subscribersList.bounds.size.height;
-//    NSInteger frameHeight = subscribersList.frame.size.height;
-    if (scrollOrigin == boundsHeight+2) {
-        //Refresh here
-        //         NSLog(@"The end of table");
-        if([foundData count] <=0){
-            [self loadSubscribers:NO :YES];
-        }
-    }
-//        NSLog(@"%ld", scrollOrigin);
-//        NSLog(@"%ld", boundsHeight);
-    //    NSLog(@"%fld", frameHeight-300);
-    //
-    }
-}
+
 -(void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadSearchSubscribers];
 }
@@ -113,17 +155,18 @@
 - (IBAction)showPopupProfileFullInfo:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
     FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
+//    NSPoint mouseLoc = [NSEvent mouseLocation];
     //    int x = mouseLoc.x;
-    int y = mouseLoc.y;
+//    int y = mouseLoc.y;
     //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
     
     NSView *parentCell = [sender superview];
     NSInteger row = [subscribersList rowForView:parentCell];
-    CGRect rect=CGRectMake(0, y, 0, 0);
+//    CGRect rect=CGRectMake(0, y, 0, 0);
     popuper.receivedData = subscribersData[row];
+    [popuper setToViewController];
 //    NSLog(@"%@", subscribersData[row]);
-    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:subscribersList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+//    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:subscribersList preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadUserFullInfo" object:self userInfo:dataForUserInfo];
 
     
@@ -209,7 +252,6 @@
 - (IBAction)menFilterAction:(id)sender {
     [self loadSubscribers:NO :NO];
 }
-
 - (IBAction)FriendsFilterOfflineAction:(id)sender {
     
     [self loadSubscribers:NO :NO];
@@ -237,19 +279,90 @@
     
 }
 
+-(void)loadSubscribersPopup{
+    __block NSMenu *menu1 = [[NSMenu alloc]init];
+    __block  NSMenuItem *menuItem;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if(!_loadFromFullUserInfo){
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                if(data){
+                    NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    
+                    for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                        [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                        ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                        [viewControllerItem loadView];
+                        menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                        
+                        
+                        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                        
+                        image.size=NSMakeSize(30,30);
+                        viewControllerItem.photo.wantsLayer=YES;
+                        viewControllerItem.photo.layer.masksToBounds=YES;
+                        viewControllerItem.photo.layer.cornerRadius=39/2;
+                        [menuItem setImage:image];
+                        //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+                        //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+                        [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                        viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                        [viewControllerItem.photo setImage:image];
+                        [menuItem setView:[viewControllerItem view]];
+                        [menu1 addItem:menuItem];
+                    }
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        //[friendsListDropdown setPullsDown:YES];
+                        [friendsListPopup removeAllItems];
+                        [friendsListPopup setMenu:menu1];
+                    });
+                }
+            }]resume];
+        }else{
+            [friendsListPopupData removeAllObjects];
+            NSLog(@"%@", _userDataFromFullUserInfo);
+            [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
+            ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+            [viewControllerItem loadView];
+            menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]] action:nil keyEquivalent:@""];
+            
+            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:_userDataFromFullUserInfo[@"user_photo"]]];
+            image.size=NSMakeSize(30,30);
+            viewControllerItem.photo.wantsLayer=YES;
+            viewControllerItem.photo.layer.masksToBounds=YES;
+            viewControllerItem.photo.layer.cornerRadius=39/2;
+            [menuItem setImage:image];
+            [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+            viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]];
+            [viewControllerItem.photo setImage:image];
+            [menuItem setView:[viewControllerItem view]];
+            [menu1 addItem:menuItem];
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [friendsListPopup removeAllItems];
+                //                [friendsListPopup addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
+                [friendsListPopup setMenu:menu1];
+            });
+        }
+    });
+    
 
+}
 -(void)loadSubscribers:(BOOL)searchByName :(BOOL)makeOffset{
+   
     __block NSDictionary *object;
     if(makeOffset){
         offsetLoadSubscribers=offsetLoadSubscribers+500;
     }else{
         [subscribersData removeAllObjects];
+        [subscribersList reloadData];
         offsetLoadSubscribers=0;
-         offsetCounter=0;
+        offsetCounter=0;
     }
+    ownerId = ownerId ? ownerId : _app.person;
      [progressSpin startAnimation:self];
 //    __block NSMutableArray *tempSubscribers = [[NSMutableArray alloc]init];
-    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.getFollowers?user_id=%@&count=500&offset=%i&suggested=0&need_viewed=1&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,about,site,contacts,books,music,schools,education,quotes,relation&v=%@&access_token=%@", _app.person, offsetLoadSubscribers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.getFollowers?user_id=%@&count=500&offset=%i&suggested=0&need_viewed=1&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,about,site,contacts,books,music,schools,education,quotes,relation&v=%@&access_token=%@", ownerId, offsetLoadSubscribers, _app.version, _app.token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *responseGetFollowers = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             if(error){
@@ -561,6 +674,11 @@
 //    
 //    
 //}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    
+    return rowView;
+}
 -(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([subscribersData count]>0){
         return [subscribersData count];
@@ -568,7 +686,7 @@
     return 0;
 }
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if([subscribersData count]>0){
+    if([subscribersData count]>0 && [subscribersData lastObject] && row <= [subscribersData count]){
         SubscribersCustomCell *cell = [[SubscribersCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.fullName.stringValue = subscribersData[row][@"full_name"];
@@ -578,22 +696,27 @@
         cell.lastSeen.stringValue = subscribersData[row][@"last_seen"];
 //        cell.status.stringValue = subscribersData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:subscribersData[row][@"status"] Emails:YES fontSize:12];
         [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
         cell.sex.stringValue = subscribersData[row][@"sex"];
         cell.photo.wantsLayer=YES;
         cell.photo.layer.masksToBounds=YES;
         cell.photo.image.size = NSMakeSize(80, 80);
         cell.photo.layer.cornerRadius=80/2;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", subscribersData[row][@"user_photo"]]]];
+        
+        
+        [_stringHighlighter highlightStringWithURLs:subscribersData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", subscribersData[row][@"user_photo"]]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];
             NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
             image.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.photo setImage:image];
-            });
-        });
+            [cell.photo setImage:image];
+        }];
+        
         if([subscribersData[row][@"online"] intValue] == 1){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
 //            cell.lastOnline.stringValue = @"";

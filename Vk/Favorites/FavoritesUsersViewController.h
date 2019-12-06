@@ -8,14 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
+#import "StringHighlighter.h"
+#import <SBJson/SBJson5.h>
+#import "SYFlatButton+ButtonsStyle.h"
+#import "CDataHandler.h"
 @interface FavoritesUsersViewController : NSViewController{
     
     __weak IBOutlet NSButton *sendMessage;
     __weak IBOutlet NSButton *deleteFromFaves;
     __weak IBOutlet NSButton *addToBun;
     __weak IBOutlet NSTableView *favesUsersList;
-    NSMutableArray *favesUsersData;
-    NSMutableArray *favesUsersDataCopy;
     __weak IBOutlet NSSearchField *searchBar;
     __weak IBOutlet NSButton *filterActive;
     __weak IBOutlet NSButton *filterOnline;
@@ -23,15 +25,26 @@
     __weak IBOutlet NSButton *filterWomen;
     __weak IBOutlet NSButton *filterMen;
     __weak IBOutlet NSButton *searchCount;
-    NSMutableArray *selectedUsers;
     __weak IBOutlet NSProgressIndicator *progressSpin;
-    NSDictionary *receiverDataForMessage;
-    NSMutableArray *favesUsersTemp;
     __weak IBOutlet NSClipView *favesClipView;
     __weak IBOutlet NSScrollView *favesScrollView;
-    NSInteger offsetLoadFaveUsers;
-    NSInteger offsetCounter;
     __weak IBOutlet NSButton *showFavesUsersStatBut;
+    __weak IBOutlet NSPopUpButton *favesUserGroups;
+    __weak IBOutlet NSPopUpButton *userFavesGroupsPrefs;
+    __weak IBOutlet NSButton *loadedCount;
+    __weak IBOutlet NSButton *totalCountLabel;
+    CDataHandler *CDHandle;
+    StringHighlighter *stringHighlighter;
+    NSInteger offsetLoadFaveUsers,offsetCounter,totalCount;
+    NSDictionary *receiverDataForMessage;
+    NSMutableArray *favesUsersData,*favesUsersDataCopy,*favesUsersTemp,*selectedUsers,*restoredUserIDs;
+    NSManagedObjectContext *moc;
+    NSString *userFavesNewGroupName;
+    
+   
+    BOOL loading,loadFromUserGroup;
+   
 }
+
 @property(nonatomic, readwrite)appInfo *app;
 @end

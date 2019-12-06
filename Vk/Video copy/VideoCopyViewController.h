@@ -23,18 +23,23 @@
     __weak IBOutlet NSProgressIndicator *progress;
     __weak IBOutlet NSTableView *fromTableView;
     __weak IBOutlet NSTableView *toTableView;
-    NSMutableArray *videoAlbums;
-    NSMutableArray *videoAlbums2;
+    NSMutableArray *personalAlbums;
+    NSMutableArray *fromOwnerAlbums;
     NSString *targetVideoAlbumId;
     BOOL stopFlag;
+    BOOL isCopying;
     NSString *title1;
     NSString *title2;
     NSString *videoPublicTitleNewAlbum;
-
-   
+    NSString *privacy;
+    NSString *selectedAlbumId;
+    NSMutableArray *ids;
+    NSString *selectedPublicId;
     __weak IBOutlet NSTextField *progressLabel;
     __weak IBOutlet NSProgressIndicator *progressSpin;
 }
+@property (strong) IBOutlet NSArrayController *ArrayController2;
+@property (strong) IBOutlet NSArrayController *ArrayController1;
 @property(nonatomic)appInfo *app;
 @property(nonatomic, readwrite)VKCaptchaHandler *captchaHandler;
 @end

@@ -13,6 +13,7 @@
 }
 -(NSDictionary *)readTwitterTokens;
 -(BOOL)TwitterTokensEcxistsInCoreData;
--(void)removeAllTwitterAppInfo;
+typedef void(^OnCompleteRemoveApp)(BOOL resultRemoveApp);
+-(void)removeAllTwitterAppInfo:(OnCompleteRemoveApp)completion;
 -(void)writeTokens:(NSDictionary*)data;
 @end

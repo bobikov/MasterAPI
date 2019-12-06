@@ -45,6 +45,6 @@
 - (id)initWithParams:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
 - (NSString *)hash:(NSString *)data secret:(NSString *)key;
 - (NSString*)createNonce;
- typedef void (^OnComplete) (NSData *data);
--(void)APIRequest:(NSString*)owner rmethod:(NSString*)rmethod query:(NSDictionary*)rparams handler:(OnComplete)completion;
+ typedef void (^OnCompleteRequest) (NSData *data);
+-(void)APIRequest:(NSString*)owner rmethod:(NSString*)rmethod query:(NSDictionary*)rparams handler:(OnCompleteRequest)completion;
 @end

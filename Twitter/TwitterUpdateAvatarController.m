@@ -39,12 +39,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [avatarImage setImage:image];
         });
-
     }
     progressUploadBar.doubleValue = [notification.userInfo[@"value"] intValue];
 }
 -(void)loadCurrentAvatar{
-    [twitterClient APIRequest:@"account" rmethod:@"verify_credentials.json" query:@{@"include_entities":@"true"} handler:^(NSData *data) {
+    [twitterClient APIRequest:@"account" rmethod:@"verify_credentials.json" query:@{} handler:^(NSData *data) {
         NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
         if(!resp[@"errors"]){

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ApiSourceSelectorItem">
+            <connections>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="CustomView">
+            <rect key="frame" x="0.0" y="0.0" width="95" height="24"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P78-DY-D0R">
+                    <rect key="frame" x="4" y="4" width="88" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="69" id="gMw-Nt-1E3"/>
+                        <constraint firstAttribute="height" constant="17" id="zNE-Yt-O2Q"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" usesSingleLineMode="YES" id="o3G-9P-FsG">
+                        <font key="font" metaFont="cellTitle"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="P78-DY-D0R" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="6" id="LWL-4j-2Ux"/>
+                <constraint firstItem="P78-DY-D0R" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="3" id="OhE-gV-MLj"/>
+                <constraint firstAttribute="trailing" secondItem="P78-DY-D0R" secondAttribute="trailing" constant="5" id="k88-F2-tEp"/>
+            </constraints>
+            <point key="canvasLocation" x="228.5" y="153"/>
+        </customView>
+        <customObject id="TvA-UH-FSy" customClass="ApiSourceSelectorItem">
+            <connections>
+                <outlet property="sourceName" destination="P78-DY-D0R" id="qPZ-5f-DuC"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="uUp-WD-cpC"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

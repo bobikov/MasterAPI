@@ -17,8 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _webView.frameLoadDelegate = self;
-   
-     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(authorize:) name:@"authorizeTwitterInBrowser" object:nil];
+    RWData = [[TwitterRWData alloc]init];
+    twitterAuth = [[TwitterAuth alloc]init];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(authorize:) name:@"authorizeTwitterInBrowser" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(GetTwitterAccessToken:) name:@"GetTwitterAccessToken" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ObserveReadyTwitterTokens:) name:@"ObserveReadyTwitterTokens" object:nil];
+    [self setFieldsEnabled];
+    [self setButtonDest];
 }
 -(void)authorize:(NSNotification*)notification{
     _webView.hidden=NO;
@@ -31,8 +36,7 @@
     
 }
 - (IBAction)acceptData:(id)sender {
-     twitAuth = [[TwitterAuth alloc]initWithParams:consumerKey.stringValue consumerSecret:consumerSecret.stringValue];
-    [twitAuth requestTempToken];
+    
     
 }
 -(void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame{
@@ -55,11 +59,68 @@
         oauth_verifier = queryStringDictionary[@"oauth_verifier"];
         NSLog(@"VERIFIER %@", oauth_verifier);
         
-        //        TumblrAuth *auth = [[TumblrAuth alloc]init];
-        //        [auth requestAccessTokenAndSecretToken:oauth_verifier];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"GetTwitterAccessToken" object:nil userInfo:@{@"verifier":oauth_verifier, @"consumer":consumerKey.stringValue,@"consumerSecret":consumerSecret.stringValue,@"tempToken":tempToken,@"tempTokenSecret":tempTokenSecret}];
         [_webView close];
-        [self.view.window close];
+        _webView.hidden=YES;
+//        [self.view.window close];
+        
+       
     }
+}
+- (IBAction)backToPrefs:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"backToInfo" object:nil userInfo:@{@"name":@"twitter"}];
+}
+-(void)setFieldsEnabled{
+    consumerKey.enabled=![RWData TwitterTokensEcxistsInCoreData];
+    consumerSecret.enabled=![RWData TwitterTokensEcxistsInCoreData];
+}
+- (IBAction)removeAndAdd:(id)sender {
+    [progress startAnimation:self];
+    if([RWData TwitterTokensEcxistsInCoreData]){
+        [RWData removeAllTwitterAppInfo:^(BOOL resultRemoveApp) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setFieldsEnabled];
+                [self setButtonDest];
+                [progress stopAnimation:self];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshTwitterParamsInFields" object:nil];
+            });
+            
+        }];
+    }
+    else{
+        [self addApp];
+    }
+}
+-(void)addApp{
+    twitAuth = [[TwitterAuth alloc] initWithParams:consumerKey.stringValue consumerSecret:consumerSecret.stringValue];
+    [twitAuth requestTempToken];
+}
+- (IBAction)resetToken:(id)sender {
+    
+}
+-(void)setButtonDest{
+    if([RWData TwitterTokensEcxistsInCoreData]){
+        removeAndAddButton.title=@"Remove app";
+        
+        
+    }else{
+        removeAndAddButton.title = @"Add app";
+    }
+    
+}
+-(void)GetTwitterAccessToken:(NSNotification*)notification{
+    [twitterAuth requestAccessTokenAndSecretToken:notification.userInfo[@"verifier"] :notification.userInfo[@"consumer"] :notification.userInfo[@"consumerSecret"] :notification.userInfo[@"tempToken"] :notification.userInfo[@"tempTokenSecret"]];
+}
+-(void)ObserveReadyTwitterTokens:(NSNotification*)notification{
+    [RWData writeTokens:notification.userInfo];
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshTwitterParamsInFields" object:nil];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"backToInfo" object:nil userInfo:@{@"name":@"twitter"}];
+        [self setButtonDest];
+        [self setFieldsEnabled];
+        [progress stopAnimation:self];
+    
+    });
+    //    NSLog(@"%@", notification.userInfo);
 }
 @end

@@ -7,7 +7,11 @@
 //
 
 #import "TumblrClient.h"
-
+//#import "NSString+RMURLEncoding.h"
+#import <NSHash/NSString+NSHash.h>
+#import <NAHMAC.h>
+#import "NSString+SHA1HMAC.h"
+#import "NSString+MD5HMAC.h"
 @implementation TumblrClient
 @synthesize  request;
 
@@ -53,7 +57,7 @@
 
 
 
--(void)APIRequest:(NSString*)owner rmethod:(NSString*)rmethod query:(NSDictionary*)rparams handler:(OnComplete)completion{
+-(void)APIRequest:(NSString*)owner rmethod:(NSString*)rmethod query:(NSDictionary*)rparams handler:(OnCompleteRequest)completion{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block NSString *queryString;
         __block NSString *HttpMethod;
@@ -110,7 +114,7 @@
 
 
 
--(void)startRequest:(OnComplete)completion{
+-(void)startRequest:(OnCompleteRequest)completion{
     [[_TSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         completion(data);
@@ -175,6 +179,8 @@
 }
 
 -(id)sortSignComponents:(id)signComponents{
+    
+    
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc]init];
     
     for (NSString *keyValuePair in signComponents)
@@ -219,10 +225,16 @@
         preparedSignatureComponents = [NSString stringWithFormat:@"%@oauth_consumer_key=%@&oauth_nonce=%@&oauth_signature_method=%@&oauth_timestamp=%@&oauth_token=%@&oauth_version=%@", query!=nil ? [NSString stringWithFormat:@"%@&",query] : @"" , _oauth_consumer_key, _oauth_nonce, _oauth_signature_method, _oauth_timestamp, _oauth_token, _oauth_version];
 //    }
     
+    
+//// [[[[[[ ,   .   ! *  +]]]] ______ NOT SUPPORTING_____ WHY????
+    
     NSString *sortedSignComponents = [self sortSignComponents:[preparedSignatureComponents componentsSeparatedByString:@"&"]];
     
-    encodedSignComponents = [[[[[[[[[[[[sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"&" withString:@"%26"] stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"]stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"]stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"] stringByReplacingOccurrencesOfString:@"!" withString:@"%21"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"'" withString:@"%27"]stringByReplacingOccurrencesOfString:@"(" withString:@"%28"]stringByReplacingOccurrencesOfString:@")" withString:@"%29"];
-    
+//    encodedSignComponents = [[[[[[[[[[[[sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"&" withString:@"%26"] stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"]stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"]stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"] stringByReplacingOccurrencesOfString:@"!" withString:@"%21"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"'" withString:@"%27"]stringByReplacingOccurrencesOfString:@"(" withString:@"%28"]stringByReplacingOccurrencesOfString:@")" withString:@"%29"];
+    encodedSignComponents = sortedSignComponents;
+//    encodedSignComponents = [sortedSignComponents rm_URLEncodedString];
+//    encodedSignComponents = [sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@" \"#%/:<>?@[\\]^`{|}"] invertedSet]];
+    NSLog(@"%@", encodedSignComponents);
     if(httpMethod==nil && mediaData==nil && query==nil){
         preparedSignature = [NSString stringWithFormat:@"%@&%@&%@", @"POST", method, encodedSignComponents];
         //        preparedSignature =  encodedSignComponents;
@@ -230,9 +242,12 @@
     else{
         preparedSignature = [NSString stringWithFormat:@"%@&%@&%@", httpMethod, method, encodedSignComponents];
     }
-//    NSLog(@"%@", preparedSignature);
-    encodedBuiltSignature =  [[[[[[[[[self hash:preparedSignature secret:_keyForHash] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"] stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"] stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"]stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
-    
+    encodedBuiltSignature = [self hash:preparedSignature secret:_keyForHash];
+
+//    NSData *mac1 = [NAHMAC HMACForKey:[_keyForHash dataUsingEncoding:NSUTF8StringEncoding] data:[preparedSignature dataUsingEncoding:NSUTF8StringEncoding]  algorithm:NAHMACAlgorithmSHA2_512];
+//    encodedBuiltSignature = [mac1 base64EncodedStringWithOptions:0];
+//    encodedBuiltSignature = [preparedSignature MD5HMACWithKey:_keyForHash encoding:NSASCIIStringEncoding];
+//    NSLog(@"%@", encodedBuiltSignature);
     return encodedBuiltSignature;
 }
 -(id)createHeader{

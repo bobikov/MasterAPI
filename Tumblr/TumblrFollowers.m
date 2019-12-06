@@ -25,17 +25,22 @@
 -(void)loadFollowers{
     [progressLoad startAnimation:self];
     [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"followers" query:@{@"limit":@20} handler:^(NSData *data) {
-        NSDictionary *followersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", followersResponse);
-        for(NSDictionary *i in followersResponse[@"response"][@"users"]){
-            NSURL *nurl = [NSURL URLWithString:i[@"url"]];
+        if(data){
+            NSDictionary *followersResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
-            [followersData addObject:@{@"name":i[@"name"], @"url":nurl.host}];
+            NSLog(@"%@", followersResponse);
+                if(!followersResponse[@"errors"]){
+                for(NSDictionary *i in followersResponse[@"response"][@"users"]){
+                    NSURL *nurl = [NSURL URLWithString:i[@"url"]];
+                    
+                    [followersData addObject:@{@"name":i[@"name"], @"url":nurl.host}];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [progressLoad stopAnimation:self];
+                    [followersList reloadData];
+                });
+            }
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [progressLoad stopAnimation:self];
-            [followersList reloadData];
-        });
     }];
 }
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{

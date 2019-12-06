@@ -22,7 +22,15 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
     
     return NSOrderedSame;
 }
-
+//-(void)drawRect:(NSRect)dirtyRect{
+//    [super drawRect:dirtyRect];
+//    if (!self.contentView.wantsLayer) {
+//        [self.contentView setWantsLayer:YES];
+//        [self.contentView.layer setCornerRadius:4.0f];
+//    }
+//
+//    
+//}
 - (id)initWithFrame:(NSRect)frameRect
 {
     self = [super initWithFrame:frameRect];
@@ -37,6 +45,8 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 {
     self.wantsLayer = YES;
     _headerOffset = [self tableHeaderOffsetFromSuperview];
+    
+    
 }
 
 - (void)tile

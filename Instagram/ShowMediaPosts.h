@@ -21,6 +21,9 @@
     NSString *postID;
     NSMutableArray *mediaURLS;
     NSMenu *cellMenu ;
+    NSString *startCursor;
+    NSMutableArray *sliderData;
+    
 }
-
+@property(retain,strong)NSWindowController *sliderWindowContr;
 @end

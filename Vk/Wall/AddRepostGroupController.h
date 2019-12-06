@@ -11,6 +11,7 @@
 @interface AddRepostGroupController : NSViewController{
     
     __weak IBOutlet NSTextField *groupName;
+    NSManagedObjectContext *moc;
 }
 @property(nonatomic, readwrite) NSMutableArray *receivedData;
 @end

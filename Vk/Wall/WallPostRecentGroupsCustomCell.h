@@ -11,5 +11,6 @@
 @interface WallPostRecentGroupsCustomCell : NSTableCellView
 @property (weak) IBOutlet NSTextField *groupId;
 @property (weak) IBOutlet NSImageView *photo;
+@property (weak) IBOutlet NSButton *remove;
 
 @end

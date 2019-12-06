@@ -15,7 +15,7 @@
 #import "TwitterClient.h"
 #import "YoutubeClient.h"
 #import "YoutubeAuth.h"
-
+#import <DBPrefsWindowController/DBPrefsWindowController.h>
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (nonatomic) keyHandler *keyHandle;
@@ -31,5 +31,6 @@
 @property(readwrite, nonatomic)TwitterClient *twitterClient;
 @property(readwrite, nonatomic)YoutubeClient *youtubeClient;
 @property(readwrite, nonatomic)YoutubeAuth *youtubeAuth;
+@property (assign) IBOutlet NSWindow *window;
+@property(nonatomic,strong)DBPrefsWindowController *dbPrefs;
 @end
-

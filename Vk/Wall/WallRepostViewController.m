@@ -9,6 +9,9 @@
 #import "WallRepostViewController.h"
 #import "WallRepostGroupsCustomCellView.h"
 #import "AddRepostGroupController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "AppDelegate.h"
+#import <SYFlatButton/SYFlatButton.h>
 @interface WallRepostViewController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
 @end
@@ -45,6 +48,15 @@
     addRepostGroup.hidden=YES;
     saveRepostGroup.hidden=YES;
     itemsToSaveInSelectedRepostGroup = [[NSMutableArray alloc]init];
+    [self setFlatButtonsStyle];
+}
+- (void)setFlatButtonsStyle{
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+//            [button simpleButton:(SYFlatButton*)v];
+        }
+    }
 }
 - (IBAction)removeItemFromRepostGroup:(id)sender {
     saveRepostGroup.hidden=NO;
@@ -73,11 +85,11 @@
 //        if([i[@"id"] isEqual:groupsData2[row][@"id"]]){
             [itemsToRemoveInSelectedRepostGroup addObject:groupsData2[row]];
             [groupsData2 removeObjectAtIndex:row];
-            [groupsList2 removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideUp];
+            [groupsList2 removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideRight];
             
             //                        NSLog(@"Item successfully removed from repost group \"%@\"", [[repostUserGroups selectedItem]title]);
             countGroups2.title = [NSString stringWithFormat:@"%li", [groupsData2 count]];
-            [groupsList2 reloadData];
+//            [groupsList2 reloadData];
 //        }
 //    }
 //            }
@@ -89,21 +101,21 @@
     
 }
 
--(void)viewDidAppear{
+- (void)viewDidAppear{
      [self loadGroups1];
     countGroups.title=[NSString stringWithFormat:@"%li",[groupsData1 count]];
 //     NSLog(@"%@", groupsData1[0][@"name"]);
 }
--(void)reloadListUserRepostGroups:(NSNotification*)notification{
+- (void)reloadListUserRepostGroups:(NSNotification*)notification{
     [self getListOfUserRepostGroupsFromData];
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     AddRepostGroupController *contr = (AddRepostGroupController*)segue.destinationController;
     contr.receivedData = [[NSMutableArray alloc] initWithArray:groupsData2];
     
 }
 - (IBAction)saveRepostGroup:(id)sender {
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -128,11 +140,9 @@
                 [object2 setValue:b[@"deactivated"] forKey:@"deactivated"];
                 [object2 setValue:b[@"desc"] forKey:@"desc"];
                 [object2 setValue:b[@"name"] forKey:@"name"];
-                //            NSLog(@"%@",b[@"name"]);
-                //            [seet addObject:object2];
-                
+                //NSLog(@"%@",b[@"name"]);
+                //[seet addObject:object2];
                 [objects addObject:object2];
-                
             }
             
             [i setValue:[NSSet setWithArray:objects] forKey:@"userRepostGroups"];
@@ -159,28 +169,21 @@
                     }else{
                         
                         NSLog(@"Item successfully removed from repost group \"%@\"", [[repostUserGroups selectedItem]title]);
-                       
                     }
                 }
             }
-            
         }
          [itemsToRemoveInSelectedRepostGroup removeAllObjects];
     }
-
-    
     
 }
-
 - (IBAction)removeRepostGroup:(id)sender {
 //    NSLog(@"%@",  [[repostUserGroups selectedItem]title]);
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
     [temporaryContext performBlock:^{
-        
-        
         NSFetchRequest *request = [ NSFetchRequest fetchRequestWithEntityName:@"VKUserRepostGroupsNames"];
         NSError *readError;
         NSError *deleteError;
@@ -212,7 +215,7 @@
 - (IBAction)repostUserGroupsSelect:(id)sender {
     [itemsToRemoveInSelectedRepostGroup removeAllObjects];
     [itemsToSaveInSelectedRepostGroup removeAllObjects];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSFetchRequest *request = [ NSFetchRequest fetchRequestWithEntityName:@"VKUserRepostGroupsNames"];
     NSError *readError;
     
@@ -251,9 +254,9 @@
     
     
 }
--(void)getListOfUserRepostGroupsFromData{
+- (void)getListOfUserRepostGroupsFromData{
     [repostUserGroups removeAllItems];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
 //    NSEntityDescription *entityDesc1 = [NSEntityDescription entityForName:@"VKUserRepostGroupsNames" inManagedObjectContext:moc];
@@ -268,14 +271,15 @@
     
 }
 
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadGroupsList1Search];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     groupsData1 = groupsData1Copy;
     [groupsList1 reloadData];
 }
--(void)loadGroupsList1Search{
+
+- (void)loadGroupsList1Search{
     
     NSInteger counter=0;
 //    NSMutableArray *groupsData1Temp=[[NSMutableArray alloc]init];
@@ -298,7 +302,6 @@
     
 }
 - (IBAction)groupsPopupSelect:(id)sender {
-    
     groupToRespostTo = [groupsPopupData objectAtIndex:[groupsPopupList indexOfSelectedItem]];
 //    NSLog(@"%@", groupToRespostTo);
 }
@@ -328,12 +331,9 @@
     }
     
 }
-
 - (IBAction)addSelectedObjectsAction:(id)sender {
     NSIndexSet *rows;
     rows=[groupsList1 selectedRowIndexes];
-    
-   
         for (NSInteger i = [rows firstIndex]; i != NSNotFound; i = [rows indexGreaterThanIndex: i]){
             if(![groupsData2 containsObject:groupsData1[i]]){
                 [groupsData2 addObject:groupsData1[i]] ;
@@ -342,7 +342,6 @@
 
 //    NSLog(@"%@", selectedGroups);
     selectedGroups = groupsData2;
-    
     [groupsList2 insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [groupsData2 count]) ] withAnimation:NSTableViewAnimationSlideLeft];
     countGroups2.title = [NSString stringWithFormat:@"%li", [groupsData2 count] ];
 //    [groupsList2 reloadData];
@@ -389,7 +388,7 @@
     });
     
 }
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -400,7 +399,7 @@
         }
     }]resume];
 }
--(void)loadGroups1{
+- (void)loadGroups1{
 //    if([groupsData1 count]==0){
 //        _groupsHandle = [[groupsHandler alloc] init];
 //        //    NSLog(@"%@", [_groupsHandle readFromFile]);
@@ -416,7 +415,7 @@
 ////        arrayController1.content=groupsData1;
 //        [groupsList1 reloadData];
 //    }
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication ] delegate]).managedObjectContext;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroups"];
     [request setReturnsObjectsAsFaults:NO];
     [request setResultType:NSDictionaryResultType];
@@ -428,10 +427,12 @@
         [groupsList1 reloadData];
     }
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+
+
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     if([notification.object isEqual: groupsList1]){
-        
         if([[groupsList1 selectedRowIndexes]count]>1){
             addSeletedObjects.hidden=NO;
         }else{
@@ -439,23 +440,24 @@
         }
     }
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if([tableView isEqual: groupsList1]){
         if([groupsData1 count]>0){
             
             return [groupsData1 count];
         }
+    
     }
     else if([tableView isEqual: groupsList2]){
+        
         if([groupsData2 count]>0){
             return [groupsData2 count];
         }
     }
     return 0;
 }
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
   
-    
     if([tableView isEqual: groupsList1]){
         WallRepostGroupsCustomCellView *cell = [[WallRepostGroupsCustomCellView alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
@@ -464,14 +466,10 @@
             cell.groupPhoto.wantsLayer=YES;
             cell.groupPhoto.layer.masksToBounds=YES;
             cell.groupPhoto.layer.cornerRadius=38/2;
-          
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", groupsData1[row][@"photo"]]]];
-                  imagePhoto.size=NSMakeSize(38, 38);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.groupPhoto setImage:imagePhoto];
-                });
-            });
+            [cell.groupPhoto sd_setImageWithURL:[NSURL URLWithString:groupsData1[row][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                image.size=NSMakeSize(38, 38);
+                [cell.groupPhoto setImage:image];
+            }];
             return cell;
         }
     }
@@ -483,15 +481,13 @@
             cell.groupPhoto.wantsLayer=YES;
             cell.groupPhoto.layer.masksToBounds=YES;
             cell.groupPhoto.layer.cornerRadius=38/2;;
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", groupsData2[row][@"photo"]]]];
-                imagePhoto.size=NSMakeSize(38, 38);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.groupPhoto setImage:imagePhoto];
-                });
-            });
             cell.groupName.stringValue=groupsData2[row][@"name"];
+            
+            [cell.groupPhoto sd_setImageWithURL:[NSURL URLWithString:groupsData2[row][@"photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                image.size=NSMakeSize(38, 38);
+                [cell.groupPhoto setImage:image];
+            }];
+            
             return cell;
         }
     }

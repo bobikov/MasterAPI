@@ -10,6 +10,9 @@
 #import "moveToAlbumViewController.h"
 #import "CustomAnimator.h"
 #import "URLsViewController.h"
+#import "RemoveVideoAndPhotoItemsViewController.h"
+#import "EditVideoPhotoAlbumViewController.h"
+#import "HTMLReader.h"
 @interface CustomVideoCollectionItem ()
 
 @end
@@ -18,11 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+
     [self createTrackingArea];
     self.view.wantsLayer=YES;
     self.view.layer.masksToBounds=YES;
-      self.view.layer.cornerRadius=5;
+    self.view.layer.cornerRadius=5;
     _removeItem.hidden=YES;
     _moveToAlbum.hidden=YES;
     _app = [[appInfo alloc]init];
@@ -31,6 +34,9 @@
     _countLabel.layer.masksToBounds=YES;
     _countLabel.layer.cornerRadius=5;
     _countLabel.layer.opacity=.8;
+    _albumCover.wantsLayer = YES;
+    _albumCover.layer.masksToBounds=YES;
+    _albumCover.layer.cornerRadius=4;
 //    _countLabel.layer.backgroundColor=[[NSColor clearColor] CGColor];
 //    if(self.representedObject[@"count"]){
 //        NSAttributedString *countAttrString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@", self.representedObject[@"count"] ]attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor]}];
@@ -43,36 +49,7 @@
 //    NSLog(@"%@",self.representedObject);
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"addToAttachments" object:nil userInfo:@{@"type":@"album", @"data":self.representedObject}];
 }
-
-
-//-(BOOL)isSelected{
-//    [self updateColor];
-//    [self setSelected:self.isSelected];
-//    if([self isSelected]){
-//        NSLog(@"selected");
-//        
-//    }else{
-//        NSLog(@"not selected");
-//    }
-//    return self.isSelected;
-//}
-//
-//-(void)updateColor{
-//    if (self.selected){
-//        if(self.highlightState==0){
-//            self.view.layer.backgroundColor=[[NSColor greenColor] CGColor];
-//        }
-//        else if(self.highlightState==1){
-//            self.view.layer.backgroundColor=[[NSColor blueColor] CGColor];
-//        }
-//        else if(self.highlightState==2){
-//            self.view.layer.backgroundColor=[[NSColor whiteColor] CGColor];
-//        }
-//    }else{
-//         self.view.layer.backgroundColor=[[NSColor whiteColor] CGColor];
-//    }
-//}
--(void)setSelected:(BOOL)selected{
+- (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.alignment=NSTextAlignmentCenter;
@@ -103,8 +80,7 @@
         self.view.layer.borderWidth=0;
     }
 }
-- (void)createTrackingArea
-{
+- (void)createTrackingArea{
     _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.bounds options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
     [self.view addTrackingArea:_trackingArea];
     
@@ -166,15 +142,24 @@
         }else{
             baseURL = [NSString stringWithFormat:@"https://api.vk.com/method/video.deleteAlbum?owner_id=%@&album_id=%@&access_token=%@&v=%@",_app.person, self.representedObject[@"id"], _app.token, _app.version];
         }
-       
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", photoDeleteResponse);
+        NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+        removeAlbumAlert.informativeText = [NSString stringWithFormat:@"Do you realy want to delete video album %@", self.representedObject[@"title"]];
+          removeAlbumAlert.messageText=@"Remove video album";
+        [removeAlbumAlert addButtonWithTitle:@"OK"];
+        [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+        
+        if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
             
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"removeVideoAlbum" object:nil userInfo:@{@"object":self.representedObject}];
+            [[_app.session dataTaskWithURL:[NSURL URLWithString:baseURL]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSDictionary *photoDeleteResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", photoDeleteResponse);
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"removeVideoAlbum" object:nil userInfo:@{@"object":self.representedObject}];
+                
+            }] resume];
+        }else{
             
-        }] resume];
-
+        }
     }
 }
 - (IBAction)addURL:(id)sender {
@@ -190,17 +175,17 @@
     [self presentViewControllerAsModalWindow:contr];
     
 }
--(void)getStringWithURLs:(NSNotification*)notification{
+- (void)getStringWithURLs:(NSNotification*)notification{
     
     [self prepareURLsForUpload:notification.userInfo[@"urls_string"]];
 //        NSLog(@"%@",notification.userInfo[@"urls_string"]);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"uploadVideoURLs" object:nil];
 }
--(void)prepareURLsForUpload:(NSString*)urlString{
+- (void)prepareURLsForUpload:(NSString*)urlString{
     filesForUpload = [self urlsFromString:urlString];
     [self uploadByURLs];
 }
--(NSMutableArray*)urlsFromString:(NSString*)fullString{
+- (NSMutableArray*)urlsFromString:(NSString*)fullString{
     NSMutableArray *urls = [[NSMutableArray alloc]init];
     
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(?i)\\b((?:https?|ftp:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[\\w0-9.\\-]+[.][\\w]{2,4}/)(?:[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|\\(([^|\\s()<>]+|(\\([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+\\)))*\\))+(?:\\(([^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s()<>]+|(\\([^|\\s()<>]+\\)))*\\)|[^|\\U00000410-\\U0000044F\\U00002700-\\U000027BF\\U0001F300-\\U0001F5FF\\U0001F910-\\U0001F9C0\\U00002070-\\U0000209C\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))" options:NSRegularExpressionCaseInsensitive error:nil];
@@ -217,37 +202,46 @@
     //    }
     return urls;
 }
--(void)uploadByURLs{
+- (void)uploadByURLs{
 //    NSLog(@"%@", ownerId);
 //    NSLog(@"%@", albumToUploadTo);
 //    NSLog(@"%@", filesForUpload);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         
         for(NSString *videoURL in filesForUpload){
-            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%i&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], videoURL, [albumToUploadTo intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSLog(@"%@", uploadResp);
-                [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                    NSDictionary *saveResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"%@", saveResp);
-                    if([saveResp[@"response"] intValue] == 1){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            NSInteger index = [filesForUpload indexOfObject:videoURL];
-//                            i[@"success"]=@1;
-                            
-//                            [selectedVideosList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-                            dispatch_semaphore_signal(semaphore);
-                            //                       selectedVideosList rowat
-                        });
-                    }
+            NSString *html = [NSString stringWithContentsOfURL:[NSURL URLWithString:videoURL] encoding:NSUTF8StringEncoding error:nil];
+            HTMLDocument *htmlDocument = [HTMLDocument documentWithString:html];
+            NSArray *titleElement = [htmlDocument nodesMatchingSelector:@".watch-title"];
+            
+            NSLog(@"%@", [(HTMLElement*)titleElement[0] textContent]);
+            NSString *newTitle = [[(HTMLElement*)titleElement[0] textContent] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+//            NSString *newTitle = [@"youtube" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            if(newTitle){
+                dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/video.save?%@name=%@&link=%@&privacy_view=nobody&album_id=%i&access_token=%@&v=%@",[ownerId intValue]<0?[NSString stringWithFormat:@"group_id=%i&", abs([ownerId intValue])] : @"", newTitle, videoURL, [albumToUploadTo intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSDictionary *uploadResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", uploadResp);
+                    [[_app.session dataTaskWithURL:[NSURL URLWithString:uploadResp[@"response"][@"upload_url"]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                        NSDictionary *saveResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        NSLog(@"%@", saveResp);
+                        if([saveResp[@"response"] intValue] == 1){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                //                            NSInteger index = [filesForUpload indexOfObject:videoURL];
+                                //                            i[@"success"]=@1;
+                                
+                                //                            [selectedVideosList reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                                dispatch_semaphore_signal(semaphore);
+                                //                       selectedVideosList rowat
+                            });
+                        }
+                    }]resume];
+                    sleep(1);
                 }]resume];
                 sleep(1);
-            }]resume];
-            sleep(1);
-            
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-            dispatch_semaphore_signal(semaphore);
+                
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                dispatch_semaphore_signal(semaphore);
+            }
         }
     });
 }
@@ -273,7 +267,7 @@
 //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.3]CGColor];
 //    self.view.layer.borderColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.8]CGColor];
 //    self.view.layer.borderWidth=1;
-//
+    [self.view setToolTip:self.representedObject[@"desc"]];
     int overAlbumId = [self.representedObject[@"id"] intValue];
 //       NSLog(@"%i", overAlbumId);
     if(overAlbumId!=-1 && overAlbumId!=-2){
@@ -291,7 +285,6 @@
 //    }
    
 }
-
 - (void)mouseExited:(NSEvent *)theEvent{
     [[NSCursor currentCursor]set];
 //    self.view.layer.backgroundColor=[[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:0.0]CGColor];
@@ -302,29 +295,63 @@
     _addURL.hidden=YES;
  
 }
--(void)rightMouseDown:(NSEvent *)theEvent
-{
+- (void)rightMouseDown:(NSEvent *)theEvent{
  
-   
-    NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
-    [theMenu insertItemWithTitle:@"Show album names" action:@selector(showAlbumNames) keyEquivalent:@"" atIndex:0];
-    [theMenu insertItemWithTitle:@"Move item to the end" action:@selector(MoveItemToTheEnd) keyEquivalent:@"" atIndex:1];
-    [theMenu insertItemWithTitle:@"Move item to the beginning" action:@selector(MoveItemToTheBeginning) keyEquivalent:@"" atIndex:2];
     
-    
-    [NSMenu popUpContextMenu:theMenu withEvent:theEvent forView:self.view];
+    theDropdownContextMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
+    NSMenuItem *removeAlbumsItem = [[NSMenuItem alloc]initWithTitle:@"Remove items" action:@selector(removeItems) keyEquivalent:@""];
+    [theDropdownContextMenu setAutoenablesItems:NO];
+  
+    [theDropdownContextMenu insertItem:removeAlbumsItem atIndex:0];
+    [removeAlbumsItem setEnabled:[[self.collectionView selectionIndexes]count]];
+    [theDropdownContextMenu insertItemWithTitle:@"Show album names" action:@selector(showAlbumNames) keyEquivalent:@"" atIndex:1];
+    [theDropdownContextMenu insertItemWithTitle:@"Move item to the end" action:@selector(MoveItemToTheEnd) keyEquivalent:@"" atIndex:2];
+    [theDropdownContextMenu insertItemWithTitle:@"Move item to the beginning" action:@selector(MoveItemToTheBeginning) keyEquivalent:@"" atIndex:2];
+    [theDropdownContextMenu insertItemWithTitle:@"Edit items" action:@selector(editItems) keyEquivalent:@"" atIndex:3];
+    [NSMenu popUpContextMenu:theDropdownContextMenu withEvent:theEvent forView:self.view];
     
     return [super rightMouseDown:theEvent];
     
 }
--(void)showAlbumNames{
+- (void)removeItems{
+    NSArray *itemsToDelete = [self.collectionView.content objectsAtIndexes:[self.collectionView selectionIndexes]];
+    NSString *messageText;
+    NSString *informativeText;
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    RemoveVideoAndPhotoItemsViewController *contr = [story instantiateControllerWithIdentifier:@"RemoveVideoAndPhotoItemsViewController"];
+    contr.mediaType=@"video";
+    if(self.representedObject[@"cover"]){
+        contr.itemType=@"album";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li video albums?", [itemsToDelete count]];
+        messageText = @"Remove video albums";
+    }
+    else{
+        contr.itemType=@"item";
+        informativeText = [NSString stringWithFormat:@"Do you realy want to delete %li videos?", [itemsToDelete count]];
+        messageText = @"Remove videos";
+    }
+    contr.receivedData = itemsToDelete;
+    NSAlert *removeAlbumAlert  = [[NSAlert alloc] init];
+    removeAlbumAlert.informativeText = informativeText;
+    removeAlbumAlert.messageText = messageText;
+    [removeAlbumAlert addButtonWithTitle:@"OK"];
+    [removeAlbumAlert addButtonWithTitle:@"Cancel"];
+    
+    if([removeAlbumAlert runModal] == NSAlertFirstButtonReturn){
+            [self presentViewControllerAsSheet:contr];
+    }else{
+        
+    }
+
+}
+- (void)showAlbumNames{
 //    id animator = [[CustomAnimator alloc] init];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowNamesController" object:nil];
     
    
     
 }
--(void)MoveItemToTheEnd{
+- (void)MoveItemToTheEnd{
     NSCollectionView* parent = self.collectionView;
     NSLog(@"Selected object %@", self.representedObject);
      NSLog(@"Last object %@", [[parent content]lastObject]);
@@ -339,7 +366,28 @@
     }] resume];
 }
 
--(void)MoveItemToTheBeginning{
+
+- (void)editAlbumReload:(NSNotification*)obj{
+    NSLog(@"Reload album here");
+    NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[self.collectionView.content indexOfObject:selectedObject] inSection:0];
+    CustomVideoCollectionItem *albumItem =  (CustomVideoCollectionItem*)[self.collectionView itemAtIndexPath:indexPath];
+    //    NSLog(@"%@", selectedObject);
+    albumItem.representedObject[@"title"] = obj.userInfo[@"title"];
+//    albumItem.representedObject[@"desc"] = obj.userInfo[@"desc"];
+    [self.collectionView reloadItemsAtIndexPaths:[NSSet setWithObject:indexPath]];
+}
+- (void)editItems{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"editVideoAblumReload" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(editAlbumReload:) name:@"editVideoAblumReload" object:nil];
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+    EditVideoPhotoAlbumViewController *contr = [story instantiateControllerWithIdentifier:@"editVideoPhotoAlbumView"];
+    selectedObject = self.representedObject;
+    contr.mediaType = @"video";
+    contr.receivedData=selectedObject;
+    [self presentViewControllerAsSheet:contr];
+}
+
+- (void)MoveItemToTheBeginning{
     NSCollectionView* parent = self.collectionView;
 //    NSLog(@"Selected object %@", self.representedObject);
 //    NSLog(@"Last object %@", [[parent content]firstObject]);

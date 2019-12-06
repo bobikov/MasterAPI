@@ -11,6 +11,12 @@
 #import "FriendsStatController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <NSColor-HexString/NSColor+HexString.h>
+#import <BOString/BOString.h>
+#import "MyTableRowView.h"
+#import "SYFlatButton+ButtonsStyle.h"
+
 @interface FriendsViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end
@@ -33,13 +39,12 @@
     [friendsListPopup removeAllItems];
      _stringHighlighter = [[StringHighlighter alloc]init];
     [self loadFriendsPopup];
-  
+//    cachedImage = [[NSMutableDictionary alloc]init];
+//    cachedStatus = [[NSMutableDictionary alloc]init];
 //    self.view.wantsLayer=YES;
 //    [self.view.layer setBackgroundColor:[[NSColor whiteColor] CGColor]];
-//    
 //    FriendsMessageSendViewController *fac = [[FriendsMessageSendViewController alloc]init];
 //     searchBar.sendsWholeSearchString=YES;
-   
 //    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 //    [style setAlignment:NSCenterTextAlignment];
 //    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
@@ -48,76 +53,91 @@
 //    [self setButtonStyle:mainSendMessage];
 //    [self setButtonStyle:deleteFromFriends];
 //    [self setButtonStyle:addToBlackList];
+    //     NSBezierPath * path = [NSBezierPath bezierPathWithRoundedRect:favesScrollView.frame xRadius:4 yRadius:4];
+    CAShapeLayer * layer = [CAShapeLayer layer];
+    layer.cornerRadius=4;
+    layer.borderWidth=1;
+    layer.borderColor=[[NSColor colorWithWhite:0.8 alpha:1]CGColor];
+    FriendsTableView.enclosingScrollView.wantsLayer = TRUE;
+    FriendsTableView.enclosingScrollView.layer = layer;
+//    NSString *s = @"\U0000E64B";
+//    friendsStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+//    friendsStatBut.title = s;
+    NSAttributedString *atrS = [friendsStatBut.title bos_makeString:^(BOStringMaker *make) {
+        make.baselineOffset([NSNumber numberWithInt:-25]);
+    }];
+
+    friendsStatBut.attributedTitle = atrS;
+    [self setFlatButtonStyle];
 }
--(void)loadFriendsPopup{
+- (void)setFlatButtonStyle{
+    NSLog(@"%@", self.view.subviews[0].subviews[0].subviews);
+    for(NSArray *v in self.view.subviews[0].subviews[0].subviews){
+        if([v isKindOfClass:[SYFlatButton class]]){
+            SYFlatButton *button = [[SYFlatButton alloc]init];
+            [button simpleButton:(SYFlatButton*)v];
+        }
+    }
+}
+
+- (void)loadFriendsPopup{
     __block NSMenu *menu1 = [[NSMenu alloc]init];
     __block  NSMenuItem *menuItem;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if(!_loadFromFullUserInfo){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?owner_id=%@&v=%@&fields=city,domain,photo_50&access_token=%@", _app.person, _app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
-                for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
-                    [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
-                    ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                    [viewControllerItem loadView];
-                    menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                if(data){
+                    NSDictionary *getFriendsResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     
-                   
-                    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                    
-                    image.size=NSMakeSize(30,30);
-                    viewControllerItem.photo.wantsLayer=YES;
-                    viewControllerItem.photo.layer.masksToBounds=YES;
-                    viewControllerItem.photo.layer.cornerRadius=39/2;
-                    [menuItem setImage:image];
-//                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
-//                     viewControllerItem.photo.layer.borderWidth = 2.0;
-                    [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
-                    [viewControllerItem.photo setImage:image];
-                    [menuItem setView:[viewControllerItem view]];
-                    [menu1 addItem:menuItem];
+                    for(NSDictionary *i in getFriendsResponse[@"response"][@"items"]){
+                        [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]], @"id":i[@"id"]}];
+                        ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                        [viewControllerItem loadView];
+                        menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@ %@", i[@"first_name"], i[@"last_name"]] action:nil keyEquivalent:@""];
+                        
+                        
+                        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                        
+                        image.size=NSMakeSize(30,30);
+                        viewControllerItem.photo.wantsLayer=YES;
+                        viewControllerItem.photo.layer.masksToBounds=YES;
+                        viewControllerItem.photo.layer.cornerRadius=39/2;
+                        [menuItem setImage:image];
+                        //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+                        //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+                        [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+                        viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@ %@", i[@"first_name"],i[@"last_name"]];
+                        [viewControllerItem.photo setImage:image];
+                        [menuItem setView:[viewControllerItem view]];
+                        [menu1 addItem:menuItem];
+                    }
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        //[friendsListDropdown setPullsDown:YES];
+                        [friendsListPopup removeAllItems];
+                        [friendsListPopup setMenu:menu1];
+                    });
                 }
-                dispatch_async(dispatch_get_main_queue(),^{
-                    //[friendsListDropdown setPullsDown:YES];
-                    [friendsListPopup removeAllItems];
-                    [friendsListPopup setMenu:menu1];
-                });
             }]resume];
         }else{
             [friendsListPopupData removeAllObjects];
             [friendsListPopupData addObject:@{@"full_name":[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]], @"id":_userDataFromFullUserInfo[@"id"]}];
-            
+            ViewControllerMenuItem *viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+            [viewControllerItem loadView];
             menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]] action:nil keyEquivalent:@""];
-            
-            //                    [menuItem setTitle:];
-            NSView *itemView = [[NSView alloc]initWithFrame:NSMakeRect(0, 0, 300, 33)];
-           
-            
             NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:_userDataFromFullUserInfo[@"user_photo"]]];
-            image.size=NSMakeSize(30, 30);
             
-            NSTextField *itemLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(0, 33/2, 260, 15)];
-            itemLabel.stringValue=[NSString stringWithFormat:@"%@ %@", _userDataFromFullUserInfo[@"first_name"], _userDataFromFullUserInfo[@"last_name"]];
-            itemLabel.editable=NO;
-            itemLabel.drawsBackground=NO;
-            itemLabel.bordered=NO;
-            NSImageView *imageView = [[NSImageView alloc]initWithFrame:NSMakeRect(250, 1, 30, 30)];
-            imageView.wantsLayer=YES;
-            imageView.layer.masksToBounds=YES;
-            imageView.layer.cornerRadius=30/2;
-            [imageView setImageScaling:NSImageScaleProportionallyUpOrDown];
-            [imageView setImage:image];
-            [itemView addSubview:imageView];
-            [itemView addSubview:itemLabel];
+            image.size=NSMakeSize(30,30);
+            viewControllerItem.photo.wantsLayer=YES;
+            viewControllerItem.photo.layer.masksToBounds=YES;
+            viewControllerItem.photo.layer.cornerRadius=39/2;
             [menuItem setImage:image];
-            
-            //                    [menuItem setView:itemView];
-            //                      [menuItem setTarget:self];
+            //                    viewControllerItem.photo.layer.borderColor = [[NSColor grayColor] CGColor];
+            //                     viewControllerItem.photo.layer.borderWidth = 2.0;
+            [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
+            viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", _userDataFromFullUserInfo[@"full_name"]];
+            [viewControllerItem.photo setImage:image];
+            [menuItem setView:[viewControllerItem view]];
             [menu1 addItem:menuItem];
-    
-
             dispatch_async(dispatch_get_main_queue(), ^{
                 [friendsListPopup removeAllItems];
 //                [friendsListPopup addItemWithTitle:_userDataFromFullUserInfo[@"full_name"]];
@@ -133,8 +153,7 @@
 - (IBAction)goDown:(id)sender {
     [FriendsTableView scrollRowToVisible:[FriendsTableView numberOfRows] - 1];
 }
-
--(void)viewDidAppear{
+- (void)viewDidAppear{
     if(_loadFromFullUserInfo || _loadFromWallPost){
         self.view.window.titleVisibility=NSWindowTitleHidden;
         self.view.window.titlebarAppearsTransparent = YES;
@@ -146,14 +165,12 @@
 
 }
 - (IBAction)friendsListPopupSelect:(id)sender {
-//
     _ownerId = [NSString stringWithFormat:@"%@", friendsListPopupData[[friendsListPopup indexOfSelectedItem]][@"id"]];
     NSLog(@"%@", _ownerId);
     [self loadFriends:NO];
 }
 
 - (IBAction)showFriendsStat:(id)sender {
-    
     NSStoryboard *secondStory = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     FriendsStatController *friendsStatController = [secondStory instantiateControllerWithIdentifier:@"FriendsStatController"];
     friendsStatController.receivedData = @{@"data":FriendsData};
@@ -161,7 +178,7 @@
 //    [self presentViewControllerAsModalWindow:friendsStatController];
     [self presentViewController:friendsStatController asPopoverRelativeToRect:friendsStatBut.frame ofView:self.view preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 }
--(void)loadSearchFriendsList{
+- (void)loadSearchFriendsList{
     
     NSInteger counter=0;
     NSMutableArray *FriendsDataTemp=[[NSMutableArray alloc]init];
@@ -169,20 +186,17 @@
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
     [FriendsDataTemp removeAllObjects];
     for(NSDictionary *i in FriendsData){
-        
         NSArray *found = [regex matchesInString:i[@"full_name"]  options:0 range:NSMakeRange(0, [i[@"full_name"] length])];
         if([found count]>0 && ![searchBar.stringValue isEqual:@""]){
             counter++;
             [FriendsDataTemp addObject:i];
         }
-        
     }
     //     NSLog(@"Start search %@", banlistDataTemp);
     if([FriendsDataTemp count]>0){
         FriendsData = FriendsDataTemp;
         [FriendsTableView reloadData];
     }
-    
 }
 - (IBAction)deleteFromFriendsAction:(id)sender {
     
@@ -218,12 +232,10 @@
 
 }
 - (IBAction)addToBlacklistAction:(id)sender {
-    
     NSIndexSet *rows;
     rows=[FriendsTableView selectedRowIndexes];
     [selectedUsers removeAllObjects];
     void(^addToBanBlock)()=^void(){
-      
         for(NSDictionary *i in [FriendsData objectsAtIndexes:rows]){
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.banUser?user_id=%@&v=%@&access_token=%@", i[@"id"] ,_app.version, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSDictionary *addToBanResponse = [NSJSONSerialization JSONObjectWithData: data options:0 error:nil];
@@ -238,8 +250,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [FriendsData removeObjectsAtIndexes:rows];
             [FriendsTableView reloadData];
-            
-            
         });
     };
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -251,31 +261,24 @@
     
     [FriendsTableView selectAll:self];
 }
--(void)setButtonStyle:(id)button{
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSCenterTextAlignment];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, style, NSParagraphStyleAttributeName, nil];
-    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:[button title] attributes:attrsDictionary];
-    [button setAttributedTitle:attrString];
-}
 - (IBAction)fdfd:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
     FullUserInfoPopupViewController *popuper = [story instantiateControllerWithIdentifier:@"profilePopup"];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
+//    NSPoint mouseLoc = [NSEvent mouseLocation];
 //    int x = mouseLoc.x;
-    int y = mouseLoc.y;
+//    int y = mouseLoc.y;
 //    int scrollPosition = [[scrollView contentView] bounds].origin.y+120;
    
     NSView *parentCell = [sender superview];
     NSInteger row = [FriendsTableView rowForView:parentCell];
-     CGRect rect=CGRectMake(0, y, 0, 0);
+//     CGRect rect=CGRectMake(0, y, 0, 0);
     popuper.receivedData = FriendsData[row];
-    
-    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:FriendsTableView preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
+    [popuper setToViewController];
+//    [self presentViewController:popuper asPopoverRelativeToRect:rect ofView:FriendsTableView preferredEdge:NSRectEdgeMinY behavior:NSPopoverBehaviorTransient];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadUserFullInfo" object:self userInfo:dataForUserInfo];
 }
 
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"showDetailSegue"]){
         FriendsMessageSendViewController *controller = (FriendsMessageSendViewController *)segue.destinationController;
 
@@ -290,7 +293,6 @@
     [self loadFriends:NO];
     
 }
-
 - (IBAction)FriendsFilterOfflineAction:(id)sender {
 
      [self loadFriends:NO];
@@ -310,16 +312,16 @@
 //    }
     [self loadFriends:NO];
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     [self loadSearchFriendsList];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
     FriendsData = FriendsDataCopy;
     [FriendsTableView reloadData];
 }
 
--(void)cleanTable{
+- (void)cleanTable{
     NSIndexSet *index=[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [FriendsData count])];
     
     [FriendsTableView removeRowsAtIndexes:index withAnimation:0];
@@ -335,11 +337,12 @@
   
 }
 
--(void)loadFriends:(BOOL)searchByName{
+- (void)loadFriends:(BOOL)searchByName{
     [progressSpin startAnimation:self];
     [FriendsData removeAllObjects];
     _ownerId = _ownerId == nil ? _app.person : _ownerId;
     __block NSDictionary *object;
+    __block NSRegularExpression *regex;
     NSURLSessionDataTask *dataTask = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/friends.get?user_id=%@&fields=city,domain,photo_100,photo_200,status,last_seen,bdate,online,country,sex,books,site,contacts,about,music,schools,education,quotes,relation,blacklisted_by_me,blacklisted&count=1000&access_token=%@&v=%@", _ownerId, _app.token, _app.version]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if(data){
             if (error){
@@ -355,9 +358,8 @@
                     return;
                 }
                 else{
-          
+                    
                 }
-
             }
             
             NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -366,8 +368,10 @@
                 NSLog(@"%@:%@", jsonData[@"error"][@"error_code"], jsonData[@"error"][@"error_msg"]);
             }
             else{
-                
-                NSRegularExpression *regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    regex = [[NSRegularExpression alloc]initWithPattern:searchBar.stringValue options:NSRegularExpressionCaseInsensitive error:nil];
+                });
+          
                 
                 NSString *city;
                 NSString *status;
@@ -382,7 +386,7 @@
                 NSString *books;
                 NSString *site;
                 NSString *mobilePhone;
-                //                        NSString *phone;
+                //NSString *phone;
                 NSString *photoBig;
                 NSString *photo;
                 NSString *about;
@@ -397,11 +401,7 @@
                 NSInteger blacklisted_by_me;
                 NSInteger counter=0;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     friendsTotalCount.title=[NSString stringWithFormat:@"%i",[jsonData[@"response"][@"count"] intValue]];
-                    
-                    
-                    
                 });
                 if([jsonData[@"response"][@"items"] count]>0){
                     
@@ -659,7 +659,12 @@
     [dataTask resume];
     
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSInteger row;
     if([[FriendsTableView selectedRowIndexes]count]>0){
         row = [FriendsTableView selectedRow];
@@ -667,55 +672,53 @@
     }
  
 }
-
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([FriendsData count]>0) {
         return [FriendsData count];
     }
     return 0;
 }
-
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([FriendsData count]>0) {
-       
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    if ([FriendsData count]>0 && [FriendsData lastObject] && row <= [FriendsData count]) {
+        
         FriendsCustomCellView *cell=[[FriendsCustomCellView alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
         cell.country.stringValue = FriendsData[row][@"country"];
         cell.city.stringValue = FriendsData[row][@"city" ];
         cell.fullName.stringValue = FriendsData[row][@"full_name"];
-//        cell.status.stringValue = FriendsData[row][@"status"];
+        //cell.status.stringValue = FriendsData[row][@"status"];
         [cell.status setAllowsEditingTextAttributes:YES];
-        cell.status.attributedStringValue = [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12];
-
         
-        [cell.status setFont:[NSFont fontWithName:@"Helvetica" size:12]];
         cell.bdate.stringValue = FriendsData[row][@"bdate"];
         cell.lastSeen.stringValue = FriendsData[row][@"last_seen"];
         cell.sex.stringValue = FriendsData[row][@"sex"];
-        NSSize imSize=NSMakeSize(80, 80);
+        
         cell.photo.wantsLayer=YES;
         cell.photo.layer.cornerRadius=40;
         cell.photo.layer.masksToBounds=TRUE;
-
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-              NSImage *imagePhoto = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", FriendsData[row][@"user_photo"]]]];
-             imagePhoto.size=imSize;
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [cell.photo setImage:imagePhoto];
-             });
-         });
-       
-      
-
+        
+        
+        [_stringHighlighter highlightStringWithURLs:FriendsData[row][@"status"] Emails:YES fontSize:12 completion:^(NSMutableAttributedString *highlightedString) {
+            cell.status.attributedStringValue=highlightedString;
+        }];
+        
+        [cell.photo sd_setImageWithPreviousCachedImageWithURL:[NSURL URLWithString:FriendsData[row][@"user_photo"]] placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            NSSize imSize=NSMakeSize(80, 80);
+            image.size=imSize;
+            [cell.photo setImage:image];
+        }];
+        
         if([FriendsData[row][@"online"] isEqual:@"1"]){
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
-//             cell.lastOnline.stringValue = @"";
+            //             cell.lastOnline.stringValue = @"";
         }
         else{
-//             cell.lastOnline.stringValue = FriendsData[row][@"last_seen"];
+            //             cell.lastOnline.stringValue = FriendsData[row][@"last_seen"];
             [cell.online setImage:[NSImage imageNamed:NSImageNameStatusNone]];
         }
-       
+        
         return cell;
     }
     

@@ -11,24 +11,35 @@
 
 @interface FriendsStatGraphs : NSView{
     NSBezierPath *path;
-    CGPathRef pathRef;
-    NSMutableArray *pathRects;
-    NSMutableArray *pathRefs;
-    CGContextRef ctx ;
-    NSRect pathRect;
-    NSInteger selectedPathIndex;
-    NSMutableArray *countryArray;
-    NSMutableArray *countryArrayFinal;
-    BOOL isSelectedBar;
-    NSInteger xOffset;
-    NSInteger totalCountItems;
-    double itemHeight;
-    NSColor *gray1;
-    NSColor *gray2;
-    NSColor *strokeColor;
-    NSMutableArray *countryNames;
+
+    NSMutableArray
+        *pathRects,
+        *pathRefs,
+        *countryNames,
+        *countryArray,
+        *countryArrayFinal;
+    CGContextRef
+        ctx,
+        pathRef;
+    NSRect
+        pathRect,
+        pathRectForOver;
+    NSInteger
+        selectedPathIndex,
+        xOffset,
+        totalCountItems;
+ 
+    NSColor
+        *unselectedBarColor,
+        *selectedBarColor,
+        *strokeColor;
+    
+
      NSArray *sortedArray;
-    NSRect pathRectForOver;
+    
+    BOOL isSelectedBar;
+    double itemHeight;
+    
 }
 @property (nonatomic, readwrite) NSMutableArray *receivedData;
 @property(nonatomic)NSTrackingArea *trackingArea;

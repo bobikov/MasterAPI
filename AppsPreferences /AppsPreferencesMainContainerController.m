@@ -17,13 +17,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
-    
+    NSStoryboard *story2 = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     vkController = [story instantiateControllerWithIdentifier:@"vkPrefs"];
     youtubeController = [story instantiateControllerWithIdentifier:@"youtubePrefs"];
     twitterController = [story instantiateControllerWithIdentifier:@"twitterPrefs"];
     tumblrController = [story instantiateControllerWithIdentifier:@"tumblrPrefs"];
     instaController = [story instantiateControllerWithIdentifier:@"instaPrefs"];
+    
+    vkSetupController = [story2 instantiateControllerWithIdentifier:@"VKLoginViewController"];
+    youtubeSetupController  = [story2 instantiateControllerWithIdentifier:@"YoutubeLoginViewController"];
+    twitterSetupController  = [story2 instantiateControllerWithIdentifier:@"TwitterLoginView"];
+    tumblrSetupController = [story2 instantiateControllerWithIdentifier:@"TumblrLoginViewController"];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeAppsSelector:) name:@"AppsPrefsSelect" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeSetupAppsSelector:) name:@"AppsSetupPrefsSelect" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeBackToInfo:) name:@"backToInfo" object:nil];
+}
+-(void)observeBackToInfo:(NSNotification*)obj{
+    if([obj.userInfo[@"name"] isEqual:@"vkontakte"]){
+        [self switchControllers:vkController];
+    }
+    else if([obj.userInfo[@"name"] isEqual:@"youtube"]){
+        [self switchControllers:youtubeController];
+    }
+    else if([obj.userInfo[@"name"] isEqual:@"twitter"]){
+        [self switchControllers:twitterController];
+    }
+    else if([obj.userInfo[@"name"] isEqual:@"tumblr"]){
+        [self switchControllers:tumblrController];
+    }
 }
 -(void)observeAppsSelector:(NSNotification*)notification{
 //    NSLog(@"%@", notification.userInfo[@"item"]);
@@ -46,6 +68,21 @@
     else if([notification.userInfo[@"item"]  isEqual: @"Instagram"]){
         //        [self setCurrentSelectedMain:notification.userInfo[@"currentSelectorName"] :photoCopyView ];
         [self switchControllers:instaController];
+    }
+}
+-(void)observeSetupAppsSelector:(NSNotification*)notification{
+    
+    if([notification.userInfo[@"name"] isEqual:@"vkontakte"]){
+        [self switchControllers:vkSetupController];
+    }
+    else if([notification.userInfo[@"name"] isEqual:@"youtube"]){
+        [self switchControllers:youtubeSetupController];
+    }
+    else if([notification.userInfo[@"name"] isEqual:@"twitter"]){
+        [self switchControllers:twitterSetupController];
+    }
+    else if([notification.userInfo[@"name"] isEqual:@"tumblr"]){
+        [self switchControllers:tumblrSetupController];
     }
 }
 -(void)switchControllers:(NSViewController*)controller{
@@ -82,7 +119,7 @@
     transition.removedOnCompletion=YES;
     transition.type = kCATransitionPush;
     transition.subtype = kCATransitionFromTop;
-     content.view.wantsLayer=YES;
+    content.view.wantsLayer=YES;
     [content.view.layer addAnimation:transition forKey:nil];
 //    content.view.layer add
 //    [NSView transitionWithView:self.view duration:0.5

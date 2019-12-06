@@ -10,11 +10,15 @@
 #import "appInfo.h"
 #import "DialogsListCustomCellView.h"
 #import "SelectedDialogCustomCellView.h"
+#import "StringHighlighter.h"
 @interface DialogsViewController : NSViewController{
     
 
     __weak IBOutlet NSImageView *logoMessagesOfDialog;
     __unsafe_unretained IBOutlet NSTextView *textOfNewMessage;
+//    __weak IBOutlet NSButton *sendMessageButton;
+    
+    __weak IBOutlet NSButton *deleteDialogs;
     __weak IBOutlet NSButton *sendMessageButton;
     __weak IBOutlet NSTableView *dialogsList;
     __weak IBOutlet NSTableView *selectedDialog;
@@ -30,7 +34,7 @@
     BOOL removeDialog;
     NSInteger loadDialogsOffset;
     NSInteger offsetCounter;
-    __weak IBOutlet NSButton *deleteDialogs;
+//    __weak IBOutlet NSButton *deleteDialogs;
     __weak IBOutlet NSScrollView *dialogsListScrollView;
     __weak IBOutlet NSClipView *dialogsListClipView;
     NSMutableArray *bodies;
@@ -46,6 +50,7 @@
     __weak IBOutlet NSButton *countTotalDialogs;
     __weak IBOutlet NSButton *countLoadedDialogs;
     __weak IBOutlet NSProgressIndicator *progressSpin;
+    StringHighlighter *stringHighlight;
 }
 @property(nonatomic)appInfo *app;
 @property(nonatomic, readwrite)NSMutableArray *dialogsListData;

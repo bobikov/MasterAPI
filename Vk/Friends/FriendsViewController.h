@@ -10,7 +10,7 @@
 #import "appInfo.h"
 #import"FriendsCustomCellView.h"
 #import "StringHighlighter.h"
-
+#import <SYFlatButton/SYFlatButton.h>
 @interface FriendsViewController : NSViewController{
 
     __weak IBOutlet NSSearchField *searchBar;
@@ -40,6 +40,9 @@
     NSMutableArray *friendsListPopupData;
     __weak IBOutlet NSScrollView *scrollView;
     __weak IBOutlet NSTextField *cityField;
+    NSMutableDictionary *cachedImage;
+    NSMutableDictionary *cachedStatus;
+   
 }
 
 @property(nonatomic)appInfo *app;

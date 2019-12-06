@@ -11,12 +11,13 @@
 @interface TasksViewController : NSViewController{
      NSInteger seconds;
     __weak IBOutlet NSTableView *tasksList;
-    NSMutableArray *sessionsData;
     NSInteger newSessionIndex;
     NSInteger totalTasksInSession;
     appInfo *app;
     NSMutableArray *timers;
-    
+    NSMutableArray *targetOwners;
 }
-
+@property(copy,getter=theNewSessionObject) NSMutableDictionary *newSessionObject;
+@property(copy) NSMutableArray *sessionsData;
+-(void)addSession;
 @end

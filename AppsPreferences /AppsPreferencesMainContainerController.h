@@ -15,6 +15,12 @@
     NSViewController *twitterController;
     NSViewController *tumblrController;
     NSViewController *instaController;
+    
+    NSViewController *vkSetupController;
+    NSViewController *youtubeSetupController;
+    NSViewController *twitterSetupController;
+    NSViewController *tumblrSetupController;
+    NSViewController *instaSetupController;
 }
 //@property(nonatomic)NSViewController *vkController;
 

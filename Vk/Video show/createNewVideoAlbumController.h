@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
 #import "VKCaptchaHandler.h"
+
 @interface createNewVideoAlbumController : NSViewController{
     
     __weak IBOutlet NSTextField *newAlbumTitle;
@@ -27,6 +28,7 @@
     dispatch_semaphore_t semaphore;
     BOOL stopFlag;
     NSString *albumName;
+    __weak IBOutlet NSProgressIndicator *progressBar;
 }
 
 @property(nonatomic)appInfo *app;

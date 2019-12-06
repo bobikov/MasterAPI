@@ -10,20 +10,15 @@
 #import "appInfo.h"
 #import "BanlistCustomCell.h"
 #import "StringHighlighter.h"
+#import "SYFlatButton+ButtonsStyle.h"
+#import <NSColor-HexString/NSColor+HexString.h>
 @interface BanlistViewController : NSViewController{
     
     __weak IBOutlet NSTableView *banList;
-    NSMutableArray *banlistData;
-    NSMutableArray *foundData;
     __weak IBOutlet NSClipView *banListClipView;
     __weak IBOutlet NSScrollView *banListScrollView;
-    NSInteger offsetLoadBanlist;
-    NSInteger offsetCounter;
-
     __weak IBOutlet NSPopUpButton *dateFilterOptionsPopup;
     __weak IBOutlet NSButton *countBanned;
-    
-   
     __weak IBOutlet NSButton *banlistStatBut;
     __weak IBOutlet NSButton *totalCount;
     __weak IBOutlet NSButton *loadedCount;
@@ -35,16 +30,26 @@
     __weak IBOutlet NSButton *filterActive;
     __weak IBOutlet NSButton *filterInUserBlacklist;
     __weak IBOutlet NSProgressIndicator *progressSpin;
-    NSMutableArray *banlistDataCopy ;
-    NSMutableArray *selectedUsers;
+    
+    NSMutableArray
+        *banlistDataCopy,
+        *selectedUsers,
+        *foundData,
+        *banlistData;
+
+    
     BOOL searchMode;
+    
     BOOL loading;
-    NSInteger totalCountBanned;
-    NSMutableDictionary *cachedImage;
-   
+    
+    NSInteger
+        totalCountBanned,
+        offsetLoadBanlist;
+ 
 }
 @property (strong) IBOutlet NSArrayController *arrayController;
-@property (nonatomic)NSMutableArray *value;
-@property(nonatomic)appInfo *app;
-@property(nonatomic)StringHighlighter *stringHighlighter;
+@property (nonatomic) NSMutableArray *value;
+@property(nonatomic) appInfo *app;
+@property(nonatomic) StringHighlighter *stringHighlighter;
+
 @end

@@ -28,7 +28,7 @@
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
     YoutubePerms *youtubePerms = [story instantiateControllerWithIdentifier:@"YoutubePerms"];
     _client.oauth_callback = [_client.oauth_callback stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *requestTempTokenURL = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=%@&scope=%@&access_type=%@", _client.request_temp_token_url, _client.oauth_client_id, _client.oauth_callback, _client.oauth_response_type, _client.oauth_scope, _client.oauth_access_type];
+    NSString *requestTempTokenURL = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=%@&scope=%@&access_type=%@&prompt=consent", _client.request_temp_token_url, _client.oauth_client_id, _client.oauth_callback, _client.oauth_response_type, _client.oauth_scope, _client.oauth_access_type];
     NSLog(@"%@", requestTempTokenURL);
     [youtubePerms presentViewControllerAsModalWindow:youtubePerms];
 //    [_client.YSession dataTaskWithURL:[NSURL URLWithString:requestTempTokenURL]];
@@ -44,7 +44,7 @@
     [request setURL:[NSURL URLWithString:_client.request_access_token_url]];
     [[_client.YSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *getAccessTokenResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//        NSLog(@"%@", getAccessTokenResponse);
+        NSLog(@"%@", getAccessTokenResponse);
         NSDictionary *tokenData =@{@"access_token":getAccessTokenResponse[@"access_token"], @"client_id":_client.oauth_client_id, @"client_secret":_client.oauth_client_secret, @"token_type":getAccessTokenResponse[@"token_type"] ? getAccessTokenResponse[@"token_type"] : @"", @"refresh_token":getAccessTokenResponse[@"refresh_token"] ? getAccessTokenResponse[@"refresh_token"] : @""};
         [[NSNotificationCenter defaultCenter]postNotificationName:@"ObserveReadyYoutubeTempToken" object:nil userInfo:tokenData];
     }]resume];

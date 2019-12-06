@@ -12,6 +12,10 @@
 #import "TwitterClient.h"
 #import "PostAttachmentsCustomItem.h"
 #import "TumblrClient.h"
+typedef enum {
+    IMAGE_LINK=0,
+    PREVIEW_LINK
+} post_link_type;
 @interface WallPostViewController : NSViewController{
     
     __weak IBOutlet NSButton *repeat;
@@ -21,22 +25,12 @@
     __weak IBOutlet NSButton *makePost;
     __weak IBOutlet NSButton *stop;
     __weak IBOutlet NSTableView *recentGroups;
-    NSMutableArray *groupsToPost;
-    NSMutableArray *messagesToPost;
     __weak IBOutlet NSTableView *listOfMessages;
     __weak IBOutlet NSProgressIndicator *progressSpin;
     __weak IBOutlet NSBox *radioBox;
     __weak IBOutlet NSButton *postRadio;
     __weak IBOutlet NSButton *commentRadio;
     __weak IBOutlet NSPopUpButton *groupsList;
-    NSMutableArray *groupsData;
-    NSString *groupAvatar;
-    NSString *groupDescription;
-    NSString *groupDeactivated;
-    NSString *groupName;
-    BOOL stopFlag;
-    NSInteger selectedObject;
-    BOOL captchaOpened;
     __weak IBOutlet NSButton *PostVK;
     __weak IBOutlet NSButton *PostTwitter;
     __weak IBOutlet NSButton *postTumblr;
@@ -44,40 +38,75 @@
     __weak IBOutlet NSImageView *cautionImage;
     __weak IBOutlet NSTextField *charCount;
     __weak IBOutlet NSCollectionView *attachmentsCollectionView;
-    NSMutableArray *attachmentsData;
-    NSArray *dataAttachmentsFinalArray;
-    NSString *attachmentsPostVKString;
-    NSString *attachmentsPostVKStringScheduled;
-    NSMutableArray *attachmentsDataScheduled;
-    NSMutableArray *preparedAttachmentsString;
-    NSString *mediaAttachmentType;
     __weak IBOutlet NSTextField *attachmentsCountLabel;
-    int countPhotoInAttachments;
-    int countVideoInAttachments;
-    int countDocsInAttachments;
-    NSMutableArray *indexPaths;
     __weak IBOutlet NSTextField *afterPostIdField;
-    
-    NSString *message;
     __weak IBOutlet NSButton *fromGroup;
-    BOOL reverse;
     __weak IBOutlet NSButton *newSessionStartBut;
     __weak IBOutlet NSTextField *startedSessionStatusLabel;
     __weak IBOutlet NSButton *startedSessionCloseBut;
     __weak IBOutlet NSTextField *newSessionNameField;
     __weak IBOutlet NSButton *addPostToQueueBut;
     __weak IBOutlet NSDatePicker *publishingDateForPost;
-    NSMutableArray *queuePostsInSession;
-    NSString *currentPostsSessionName;
     __weak IBOutlet NSButton *savePostsSessionBut;
-    NSString *owner;
-    NSInteger postAfter;
-    NSInteger repeatState;
+    __weak IBOutlet NSBox *sessionWrapper;
+    
+    __weak IBOutlet NSSegmentedControl *ownersSelectorSegment;
+    __weak IBOutlet NSTableView *preparedListToPost;
+    
+    
+    
+    int
+        countPhotoInAttachments,
+        countDocsInAttachments,
+        countVideoInAttachments,
+        countURLsInAttachments,
+        ownersCounter;
+    
+    NSArray *dataAttachmentsFinalArray;
+    
+    NSMutableArray
+        *groupsData,
+        *groupsToPost,
+        *messagesToPost,
+        *preparedAttachmentsString,
+        *attachmentsDataScheduled,
+        *attachmentsData,
+        *indexPaths,
+        *queuePostsInSession,
+        *preparedOwnersList,
+        *preparedOwnersListScheduled;
+    NSString
+        *groupDescription,
+        *groupDeactivated,
+        *groupName,
+        *groupAvatar,
+        *mediaAttachmentType,
+        *attachmentsPostVKStringScheduled,
+        *attachmentsPostVKString,
+        *message,
+        *currentPostsSessionName,
+        *owner,
+        *alphabet;
+    
+    NSInteger
+        postAfter,
+        selectedObject,
+        repeatState;
+    
     NSMutableString *guId;
-    NSString *alphabet;
     NSMutableDictionary *postTargetSourceSelector;
+    NSManagedObjectContext *moc;
+    
+    BOOL
+        stopFlag,
+        reverse,
+        captchaOpened;
+    
+
+    post_link_type postLinkType;
     
 }
+
 @property(nonatomic)appInfo *app;
 @property(nonatomic)VKCaptchaHandler *captchaHandler;
 @property(nonatomic)TwitterClient *twitterClient;

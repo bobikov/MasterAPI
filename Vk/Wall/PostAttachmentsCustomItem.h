@@ -12,4 +12,5 @@
 @property (weak) IBOutlet NSImageView *previewItem;
 @property (weak) IBOutlet NSTextField *titleItem;
 @property(nonatomic)NSMutableArray *indexPaths;
+@property (weak) IBOutlet NSButton *removeItem;
 @end

@@ -34,42 +34,69 @@
     [outlineAudioPlayer reloadData];
 }
 
--(BOOL)popoverShouldClose:(NSPopover *)popover{
+- (BOOL)popoverShouldClose:(NSPopover *)popover{
     return YES;
 }
-
--(void)loadSelectedAlbum:(id)albumId{
+- (void)viewDidScroll:(NSNotification *)notification{
+    if(notification.object == playlistClip){
+        NSInteger scrollOrigin = [[audioScrollView contentView]bounds].origin.y+NSMaxY([audioScrollView visibleRect]);
+        //    NSInteger numberRowHeights = [playList numberOfRows] * [playList rowHeight];
+        NSInteger boundsHeight = playList.bounds.size.height;
+        //    NSInteger frameHeight = playList.frame.size.height;
+        if (scrollOrigin == boundsHeight) {
+            //Refresh here
+            //         NSLog(@"The end of table");
+            if(!albumLoaded){
+                
+                [self loadAudioPlaylist:YES];
+                
+            }
+            if(searchActive){
+                [self loadSearchResults:YES];
+            }
+            
+        }
+    }
+    //    NSLog(@"%ld", scrollOrigin);
+    //    NSLog(@"%ld", boundsHeight);
+    //    NSLog(@"%fld", frameHeight-300);
+    //
+}
+- (void)loadSelectedAlbum:(id)albumId{
     albumLoaded=YES;
     [playListData removeAllObjects];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/audio.get?owner_id=%@&album_id=%@&count=1000&access_token=%@&v=%@", _app.person, albumId, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *getAudioByAlbumResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        for (NSDictionary *i in getAudioByAlbumResp[@"response"][@"items"]){
-            [playListData addObject:@{@"artist":i[@"artist"], @"title":i[@"title"], @"duration":i[@"duration"], @"url":i[@"url"]}];
-            
+        if(data){
+            NSDictionary *getAudioByAlbumResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            for (NSDictionary *i in getAudioByAlbumResp[@"response"][@"items"]){
+                [playListData addObject:@{@"artist":i[@"artist"], @"title":i[@"title"], @"duration":i[@"duration"], @"url":i[@"url"]}];
+                
+            }
+            NSLog(@"%lu", [playListData count]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [playList reloadData];
+            });
         }
-        NSLog(@"%lu", [playListData count]);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [playList reloadData];
-        });
-
     }]resume];
 }
--(void)loadMyAlbums{
+- (void)loadMyAlbums{
     [myAlbumsData removeAllObjects];
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/audio.getAlbums?owner_id=%@&v=%@&access_token=%@&count=100", _app.person, _app.version, _app.token]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        
-        for(NSDictionary *i in jsonData[@"response"][@"items"]){
-            [myAlbumsData addObject:@{@"title":i[@"title"], @"id":i[@"id"]}];
-           
+        if(data){
+            NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            for(NSDictionary *i in jsonData[@"response"][@"items"]){
+                [myAlbumsData addObject:@{@"title":i[@"title"], @"id":i[@"id"]}];
+                
+            }
+            [_childrenDictionary setObject:[NSArray arrayWithArray:myAlbumsData] forKey:@"My albums"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [outlineAudioPlayer expandItem:nil expandChildren:YES];
+                [outlineAudioPlayer reloadData];
+                //            NSLog(@"%@", myAlbumsData);
+            });
         }
-         [_childrenDictionary setObject:[NSArray arrayWithArray:myAlbumsData] forKey:@"My albums"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-             [outlineAudioPlayer expandItem:nil expandChildren:YES];
-            [outlineAudioPlayer reloadData];
-//            NSLog(@"%@", myAlbumsData);
-        });
     }]resume];
     
 }
@@ -81,12 +108,12 @@
   
     
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     playListDataCopy = [[NSMutableArray alloc]initWithArray:playListData];
     [playListData removeAllObjects];
     [self loadSearchResults:NO];
 }
--(void)loadSearchResults:(BOOL)offset{
+- (void)loadSearchResults:(BOOL)offset{
     searchActive = YES;
       albumLoaded=NO;
     offsetStep = offset ? offsetStep+100 : 0;
@@ -106,37 +133,13 @@
         
     }]resume];
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     searchActive = NO;
     playListData = playListDataCopy;
     [playList reloadData];
 }
--(void)viewDidScroll:(NSNotification *)notification{
-    if(notification.object == playlistClip){
-        NSInteger scrollOrigin = [[audioScrollView contentView]bounds].origin.y+NSMaxY([audioScrollView visibleRect]);
-        //    NSInteger numberRowHeights = [playList numberOfRows] * [playList rowHeight];
-        NSInteger boundsHeight = playList.bounds.size.height;
-        //    NSInteger frameHeight = playList.frame.size.height;
-        if (scrollOrigin == boundsHeight) {
-            //Refresh here
-            //         NSLog(@"The end of table");
-            if(!albumLoaded){
-               
-                    [self loadAudioPlaylist:YES];
-           
-            }
-            if(searchActive){
-                 [self loadSearchResults:YES];
-            }
-            
-        }
-    }
-//    NSLog(@"%ld", scrollOrigin);
-//    NSLog(@"%ld", boundsHeight);
-//    NSLog(@"%fld", frameHeight-300);
-//
-}
--(id)timeConvert:(NSInteger)seconds{
+
+- (id)timeConvert:(NSInteger)seconds{
     NSInteger elapsedTimeSeconds;
     NSInteger elapsedTimeMinutes;
     NSInteger elapsedTimeHours;
@@ -152,7 +155,7 @@
     }
     return time;
 }
--(void)loadAudioPlaylist:(BOOL)makeOffset{
+- (void)loadAudioPlaylist:(BOOL)makeOffset{
     albumLoaded=NO;
     __block void (^loadData)(int offset);
     if(makeOffset){
@@ -164,26 +167,28 @@
     loadData = ^(int offset){
        
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/audio.get?owner_id=%@&count=100&v=%@&offset=%d&access_token=%@", _app.person, _app.version, offset, _app.token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *audioGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for (NSDictionary *i in audioGetResponse[@"response"][@"items"]){
-                [playListData addObject:@{@"artist":i[@"artist"], @"title":i[@"title"], @"duration":i[@"duration"], @"url":i[@"url"]}];
-                
+            if(data){
+                NSDictionary *audioGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                for (NSDictionary *i in audioGetResponse[@"response"][@"items"]){
+                    [playListData addObject:@{@"artist":i[@"artist"], @"title":i[@"title"], @"duration":i[@"duration"], @"url":i[@"url"]}];
+                    
+                }
+                NSLog(@"%lu", [playListData count]);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [playList reloadData];
+                });
             }
-             NSLog(@"%lu", [playListData count]);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [playList reloadData];
-            });
         }] resume];
     };
     loadData(offsetLoadPlylist);
 
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if([tableView isEqual:playList]){
         if([playListData count]>0){
             return [playListData count];
@@ -192,7 +197,7 @@
   
     return 0;
 }
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if([tableView isEqual:playList]){
         if([playListData count]>0){
             CustomAudioPlayerCell *cell = [[CustomAudioPlayerCell alloc]init];

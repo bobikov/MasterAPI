@@ -41,7 +41,7 @@
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KG6-23-aep">
                     <rect key="frame" x="134" y="129" width="18" height="18"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="remove_transp_25" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="IWP-T5-Bhq">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="IWP-T5-Bhq">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -167,12 +167,12 @@
     </objects>
     <resources>
         <image name="NSListViewTemplate" width="14" height="10"/>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="add_plus40" width="180" height="180"/>
         <image name="close15px2" width="18" height="19"/>
         <image name="download15px" width="15" height="15"/>
         <image name="link1_15px" width="15" height="15"/>
         <image name="prefs15px" width="15" height="15"/>
-        <image name="remove_transp_25" width="25" height="25"/>
         <image name="upload15px" width="15" height="15"/>
     </resources>
 </document>

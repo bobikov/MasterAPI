@@ -15,7 +15,7 @@
 
 @interface VKLoginViewController : NSViewController{
     __weak IBOutlet NSTextField *appId;
-    __weak IBOutlet NSButton *rememberApp;
+   
     __weak IBOutlet NSProgressIndicator *progressLoad;
     __weak IBOutlet NSButton *addApp;
     NSString *app_id;
@@ -31,11 +31,13 @@
     NSString *screenName;
     NSString *desc;
     NSArray *apps;
+    NSString *service_token;
     NSManagedObject *prevObject;
     BOOL selected;
     __weak IBOutlet NSPopUpButton *appList;
-   
-    
+    __weak IBOutlet NSButton *backToInfoButton;
+    NSManagedObjectContext *moc;
+    __weak IBOutlet NSPopUpButton *advancedOptions;
 }
 @property (weak) IBOutlet WebView *WebView;
 @property (nonatomic) keyHandler *keyHandle;

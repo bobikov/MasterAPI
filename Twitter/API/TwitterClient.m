@@ -35,7 +35,7 @@
 - (id)initWithTokensFromCoreData{
     _TSession = [NSURLSession  sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self = [self init];
-    _TwitterRWD= [[TwitterRWData alloc]init];
+    _TwitterRWD = [[TwitterRWData alloc]init];
     NSDictionary *tokens = [_TwitterRWD readTwitterTokens];
     
     return [self initWithToken:tokens[@"token"] secretToken:tokens[@"secret_token"] consumerKey:tokens[@"consumer_key"] consumerSecret:tokens[@"consumer_secret_key"]];
@@ -49,7 +49,7 @@
     _oauth_consumer_secret_key = consumerSecret;
     return self;
 }
--(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnComplete)completion{
+-(void)APIRequest:(NSString*)amethod rmethod:(NSString*)bmethod query:(NSDictionary*)rparams handler:(OnCompleteTwitterRequest)completion{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -60,7 +60,8 @@
         __block NSString *method;
         __block NSString *requestHeader;
         queryComponents.queryItems = [self getQueryItems:rparams];
-        queryString = [queryComponents query];
+        queryString = ![[queryComponents query] isEqual:@""]?[queryComponents query]:nil;
+//        NSLog(@"Query string %@", queryString);
         adMethodsJoin = [NSString stringWithFormat:@"%@/%@", amethod, bmethod];
         method = [[NSString stringWithFormat:@"%@%@", _oauth_base_method, adMethodsJoin] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         
@@ -174,12 +175,10 @@
                 
             }];
         }
-      
-     
-        
+
     });
 }
--(void)startRequest:(OnComplete)completion{
+-(void)startRequest:(OnCompleteTwitterRequest)completion{
     [[_TSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             completion(data);
         
@@ -193,8 +192,8 @@
     [request valueForHTTPHeaderField:[NSString stringWithFormat:@"%@ /1.1/%@?%@", @"POST", adMethodsJoin,queryString]];
     [request setValue:[self createHeader] forHTTPHeaderField:@"Authorization"];
     [request setValue:@"api.twitter.com" forHTTPHeaderField:@"Host"];
-     [request setValue:@"Keep-Alive" forHTTPHeaderField:@"Connection"];
-      [request setValue:@"https://api.twitter.com" forHTTPHeaderField:@"X-Target-URI"];
+    [request setValue:@"Keep-Alive" forHTTPHeaderField:@"Connection"];
+    [request setValue:@"https://api.twitter.com" forHTTPHeaderField:@"X-Target-URI"];
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", _oauth_base_method, adMethodsJoin ]]];
     [request setHTTPBody:[queryString dataUsingEncoding:NSUTF8StringEncoding]];
     
@@ -230,6 +229,7 @@
     return dataString;
 }
 -(id)sortSignComponents:(id)signComponents{
+   
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc]init];
     
     for (NSString *keyValuePair in signComponents)
@@ -262,7 +262,7 @@
     NSString *encodedBuiltSignature;
     NSString *encodedSignComponents;
     _keyForHash = [NSString stringWithFormat:@"%@&%@", [_oauth_consumer_secret_key stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]], [_oauth_token_secret stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
-    NSLog(@"%@", mediaData);
+//    NSLog(@"%@", mediaData);
     if(mediaData){
         preparedSignatureComponents = [NSString stringWithFormat:@"%@&oauth_consumer_key=%@&oauth_nonce=%@&oauth_signature_method=%@&oauth_timestamp=%@&oauth_token=%@&oauth_version=%@", [NSString stringWithFormat:@"image=%@", mediaData], _oauth_consumer_key, _oauth_nonce, _oauth_signature_method, _oauth_timestamp, _oauth_token, _oauth_version];
     }
@@ -270,11 +270,11 @@
          preparedSignatureComponents = [NSString stringWithFormat:@"oauth_consumer_key=%@&oauth_nonce=%@&oauth_signature_method=%@&oauth_timestamp=%@&oauth_token=%@&oauth_version=%@", _oauth_consumer_key, _oauth_nonce, _oauth_signature_method, _oauth_timestamp, _oauth_token, _oauth_version];
     }
     else {
-        preparedSignatureComponents = [NSString stringWithFormat:@"%@&oauth_consumer_key=%@&oauth_nonce=%@&oauth_signature_method=%@&oauth_timestamp=%@&oauth_token=%@&oauth_version=%@", query , _oauth_consumer_key, _oauth_nonce, _oauth_signature_method, _oauth_timestamp, _oauth_token, _oauth_version];
+        preparedSignatureComponents = [NSString stringWithFormat:@"%@oauth_consumer_key=%@&oauth_nonce=%@&oauth_signature_method=%@&oauth_timestamp=%@&oauth_token=%@&oauth_version=%@",query? [NSString stringWithFormat:@"%@&", query]:@"", _oauth_consumer_key, _oauth_nonce, _oauth_signature_method, _oauth_timestamp, _oauth_token, _oauth_version];
     }
     
     NSString *sortedSignComponents = [self sortSignComponents:[preparedSignatureComponents componentsSeparatedByString:@"&"]];
-    
+//    NSLog(@"sortedSignComponents %@", sortedSignComponents);
     encodedSignComponents = [[[[[[[[[[[[sortedSignComponents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"&" withString:@"%26"] stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"]stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"]stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"] stringByReplacingOccurrencesOfString:@"!" withString:@"%21"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"'" withString:@"%27"]stringByReplacingOccurrencesOfString:@"(" withString:@"%28"]stringByReplacingOccurrencesOfString:@")" withString:@"%29"];
     
     if(httpMethod==nil && mediaData==nil && query==nil){
@@ -284,9 +284,9 @@
     else{
         preparedSignature = [NSString stringWithFormat:@"%@&%@&%@", httpMethod, method, encodedSignComponents];
     }
-     NSLog(@"%@", preparedSignature);
+//     NSLog(@"%@", preparedSignature);
     encodedBuiltSignature =  [[[[[[[[[self hash:preparedSignature secret:_keyForHash] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]stringByReplacingOccurrencesOfString:@"*" withString:@"%2A"] stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"]stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"] stringByReplacingOccurrencesOfString:@"?" withString:@"%3F"]stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
-   
+//    NSLog(@"%@", encodedBuiltSignature);
     return encodedBuiltSignature;
 }
 -(id)createHeader{

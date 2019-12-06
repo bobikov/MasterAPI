@@ -58,23 +58,30 @@
     NSString *flv;
     NSString *html = [_WebView stringByEvaluatingJavaScriptFromString:
                       @"document.body.innerHTML"];
-//    NSLog(@"HTML : %@", html);
+    //NSLog(@"HTML : %@", html);
 //    sleep(3);
     if(html!=nil){
        
-        NSRegularExpression *regxp240 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.vk.me.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.240.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regxp240 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.userapi.com.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.240.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regxp360 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.userapi.com.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.360.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regxp480 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.userapi.com.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.480.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regxp720 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.userapi.com.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.720.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+
+        
+        
         NSTextCheckingResult *found240 = [regxp240 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
+        
         NSRange group240 = [found240 rangeAtIndex:0];
         url240 = [[html substringWithRange:group240] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        NSRegularExpression *regxp360 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.vk.me.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.360.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+     
         NSTextCheckingResult *found360 = [regxp360 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
         NSRange group360 = [found360 rangeAtIndex:0];
         url360 = [[html substringWithRange:group360] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        NSRegularExpression *regxp480 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.vk.me.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.480.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+      
         NSTextCheckingResult *found480 = [regxp480 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
         NSRange group480 = [found480 rangeAtIndex:0];
         url480 = [[html substringWithRange:group480] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        NSRegularExpression *regxp720 = [NSRegularExpression regularExpressionWithPattern:@"https:.{4}cs\\d{1,6}.vk.me.{2}(\\d.{2})?u\\d{1,9}.{2}videos.{2}.{1,10}.720.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
+       
         NSTextCheckingResult *found720 = [regxp720 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
         NSRange group720 = [found720 rangeAtIndex:0];
         url720 = [[html substringWithRange:group720] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
@@ -83,22 +90,8 @@
         NSTextCheckingResult *flvVideo = [flvRegexp firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
         NSRange flvRange = [flvVideo rangeAtIndex:0];
         flv = [[html substringWithRange:flvRange] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-
-//        @"https:\/\/cs508603.vk.me\/7\/u335296018\/videos\/4c975bfeb3.720.mp4";
-//        NSRegularExpression *regxp360_2 = [NSRegularExpression regularExpressionWithPattern:@"https:.{8}cs\\d{6}.vk.me.{4}\\d.{4}u\\d{1,9}.{4}videos.{4}.{1,10}.360.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
-//        NSTextCheckingResult *found360_2 = [regxp360 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
-//        NSRange group360_2 = [found360 rangeAtIndex:0];
-//        url360 = [[html substringWithRange:group360] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-//        NSRegularExpression *regxp480_2 = [NSRegularExpression regularExpressionWithPattern:@"https:.{8}cs\\d{6}.vk.me.{4}\\d.{4}u\\d{1,9}.{4}videos.{4}.{1,10}.480.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
-//        NSTextCheckingResult *found480 = [regxp480 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
-//        NSRange group480 = [found480_2 rangeAtIndex:0];
-//        url480 = [[html substringWithRange:group480] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-//        NSRegularExpression *regxp720_2 = [NSRegularExpression regularExpressionWithPattern:@"https:.{8}cs\\d{6}.vk.me.{4}\\d.{4}u\\d{1,9}.{4}videos.{4}.{1,10}.720.mp4" options:NSRegularExpressionCaseInsensitive error:nil];
-//        NSTextCheckingResult *found720 = [regxp720 firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
-//        NSRange group720 = [found720 rangeAtIndex:0];
-//        url720 = [[html substringWithRange:group720] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        //    NSLog(@"%@", [[html substringWithRange:group8] stringByReplacingOccurrencesOfString:@"\\" withString:@""]);
-        //        NSLog(@"%@", page);
+        
+        
         NSString *source720 = [url720 containsString:@"720.mp4"] ? [NSString stringWithFormat:@"<source src='%@' type='video/mp4' label='720' />", url720] : @"";
         NSString *source480 = [url480 containsString:@"480.mp4"] ?  [NSString stringWithFormat:@"<source src='%@' type='video/mp4' label='480' />", url480] : @"";
         NSString *source360 = [url360 containsString:@"360.mp4"] ? [NSString stringWithFormat:@"<source src='%@' type='video/mp4' label='360'/> ", url360] : @"";

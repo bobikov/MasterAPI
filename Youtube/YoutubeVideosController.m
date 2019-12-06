@@ -12,6 +12,7 @@
 #import "YoutubeVideoPlayerController.h"
 #import "YoutubeVideosAddToSocialsController.h"
 #import "YoutubeAddToPlaylistController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface YoutubeVideosController ()<NSTableViewDelegate, NSTableViewDataSource, NSSearchFieldDelegate>
 
@@ -34,17 +35,127 @@
     [[subscriptionsScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
 //     [self loadSubscriptions:NO];
-  
-    
     [self loadSubscriptionsFromData];
     
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
    
+}
+- (void)viewDidScroll:(NSNotification *)notification{
+    if([notification.object isEqual:loadedItemsListClip]){
+        NSInteger scrollOrigin = [[loadedItemsListScroll contentView]bounds].origin.y+NSMaxY([loadedItemsListScroll visibleRect]);
+        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
+        NSInteger boundsHeight = loadedItemsList.bounds.size.height;
+        //    NSInteger frameHeight = subscribersList.frame.size.height;
+        if (scrollOrigin == boundsHeight+2) {
+            //Refresh here
+            //         NSLog(@"The end of table");
+            if(pageToken!=nil){
+                if(lastAction==PLAYLIST_LOADED){
+                    [self loadPlaylist:YES];
+                }
+                else if(lastAction==CHANNEL_VIDEOS_LOADED){
+                    [self loadVideos:YES];
+                }
+                else if(lastAction==BROADCASTS_LOADED){
+                    [self loadLiveBroadcasts:@{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50} offset:YES];
+                }
+                else if(lastAction==GLOBAL_SEARCH_LOADED){
+                    [self globalVideosSearch:YES string:[videosSearchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
+                }
+                else if(lastAction==LIKED_LOADED){
+                    [self loadLikedVideos:YES];
+                }
+                else if (lastAction==USER_PLAYLISTS_LOADED){
+                    return;
+                }
+            }
+        }
+        //        NSLog(@"%ld", scrollOrigin);
+        //        NSLog(@"%ld", boundsHeight);
+        //    NSLog(@"%fld", frameHeight-300);
+        //
+    }else if([notification.object isEqual:subscriptionsClip]){
+        NSInteger scrollOrigin = [[subscriptionsScroll contentView]bounds].origin.y+NSMaxY([subscriptionsScroll visibleRect]);
+        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
+        NSInteger boundsHeight = subscriptionsList.bounds.size.height;
+        //    NSInteger frameHeight = subscribersList.frame.size.height;
+        if (scrollOrigin == boundsHeight+2) {
+            if(loadSubscriptions){
+                [self loadSubscriptions:YES];
+            }
+        }
+    }
+    
+}
+
+- (IBAction)likedButtonAction:(id)sender {
+    
+    [self loadLikedVideos:NO];
+
+}
+- (void)loadLikedVideos:(BOOL)offset{
+    lastAction = LIKED_LOADED;
+    if(playlistID){
+        if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
+            if(offset){
+                queryParams = @{@"playlistId":playlistID, @"part":@"snippet", @"maxResults":@50, @"pageToken":pageToken};
+            }else{
+                [loadedItemsData removeAllObjects];
+                queryParams = @{@"playlistId":playlistID, @"part":@"snippet", @"maxResults":@50};
+            }
+            [_youtubeClient APIRequest:@"playlistItems" query:queryParams handler:^(NSData *data) {
+                NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+                for(NSDictionary *i in getVideosResp[@"items"]){
+                    NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
+                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],thumb,i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
+                    [loadedItemsData addObject:object];
+                    
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [loadedItemsList reloadData];
+                });
+            }];
+        }
+
+    }else{
+        [loadedItemsData removeAllObjects];
+        [_youtubeClient APIRequest:@"channels" query:@{@"part":@"snippet,contentDetails", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
+            if(data){
+                NSDictionary *channelsResp  = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"%@", channelsResp);
+                playlistID = channelsResp[@"items"][0][@"contentDetails"][@"relatedPlaylists"][@"likes"];
+                [_youtubeClient APIRequest:@"playlistItems" query:@{@"playlistId":playlistID, @"part":@"snippet", @"maxResults":@50} handler:^(NSData *data) {
+                    NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+                    for(NSDictionary *i in getVideosResp[@"items"]){
+                        NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
+                        NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],thumb,i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
+                        [loadedItemsData addObject:object];
+                        
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [loadedItemsList reloadData];
+                    });
+                }];
+            }
+        }];
+    }
+}
+- (void)channels{
+    [_youtubeClient APIRequest:@"channels" query:@{@"part":@"snippet,contentDetails", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
+        if(data){
+            NSDictionary *channelsResp  = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"%@", channelsResp);
+        }
+        
+    }];
 }
 - (IBAction)loadMinePlaylists:(id)sender {
     [loadedItemsData removeAllObjects];
     playlistLoaded=YES;
+    lastAction=USER_PLAYLISTS_LOADED;
     [_youtubeClient APIRequest:@"playlists" query:@{@"part":@"snippet", @"mine":@"true", @"maxResults":@50} handler:^(NSData *data) {
         NSDictionary *playlistsMineResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         for(NSDictionary *i in playlistsMineResp[@"items"]){
@@ -55,7 +166,6 @@
         });
     }];
 }
-
 - (IBAction)showPlaylistsByChannel:(id)sender {
     playlistLoaded=YES;
     [loadedItemsData removeAllObjects];
@@ -77,44 +187,6 @@
     }];
     
 }
--(void)viewDidScroll:(NSNotification *)notification{
-    if([notification.object isEqual:loadedItemsListClip]){
-        NSInteger scrollOrigin = [[loadedItemsListScroll contentView]bounds].origin.y+NSMaxY([loadedItemsListScroll visibleRect]);
-        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
-        NSInteger boundsHeight = loadedItemsList.bounds.size.height;
-        //    NSInteger frameHeight = subscribersList.frame.size.height;
-        if (scrollOrigin == boundsHeight+2) {
-            //Refresh here
-            //         NSLog(@"The end of table");
-            if(pageToken!=nil){
-                if(lastAction==0){
-                    [self loadVideos:YES];
-                }
-                else if(lastAction==1){
-                    [self loadLiveBroadcasts:@{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50} offset:YES];
-                }
-                else if(lastAction==3){
-                    [self globalVideosSearch:YES string:[videosSearchBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
-                }
-            }
-        }
-        //        NSLog(@"%ld", scrollOrigin);
-        //        NSLog(@"%ld", boundsHeight);
-        //    NSLog(@"%fld", frameHeight-300);
-        //
-    }else if([notification.object isEqual:subscriptionsClip]){
-        NSInteger scrollOrigin = [[subscriptionsScroll contentView]bounds].origin.y+NSMaxY([subscriptionsScroll visibleRect]);
-        //    NSInteger numberRowHeights = [subscribersList numberOfRows] * [subscribersList rowHeight];
-        NSInteger boundsHeight = subscriptionsList.bounds.size.height;
-        //    NSInteger frameHeight = subscribersList.frame.size.height;
-        if (scrollOrigin == boundsHeight+2) {
-            if(loadSubscriptions){
-                [self loadSubscriptions:YES];
-            }
-        }
-    }
-    
-}
 - (IBAction)showLivesOfChannel:(id)sender {
     playlistLoaded=NO;
     [loadedItemsData removeAllObjects];
@@ -128,14 +200,15 @@
 }
 - (IBAction)showLiveBroadcasts:(id)sender {
     playlistLoaded=NO;
-     lastAction = 1;
+    lastAction = BROADCASTS_LOADED;
     [self loadLiveBroadcasts:@{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50} offset:NO];
    
+
 }
--(void)loadLiveBroadcasts:(NSDictionary*)query offset:(BOOL)offset{
+- (void)loadLiveBroadcasts:(NSDictionary*)query offset:(BOOL)offset{
     
     if(offset){
-        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel, @"pageToken":pageToken};
+        queryParams = lastAction == BROADCASTS_LOADED ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"pageToken":pageToken} : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50, @"channelId":channel,@"regionCode":@"RU", @"pageToken":pageToken};
         
     }
     else{
@@ -144,8 +217,8 @@
                 [loadedItemsList removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [loadedItemsData count])] withAnimation:NSTableViewAnimationEffectNone];
             }
         });
-        queryParams = lastAction==1 ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50}
-      : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50,  @"channelId":channel};
+        queryParams = lastAction==BROADCASTS_LOADED ? @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50}
+      : @{@"part":@"snippet", @"eventType":@"live", @"type":@"video", @"maxResults":@50,  @"channelId":channel,@"regionCode":@"RU"};
         //        offsetCounter=0;
         [loadedItemsData removeAllObjects];
     }
@@ -180,7 +253,7 @@
 //
 
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     if(sender == searchSubscriptionsBar){
        
         switch (subscriptionsSearchSelector.selectedSegment) {
@@ -209,13 +282,13 @@
         }
     }
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     if(sender == searchSubscriptionsBar){
         subscriptionsData = subscriptionsDataCopy;
         [subscriptionsList reloadData];
     }
 }
--(void)globalVideosSearch:(BOOL)offset string:(id)string{
+- (void)globalVideosSearch:(BOOL)offset string:(id)string{
     lastAction=3;
     if(offset){
         queryParams = @{@"part":@"snippet",  @"type":@"video", @"q":string, @"maxResults":@50, @"pageToken":pageToken};
@@ -266,7 +339,7 @@
         }
     }];
 }
--(void)subscriptionsGlobalSearch{
+- (void)subscriptionsGlobalSearch{
     subscriptionsDataCopy = [[NSMutableArray alloc]initWithArray:subscriptionsData];
     [subscriptionsData removeAllObjects];
     NSString *searchString = [searchSubscriptionsBar.stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
@@ -302,7 +375,7 @@
     
     
 }
--(void)loadSearchSubscriptionsList{
+- (void)loadSearchSubscriptionsList{
     
     NSInteger counter=0;
     NSMutableArray *SubscriptionsDataTemp=[[NSMutableArray alloc]init];
@@ -325,7 +398,7 @@
     }
     
 }
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"YoutubePlayerSegue"]){
         YoutubeVideoPlayerController *controller = (YoutubeVideoPlayerController *)segue.destinationController;
         NSView *parentCell = [sender superview];
@@ -350,112 +423,128 @@
         controller.receivedData = objects;
     }
 }
-
 - (IBAction)openPlaylist:(id)sender {
     playlistLoaded=NO;
-    
+    lastAction=PLAYLIST_LOADED;
     NSView *parentCell = [sender superview];
     NSInteger row = [loadedItemsList rowForView:parentCell];
 //    NSLog(@"%@", subscriptionsData[row][@"id"]);
-    NSString *playlist = loadedItemsData[row][@"playlist_id"];
-//    NSLog(@"%@", playlist);
-//    [loadedItemsData removeAllObjects];
-    [_youtubeClient APIRequest:@"playlistItems" query:@{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50} handler:^(NSData *data) {
-        NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        
-        for(NSDictionary *i in getVideosResp[@"items"]){
-            NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
-            [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
-
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [loadedItemsList reloadData];
-        });
-
-    }];
-    
-        
-  
+    playlist = loadedItemsData[row][@"playlist_id"];
+    NSLog(@"PLAYLIST LOADED: %@", playlist);
+    [self loadPlaylist:NO];
+   
 
 }
-
+- (void)loadPlaylist:(BOOL)offset{
+   
+    if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
+        if(offset){
+            queryParams = @{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50, @"pageToken":pageToken};
+        }
+        else{
+            [loadedItemsData removeAllObjects];
+            queryParams = @{@"playlistId":playlist, @"part":@"snippet", @"maxResults":@50};
+        }
+        
+        [_youtubeClient APIRequest:@"playlistItems" query:queryParams handler:^(NSData *data) {
+            NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+            for(NSDictionary *i in getVideosResp[@"items"]){
+                NSString *thumb = i[@"snippet"][@"thumbnails"][@"default"][@"url"]!=nil ? i[@"snippet"][@"thumbnails"][@"default"][@"url"] : @"";
+                [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":thumb, @"video_id":i[@"snippet"][@"resourceId"][@"videoId"]}];
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [loadedItemsList reloadData];
+            });
+        
+        }];
+    }
+}
 - (IBAction)loadVideosByChannel:(id)sender {
-  
     NSView *parentCell = [sender superview];
     NSInteger row = [subscriptionsList rowForView:parentCell];
     NSLog(@"%@", subscriptionsData[row][@"id"]);
     channel =subscriptionsData[row][@"id"];
     [self loadVideos:NO];
 }
--(void)loadVideos:(BOOL)offset {
+- (void)loadVideos:(BOOL)offset {
+    
     playlistLoaded=NO;
+    __block void(^loadVideosBlock)();
 //    [loadedItemsData removeAllObjects];
-    lastAction = 0;
-//    offset ? nil :  [loadedItemsData removeAllObjects];
-    [_youtubeClient APIRequest:@"channels" query:@{@"part":@"contentDetails", @"maxResults":@50, @"id":channel} handler:^(NSData *data) {
-        if(data){
-            NSDictionary *searchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if(searchResp[@"error"]){
-                if ([searchResp[@"error"][@"code"]intValue]==401){
-                    [_youtubeClient refreshToken:^(NSData *data){
-                        NSDictionary *refreshTokenResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                        //                    NSLog(@"%@", refreshTokenResponse);
-                        
-                        [_youtubeRWData updateYoutubeToken:refreshTokenResponse];
-                        _youtubeClient = [[YoutubeClient alloc] initWithTokensFromCoreData];
-                        
-                    }];
-                }else{
-                    NSLog(@"%@", searchResp[@"error"]);
+    loadVideosBlock = ^void(){
+        [_youtubeClient APIRequest:@"channels" query:@{@"part":@"contentDetails", @"maxResults":@50, @"id":channel} handler:^(NSData *data) {
+            if(data){
+                NSDictionary *searchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                if(searchResp[@"error"]){
+                    if ([searchResp[@"error"][@"code"]intValue]==401){
+                        [_youtubeClient refreshToken:^(NSData *data){
+                            NSDictionary *refreshTokenResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                            //                    NSLog(@"%@", refreshTokenResponse);
+                            
+                            [_youtubeRWData updateYoutubeToken:refreshTokenResponse];
+                            _youtubeClient = [[YoutubeClient alloc] initWithTokensFromCoreData];
+                            loadVideosBlock();
+                            
+                        }];
+                    }else{
+                        NSLog(@"%@", searchResp[@"error"]);
+                    }
                 }
-            }
-            else{
-                if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
-                    if(offset){
-                        queryParams = @{@"playlistId":searchResp[@"items"][0][@"contentDetails"][@"relatedPlaylists"][@"uploads"], @"part":@"snippet,contentDetails", @"maxResults":@50, @"pageToken":pageToken};
-                        
-                    }
-                    else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if([loadedItemsData count]>0){
-                                [loadedItemsList removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [loadedItemsData count])] withAnimation:NSTableViewAnimationEffectNone];
-                            }
-                        });
-                        
-                        queryParams = @{@"playlistId":searchResp[@"items"][0][@"contentDetails"][@"relatedPlaylists"][@"uploads"], @"part":@"snippet", @"maxResults":@50};
-                        [loadedItemsData removeAllObjects];
-                        //        offsetCounter=0;
-                    }
-                    
-                    [_youtubeClient APIRequest:@"playlistItems" query:queryParams handler:^(NSData *data) {
-                        if(data){
-                            NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//                                            NSLog(@"%@", getVideosResp);
-                            pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+                else{
+                    if((pageToken && offset) || (pageToken && !offset) || (!pageToken && !offset) ) {
+                        if(offset){
+                            queryParams = @{@"playlistId":searchResp[@"items"][0][@"contentDetails"][@"relatedPlaylists"][@"uploads"], @"part":@"snippet,contentDetails", @"maxResults":@50, @"pageToken":pageToken};
                             
-                            for(NSDictionary *i in getVideosResp[@"items"]){
-                                NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],i[@"snippet"][@"thumbnails"][@"default"][@"url"],i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
-//                                [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":i[@"snippet"][@"thumbnails"][@"default"][@"url"], @"video_id":i[@"snippet"][@"resourceId"][@"videoId"], @"desc":i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""}];
-                                [loadedItemsData addObject:object];
-                            }
-                            
+                        }
+                        else{
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [loadedItemsList reloadData];
+                                if([loadedItemsData count]>0){
+                                    [loadedItemsList removeRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [loadedItemsData count])] withAnimation:NSTableViewAnimationEffectNone];
+                                }
                             });
                             
-                            //}else{
-                            //NSLog(@"All videos loaded");
-                            //}
+                            queryParams = @{@"playlistId":searchResp[@"items"][0][@"contentDetails"][@"relatedPlaylists"][@"uploads"], @"part":@"snippet", @"maxResults":@50};
+                            [loadedItemsData removeAllObjects];
+                            //        offsetCounter=0;
                         }
-                    }];
+                        
+                        [_youtubeClient APIRequest:@"playlistItems" query:queryParams handler:^(NSData *data) {
+                            if(data){
+                                NSDictionary *getVideosResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                //                                            NSLog(@"%@", getVideosResp);
+                                pageToken = getVideosResp[@"nextPageToken"] && getVideosResp[@"nextPageToken"] !=nil? getVideosResp[@"nextPageToken"] : nil ;
+                                
+                                for(NSDictionary *i in getVideosResp[@"items"]){
+                                    NSMutableDictionary *object = [[NSMutableDictionary alloc]initWithObjects:@[i[@"snippet"][@"title"],[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]],i[@"snippet"][@"thumbnails"][@"default"][@"url"],i[@"snippet"][@"resourceId"][@"videoId"],i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""] forKeys:@[@"title",@"publishedAt",@"thumb",@"video_id",@"desc"]];
+                                    //                                [loadedItemsData addObject:@{@"title":i[@"snippet"][@"title"], @"publishedAt":[NSString stringWithFormat:@"%@", i[@"snippet"][@"publishedAt"]], @"thumb":i[@"snippet"][@"thumbnails"][@"default"][@"url"], @"video_id":i[@"snippet"][@"resourceId"][@"videoId"], @"desc":i[@"snippet"][@"description"] && i[@"snippet"][@"description"]!=nil?i[@"snippet"][@"description"]:@""}];
+                                    [loadedItemsData addObject:object];
+                                }
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [loadedItemsList reloadData];
+                                });
+                                
+                                //}else{
+                                //NSLog(@"All videos loaded");
+                                //}
+                            }
+                        }];
+                    }
+                    
                 }
-                
             }
-        }
+            
+        }];
         
-    }];
+    };
+    lastAction = CHANNEL_VIDEOS_LOADED;
+    loadVideosBlock();
+//    offset ? nil :  [loadedItemsData removeAllObjects];
+    
 }
--(void)loadSubscriptions:(BOOL)offset{
+- (void)loadSubscriptions:(BOOL)offset{
     
     
     if(offset){
@@ -509,7 +598,7 @@
     }];
 
 }
--(void)loadSubscriptionsFromData{
+- (void)loadSubscriptionsFromData{
     if([[_youtubeRWData readSubscriptions] count]>0){
         subscriptionsData = [_youtubeRWData readSubscriptions];
         [subscriptionsList reloadData];
@@ -522,7 +611,10 @@
         [self loadSubscriptions:NO];
     }
 }
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+
+
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     NSIndexSet *rows = [loadedItemsList selectedRowIndexes];
 //    videoVkData = loadedItemsData[row];
     if([rows count]>0){
@@ -536,7 +628,7 @@
     
     
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if(tableView == subscriptionsList){
         return [subscriptionsData count];
     }else if(tableView == loadedItemsList){
@@ -544,7 +636,7 @@
     }
     return 0;
 }
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     if(tableView == subscriptionsList){
         YoutubeSubscriptionsCustomCell *cell = [[YoutubeSubscriptionsCustomCell alloc]init];
         cell = [tableView makeViewWithIdentifier:@"MainCell" owner:self];
@@ -552,17 +644,22 @@
         cell.photo.wantsLayer=YES;
         cell.photo.layer.masksToBounds=YES;
         cell.photo.layer.cornerRadius=40/2;
-      
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]]];
+//      
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]]];
+//            NSImageRep *rep = [[image representations] objectAtIndex:0];
+//            NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//            image.size=imageSize;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [cell.photo setImage:image];
+//            });
+//        });
+        [cell.photo sd_setImageWithURL:[NSURL URLWithString:subscriptionsData[row][@"thumb_def"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             NSImageRep *rep = [[image representations] objectAtIndex:0];
             NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
             image.size=imageSize;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cell.photo setImage:image];
-            });
-        });
-      
+            [cell.photo setImage:image];
+        }];
         return cell;
     }else if(tableView == loadedItemsList){
         YoutubeVideosCustomCell *cell = [[YoutubeVideosCustomCell alloc]init];
@@ -585,18 +682,27 @@
             cell.openPlaylistButton.hidden=YES;
         }
         if(![loadedItemsData[row][@"thumb"] isEqual:@""]){
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:loadedItemsData[row][@"thumb"]]];
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:loadedItemsData[row][@"thumb"]]];
+//                NSImageRep *rep = [[image representations] objectAtIndex:0];
+//                NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
+//                image.size=imageSize;
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [cell.thumb setImage:image];
+//                });
+//            });
+            [cell.thumb sd_setImageWithURL:[NSURL URLWithString:loadedItemsData[row][@"thumb"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 NSImageRep *rep = [[image representations] objectAtIndex:0];
                 NSSize imageSize = NSMakeSize(rep.pixelsWide, rep.pixelsHigh);
                 image.size=imageSize;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.thumb setImage:image];
-                });
-            });
+                [cell.thumb setImage:image];
+            }] ;
         }
+        
         return cell;
     }
     return nil;
 }
+
+
 @end

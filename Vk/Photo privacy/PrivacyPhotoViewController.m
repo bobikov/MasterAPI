@@ -37,7 +37,7 @@
     [self loadAlbums:_app.person];
     _captchaHandler = [[VKCaptchaHandler alloc]init];
 }
--(void)loadGroupsPopup{
+- (void)loadGroupsPopup{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -46,12 +46,9 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [groupsPopupList addItemWithTitle:i[@"name"]];
                 });
-                
-                
             }
         }]resume];
     });
- 
 }
 - (IBAction)loadAlbumsByAdmin:(id)sender {
     NSLog(@"%@", [groupsPopupData objectAtIndex:[groupsPopupList indexOfSelectedItem]]);
@@ -66,7 +63,7 @@
 - (IBAction)filterAll:(id)sender {
     [self filterAlbumsByPrivacy];
 }
--(void)filterAlbumsByPrivacy{
+- (void)filterAlbumsByPrivacy{
     NSInteger counter=0;
     [albumsTable scrollToBeginningOfDocument:self];
     //    if([groupInvitesList numberOfRows]>2){
@@ -149,10 +146,10 @@
     }
     
 }
--(void)viewDidAppear{
+- (void)viewDidAppear{
     
 }
--(void)loadAlbums:(NSString *)owner{
+- (void)loadAlbums:(NSString *)owner{
     [photoAlbums removeAllObjects];
     //     [progressSpin startAnimation:self];
     NSURLSessionDataTask *dataTask2=[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/photos.getAlbums?owner_id=%@&v=%@&access_token=%@", owner, _app.version, _app.token]] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -283,6 +280,10 @@
         
     });
 }
+
+
+
+
 //-(void)tableViewSelectionDidChange:(NSNotification *)notification{
 //
 //}

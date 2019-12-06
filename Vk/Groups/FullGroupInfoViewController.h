@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "appInfo.h"
+#import "StringHighlighter.h"
 @interface FullGroupInfoViewController : NSViewController{
     
     __weak IBOutlet NSTextField *name;
@@ -27,6 +28,7 @@
     __weak IBOutlet NSStackView *mainStack;
     __weak IBOutlet NSTextField *membersCount;
 }
+@property(nonatomic) StringHighlighter *stringHighlighter;
 @property (nonatomic, readwrite) NSDictionary *receivedData;
 @property (nonatomic, readwrite) appInfo *app;
 @end

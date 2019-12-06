@@ -13,7 +13,8 @@
 }
 -(NSDictionary *)readYoutubeTokens;
 -(BOOL)YoutubeTokensEcxistsInCoreData;
--(void)removeAllYoutubeAppInfo;
+typedef void(^OnCompleteRemove)(BOOL removeAppResult);
+-(void)removeAllYoutubeAppInfo:(OnCompleteRemove)completion;
 -(void)updateYoutubeToken:(NSDictionary*)data;
 -(void)saveSubscriptions:(NSMutableArray*)data;
 -(void)removeAllSubscriptions;

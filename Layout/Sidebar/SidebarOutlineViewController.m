@@ -66,6 +66,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectTwitterApi:) name:@"SelectTwitterApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectYoutubeApi:) name:@"SelectYoutubeApi" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SelectInstagramApi:) name:@"SelectInstagramApi" object:nil];
+    
 //    self.view.window.titleVisibility=NSWindowTitleVisible;
 //    self.view.window.titlebarAppearsTransparent = YES;
 //    self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
@@ -84,23 +85,24 @@
 -(void)loadVK{
 //    NSLog(@"VK API LOAD HERE");
     currentSelectorName = @"vk";
-    _topLevelItems = @[@"Profile", @"Friends",  @"Dialogs", @"Status", @"Video", @"Audio", @"Photo",@"Docs", @"Wall", @"Groups", @"Banlist", @"Favorites"];
+    _topLevelItems = @[@"Profile", @"Friends",  @"Dialogs", @"Status", @"Video", @"Audio", @"Photo",@"Docs", @"Wall", @"Groups", @"Banlist", @"Favorites", @"Stories"];
     
     // The data is stored ina  dictionary. The objects are the nib names to load.
     //    _childrenDictionary = [NSMutableDictionary new];
     
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy video", @"privacy video albums", @"show video", nil] forKey:@"Video"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy audio", @"show audio", nil] forKey:@"Audio"];
-    [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy photo", @"privacy photo albums", @"download photo", @"show photo", nil] forKey:@"Photo"];
+    [_childrenDictionary setObject:[NSArray arrayWithObjects:@"copy photo", @"privacy photo albums", @"show photo", nil] forKey:@"Photo"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show dialogs", nil] forKey:@"Dialogs"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show friends", @"show subscribers", @"show friends outs", nil] forKey:@"Friends"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show docs",  nil] forKey:@"Docs"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"post wall",@"wall posts remove", nil] forKey:@"Wall"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"change status", nil] forKey:@"Status"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"profile photo change", nil] forKey:@"Profile"];
+    [_childrenDictionary setObject:@[@"show groups"] forKey:@"Groups"];
     [_childrenDictionary setObject:[NSArray arrayWithObjects:@"in black list?", @"show banned", nil] forKey:@"Banlist"];
     [_childrenDictionary setObject:@[@"show favorites"] forKey:@"Favorites"];
-    
+    [_childrenDictionary setObject:@[@"show stories"] forKey:@"Stories"];
     //        NSLog(@"%@", _childrenDictionary);
     [OutlineSidebar reloadData];
     [OutlineSidebar expandItem:nil expandChildren:YES];
@@ -144,7 +146,7 @@
 -(void)SelectInstagramApi:(NSNotification*)notification{
     currentSelectorName = @"instagram";
     _topLevelItems = @[@"Media"];
-    [_childrenDictionary setObject:[NSArray arrayWithObjects:@"show media", nil] forKey:@"Media"];
+    [_childrenDictionary setObject:@[@"user media feed", @"show media", @"search media by tag"] forKey:@"Media"];
     
     [OutlineSidebar reloadData];
     [OutlineSidebar expandItem:nil expandChildren:YES];
@@ -179,50 +181,66 @@
 - (BOOL) outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
     return [_topLevelItems containsObject:item];
 }
-
--(void) outlineViewSelectionDidChange:(NSNotification *)notification{
+- (IBAction)selectSidebarItemAction:(id)sender {
     NSString *item;
     NSInteger row;
     NSString *parent;
     row = [OutlineSidebar selectedRow];
     item = [OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]];
-//    NSInteger counterChilds=0;
-//    NSInteger counterParents=0;
+    //    NSInteger counterChilds=0;
+    //    NSInteger counterParents=0;
     parent = [OutlineSidebar parentForItem:[OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]]];
-//    NSLog(@"%@",parent);
-//    NSLog(@"%lu", [OutlineSidebar selectedRow]);
+    //    NSLog(@"%@",parent);
+    //    NSLog(@"%lu", [OutlineSidebar selectedRow]);
     NSString *currentElem =item;
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
-//    NSLog(@"%lu", row);
-//    item = [OutlineSidebar parentForItem:];
-
-//    for(NSDictionary *i in _childrenDictionary){
-//        NSLog(@"%@", i);
-//        if([_childrenDictionary objectForKey:item] ){
-//            NSLog(@"this is boss - %@", _childrenDictionary[item]);
-//            for (NSString *i in _childrenDictionary){
-//                if(i == item) {
-//                    NSLog(@"%lu", [_childrenDictionary[item] count]);
-//                }
-//                else{
-////                    NSLog(@"%@", i);
-//                }
-//            }
-//        }
-//        else{
-//            for(NSString *i in _childrenDictionary){
-////                counter++;
-//                counterChilds += [_childrenDictionary[i] count];
-//                counterParents++;
-//            }
-//             NSLog(@"Children: %ld", counterChilds);
-//            NSLog(@"Parents: %ld", counterParents);
-//        }
-//    }
     
-//    NSLog(@"%@", item);
+    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
+    
 }
+
+//-(void) outlineViewSelectionDidChange:(NSNotification *)notification{
+//    NSString *item;
+//    NSInteger row;
+//    NSString *parent;
+//    row = [OutlineSidebar selectedRow];
+//    item = [OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]];
+////    NSInteger counterChilds=0;
+////    NSInteger counterParents=0;
+//    parent = [OutlineSidebar parentForItem:[OutlineSidebar itemAtRow:[OutlineSidebar selectedRow]]];
+////    NSLog(@"%@",parent);
+////    NSLog(@"%lu", [OutlineSidebar selectedRow]);
+//    NSString *currentElem =item;
+//
+//    [[NSNotificationCenter defaultCenter] postNotificationName:currentElem object:self userInfo:@{@"currentSelectorName":currentSelectorName}];
+////    NSLog(@"%lu", row);
+////    item = [OutlineSidebar parentForItem:];
+//
+////    for(NSDictionary *i in _childrenDictionary){
+////        NSLog(@"%@", i);
+////        if([_childrenDictionary objectForKey:item] ){
+////            NSLog(@"this is boss - %@", _childrenDictionary[item]);
+////            for (NSString *i in _childrenDictionary){
+////                if(i == item) {
+////                    NSLog(@"%lu", [_childrenDictionary[item] count]);
+////                }
+////                else{
+//////                    NSLog(@"%@", i);
+////                }
+////            }
+////        }
+////        else{
+////            for(NSString *i in _childrenDictionary){
+//////                counter++;
+////                counterChilds += [_childrenDictionary[i] count];
+////                counterParents++;
+////            }
+////             NSLog(@"Children: %ld", counterChilds);
+////            NSLog(@"Parents: %ld", counterParents);
+////        }
+////    }
+//    
+////    NSLog(@"%@", item);
+//}
 
 //- (BOOL)outlineView:(NSOutlineView *)outlineView shouldShowOutlineCellForItem:(id)item {
 //    // As an example, hide the "outline disclosure button" for FAVORITES. This hides the "Show/Hide" button and disables the tracking area for that row.

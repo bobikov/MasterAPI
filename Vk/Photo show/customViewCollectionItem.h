@@ -27,17 +27,20 @@
     NSString *selectedDirectoryPath;
     NSInteger uploadCounter;
     NSInteger downloadCounter;
-       NSURL *uploadUrl;
-     NSArray* filesForUpload;
+    NSURL *uploadUrl;
+    NSArray* filesForUpload;
     NSString *filename;
     NSString *albumToUploadTo;
     NSString *ownerId;
-  NSMutableDictionary *selectedObject;
+    NSMutableDictionary *selectedObject;
     customViewCollectionItem *item;
     double progress;
     double expectedBytes;
     BOOL proccessGoing;
-  
+    NSMenu *theDropdownContextMenu;
+    NSInteger overAlbumId;
+    NSData *contents;
+    BOOL isURLsUpload;
 }
 @property (weak) IBOutlet NSButton *uploadByURLsButton;
 @property (weak) IBOutlet NSImageView *albumsCover;
@@ -45,8 +48,7 @@
 @property (weak) IBOutlet NSButton *uploadPhoto;
 @property (weak) IBOutlet NSButton *removeItem;
 @property (weak) IBOutlet NSTextField *countInAlbum;
-typedef void (^OnComplete)(NSData *serverURL);
--(void)getUploadURL:(id)album_id completion:(OnComplete)completion;
+
 @property (weak) IBOutlet NSProgressIndicator *downloadAndUploadProgress;
 @property (weak) IBOutlet NSTextField *downloadAndUploadProgressLabel;
 @property (weak) IBOutlet NSBox *downloadAndUploadStatusOver;

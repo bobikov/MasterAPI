@@ -9,7 +9,8 @@
 #import "ShowMediaPosts.h"
 #import "HTMLReader.h"
 #import "MediaPostsCustomCell.h"
-
+#import "PhotoSliderViewController.h"
+#import "MyTableRowView.h"
 @interface ShowMediaPosts ()<NSSearchFieldDelegate,NSTableViewDelegate, NSTableViewDataSource,NSControlTextEditingDelegate>
 
 @end
@@ -26,11 +27,15 @@
     instaClient = [[InstagramClient alloc]initWithTokensFromCoreData];
     [[mediaPostsScroll contentView]setPostsBoundsChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(viewDidScroll:) name:NSViewBoundsDidChangeNotification object:nil];
-   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(copyImageURL:) name:@"Copy instagram image URL" object:nil];
     cellMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Search Menu", @"Search Menu title")];
-     [self searchFieldMenu];
+    [self searchFieldMenu];
 }
-
+- (void)copyImageURL:(NSNotification*)obj{
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+    [pasteBoard setString:[[mediaURLS objectsAtIndexes:obj.userInfo[@"rows"]] componentsJoinedByString:@"\n"] forType:NSStringPboardType];
+}
 //-(void)controlTextDidEndEditing:(NSNotification *)obj{
 //
 //
@@ -50,7 +55,7 @@
 //    [NSMenu popUpContextMenu:cellMenu withEvent:event forView:searchField];
 //    
 //}
--(void)viewDidScroll:(NSNotification*)notification{
+- (void)viewDidScroll:(NSNotification*)notification{
     NSInteger scrollOrigin = [[mediaPostsScroll contentView]bounds].origin.y+NSMaxY([mediaPostsScroll visibleRect]);
     //    NSInteger numberRowHeights = [collectionViewListAlbums numberOfItemsInSection:0];
     NSInteger boundsHeight = mediaPostsList.bounds.size.height;
@@ -60,21 +65,40 @@
     }
 
 }
-- (IBAction)showMedia:(id)sender {
+- (IBAction)showInBrowser:(id)sender {
+    NSInteger index = [mediaPostsList rowForView:[sender superview]];
     
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:mediaURLS[index]]];
 }
--(void)searchFieldDidStartSearching:(NSSearchField *)sender{
+- (IBAction)showMedia:(id)sender {
+    NSInteger index = [mediaPostsList rowForView:[sender superview]];
+    NSLog(@"CURRENT INDEX %li", index);
+    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
+    _sliderWindowContr = [story instantiateControllerWithIdentifier:@"PhotoController"];
+    [_sliderWindowContr showWindow:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowPhotoSlider" object:nil userInfo:@{@"data":mediaURLS, @"current":[NSNumber numberWithInteger:index+1]}];
+ 
+}
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     postID = nil;
     [mediaURLS removeAllObjects];
     [postsData removeAllObjects];
+   
     [self loadMediaPosts:searchField.stringValue];
     [self loadProfileInfo:searchField.stringValue];
-//    [self loadMediaPostsByTag:searchField.stringValue];
+    
+    //username search https://www.instagram.com/web/search/topsearch/?query=name
+    //logined user feed https://www.instagram.com/?__a=1
+    //tag search https://www.instagram.com/explore/tags/alien/?__a=1 + start_cursor by max_id param
+    //username by user_id https://www.instagram.com/query/?q=ig_user(3)
+    //likes photo/video https://www.instagram.com/p/%post_is%/?__a=1
+    //user info https://www.instagram.com/kevin/?__a=1
+    //post info  https://www.instagram.com/p/BGBgSw0tpHQ/?__a=1
 }
--(void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
     
 }
--(void)searchFieldMenu{
+- (void)searchFieldMenu{
     
     NSMenuItem *item;
     
@@ -96,11 +120,9 @@
                                       action:NULL keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsMenuItemTag];
     [cellMenu insertItem:item atIndex:3];
-    
-    
     [searchField setSearchMenuTemplate:cellMenu];
 }
--(void)loadProfileInfo:(NSString*)username{
+- (void)loadProfileInfo:(NSString*)username{
     NSString *profileIinfoHTML = [[NSString alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@", username]] encoding:NSUTF8StringEncoding error:nil];
     HTMLDocument *doc=[HTMLDocument documentWithString:profileIinfoHTML];
     NSArray *script = [doc nodesMatchingSelector:@"script"];
@@ -115,13 +137,11 @@
             totalCountTitle.title = [NSString stringWithFormat:@"%li", postsCount];
         }
     }
-
 }
 - (IBAction)copyMediaURLs:(id)sender {
     NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
     [pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
     [pasteBoard setString:[[mediaURLS objectsAtIndexes:[mediaPostsList selectedRowIndexes]] componentsJoinedByString:@"\n"]   forType:NSStringPboardType];
-    
 }
 - (IBAction)selectOnlyImages:(id)sender {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
@@ -132,38 +152,45 @@
     }
     [mediaPostsList selectRowIndexes:indexes byExtendingSelection:NO];
 }
--(void)loadMediaPosts:(NSString*)username{
-    [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
-//        NSLog(@"%@",mediaResp);
-        for(NSDictionary *i in mediaResp[@"items"]){
-            NSString *caption = ![i[@"caption"] isEqual:[NSNull null]] && ![i[@"caption"][@"text"] isEqual:[NSNull null]] ? i[@"caption"][@"text"] : @"";
-            [postsData addObject:@{@"thumb":i[@"images"][@"thumbnail"][@"url"],@"caption":caption,@"date":[self formatDate:i[@"created_time"]]}];
-//
-            [mediaURLS addObject:[i[@"type"] isEqual:@"video"]?i[@"videos"][@"standard_resolution"][@"url"]:i[@"images"][@"standard_resolution"][@"url"]];
-//            NSLog(@"%@", caption);
+- (void)loadMediaPosts:(NSString*)username{
+    [instaClient apiRequest:[NSString stringWithFormat:@"https://instagram.com/%@/media%@", username, postID ? [NSString stringWithFormat:@"?max_id=%@", postID]:@""]  completion:^(NSData *userInfoData) {
+        if(userInfoData){
+            NSDictionary *mediaResp = [NSJSONSerialization JSONObjectWithData:userInfoData options:0 error:nil];
+            postID = [mediaResp[@"more_available"] intValue]?mediaResp[@"items"][[mediaResp[@"items"] count]-1][@"id"]:nil;
+            //        NSLog(@"%@",mediaResp);
+            for(NSDictionary *i in mediaResp[@"items"]){
+                NSString *caption = [i[@"node"][@"edge_media_to_caption"][@"edges"] count] ? i[@"node"][@"edge_media_to_caption"][@"edges"][0][@"node"][@"text"] : @"";
+                [postsData addObject:@{@"thumb":i[@"images"][@"thumbnail"][@"url"],@"caption":caption,@"date":[self formatDate:i[@"created_time"]]}];
+                //
+                [mediaURLS addObject:[i[@"type"] isEqual:@"video"]?i[@"videos"][@"standard_resolution"][@"url"]:i[@"images"][@"standard_resolution"][@"url"]];
+                //            NSLog(@"%@", caption);
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [mediaPostsList reloadData];
+                loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
+            });
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [mediaPostsList reloadData];
-            loadedCountTitle.title = [NSString stringWithFormat:@"%li", [postsData count]];
-        });
-    }]resume];
+    }];
 }
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [postsData count];
 }
--(void)loadMediaPostsByTag:(NSString*)tag{
-    NSString *pageHTML = [[NSString alloc]initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@", tag]] encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"%@",pageHTML);
-    HTMLDocument *doc=[HTMLDocument documentWithString:pageHTML];
-    NSArray *cursorLinkTag = [doc nodesMatchingSelector:@"#react-root"];
-    HTMLElement *cursorHref = cursorLinkTag[0];
-    NSLog(@"%@",cursorHref);
-//    _oidfu
+- (void)loadMediaPostsByTag:(NSString*)tag{
+    [[instaClient.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/explore/tags/%@/?__a=1", tag]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *tagSearchResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSLog(@"TAGS SEARCH %@", tagSearchResp);
+//        for(NSDictionary *i in tagSearchResp[@"tag"][@"media"][@"nodes"]){
+//            NSLog(@"%@", i[@"display_src"]);
+//        }
+    }]resume];
+
 
 }
--(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     MediaPostsCustomCell *cell = (MediaPostsCustomCell*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
     cell.caption.stringValue = postsData[row][@"caption"];
     cell.date.stringValue = postsData[row][@"date"];
@@ -175,14 +202,13 @@
     });
     return cell;
 }
--(NSString *)formatDate:(NSString*)timestamp{
+ -(NSString *)formatDate:(NSString*)timestamp{
     NSString *date;
     NSDate *gotDate = [[NSDate alloc] initWithTimeIntervalSince1970: [timestamp intValue]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
 
     date = [dateFormatter stringFromDate:gotDate];
-    
     return date;;
 }
 @end

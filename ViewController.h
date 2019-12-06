@@ -12,9 +12,16 @@
 #import "YoutubeRWData.h"
 #import "TumblrRWData.h"
 #import "InstagramRWD.h"
-@interface ViewController : NSViewController{
+@interface ViewController : NSViewController<NSCollectionViewDelegate, NSCollectionViewDataSource,NSCollectionViewDelegateFlowLayout>{
     
-    __weak IBOutlet NSSegmentedControl *ApiSourceSelector;
+    __weak IBOutlet NSCollectionView *apiSourceSelectorCollectionView;
+    NSArray *apiSourceListData;
+    __weak IBOutlet NSScrollView *apiSelectorScrollview;
+//    CALayer *border;
+//    CALayer *backG;
+    BOOL loaded;
+    NSInteger selectedItem;
+   
 }
 @property(nonatomic)keyHandler *VKKeyHandler;
 @property(nonatomic)TwitterRWData *twitterRWD;

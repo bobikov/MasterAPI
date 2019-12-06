@@ -18,8 +18,8 @@
     pathRects = [[NSMutableArray alloc]init];
     pathRefs = [[NSMutableArray alloc]init];
     xOffset=2;
-    gray1 = [NSColor colorWithRed:0.25  green:0.45 blue:0.55 alpha:1.0];
-    gray2 = [NSColor colorWithRed:0.25  green:0.45 blue:0.60 alpha:1.0];
+    unselectedBarColor = [NSColor colorWithRed:0.25  green:0.45 blue:0.55 alpha:1.0];
+    selectedBarColor = [NSColor colorWithRed:0.25  green:0.45 blue:0.60 alpha:1.0];
     strokeColor = [NSColor colorWithRed:0.20  green:0.70 blue:0.80 alpha:1.0];
 }
 -(void)loadGraphsData:(NSNotification *)notification{
@@ -38,23 +38,21 @@
     isSelectedBar=YES;
     for(NSValue *i in pathRects){
         if (NSPointInRect(mouseLocation, [i rectValue])){
-            [gray2 setFill];
+            [selectedBarColor setFill];
             [strokeColor setStroke];
             
             selectedPathIndex = [pathRects indexOfObject:i];
             [[pathRefs objectAtIndex:selectedPathIndex] fill];
             [[pathRefs objectAtIndex:selectedPathIndex] stroke];
             [self drawSelectedBarExtLabel];
-//            [self mouseEntered: nil];
-            [self setNeedsDisplay:YES];
+//
         }else{
-            [gray1 setFill];
-            [[NSColor blackColor] setStroke];
+            [unselectedBarColor setFill];
+//            [[NSColor blackColor] setStroke];
             selectedPathIndex = [pathRects indexOfObject:i];
             [[pathRefs objectAtIndex:selectedPathIndex] fill];
-            //               [[pathRefs objectAtIndex:selectedPathIndex] stroke];
-//            [self mouseExited: nil];
-            [self setNeedsDisplay:YES];
+            //[[pathRefs objectAtIndex:selectedPathIndex] stroke];
+
         }
     }
 
@@ -100,7 +98,7 @@
         
         [[NSColor blackColor] setStroke];
         //            [path stroke];
-        [gray1 setFill];
+        [unselectedBarColor setFill];
         [path fill];
         
         //            [path closePath];

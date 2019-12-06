@@ -14,7 +14,12 @@
 #import "SmilesViewController.h"
 #import "TasksViewController.h"
 #import <EventKit/EventKit.h>
-@interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate>
+#import <IGFastImage/IGFastImage.h>
+#import <Carbon/Carbon.h>
+//#import <NSString+RMURLEncoding/NSString+RMURLEncoding.h>
+#import "AppDelegate.h"
+#import "MyTableRowView.h"
+@interface WallPostViewController () <NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate,NSCollectionViewDataSource, NSCollectionViewDelegate,NSTextFieldDelegate>
 
 @end
 
@@ -36,9 +41,13 @@
     attachmentsCollectionView.dataSource=self;
     indexPaths = [[NSMutableArray alloc]init];
     queuePostsInSession = [[NSMutableArray alloc]init];
+    preparedOwnersListScheduled = [[NSMutableArray alloc]init];
     [textView setRichText:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertSmile:) name:@"InsertSmileWall" object:nil];
-    
+    moc = ((AppDelegate*)[[NSApplication sharedApplication] delegate]).managedObjectContext;
+    preparedOwnersList = [[NSMutableArray alloc]init];
+    preparedListToPost.dataSource=self;
+    preparedListToPost.delegate=self;
 //    attachmentsCollectionView.wantsLayer=YES;
     attachmentsData = [[NSMutableArray alloc]init];
 //   attachmentsCollectionView.layer.backgroundColor = [NSColor clearColor];
@@ -49,11 +58,10 @@
     [groupsData addObject:_app.person];
     attachmentsDataScheduled = [[NSMutableArray alloc]init];
 //    [groupsList addItemWithTitle:@"Title1"];
-
+    currentPostsSessionName = newSessionNameField.stringValue;
     messagesToPost = [[NSMutableArray alloc]initWithArray:[self ReadMessages]];
     [listOfMessages reloadData];
-    groupsToPost = [[NSMutableArray alloc]initWithArray:[self ReadGroups]];
-    [recentGroups reloadData];
+    
 
     startedSessionStatusLabel.wantsLayer=YES;
     startedSessionStatusLabel.layer.masksToBounds=YES;
@@ -64,39 +72,96 @@
     _tumblrClient = [[TumblrClient alloc]initWithTokensFromCoreData];
     afterPost.hidden = postRadio.state==1 ? YES : NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToAttachments:) name:@"addToAttachments" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addToAttachmentsObserve:) name:@"addToAttachments" object:nil];
     preparedAttachmentsString = [[NSMutableArray alloc]init];
      postTargetSourceSelector = [[NSMutableDictionary alloc]initWithDictionary:@{@"vk":@0, @"tumblr":@0, @"twitter":@0}];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeItemFromAttachments:) name:@"removeItemFromAttachments" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeScheduledPost:) name:@"DoScheduledPost" object:nil];
-   
     [self setSelectorsButtonsState];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionNameDidChange:) name:NSTextDidChangeNotification object:nil];
     
 }
--(void)viewDidAppear{
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
     
-    if(![self parentViewController]){
-        self.view.window.level = NSFloatingWindowLevel;
+    NSEvent *currentEvent = [[NSApplication sharedApplication]currentEvent];
+    NSLog(@"HAHAHA");
+    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9)) {  //command + enter to confirm
+        [self checkImageLink];
+        NSLog(@"52525");
+        return YES;
+    }
+    return NO;
+}
+
+- (IBAction)ownersSelectSource:(id)sender {
+    
+    if (ownersSelectorSegment.selectedSegment == 0){
+        
+        [self loadGroups];
+    }else{
+        [self reloadRecentGroups];
     }
     
 }
+- (void)sessionNameDidChange:(NSNotification*)notification{
 
--(void)textDidChange:(NSNotification *)notification{
-    
-    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
-    [self setSelectorsButtonsState];
+//    if(notification.object==newSessionNameField){
+        currentPostsSessionName = newSessionNameField.stringValue;
+
+        [self setSelectorsButtonsState];
+        NSLog(@"Session name:%@", currentPostsSessionName);
+//    }
+    NSEvent *currentEvent = [[NSApplication sharedApplication]currentEvent];
+    NSLog(@"HAHAHA");
+    if ((currentEvent.modifierFlags & NSCommandKeyMask) && (currentEvent.keyCode == 9) && [textView.string containsString:@"http"]) {  //command + enter to confirm
+        if(![self checkImageLink]){
+            [self addToAttachments:@{@"type":@"url", @"data":@{@"photo":[[NSBundle mainBundle]pathForImageResource:@"HTTP-icon.png"],@"url":textView.string}}];
+        }
+       
+    }
+ 
 }
 
--(void)addToAttachments:(NSNotification *)notification{
-    mediaAttachmentType = notification.userInfo[@"type"];
+- (void)viewDidAppear{
+    if(![self parentViewController]){
+        self.view.window.level = NSFloatingWindowLevel;
+        self.view.window.titleVisibility=NSWindowTitleVisible;
+        self.view.window.titlebarAppearsTransparent = YES;
+        self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+        self.view.window.movableByWindowBackground=YES;
+        [self.view.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight]];
+       
+    }
+    [self.view.window makeFirstResponder:textView];
+}
+- (void)textDidChange:(NSNotification *)notification{
+//    if(notification.object == newSessionNameField){
+//    }else if(notification.object == textView){
+//        charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
+//        [self setSelectorsButtonsState];
+//        
+//    }
+}
+
+-(BOOL)checkImageLink{
+    NSURL* url = [NSURL URLWithString:textView.string];
+    IGFastImage* image = [[IGFastImage alloc] initWithURL:url];
+    NSLog(@"IMAGE TYPE:%i", image.type );
+    postLinkType = image.type ? 0 : 1;
+    return image.type;
+}
+
+//Attachments actions
+-(void)addToAttachments:(NSDictionary*)obj{
+//    NSLog(@"%@", obj);
+    mediaAttachmentType = obj[@"type"];
     [indexPaths removeAllObjects];
-    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]};
+    NSDictionary *object = @{@"type":mediaAttachmentType, @"data":obj[@"data"]};
     if(![attachmentsData containsObject:object]){
         [attachmentsData insertObject:object atIndex:0];
-        
         //    [newData addObject:@{@"type":mediaAttachmentType, @"data":notification.userInfo[@"data"]}];
         [indexPaths addObject:[NSIndexPath indexPathForItem: 0 inSection:0]];
-        
         [attachmentsCollectionView insertItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
         //    NSLog(@"%@", indexPaths);
         [attachmentsCollectionView setContent:attachmentsData];
@@ -104,9 +169,11 @@
         countPhotoInAttachments = 0;
         countVideoInAttachments = 0;
         countDocsInAttachments = 0;
+        countURLsInAttachments = 0;
         ////    NSLog(@"%@", attachmentsData);
         preparedAttachmentsString = [[NSMutableArray alloc]init];
         for(NSDictionary *i in attachmentsData){
+            
             if([i[@"type"] isEqual:@"photo"]){
                 countPhotoInAttachments++;
             }
@@ -116,21 +183,32 @@
             else if([i[@"type"] isEqual:@"doc"]){
                 countDocsInAttachments++;
             }
-//            NSInteger ownerInAttachString =i[@"data"][@"owner"]?abs([i[@"data"][@"owner"] intValue]):abs([i[@"data"][@"owner_id"]intValue]);
-             NSString *ownerInAttachString =i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"];
-            [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], ownerInAttachString, [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+            else if([i[@"type"] isEqual:@"url"]){
+                countURLsInAttachments++;
+            }
+            //            NSInteger ownerInAttachString =i[@"data"][@"owner"]?abs([i[@"data"][@"owner"] intValue]):abs([i[@"data"][@"owner_id"]intValue]);
+            NSString *ownerInAttachString =i[@"data"][@"owner"]?i[@"data"][@"owner"]:i[@"data"][@"owner_id"];
+            if([i[@"type"] isEqualToString:@"url"]){
+                [preparedAttachmentsString addObject:obj[@"data"][@"url"]];
+            }else{
+                [preparedAttachmentsString addObject:[NSString stringWithFormat:@"%@%@_%@", i[@"type"], ownerInAttachString, [i[@"type"] isEqualToString:@"video"] ? i[@"data"][@"id"] : i[@"data"][@"items"][@"id"] ? i[@"data"][@"items"][@"id"] : i[@"data"][@"id"] ]];
+            }
             
         }
         //
         attachmentsPostVKString = [preparedAttachmentsString componentsJoinedByString:@","];
-        NSLog(@"%@",attachmentsPostVKString);
-        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments];
-        
+        attachmentsCountLabel.stringValue = [NSString stringWithFormat:@"Photos:%i Videos:%i Docs:%i URLs:%i", countPhotoInAttachments, countVideoInAttachments, countDocsInAttachments, countURLsInAttachments];
         [attachmentsCollectionView reloadItemsAtIndexPaths:[NSSet setWithArray:indexPaths]];
         //    [attachmentsCollectionView reloadData];
+         NSLog(@"%@",attachmentsPostVKString);
     }
+    [self setSelectorsButtonsState];
+
 }
--(void)removeItemFromAttachments:(NSNotification*)notification{
+- (void)addToAttachmentsObserve:(NSNotification *)notification{
+    [self addToAttachments:notification.userInfo];
+   }
+- (void)removeItemFromAttachments:(NSNotification*)notification{
     
     NSIndexPath *indexPath =[NSIndexPath indexPathForItem:[attachmentsData indexOfObject:notification.userInfo[@"data"]] inSection:0];
     
@@ -165,100 +243,148 @@
     
     
     
+    [self setSelectorsButtonsState];
 }
+//Attachments actions end
 
--(void)observeScheduledPost:(NSNotification*)object{
-    NSLog(@"%@", object.userInfo);
-    NSMutableDictionary *object1 = [object.userInfo mutableCopy];
-    postTargetSourceSelector = [NSMutableDictionary dictionaryWithDictionary:object1[@"postSources"]];
-    attachmentsDataScheduled = [object1[@"attach_urls"] mutableCopy];
-    [self prepareForPost:object1[@"target_owner"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
-}
 
-- (IBAction)closeStartedSessionAction:(id)sender {
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    publishingDateForPost.hidden=YES;
-    startedSessionCloseBut.enabled=YES;
-    newSessionStartBut.enabled=YES;
-    savePostsSessionBut.hidden=YES;
-    [queuePostsInSession removeAllObjects];
-}
+
+
+//Scheduled post
 - (IBAction)startSession:(id)sender {
-    publishingDateForPost.hidden=NO;
-    addPostToQueueBut.hidden=NO;
-    startedSessionStatusLabel.hidden=NO;
-    startedSessionCloseBut.hidden=NO;
-    currentPostsSessionName = newSessionNameField.stringValue;
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %@", currentPostsSessionName, @0];
+    sessionWrapper.hidden=NO;
+//    publishingDateForPost.hidden=NO;
+//    addPostToQueueBut.hidden=NO;
+//    startedSessionStatusLabel.hidden=NO;
+//    startedSessionCloseBut.hidden=NO;
+//    currentPostsSessionName = newSessionNameField.stringValue;
+    currentPostsSessionName = @"";
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Posts: %@", @0];
     newSessionNameField.stringValue=@"";
-    newSessionStartBut.enabled=NO;
-//    savePostsSessionBut.hidden=NO;
+//    newSessionNameField.hidden=NO;
+//    newSessionStartBut.enabled=NO;
+    //    savePostsSessionBut.hidden=NO;
     publishingDateForPost.datePickerElements = NSHourMinuteDatePickerElementFlag | NSYearMonthDayDatePickerElementFlag | NSHourMinuteSecondDatePickerElementFlag;
     NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *comps = [cal components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay | NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
     [comps setSecond:0];
     [comps setCalendar:cal];
     [publishingDateForPost setDateValue: [comps date] ];
-  
- 
+    
 }
 - (IBAction)saveSession:(id)sender {
- 
-    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+//    NSStoryboard *story = [NSStoryboard storyboardWithName:@"Fifth" bundle:nil];
+//    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
+    //    contr.view = [[NSView alloc]init];
+//     [[NSNotificationCenter defaultCenter]postNotificationName:@"preloadTaskView" object:nil];
+//    [contr loadView];
     
-    TasksViewController *contr = [story instantiateControllerWithIdentifier:@"TasksView"];
-//    contr.view = [[NSView alloc]init];
-    [contr loadView];
-    [contr viewDidLoad];
-    addPostToQueueBut.hidden=YES;
-    startedSessionStatusLabel.hidden=YES;
-    startedSessionCloseBut.hidden=YES;
-    publishingDateForPost.hidden=YES;
-    startedSessionCloseBut.enabled=YES;
+//    contr.view.hidden = NO;
+    sessionWrapper.hidden=YES;
+//    addPostToQueueBut.hidden=YES;
+//    startedSessionStatusLabel.hidden=YES;
+//    startedSessionCloseBut.hidden=YES;
+//    publishingDateForPost.hidden=YES;
+//    startedSessionCloseBut.enabled=YES;
     newSessionStartBut.enabled=YES;
-    savePostsSessionBut.hidden=YES;
-   
+//    savePostsSessionBut.enabled=NO;
+//    savePostsSessionBut.hidden=YES;
+//    newSessionNameField.hidden=YES;
     dispatch_after(1, dispatch_get_main_queue(), ^(void){
-         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
-    
+//         [[NSNotificationCenter defaultCenter]postNotificationName:@"addNewSessionTask" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+        
+        
+                 [[NSNotificationCenter defaultCenter]postNotificationName:@"preloadTaskView" object:nil userInfo:@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]}];
+                [queuePostsInSession removeAllObjects];
+//         contr.newSessionObject = [@{@"session_type":@"post", @"session_name":currentPostsSessionName, @"session_data": [queuePostsInSession mutableCopy]} mutableCopy];
+       
+//        [contr addSession];
+//        [contr.tasksList reloadData];
     });
-    dispatch_after(1, dispatch_get_main_queue(), ^(void){
-      [queuePostsInSession removeAllObjects];
-    });
+  
+  
     startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", @"", [queuePostsInSession count]];
 }
 - (IBAction)addPostToQueue:(id)sender {
     message=[textView.string isEqualToString:@""] ? nil : textView.string ;
     
     NSDate *selectedDate = publishingDateForPost.dateValue;
-    [queuePostsInSession addObject:@{@"target_owner":publicId.stringValue, @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
-  
-    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Session: %@ Posts: %li", currentPostsSessionName, [queuePostsInSession count]];
-//    NSLog(@"%@", queuePostsInSession);
-//    NSLog(@"%@ %@", message, attachmentsPostVKString );
+    
+    [queuePostsInSession addObject:@{@"target_owners":[preparedOwnersList mutableCopy], @"message":message?message:@"", @"attach_urls":[attachmentsData mutableCopy], @"attachments":attachmentsPostVKString?attachmentsPostVKString:@"", @"date":selectedDate, @"postSources":@{@"vk":[NSNumber numberWithInteger:PostVK.state], @"tumblr":[NSNumber numberWithInteger:postTumblr.state], @"twitter":[NSNumber numberWithInteger:PostTwitter.state]}}];
+    
+    startedSessionStatusLabel.stringValue=[NSString stringWithFormat:@"Posts: %li", [queuePostsInSession count]];
+    //    NSLog(@"%@", queuePostsInSession);
+    //    NSLog(@"%@ %@", message, attachmentsPostVKString );
     if([queuePostsInSession count]>0){
         savePostsSessionBut.hidden=NO;
     }
 }
+- (void)observeScheduledPost:(NSNotification*)object{
+    NSLog(@"%@", object.userInfo);
+    NSMutableDictionary *object1 = [object.userInfo mutableCopy];
+    postTargetSourceSelector = [NSMutableDictionary dictionaryWithDictionary:object1[@"postSources"]];
+    attachmentsDataScheduled = [object1[@"attach_urls"] mutableCopy];
+    [self prepareForPost:object1[@"target_owners"] attachs:object1[@"attachments"] msg:object1[@"message"] repeatPost:NO scheduled:YES];
+}
+- (IBAction)closeStartedSessionAction:(id)sender {
+    sessionWrapper.hidden=YES;
+//    addPostToQueueBut.hidden=YES;
+//    startedSessionStatusLabel.hidden=YES;
+//    startedSessionCloseBut.hidden=YES;
+//    publishingDateForPost.hidden=YES;
+    startedSessionCloseBut.enabled=YES;
+//    newSessionStartBut.enabled=YES;
+//    savePostsSessionBut.hidden=YES;
+//    newSessionNameField.hidden=YES;
+    [queuePostsInSession removeAllObjects];
+}
+//Scheduled post end
+
+
 
 -(void)insertSmile:(NSNotification*)notification{
+    
     textView.string = [NSString stringWithFormat:@"%@%@", textView.string, notification.userInfo[@"smile"]];
+    charCount.stringValue=[NSString stringWithFormat:@"Characters count: %li", [textView.string length]];
     [self setSelectorsButtonsState];
 }
-
--(void)setSelectorsButtonsState{
-    if([textView.string isEqualToString:@""]){
-        [PostTwitter setEnabled:NO];
+- (IBAction)stopPost:(id)sender {
+    stopFlag=YES;
+    [progressSpin stopAnimation:self];
+}
+- (IBAction)radioAction:(id)sender {
+    //    NSLog(@"%@", sender);
+    if(postRadio.state==1){
+        //        NSLog(@"Post");
+        afterPost.hidden=YES;
         
+    }
+    if(commentRadio.state==1){
+        //        NSLog(@"Comment");
+        afterPost.hidden=NO;
+    }
+}
+- (void)setSelectorsButtonsState{
+    if([textView.string isEqualToString:@""]){
+        makePost.enabled=NO;
+        [PostTwitter setEnabled:NO];
         [postTumblr setEnabled:NO];
+    
     }else{
+        makePost.enabled=YES;
         [PostTwitter setEnabled:YES];
         [postTumblr setEnabled:YES];
     }
+    NSLog(@"%li",[currentPostsSessionName length]);
+    if((![attachmentsData count] && [textView.string isEqualToString:@""] && ![currentPostsSessionName length])||(![attachmentsData count] && [textView.string isEqualToString:@""] && ![preparedOwnersList count])||([attachmentsData count] && [textView.string isEqualToString:@""] && ![preparedOwnersList count])||(![attachmentsData count] && ![textView.string isEqualToString:@""] && ![preparedOwnersList count] && ![currentPostsSessionName length])||([attachmentsData count] && ![textView.string isEqualToString:@""] && ![preparedOwnersList count])){
+        makePost.enabled=NO;
+       
+        
+    }else{
+        makePost.enabled=YES;
+    }
+    savePostsSessionBut.enabled=[currentPostsSessionName length];
 }
-
 - (IBAction)newPost:(id)sender {
     
     textView.string = @"";
@@ -269,78 +395,14 @@
     [indexPaths removeAllObjects];
 
 }
+- (IBAction)groupsListAction:(id)sender {
+    publicId.stringValue =[NSString stringWithFormat:@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]];
+    NSLog(@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]);
+    
+}
 
-- (IBAction)deleteMessage:(id)sender {
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
-    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    temporaryContext.parentContext=moc;
-    NSView *parentCell = [sender superview];
-    NSInteger row = [listOfMessages rowForView:parentCell];
-    [temporaryContext performBlock:^{
-    
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-        
-        [request setReturnsObjectsAsFaults:NO];
-        //    [request setResultType:NSDictionaryResultType];
-        NSError *readError;
-        NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
-        [temporaryContext deleteObject:array[row]];
-        NSError *saveError;
-        if(![temporaryContext save:&saveError]){
-            NSLog(@"Error");
-        }
-        [moc performBlock:^{
-            NSError *error = nil;
-            if (![moc save:&error]) {
-                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
-                abort();
-            }else{
-                [temporaryContext performBlock:^{
-                    
-                    
-                    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-                    //    temporaryContext.parentContext = moc;
-                    //              NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:moc];
-                    
-                    
-                    [request setReturnsObjectsAsFaults:NO];
-                    [request setResultType:NSDictionaryResultType];
-                    NSError *readError;
-                    messagesToPost = [[NSMutableArray alloc]initWithArray: [temporaryContext executeFetchRequest:request error:&readError]];
-                  
-                    [listOfMessages reloadData];
-                }];
-                
-            }
-        }];
-    }];
-}
-- (IBAction)removeGroupsToPost:(id)sender {
-    NSInteger row = [recentGroups selectedRow];
-    NSString *groupId =  groupsToPost[row][@"id"];
-//    NSLog(@"%@", groupId);
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroupsToPost"];
-    [request setReturnsObjectsAsFaults:NO];
-    //    [request setResultType:NSDictionaryResultType];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"id == %@", groupId]];
-    NSError *fetchError;
-    NSError *delError;
-    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
-    for(NSManagedObject *object in array){
-        [moc deleteObject:object];
-        if(![moc save:&delError]){
-            NSLog(@"Delete groups to post object error.");
-        }else{
-            NSLog(@"Group is successfully deleted");
-            [self reloadRecentGroups];
-        }
-    }
-//    [self removeAllGroups];
-    
-    
-}
--(void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
+
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"videosForAttachments"]){
         ShowVideoViewController *controller = (ShowVideoViewController *)segue.destinationController;
         controller.loadFromWallPost=YES;
@@ -362,9 +424,32 @@
 }
 
 
-
--(NSArray*)ReadGroups{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+//Read and Write data
+- (IBAction)removeGroupsToPost:(id)sender {
+    NSInteger row = [recentGroups selectedRow];
+    NSString *groupId =  groupsToPost[row][@"id"];
+    //    NSLog(@"%@", groupId);
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"VKGroupsToPost"];
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"id == %@", groupId]];
+    NSError *fetchError;
+    NSError *delError;
+    NSArray *array = [moc executeFetchRequest:request error:&fetchError];
+    for(NSManagedObject *object in array){
+        [moc deleteObject:object];
+        if(![moc save:&delError]){
+            NSLog(@"Delete groups to post object error.");
+        }else{
+            NSLog(@"Group is successfully deleted");
+            [self reloadRecentGroups];
+        }
+    }
+    //    [self removeAllGroups];
+    
+    
+}
+- (NSArray*)ReadGroups{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKGroupsToPost"];
@@ -375,8 +460,7 @@
     
     return array;
 }
--(void)writeGroup{
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+- (void)writeGroup{
        NSMutableArray *tempArray = [[NSMutableArray alloc]init];
 //    [self removeAllGroups];
     if([self ReadGroups]!=nil){
@@ -453,16 +537,11 @@
         }
     });
     }
--(void)removeAllGroups{
-
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication] delegate] managedObjectContext];
-    
+- (void)removeAllGroups{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc ] initWithEntityName:@"VKGroupsToPost"];
-    
     NSError *error;
     NSArray *items = [moc executeFetchRequest:fetchRequest error:&error];
     //    fetchRequest = nil;
-    
     if ([items count]>0){
         for (NSManagedObject *managedObject in items) {
             [moc deleteObject:managedObject];
@@ -471,11 +550,10 @@
         if (![moc save:&error]) {
         }
     }
-
 }
--(NSArray *)ReadMessages{
+- (NSArray *)ReadMessages{
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
+    
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
     temporaryContext.parentContext = moc;
     NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"VKMessagesToPost" inManagedObjectContext:temporaryContext];
@@ -488,7 +566,7 @@
     
     return array;
 }
--(void)writeMessage{
+- (void)writeMessage{
     NSMutableArray *tempArray = [[NSMutableArray alloc]init];
     if([self ReadMessages]!=nil){
         
@@ -496,8 +574,6 @@
             [tempArray addObject:i[@"message"]];
         }
     }
-   
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
      NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     temporaryContext.parentContext=moc;
    
@@ -533,62 +609,27 @@
       }
   }];
 }
--(void)reloadRecentGroups{
+- (void)reloadRecentGroups{
     groupsToPost = [[NSMutableArray alloc]initWithArray:[self ReadGroups]];
     [recentGroups reloadData];
 }
--(void)reloadMessages{
+- (void)reloadMessages{
     messagesToPost = [[NSMutableArray alloc]initWithArray:[self ReadMessages]];
-          [listOfMessages reloadData];
-}
--(void)loadGroups{
-    [groupsList addItemWithTitle:@"Personal"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
-                [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [groupsList addItemWithTitle:i[@"name"]];
-                });
-            }
-        }]resume];
-    });
-}
-- (IBAction)groupsListAction:(id)sender {
-    publicId.stringValue =[NSString stringWithFormat:@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]];
-    NSLog(@"%@", [groupsData objectAtIndex:[groupsList indexOfSelectedItem]]);
-    
-}
-- (IBAction)stopPost:(id)sender {
-    stopFlag=YES;
-    [progressSpin stopAnimation:self];
-}
-- (IBAction)radioAction:(id)sender {
-//    NSLog(@"%@", sender);
-    if(postRadio.state==1){
-//        NSLog(@"Post");
-        afterPost.hidden=YES;
-        
-    }
-    if(commentRadio.state==1){
-//        NSLog(@"Comment");
-        afterPost.hidden=NO;
-    }
+    [listOfMessages reloadData];
 }
 - (IBAction)removeText:(id)sender {
-    
-    NSManagedObjectContext *moc = [[[NSApplication sharedApplication]delegate] managedObjectContext];
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    temporaryContext.parentContext=moc;
+      temporaryContext.parentContext=moc;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+    
+    [request setReturnsObjectsAsFaults:NO];
+    //    [request setResultType:NSDictionaryResultType];
+    
+    NSError *readError;
+    NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+  
     [temporaryContext performBlock:^{
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
-        
-        [request setReturnsObjectsAsFaults:NO];
-        //    [request setResultType:NSDictionaryResultType];
-        
-        NSError *readError;
-        NSMutableArray *array = [[NSMutableArray alloc] initWithArray:[temporaryContext executeFetchRequest:request error:&readError]];
+   
         [temporaryContext deleteObject:array[selectedObject]];
         NSError *saveError;
         if(![temporaryContext save:&saveError]){
@@ -609,31 +650,75 @@
                 messagesToPost = [[NSMutableArray alloc]initWithArray: [moc executeFetchRequest:request error:&readError]];
                 //              [listOfMessages reloadData];
                 NSLog(@"%@", messagesToPost);
-                //                  [self reloadMessages];
                 [listOfMessages reloadData];
             }
         }];
     }];
 }
--(void)prepareForPost:(NSString*)ownerID attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
-    
+- (IBAction)deleteMessage:(id)sender {
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext=moc;
+    NSView *parentCell = [sender superview];
+    NSInteger row = [listOfMessages rowForView:parentCell];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%@ == message",messagesToPost[row][@"message"]]];
+    [request setReturnsObjectsAsFaults:NO];
+    NSError *readError;
+    NSArray *array = [temporaryContext executeFetchRequest:request error:&readError];
+    [temporaryContext performBlock:^{
+        [temporaryContext deleteObject:array[0]];
+        NSError *saveError;
+        if(![temporaryContext save:&saveError]){
+            NSLog(@"Error");
+        }
+        [moc performBlock:^{
+            NSError *error = nil;
+            if (![moc save:&error]) {
+                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
+                abort();
+            }else{
+                [moc performBlock:^{
+                    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"VKMessagesToPost"];
+                    [request setReturnsObjectsAsFaults:NO];
+                    [request setResultType:NSDictionaryResultType];
+                    NSError *readError;
+                    messagesToPost = [[NSMutableArray alloc]initWithArray: [moc executeFetchRequest:request error:&readError]];
+                    
+                    [listOfMessages reloadData];
+                }];
+                
+            }
+        }];
+    }];
+}
+//End Read and Write data
+
+//Post methods
+- (void)prepareForPost:(NSMutableArray*)owners attachs:(NSString*)attachs msg:(NSString*)msg repeatPost:(BOOL)repeatPost scheduled:(BOOL)scheduled{
+    ownersCounter=0;
     alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     guId = [NSMutableString stringWithCapacity:20];
     postAfter =  [afterPost.stringValue intValue]-1;
+    
     if(scheduled){
-//        postTargetSourceSelector[@"vk"]=@1;
-        owner = [NSString stringWithFormat:@"%@",ownerID];
-//        attachmentsPostVKString = attachs;
+        preparedOwnersListScheduled = owners;
+        //        postTargetSourceSelector[@"vk"]=@1;
+        owner = [NSString stringWithFormat:@"%@",preparedOwnersListScheduled[ownersCounter][@"id"]];
+        //        attachmentsPostVKString = attachs;
         attachmentsPostVKStringScheduled = [attachs mutableCopy];
-       
-        message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        message = [msg isEqual:@""]?nil:[msg stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         [self postWithoutRepeat:YES];
+//        NSLog(@"%@", owners);
+//        NSLog(@"%@", preparedOwnersListScheduled);
         NSLog(@"%@, %@, %@", owner, attachmentsPostVKStringScheduled, message);
-   
-
+        
+        
     }else{
-        owner = publicId.stringValue;
-        message=[textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]] ;
+        owner = preparedOwnersList[ownersCounter][@"id"];
+        if(![textView.string containsString:@"http"])
+            message = [textView.string isEqualToString:@""] ? nil : [textView.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if(PostVK.state==0 && PostTwitter.state==0 && postTumblr.state==0){
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -661,21 +746,18 @@
             }
         });
     }
+    if(message){
+      [self writeMessage];
+    }
 }
 - (IBAction)makePostAction:(id)sender {
     repeatState = repeat.state;
-    if(PostVK.state){
-        postTargetSourceSelector[@"vk"]=@1;
-    }
-    if(PostTwitter.state){
-        postTargetSourceSelector[@"twitter"]=@1;
-    }
-    if(postTumblr.state){
-        postTargetSourceSelector[@"tumblr"]=@1;
-    }
+    postTargetSourceSelector[@"vk"]=PostVK.state ? @1 : @0;
+    postTargetSourceSelector[@"twitter"]=PostTwitter.state ? @1 : @0;
+    postTargetSourceSelector[@"tumblr"]=postTumblr.state ? @1 : @0;
     [self prepareForPost:nil attachs:nil msg:nil repeatPost:repeatState scheduled:NO];
 }
--(void)postWithRepeat{
+- (void)postWithRepeat{
     stopFlag = NO;
     while(1){
         if(!stopFlag){
@@ -741,7 +823,7 @@
     }
     
 }
--(void)addCommentWithoutRepeat{
+- (void)addCommentWithoutRepeat{
     __block NSString *post_id;
     NSURLSessionDataTask *getPostId = [_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/wall.get?owner_id=%@&count=1&v=%@&access_token=%@&offset=%ld", owner, _app.version, _app.token, postAfter ]]completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *jsonData=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -771,7 +853,7 @@
     [getPostId resume];
 
 }
--(void)addCommentWithRepeat{
+- (void)addCommentWithRepeat{
     stopFlag=NO;
     __block NSString *post_id;
     NSString *afterPostFieldString = afterPostIdField.stringValue;
@@ -860,60 +942,85 @@
         }
     }
 }
--(void)postWithoutRepeat:(BOOL)scheduled{
+- (void)postWithoutRepeat:(BOOL)scheduled{
     if([postTargetSourceSelector[@"vk"] intValue]){
-        NSString *vkURL;
+        __block NSString *vkURL;
+        __block void(^postBlockWrap)(BOOL schdl);
         __block NSString *messageForVk;
-        void (^startPostVk)(NSString *)=^(NSString *url){
-            [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                if(data){
-                    NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"%@", postResponse);
-                    
-                    if([postResponse[@"response"][@"post_id"] intValue]!=0){
-                        NSLog(@"New post in Vkontakte successfully done");
-                       
+        postBlockWrap=^(BOOL schdl){
+            void (^startPostVk)(NSString *)=^(NSString *url){
+                [[_app.session dataTaskWithURL:[NSURL URLWithString:url]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    if(data){
+                        NSDictionary *postResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        NSLog(@"%@", postResponse);
+                        if([postResponse[@"response"][@"post_id"] intValue]!=0){
+                            NSLog(@"New post in Vkontakte successfully done");
+                        }
+                        else{
+                            NSLog(@"New post in Vkontakte is not done");
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [progressSpin stopAnimation:self];
+                        });
+                        postTargetSourceSelector[@"vk"]=@0;
                     }
-                    else{
-                        NSLog(@"New post in Vkontakte is not done");
-                        
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [progressSpin stopAnimation:self];
-                        
-                    });
-                    postTargetSourceSelector[@"vk"]=@0;
-                }
-            }]resume];
-        };
-        if(message && ([attachmentsData count]>0 || scheduled)){
-            //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-            messageForVk=message;
-            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",owner, messageForVk, scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version, [owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-            startPostVk(vkURL);
-        }
-        else if(!message  && ([attachmentsData count]>0 || scheduled)){
-    
-            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner,scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                }]resume];
+            };
+            if(message && ([attachmentsData count]>0 || scheduled)){
+                //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
+                messageForVk=message;
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&attachments=%@&access_token=%@&v=%@%@",owner, messageForVk, scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version, [owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                startPostVk(vkURL);
+            }
+            else if(!message  && ([attachmentsData count]>0 || scheduled)){
+                
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&attachments=%@&access_token=%@&v=%@%@",owner,scheduled ? attachmentsPostVKStringScheduled : attachmentsPostVKString, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                NSLog(@"%@", vkURL);
+                startPostVk(vkURL);
+            }
+            else if(message  && ([attachmentsData count]==0 || scheduled)){
+                //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
+                messageForVk=message;
+                vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@%@",owner, messageForVk, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
+                startPostVk(vkURL);
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cautionImage.hidden=NO;
+                    cautionLabel.hidden=NO;
+                    cautionLabel.stringValue=@"Textfield is empty and not attachments.";
+                    [progressSpin stopAnimation:self];
+                });
+            }
+            
             NSLog(@"%@", vkURL);
-            startPostVk(vkURL);
-        }
-        else if(message  && ([attachmentsData count]==0 || scheduled)){
-            //                    messageForVk = [message stringByReplacingOccurrencesOfString:@"%20" withString:@"%26%2312288;"];
-            messageForVk=message;
-            vkURL = [NSString stringWithFormat:@"https://api.vk.com/method/wall.post?owner_id=%@&message=%@&access_token=%@&v=%@%@",owner, messageForVk, _app.token, _app.version,[owner intValue]<0?[NSString stringWithFormat:@"&from_group=%li", fromGroup.state ]:@""];
-            startPostVk(vkURL);
-        }
-        else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cautionImage.hidden=NO;
-                cautionLabel.hidden=NO;
-                cautionLabel.stringValue=@"Textfield is empty and not attachments.";
-                [progressSpin stopAnimation:self];
-            });
-        }
-        NSLog(@"%@", vkURL);
-        
+            //        NSLog(@"%@", preparedOwnersList);
+            if(schdl){
+                if(ownersCounter<[preparedOwnersListScheduled count]-1){
+                    ownersCounter++;
+                    owner = preparedOwnersListScheduled[ownersCounter][@"id"];
+                    
+                    sleep(2);
+                    NSLog(@"%@", owner);
+                    postBlockWrap(schdl);
+                }
+            }
+            else{
+                if(ownersCounter<[preparedOwnersList count]-1){
+                    ownersCounter++;
+                    owner = preparedOwnersList[ownersCounter][@"id"];
+                    
+                    sleep(2);
+                    NSLog(@"%@", owner);
+                    postBlockWrap(schdl);
+                }
+            }
+            //
+           
+        };
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            postBlockWrap(scheduled);
+        });
         
     }
     if([postTargetSourceSelector[@"twitter"] intValue]){
@@ -924,11 +1031,9 @@
                     NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                     if(resp[@"id"]){
                         NSLog(@"New post with media in Twitter successfully done");
-                       
                     }
                     else{
                         NSLog(@"New post with media in Twitter is not done");
-                        
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -955,10 +1060,18 @@
         }
     }
     if([postTargetSourceSelector[@"tumblr"] intValue]){
+        NSString *ownerName;
+        ownerName = @"digitalpenetrator111";
+        NSString *blogowner = [NSString stringWithFormat:@"blog/%@.tumblr.com", ownerName];
         if([attachmentsData count]>0 || [attachmentsDataScheduled count]>0){
-            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":scheduled?attachmentsDataScheduled : attachmentsData} handler:^(NSData *data) {
+
+            //owner = @"hfdui2134";
+           
+            
+            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"photo", @"caption":message, @"data64":scheduled?attachmentsDataScheduled : attachmentsData} handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrPhotoPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", tumblrPhotoPostResp);
                     if(tumblrPhotoPostResp[@"response"]){
                         NSLog(@"Tumblr post with media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrPhotoPostResp[@"response"][@"id"]]);
                      
@@ -966,8 +1079,8 @@
                         NSLog(@"Tumblr post with media is not  done. Something wrong.");
                        
                     }
-                    //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
-                    //                           NSLog(@"%@", tumblrResp);
+//                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+             
                 }else{
                     NSLog(@"Tumblr post data not recieved");
                    
@@ -980,15 +1093,16 @@
             }];
             
         }else{
-            [_tumblrClient APIRequest:@"blog/hfdui2134.tumblr.com" rmethod:@"post" query:@{@"type":@"text", @"body":message} handler:^(NSData *data) {
+            [_tumblrClient APIRequest:blogowner rmethod:@"post" query:@{@"type":@"text", @"body":message } handler:^(NSData *data) {
                 if(data){
                     NSDictionary *tumblrTextPostResp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    if(tumblrTextPostResp[@"response"][@"id"]){
-                        NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
-                    }else{
-                        NSLog(@"Tumblr post without media is not  done. Something wrong.");
-                    }
-                    //                           NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+                      NSLog(@"%@", tumblrTextPostResp);
+//                    if(tumblrTextPostResp[@"response"][@"id"]){
+//                        NSLog(@"Tumblr post without media is successfully done. Post Id:%@", [NSString stringWithFormat:@"%@", tumblrTextPostResp[@"response"][@"id"]]);
+//                    }else{
+//                        NSLog(@"Tumblr post without media is not  done. Something wrong.");
+//                    }
+//                    NSString *tumblrResp = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
                     //                           NSLog(@"%@", tumblrResp);
                 }else{
                     NSLog(@"Tumblr post data not recieved");
@@ -999,30 +1113,100 @@
             }];
         }
     }
-}
+ 
 
--(void)getGroupInfo:(OnComplete)completion{
+}
+//Post methods end
+
+
+//Get info about new owner
+- (void)getGroupInfo:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.getById?group_id=%i&access_token=%@&v=%@", abs([publicId.stringValue intValue]), _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
         
     }]resume];
     
 }
--(void)getUserInfo:(OnComplete)completion{
+- (void)getUserInfo:(OnComplete)completion{
     [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_id=%i&fields=photo_50&access_token=%@&v=%@", [publicId.stringValue intValue], _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         completion(data);
         
     }]resume];
 }
+//Get infro about new owner end
+
+- (IBAction)removeItemFromToPostList:(id)sender {
+    NSInteger row = [preparedListToPost rowForView:[sender superview]];
+    [preparedOwnersList removeObjectAtIndex:row];
+    
+    [preparedListToPost removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row] withAnimation:NSTableViewAnimationSlideRight];
+    [self setSelectorsButtonsState];
+    
+}
+
+- (IBAction)addItemToPostList:(id)sender {
+    NSInteger row = [recentGroups rowForView:[sender superview]];
+    NSLog(@"%li", row);
+//    NSLog(@"%@", preparedOwnersList);
+//    NSLog(@"%@", groupsToPost);
+    if(![preparedOwnersList containsObject:groupsToPost[row]]){
+        //        [groupsData2 addObject:groupsData1[row]];
+        [preparedOwnersList insertObject:groupsToPost[row] atIndex:0];
+        //            selectedGroups = groupsData2;
+        //        groupsData2 = [[NSMutableArray alloc]initWithArray:[[groupsData2 reverseObjectEnumerator] allObjects]];
+        
+        //            if(repostUserGroups.selectedItem){
+        //                [itemsToSaveInSelectedRepostGroup addObject:groupsData1[row]];
+        //            }
+        [preparedListToPost insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:0] withAnimation:NSTableViewAnimationSlideLeft];
+        //        [groupsList2 reloadData];
+        //            countGroups2.title = [NSString stringWithFormat:@"%li", [groupsData2 count]];
+        //            saveRepostGroup.hidden=NO;
+        //            addRepostGroup.hidden=NO;
+//        [preparedListToPost reloadData];
+    }
+    [self setSelectorsButtonsState];
+}
 
 
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
+- (void)loadGroups{
+//    [groupsList addItemWithTitle:@"Personal"];
+    
+    [groupsToPost removeAllObjects];
+    [groupsToPost addObject:@{@"id":_app.person, @"name":@"Me"}];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if(data){
+                NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
+//                    [groupsData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
+                    [groupsToPost addObject:@{@"id":[NSString stringWithFormat:@"-%@", i[@"id"]], @"name":i[@"name"], @
+                                              "photo":i[@"photo_50"]}];
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [groupsList addItemWithTitle:i[@"name"]];
+//                        [groupsToPost addObject:@{@"id":i[@"id"], @"name":i[@"name"]}];
+                        
+//                    });
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [recentGroups reloadData];
+//                    NSLog(@"%@",groupsGetResponse[@"response"][@"items"]);
+                });
+            }
+        }]resume];
+    });
+}
+
+
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification{
     if([notification.object isEqual:recentGroups]){
-        NSInteger row = [recentGroups selectedRow] ?  [recentGroups selectedRow] : 0;
-        if(row+1<=[groupsToPost count]){
-            NSString *item = [NSString stringWithFormat:@"%@", groupsToPost[row][@"id"]];
-            publicId.stringValue = item;
-        }
+//        NSInteger row = [recentGroups selectedRow] ?  [recentGroups selectedRow] : 0;
+//        if(row+1<=[groupsToPost count]){
+//            NSString *item = [NSString stringWithFormat:@"%@", groupsToPost[row][@"id"]];
+////            publicId.stringValue = item;
+//        }
     }
     else if([notification.object isEqual:listOfMessages]){
         
@@ -1031,11 +1215,15 @@
             NSString *item = [NSString stringWithFormat: @"%@", messagesToPost[row][@"message"]];
             textView.string = item;
             selectedObject = row;
+            [self setSelectorsButtonsState];
 //        }
     }
 }
-
--(NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row{
+    MyTableRowView *rowView = [[MyTableRowView alloc]init];
+    return rowView;
+}
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView isEqual:recentGroups]){
         if ([groupsToPost count]>0) {
             return [groupsToPost count];
@@ -1044,14 +1232,19 @@
     else if([tableView isEqual:listOfMessages]){
         return [messagesToPost count];
     }
+    else if ([tableView isEqual:preparedListToPost]){
+        if([preparedOwnersList count]>0){
+            return [preparedOwnersList count];
+        }
+    }
     return 0;
 }
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
      if ([tableView isEqual:recentGroups]){
          if ([groupsToPost count]>0) {
              WallPostRecentGroupsCustomCell*cell=[[WallPostRecentGroupsCustomCell alloc]init];
              cell=[tableView makeViewWithIdentifier:@"MainCell" owner:self];
-             [cell.groupId setStringValue:groupsToPost[row][@"id"]];
+             [cell.groupId setStringValue:[NSString stringWithFormat:@"%@ | %@", groupsToPost[row][@"name"],groupsToPost[row][@"id"]]];
              //    [cell.textField setStringValue:@"opk"];
              NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:groupsToPost[row][@"photo"]]];
              cell.photo.wantsLayer=YES;
@@ -1065,19 +1258,40 @@
         if([messagesToPost count]>0){
             NSTableCellView *cell=[tableView makeViewWithIdentifier:@"MainCell" owner:self];
             [cell.textField setStringValue:messagesToPost[row][@"message"]];
+            
+            
+            return cell;
+        }
+    }
+    else if ([tableView isEqual:preparedListToPost]){
+        if ([preparedOwnersList count]>0) {
+            WallPostRecentGroupsCustomCell*cell=[[WallPostRecentGroupsCustomCell alloc]init];
+            cell=[tableView makeViewWithIdentifier:@"MainCell" owner:self];
+            [cell.groupId setStringValue:[NSString stringWithFormat:@"%@ | %@", preparedOwnersList[row][@"name"],preparedOwnersList[row][@"id"]]];
+            //    [cell.textField setStringValue:@"opk"];
+        
+            NSImage *image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:preparedOwnersList[row][@"photo"]]];
+            cell.photo.wantsLayer=YES;
+            cell.photo.layer.cornerRadius=30/2;
+            cell.photo.layer.masksToBounds=TRUE;
+            cell.remove.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:14];
+            NSString *removeS = @"\U0000E681";
+//            cell.remove.title = removeS;
+            [cell.photo setImage:image];
             return cell;
         }
     }
     return nil;
 }
--(NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+
+
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if([attachmentsData count]>0){
         return [attachmentsData count];
     }
     return 0;
 }
-
--(NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath{
     
     PostAttachmentsCustomItem *item1 = [[PostAttachmentsCustomItem alloc]init];
     item1 = [collectionView makeItemWithIdentifier:@"PostAttachmentsCustomItem" forIndexPath:indexPath];
@@ -1090,7 +1304,7 @@
 //        item1.titleItem.stringValue = itt2;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSImage *image = [[NSImage alloc]init];
-            NSString *ph = attachmentsData[indexPath.item][@"data"][@"items"] ? attachmentsData[indexPath.item][@"data"][@"items"][@"photo"] : attachmentsData[indexPath.item][@"data"][@"photo"]?attachmentsData[indexPath.item][@"data"][@"photo"]:attachmentsData[indexPath.item][@"data"][@"cover"];
+            NSString *ph = attachmentsData[indexPath.item][@"data"][@"items"] ? attachmentsData[indexPath.item][@"data"][@"items"][@"photo"] : attachmentsData[indexPath.item][@"data"][@"photo"] ? attachmentsData[indexPath.item][@"data"][@"photo"]:attachmentsData[indexPath.item][@"data"][@"cover"];
                 image = [[NSImage alloc]initWithContentsOfURL:[NSURL URLWithString:ph]];
             
 

@@ -27,7 +27,7 @@
 - (id)initWithParams:(NSString*)client_id client_secret:(NSString*)client_secret;
 - (id)initWithToken:(NSString*)access_token client_id:(NSString*)client_id client_secret:(NSString*)client_secret token_type:(NSString*)token_type;
 - (id)initWithTokensFromCoreData;
-typedef void (^OnComplete) (NSData *data);
--(void)APIRequest:(NSString*)method  query:(NSDictionary*)rparams handler:(OnComplete)completion;
--(void)refreshToken:(OnComplete)completion;
+    typedef void (^OnComplete3) (NSData *data);
+-(void)APIRequest:(NSString*)method  query:(NSDictionary*)rparams handler:(OnComplete3)completion;
+-(void)refreshToken:(OnComplete3)completion;
 @end

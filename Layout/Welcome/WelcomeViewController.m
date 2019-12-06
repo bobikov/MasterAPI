@@ -139,7 +139,7 @@
                         getServerParams();
                         sleep(1);
                         stopped=NO;
-                        startLong();
+//                        startLong();
                        
                     }
                     //

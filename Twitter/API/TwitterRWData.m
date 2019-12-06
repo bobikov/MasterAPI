@@ -7,11 +7,11 @@
 //
 
 #import "TwitterRWData.h"
-
+#import "AppDelegate.h"
 @implementation TwitterRWData
 -(id)init{
     self = [super self];
-    moc = [[[NSApplication sharedApplication ] delegate] managedObjectContext];
+    moc = ((AppDelegate*)[[NSApplication sharedApplication]delegate]).managedObjectContext;
     return self;
 }
 -(void)writeTokens:(NSDictionary*)data{
@@ -63,7 +63,7 @@
     [request setResultType:NSDictionaryResultType];
     NSArray *array = [moc executeFetchRequest:request error:&readError];
     
-    return array[0];
+    return [array count] ? array[0] : @{};
 }
 
 -(BOOL)TwitterTokensEcxistsInCoreData{
@@ -79,7 +79,7 @@
     }
     return NO;
 }
--(void)removeAllTwitterAppInfo{
+-(void)removeAllTwitterAppInfo:(OnCompleteRemoveApp)completion{
 
     NSError *readError;
     NSError *saveError;
@@ -90,8 +90,10 @@
         [moc deleteObject:managedObject];
         if(![moc save:&saveError]){
             NSLog(@"Error delete tumblr object in TwitterAppInfo");
+            completion(0);
         }else{
             NSLog(@"Object delted in TwitterAppInfo");
+            completion(1);
         }
     }
 }

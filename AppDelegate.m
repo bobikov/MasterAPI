@@ -11,6 +11,8 @@
 #import "TwitterRWData.h"
 #import "YoutubeRWData.h"
 #import "InstagramRWD.h"
+
+
 @interface AppDelegate ()
 
 @end
@@ -24,23 +26,27 @@
 
 - (IBAction)showAppsPreferences:(id)sender {
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Third" bundle:nil];
+
     NSViewController *contr = [story instantiateControllerWithIdentifier:@"appPrefs"];
+   
     [contr setTitle:@"Preferences"];
-    [contr presentViewControllerAsModalWindow:contr];
+//    [contr presentViewControllerAsModalWindow:contr];
+    
+
+//    
+//    DBPrefsWindowController *prefs =[Preferences sharedPrefsWindowController];
+//    [prefs showWindow:nil];
+
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  
     TumblrRWData *TumblrRWD = [[TumblrRWData alloc]init];
     TwitterRWData *TwitterRWD = [[TwitterRWData alloc]init];
     YoutubeRWData *YoutubeRWD = [[YoutubeRWData alloc]init];
     InstagramRWD *instaRWD = [[InstagramRWD alloc]init];
-    
-    
-
     _app = [[appInfo alloc]init];
-    
-  
     _app = [[appInfo alloc]init];
     NSStoryboard *story = [NSStoryboard storyboardWithName:@"Main" bundle:nil];
     NSStoryboard *secondStory = [NSStoryboard storyboardWithName:@"Second" bundle:nil];
@@ -207,5 +213,9 @@
 
 
 
+
+
+
+    
 
 @end
