@@ -24,7 +24,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVkStoryWithEffects:) name:@"UploadVKStoryPhotoWithEffects" object:nil];
     [self configCameraLayer];
     
-  
+    
 }
 -(void)uploadVkStoryWithEffects:(NSNotification*)obj{
     
@@ -32,19 +32,19 @@
 - (void)viewDidAppear{
     cameraLayer = cameraView.layer;
     cameraLayer.backgroundColor = [[NSColor blackColor]CGColor];
-//    [self cameraCapture];
+    //    [self cameraCapture];
 }
 - (void)viewDidDisappear{
     if([session isRunning]){
         [session stopRunning];
         [assetWriterMyData finishWritingWithCompletionHandler:^{
-        
+            
         }];
     }
 }
 -(void)configCameraLayer{
-   
-   
+    
+    
     
 }
 -(void)configCameraSession{
@@ -52,8 +52,8 @@
 }
 - (void)cameraCapture{
     
-   [self removeCapturedVideoFile];
-
+    [self removeCapturedVideoFile];
+    
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     NSMutableArray *mainDevices = [[NSMutableArray alloc] init];
     for (AVCaptureDevice *device in devices) {
@@ -63,121 +63,121 @@
     }
     NSLog(@"%@", mainDevices);
     session = [[AVCaptureSession alloc] init];
-
-//    [session beginConfiguration];
+    
+    //    [session beginConfiguration];
     
     NSError *error;
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:mainDevices[0] error:&error];
-
+    
     [session addInput:videoInput];
-
+    
     AVCaptureVideoDataOutput *videoOutput = [[AVCaptureVideoDataOutput alloc]init];
     dispatch_queue_t video_queue = dispatch_queue_create("VideoQueue", nil);
     [videoOutput setSampleBufferDelegate:self queue:video_queue];
-
+    
     [videoOutput setAlwaysDiscardsLateVideoFrames:YES];
     videoOutput.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA)};
     
-//            output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8Planar) };
-//    output.videoSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecH264,AVVideoCodecKey,nil];
+    //            output.videoSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8Planar) };
+    //    output.videoSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecH264,AVVideoCodecKey,nil];
     
-
-//    output.minFrameDuration = CMTimeMake(1, 15);
+    
+    //    output.minFrameDuration = CMTimeMake(1, 15);
     [session addOutput:videoOutput];
-//            AVCaptureConnection* avConnection = [output connectionWithMediaType:AVMediaTypeVideo];
-//            avConnection.automaticallyAdjustsVideoMirroring=NO;
-//            [avConnection setVideoMirrored:YES];
-        NSLog(@"Available video codecs: %@", [videoOutput availableVideoCodecTypes]);
-//    AVCaptureFileOutput *fileOutput = [[AVCaptureFileOutput alloc]init];
-
-
-
-
+    //            AVCaptureConnection* avConnection = [output connectionWithMediaType:AVMediaTypeVideo];
+    //            avConnection.automaticallyAdjustsVideoMirroring=NO;
+    //            [avConnection setVideoMirrored:YES];
+    NSLog(@"Available video codecs: %@", [videoOutput availableVideoCodecTypes]);
+    //    AVCaptureFileOutput *fileOutput = [[AVCaptureFileOutput alloc]init];
+    
+    
+    
+    
     audioOutput = [[AVCaptureAudioDataOutput alloc]init];
     dispatch_queue_t audio_queue = dispatch_queue_create("AudioQueue", nil);
     [audioOutput setSampleBufferDelegate:self queue:audio_queue];
-
+    
     [session addOutput:audioOutput];
-
+    
     preview = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
     [preview setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     preview.connection.automaticallyAdjustsVideoMirroring=NO;
     preview.connection.videoMirrored=YES;
-
     
-
+    
+    
     
     assetWriterMyData = [[AVAssetWriter alloc] initWithURL:filePath fileType:AVFileTypeMPEG4 error:&error];
-
+    
     NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:640], AVVideoWidthKey, [NSNumber numberWithInt:480], AVVideoHeightKey, AVVideoCodecH264, AVVideoCodecKey,nil];
-
+    
     assetVideoWriterInput = [AVAssetWriterInput  assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:outputSettings];
     assetVideoWriterInput.expectsMediaDataInRealTime = YES;
     
     pixelBufferAdaptor = [[AVAssetWriterInputPixelBufferAdaptor alloc]
-     initWithAssetWriterInput:assetVideoWriterInput sourcePixelBufferAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA],kCVPixelBufferPixelFormatTypeKey,
-      nil]];
-
-
-
+                          initWithAssetWriterInput:assetVideoWriterInput sourcePixelBufferAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA],kCVPixelBufferPixelFormatTypeKey,
+                                                                                                      nil]];
+    
+    
+    
     AudioChannelLayout acl;
     bzero( &acl, sizeof(acl));
     acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
-//    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
+    //    acl.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
     NSDictionary *audioOutputSettings = nil;
-//    audioOutputSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                     [ NSNumber numberWithInt: kAudioFormatMPEG4AAC ], AVFormatIDKey,
-//                                     [ NSNumber numberWithInt: 1 ], AVNumberOfChannelsKey,
-//                                     [ NSNumber numberWithFloat: 44100.0 ], AVSampleRateKey,
-//                                     [ NSNumber numberWithInt: 64000 ], AVEncoderBitRateKey,
-//                                     [ NSData dataWithBytes: &acl length: sizeof( acl ) ], AVChannelLayoutKey,
-//                                     nil];
-//    audioOutputSettings = [ NSDictionary dictionaryWithObjectsAndKeys:
-//                           [ NSNumber numberWithInt: kAudioFormatAppleLossless ], AVFormatIDKey,
-//                           [ NSNumber numberWithInt: 16 ], AVEncoderBitDepthHintKey,
-//                           [ NSNumber numberWithFloat: 44100.0 ], AVSampleRateKey,
-//                           [ NSNumber numberWithInt: 1 ], AVNumberOfChannelsKey,
-//                           [ NSData dataWithBytes: &acl length: sizeof( acl ) ], AVChannelLayoutKey,
-//                           nil ];
+    //    audioOutputSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+    //                                     [ NSNumber numberWithInt: kAudioFormatMPEG4AAC ], AVFormatIDKey,
+    //                                     [ NSNumber numberWithInt: 1 ], AVNumberOfChannelsKey,
+    //                                     [ NSNumber numberWithFloat: 44100.0 ], AVSampleRateKey,
+    //                                     [ NSNumber numberWithInt: 64000 ], AVEncoderBitRateKey,
+    //                                     [ NSData dataWithBytes: &acl length: sizeof( acl ) ], AVChannelLayoutKey,
+    //                                     nil];
+    //    audioOutputSettings = [ NSDictionary dictionaryWithObjectsAndKeys:
+    //                           [ NSNumber numberWithInt: kAudioFormatAppleLossless ], AVFormatIDKey,
+    //                           [ NSNumber numberWithInt: 16 ], AVEncoderBitDepthHintKey,
+    //                           [ NSNumber numberWithFloat: 44100.0 ], AVSampleRateKey,
+    //                           [ NSNumber numberWithInt: 1 ], AVNumberOfChannelsKey,
+    //                           [ NSData dataWithBytes: &acl length: sizeof( acl ) ], AVChannelLayoutKey,
+    //                           nil ];
     audioOutputSettings = @{
                             AVFormatIDKey : @(kAudioFormatMPEG4AAC),
                             AVSampleRateKey: @(44100),
                             AVChannelLayoutKey: [NSData dataWithBytes:&acl length:sizeof(acl)],
                             };
     assetAudioWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings: audioOutputSettings ];
-
+    
     assetAudioWriterInput.expectsMediaDataInRealTime=YES;
     [assetWriterMyData addInput:assetVideoWriterInput];
     [assetWriterMyData addInput:assetAudioWriterInput];
-
-
-
-
-
-/* Asset writer with MPEG4 format*/
-
-//    imageBuffer = NULL;
-//    NSParameterAssert(assetWriterInput);
-//    NSParameterAssert([assetWriterMyData canAddInput:assetWriterInput]);
-
-
-//    preview.connection.videoOrientation=AVCaptureVideoOrientationLandscapeRight;
-
-//    CALayer *cameraLayer = cameraView.layer;
-//    cameraLayer.backgroundColor = [[NSColor blackColor]CGColor];
-//    cameraView.layer.mask=layer;
-//    cameraView.wantsLayer=YES;
-
-//    layer.masksToBounds=YES;
-//    AVCaptureFileOutput *fileOutput = [[AVCaptureFileOutput alloc]init];
-//    [fileOutput setDelegate:self];
-//     [fileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:@"/Users/hal/Desktop/cam_recording.mp4"] recordingDelegate:self];
+    
+    
+    
+    
+    
+    /* Asset writer with MPEG4 format*/
+    
+    //    imageBuffer = NULL;
+    //    NSParameterAssert(assetWriterInput);
+    //    NSParameterAssert([assetWriterMyData canAddInput:assetWriterInput]);
+    
+    
+    //    preview.connection.videoOrientation=AVCaptureVideoOrientationLandscapeRight;
+    
+    //    CALayer *cameraLayer = cameraView.layer;
+    //    cameraLayer.backgroundColor = [[NSColor blackColor]CGColor];
+    //    cameraView.layer.mask=layer;
+    //    cameraView.wantsLayer=YES;
+    
+    //    layer.masksToBounds=YES;
+    //    AVCaptureFileOutput *fileOutput = [[AVCaptureFileOutput alloc]init];
+    //    [fileOutput setDelegate:self];
+    //     [fileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:@"/Users/hal/Desktop/cam_recording.mp4"] recordingDelegate:self];
     if(![[cameraLayer sublayers] containsObject:preview]){
         preview.frame = cameraLayer.bounds;
         [cameraLayer addSublayer:preview];
     }
-
-//    [layer insertSublayer:preview atIndex:0];
+    
+    //    [layer insertSublayer:preview atIndex:0];
     [session setSessionPreset:AVCaptureSessionPreset640x480];
     frameNumber = 0;
     //    [session commitConfiguration];
@@ -194,10 +194,10 @@
         [manager removeItemAtPath:[[filePath absoluteString]stringByReplacingOccurrencesOfString:@"file://" withString:@""]  error:nil];
         NSLog(@"Capture file exists");
     }else{
-//        [manager createFileAtPath:[filePath absoluteString] contents:nil attributes:nil];
+        //        [manager createFileAtPath:[filePath absoluteString] contents:nil attributes:nil];
     }
     NSLog(@"%@", [filePath absoluteString]);
-  
+    
 }
 - (IBAction)stopCamera:(id)sender {
     if([session isRunning]){
@@ -207,7 +207,7 @@
         }];
     }else{
         [self cameraCapture];
-//        [session startRunning];
+        //        [session startRunning];
     }
 }
 - (NSArray*)getFilesForUpload{
@@ -224,7 +224,7 @@
             long size = [[manager attributesOfItemAtPath:i.path error:nil] fileSize];
             NSLog(@"%ld",size);
             if(size >= 10485760){
-               
+                
                 fileSizeLimit = YES;
                 break;
                 
@@ -233,8 +233,8 @@
         if(fileSizeLimit){
             NSLog(@"File size more than 10mb is found.");
         }else{
-             [self prepareForUpload];
-       }
+            [self prepareForUpload];
+        }
     }else{
         NSLog(@"Canceled selecting files for story");
     }
@@ -242,14 +242,14 @@
     return files;
 }
 - (void)convertGifToMp4{
-//    NSData *gif = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://i.imgur.com/xqG0QP3.gif"]];
-//    NSString *outputPath = [NSTemporaryDirectory() stringByAppendingString:@"output.mp4"];
-//    
-//    GIFConverter *gifConverter = [[GIFConverter alloc] init];
-//    [gifConverter convertGIFToMP4:gif speed:1.0 size:CGSizeMake(200, 200) repeat:0 output:outputPath completion:^(NSError *error){
-//        if(!error)
-//            NSLog(@"Converted video!");
-//    }];
+    //    NSData *gif = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://i.imgur.com/xqG0QP3.gif"]];
+    //    NSString *outputPath = [NSTemporaryDirectory() stringByAppendingString:@"output.mp4"];
+    //
+    //    GIFConverter *gifConverter = [[GIFConverter alloc] init];
+    //    [gifConverter convertGIFToMP4:gif speed:1.0 size:CGSizeMake(200, 200) repeat:0 output:outputPath completion:^(NSError *error){
+    //        if(!error)
+    //            NSLog(@"Converted video!");
+    //    }];
 }
 - (void)openPhotoEffectsWindow{
     
@@ -270,8 +270,8 @@
 - (void)prepareForUpload{
     backgroundConfigurationObject = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"myBackgroundSessionIdentifier1"];
     backgroundSession = [NSURLSession sessionWithConfiguration:backgroundConfigurationObject delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-  
-   
+    
+    
     uploadCounter = 0;
     if(!files){
         NSLog(@"Files have not got");
@@ -294,13 +294,13 @@
                 }else{
                     
                 }
-            
+                
                 
             }
-//            NSLog(@"%@", obj);
+            //            NSLog(@"%@", obj);
         }]resume];
     }
- 
+    
 }
 - (void)startUpload{
     fileName = [files[uploadCounter] lastPathComponent];
@@ -311,12 +311,14 @@
     NSLog(@"Filename: %@", fileName);
     NSLog(@"Rfformat: %u", rfformat);
     NSLog(@"URL: %@", url );
-  
-    NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
-    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[extension isEqual: @"jpg"] || [extension isEqual: @"png"] ? NSJPEGFileType : [extension isEqual: @"gif"] ? NSGIFFileType : NSJPEGFileType properties:nil] : contents;
     
+    NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
+//    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[extension isEqual: @"jpg"] || [extension isEqual: @"png"] || [extension isEqual: @"gif"] ? NSJPEGFileType : NSJPEGFileType properties:nil] : contents;
+    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[@[@"gif", @"jpg", @"png"] containsObject: extension] ? NSJPEGFileType : NSJPEGFileType properties:nil] : contents;
+    NSLog(@"%@", extension);
+//    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[extension isEqual: @"jpg"]  ? NSJPEGFileType : [extension isEqual: @"png"] ? NSJPEGFileType : [extension isEqual: @"gif"] ? NSGIFFileType : NSJPEGFileType properties:nil] : contents;
     NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData:[NSURL URLWithString:upload_url] filename:fileName bodyData:data1 fformat:rfformat == file ? @"file" : @"video_file"];
- 
+    
     NSURLSessionDataTask *uploadTask = [backgroundSession dataTaskWithRequest:request];
     uploadProgress.hidden=NO;
     [uploadTask resume];
@@ -326,10 +328,10 @@
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     completionHandler(NSURLSessionResponseAllow);
-
+    
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
-   
+    
     if(data){
         NSDictionary *uploadPhotoResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         NSLog(@"%@", uploadPhotoResponse);
@@ -354,17 +356,17 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     
-        uploadProgress.maxValue = totalBytesExpectedToSend;
-        uploadProgress.doubleValue = totalBytesSent;
-
+    uploadProgress.maxValue = totalBytesExpectedToSend;
+    uploadProgress.doubleValue = totalBytesSent;
+    
 }
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     imageBuffer = NULL;
-//    UIImage *image = imageFromSampleBuffer(sampleBuffer);
+    //    UIImage *image = imageFromSampleBuffer(sampleBuffer);
     imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-//    CMSampleBufferRef *audioBuffer = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer,nil, &audioBufferList,UInt(sizeof(audioBufferList.dynamicType)),nil,nil,UInt32(kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment),&buffer);
-//    CMTime timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-//    NSLog(@"%@", imageBuffer);
+    //    CMSampleBufferRef *audioBuffer = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer,nil, &audioBufferList,UInt(sizeof(audioBufferList.dynamicType)),nil,nil,UInt32(kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment),&buffer);
+    //    CMTime timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    //    NSLog(@"%@", imageBuffer);
     // a very dense way to keep track of the time at which this frame
     // occurs relative to the output stream, but it's just an example!
     
@@ -375,14 +377,14 @@
     }else{
         NSLog(@"Video input nor ready to write");
     }
-//    if(captureOutput == audioOutput){
-        if([assetAudioWriterInput isReadyForMoreMediaData]){
-            [assetAudioWriterInput appendSampleBuffer:sampleBuffer];
-        }else{
-            NSLog(@"Audio input not ready to write");
-        }
-        
-//    }
+    //    if(captureOutput == audioOutput){
+    if([assetAudioWriterInput isReadyForMoreMediaData]){
+        [assetAudioWriterInput appendSampleBuffer:sampleBuffer];
+    }else{
+        NSLog(@"Audio input not ready to write");
+    }
+    
+    //    }
     NSLog(@"Warning: writer status is %ld", assetWriterMyData.status);
 }
 
