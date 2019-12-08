@@ -9,9 +9,9 @@
 #import "TumblrClient.h"
 //#import "NSString+RMURLEncoding.h"
 #import <NSHash/NSString+NSHash.h>
-#import <NAHMAC.h>
-#import "NSString+SHA1HMAC.h"
-#import "NSString+MD5HMAC.h"
+//#import <NAHMAC.h>
+//#import "NSString+SHA1HMAC.h"
+//#import "NSString+MD5HMAC.h"
 @implementation TumblrClient
 @synthesize  request;
 

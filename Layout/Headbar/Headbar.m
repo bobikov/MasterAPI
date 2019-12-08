@@ -13,7 +13,7 @@
 #import "TumblrClient.h"
 #import "InstagramClient.h"
 #import <SYFlatButton/SYFlatButton.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 #import <BOString/BOString.h>
 @interface Headbar () <AVAudioPlayerDelegate>
 

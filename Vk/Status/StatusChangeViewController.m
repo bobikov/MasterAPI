@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import <SYFlatButton/SYFlatButton.h>
 #import "SYFlatButton+ButtonsStyle.h"
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 
 @interface StatusChangeViewController ()<NSTextViewDelegate, NSTableViewDataSource, NSTableViewDelegate,NSTextFieldDelegate>
 

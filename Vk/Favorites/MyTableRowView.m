@@ -7,7 +7,7 @@
 //
 
 #import "MyTableRowView.h"
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 @implementation MyTableRowView
 - (id)init
 {

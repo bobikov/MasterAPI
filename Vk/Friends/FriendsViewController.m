@@ -12,7 +12,7 @@
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 #import <BOString/BOString.h>
 #import "MyTableRowView.h"
 #import "SYFlatButton+ButtonsStyle.h"

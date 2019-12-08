@@ -11,7 +11,7 @@
 #import <Quartz/Quartz.h>
 #import "CustomView.h"
 #import <BOString/BOString.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor_HexString/NSColor+HexString.h>
 @implementation ViewController
 
 - (void)viewDidLoad {

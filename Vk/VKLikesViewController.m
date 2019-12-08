@@ -8,6 +8,7 @@
 
 #import "VKLikesViewController.h"
 #import "VKLikesCellTableView.h"
+#import <UIView+WebCache.h>
 #import <UIImageView+WebCache.h>
 @interface VKLikesViewController ()<NSTableViewDelegate,NSTableViewDataSource>
 
@@ -46,6 +47,7 @@
 }
 -(NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     VKLikesCellTableView *cell = (VKLikesCellTableView*)[tableView makeViewWithIdentifier:@"MainCell" owner:self];
+
     [cell.photo sd_setImageWithURL:[NSURL URLWithString:usersListData[row][@"user_photo"]] placeholderImage:nil options:SDWebImageRefreshCached completed:^(NSImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         image.size = NSMakeSize(100,100);
         cell.photo.image = image;

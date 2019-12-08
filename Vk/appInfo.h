@@ -5,6 +5,7 @@
 //  Created by sim on 20.04.16.
 //  Copyright © 2016 sim. All rights reserved.
 //
+#import <HTMLReader.h>
 #import <Foundation/Foundation.h>
 #import "keyHandler.h"
 #import <CoreData/CoreData.h>

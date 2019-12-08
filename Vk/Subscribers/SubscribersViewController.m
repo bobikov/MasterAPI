@@ -9,11 +9,11 @@
 #import "SubscribersViewController.h"
 #import "FullUserInfoPopupViewController.h"
 #import "ViewControllerMenuItem.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import <UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
 #import "MyTableRowView.h"
 #import <SYFlatButton/SYFlatButton.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor_HexString/NSColor+HexString.h>
 @interface SubscribersViewController ()<NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate>
 
 @end

@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MyTableRowView.h"
 #import "SYFlatButton+ButtonsStyle.h"
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 @interface OutRequestsController ()<NSTableViewDelegate, NSTableViewDataSource>
 typedef void(^OnGetRequestsComplete)(NSMutableArray* requests);
 - (void)getRequests:(OnGetRequestsComplete)completion;

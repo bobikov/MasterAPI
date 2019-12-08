@@ -7,7 +7,7 @@
 //
 
 #import "SYFlatButton+ButtonsStyle.h"
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor_HexString/NSColor+HexString.h>
 @implementation SYFlatButton (ButtonsStyle)
 
 -(id)simpleButton:(SYFlatButton*)button{

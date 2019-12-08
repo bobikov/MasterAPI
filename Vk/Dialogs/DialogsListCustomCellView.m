@@ -9,7 +9,7 @@
 #import "DialogsListCustomCellView.h"
 #import <PocketSVG/PocketSVG.h>
 #import <BOString/BOString.h>
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 @implementation DialogsListCustomCellView
 
 - (void)drawRect:(NSRect)dirtyRect {

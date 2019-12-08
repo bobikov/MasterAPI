@@ -11,7 +11,7 @@
 #import "BanlistCustomCell.h"
 #import "StringHighlighter.h"
 #import "SYFlatButton+ButtonsStyle.h"
-#import <NSColor-HexString/NSColor+HexString.h>
+#import <NSColor+HexString.h>
 @interface BanlistViewController : NSViewController{
     
     __weak IBOutlet NSTableView *banList;
