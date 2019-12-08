@@ -314,7 +314,7 @@
     
     NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:contents];
 //    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[extension isEqual: @"jpg"] || [extension isEqual: @"png"] || [extension isEqual: @"gif"] ? NSJPEGFileType : NSJPEGFileType properties:nil] : contents;
-    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[@[@"gif", @"jpg", @"png"] containsObject: extension] ? NSJPEGFileType : NSJPEGFileType properties:nil] : contents;
+    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[@[@"gif", @"jpg", @"png"] containsObject: extension] ? NSBitmapImageFileTypeJPEG : NSBitmapImageFileTypeJPEG properties:nil] : contents;
     NSLog(@"%@", extension);
 //    NSData *data1 = rfformat == file ? [imageRep representationUsingType:[extension isEqual: @"jpg"]  ? NSJPEGFileType : [extension isEqual: @"png"] ? NSJPEGFileType : [extension isEqual: @"gif"] ? NSGIFFileType : NSJPEGFileType properties:nil] : contents;
     NSMutableURLRequest *request = [_app getMutableURLRequestWithMultipartData:[NSURL URLWithString:upload_url] filename:fileName bodyData:data1 fformat:rfformat == file ? @"file" : @"video_file"];
