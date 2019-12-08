@@ -18,6 +18,8 @@
     __weak IBOutlet NSImageView *AppIconView;
     NSTrackingArea *trackingArea;
     NSPoint mouseLocation;
+    IBOutlet NSTextField *nameLabel;
+    IBOutlet NSTextField *versionLabel;
 }
 
 @end
