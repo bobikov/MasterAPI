@@ -2,11 +2,16 @@
 //  CustomMenuItemView.h
 //  MasterAPI
 //
-//  Created by sim on 06.12.16.
-//  Copyright © 2016 sim. All rights reserved.
+//  Created by Константин on 09.12.2019.
+//  Copyright © 2019 sim. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
+
+
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomMenuItemView : NSView{
     NSColor *backgroundColor;
@@ -16,3 +21,5 @@
 @property (weak) IBOutlet NSImageView *photo;
 
 @end
+
+NS_ASSUME_NONNULL_END

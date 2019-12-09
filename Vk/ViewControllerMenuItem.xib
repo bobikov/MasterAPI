@@ -34,8 +34,8 @@
                 </textField>
             </subviews>
             <connections>
-                <outlet property="nameField" destination="L5E-VA-7Oi" id="4iQ-aa-bgM"/>
-                <outlet property="photo" destination="D1O-B3-iwr" id="pK7-69-L9j"/>
+                <outlet property="nameField" destination="L5E-VA-7Oi" id="3dG-6v-MCf"/>
+                <outlet property="photo" destination="D1O-B3-iwr" id="WTj-U7-YFb"/>
             </connections>
             <point key="canvasLocation" x="436" y="240.5"/>
         </customView>

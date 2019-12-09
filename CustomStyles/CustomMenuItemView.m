@@ -2,9 +2,10 @@
 //  CustomMenuItemView.m
 //  MasterAPI
 //
-//  Created by sim on 06.12.16.
-//  Copyright © 2016 sim. All rights reserved.
+//  Created by Константин on 09.12.2019.
+//  Copyright © 2019 sim. All rights reserved.
 //
+
 #define menuItem ([self enclosingMenuItem])
 //#define backgroundColor ([NSColor clearColor])
 //define trackingArea ([[NSTrackingArea alloc] initWithRect:self.bounds options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingCursorUpdate) owner:self userInfo:nil])
@@ -33,15 +34,7 @@
     backgroundColor = [NSColor clearColor];
     self.needsDisplay=YES;
 }
--(void)setHighlighted:(BOOL)highlighted{
-    if(highlighted){
-        [[NSColor selectedMenuItemColor] set];
-    }
-    else{
-        [backgroundColor set];
-    }
-    self.needsDisplay=YES;
-}
+
 - (void)mouseUp:(NSEvent*) event
 {
     NSMenu *menu = self.enclosingMenuItem.menu;
