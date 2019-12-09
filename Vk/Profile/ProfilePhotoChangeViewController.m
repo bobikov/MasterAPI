@@ -35,6 +35,7 @@
 - (void)loadGroupsByAdminPopup{
     __block NSMenuItem *menuItem;
     __block NSMenu *menu1 = [[NSMenu alloc]initWithTitle:@"groups menu"];
+    
     [userGroupsByAdminPopup removeAllItems];
     [userGroupsByAdminData addObject:_app.person];
     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
@@ -52,11 +53,10 @@
                 dispatch_async(dispatch_get_main_queue(),^{
                     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
                     [viewControllerItem loadView];
-//                    viewControllerItem.view.appearance=[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
                     
                     menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
                     
-                    [menuItem.view setFrame:menuItem.view.frame];
+                    [menuItem setEnabled:YES];
                     
               
                     NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];

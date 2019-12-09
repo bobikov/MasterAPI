@@ -41,7 +41,6 @@
 		2B41FBD51E02D3F60013AC86 /* AppStartSettingsMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9D91E02D3F50013AC86 /* AppStartSettingsMainViewController.m */; };
 		2B41FBD71E02D3F60013AC86 /* CoreDataMain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9DE1E02D3F50013AC86 /* CoreDataMain.xcdatamodeld */; };
 		2B41FBD81E02D3F60013AC86 /* CustomAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9F11E02D3F50013AC86 /* CustomAnimator.m */; };
-		2B41FBD91E02D3F60013AC86 /* CustomMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9F31E02D3F50013AC86 /* CustomMenuItemView.m */; };
 		2B41FBDA1E02D3F60013AC86 /* CustomScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9F51E02D3F50013AC86 /* CustomScroller.m */; };
 		2B41FBDB1E02D3F60013AC86 /* CustomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9F71E02D3F50013AC86 /* CustomScrollView.m */; };
 		2B41FBDC1E02D3F60013AC86 /* CustomSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B41F9F91E02D3F50013AC86 /* CustomSegment.m */; };
@@ -526,6 +525,7 @@
 		B5548E282230434300C03BEE /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135B6223004680087C064 /* Metal.framework */; };
 		B5548E292230434300C03BEE /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135B8223004720087C064 /* MetalKit.framework */; };
 		B5548E2A2230434300C03BEE /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */; };
+		B554C0F3239E7E5A0092920D /* CustomMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = B554C0F1239E7E5A0092920D /* CustomMenuItemView.m */; };
 		B58368A0239C04DA00BBC5D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41F9DC1E02D3F50013AC86 /* Main.storyboard */; };
 		B5D0B4E821D267D600C2E654 /* Pe-icon-7-stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */; };
 /* End PBXBuildFile section */
@@ -608,8 +608,6 @@
 		2B41F9EE1E02D3F50013AC86 /* CoreDataMain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataMain.xcdatamodel; sourceTree = "<group>"; };
 		2B41F9F01E02D3F50013AC86 /* CustomAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimator.h; sourceTree = "<group>"; };
 		2B41F9F11E02D3F50013AC86 /* CustomAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnimator.m; sourceTree = "<group>"; };
-		2B41F9F21E02D3F50013AC86 /* CustomMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenuItemView.h; sourceTree = "<group>"; };
-		2B41F9F31E02D3F50013AC86 /* CustomMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenuItemView.m; sourceTree = "<group>"; };
 		2B41F9F41E02D3F50013AC86 /* CustomScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomScroller.h; sourceTree = "<group>"; };
 		2B41F9F51E02D3F50013AC86 /* CustomScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomScroller.m; sourceTree = "<group>"; };
 		2B41F9F61E02D3F50013AC86 /* CustomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomScrollView.h; sourceTree = "<group>"; };
@@ -1285,6 +1283,8 @@
 		65C15D6831B4A0BA735718C6 /* Pods_MasterAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MasterAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pe-icon-7-stroke.ttf"; sourceTree = "<group>"; };
 		B5548E232230209400C03BEE /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		B554C0F1239E7E5A0092920D /* CustomMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMenuItemView.m; sourceTree = "<group>"; };
+		B554C0F2239E7E5A0092920D /* CustomMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMenuItemView.h; sourceTree = "<group>"; };
 		B563632A239C2C65003E7ED4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		B5C135B6223004680087C064 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		B5C135B8223004720087C064 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -1371,8 +1371,6 @@
 			children = (
 				2B41F9F01E02D3F50013AC86 /* CustomAnimator.h */,
 				2B41F9F11E02D3F50013AC86 /* CustomAnimator.m */,
-				2B41F9F21E02D3F50013AC86 /* CustomMenuItemView.h */,
-				2B41F9F31E02D3F50013AC86 /* CustomMenuItemView.m */,
 				2B41F9F41E02D3F50013AC86 /* CustomScroller.h */,
 				2B41F9F51E02D3F50013AC86 /* CustomScroller.m */,
 				2B41F9F61E02D3F50013AC86 /* CustomScrollView.h */,
@@ -1380,6 +1378,8 @@
 				2B41F9F81E02D3F50013AC86 /* CustomSegment.h */,
 				2B41F9F91E02D3F50013AC86 /* CustomSegment.m */,
 				2B41F9FA1E02D3F50013AC86 /* CustomSlider.h */,
+				B554C0F2239E7E5A0092920D /* CustomMenuItemView.h */,
+				B554C0F1239E7E5A0092920D /* CustomMenuItemView.m */,
 				2B41F9FB1E02D3F50013AC86 /* CustomSlider.m */,
 				2B41F9FC1E02D3F50013AC86 /* CustomStyleButton.h */,
 				2B41F9FD1E02D3F50013AC86 /* CustomStyleButton.m */,
@@ -3006,7 +3006,6 @@
 				2B41FC911E02D3F70013AC86 /* LongPoll.m in Sources */,
 				2B41FBE51E02D3F60013AC86 /* InstagramAuth.m in Sources */,
 				2B41FC5E1E02D3F70013AC86 /* AudioAlbumsListCustomCell.m in Sources */,
-				2B41FBD91E02D3F60013AC86 /* CustomMenuItemView.m in Sources */,
 				2BF342171F21DADB00C7A0D1 /* JPNG.m in Sources */,
 				2B41FCBB1E02D3F70013AC86 /* WallRepostViewController.m in Sources */,
 				2B41FCB61E02D3F70013AC86 /* removePostsViewController.m in Sources */,
@@ -3128,6 +3127,7 @@
 				2B41FCB21E02D3F70013AC86 /* VKLoginViewController.m in Sources */,
 				2B41FC601E02D3F70013AC86 /* AudioListCustomCell.m in Sources */,
 				2BBE2BE21F1C8C3E00172010 /* PhotoEffectsViewController.m in Sources */,
+				B554C0F3239E7E5A0092920D /* CustomMenuItemView.m in Sources */,
 				2B41FC081E02D3F60013AC86 /* StringHighlighter.m in Sources */,
 				2B41FC9D1E02D3F70013AC86 /* SearchCustomTableView.m in Sources */,
 				2B41FCC21E02D3F70013AC86 /* YoutubeSubscriptions.m in Sources */,
