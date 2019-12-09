@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CustomMenuItemView : NSView
+@interface CustomMenuItemView : NSView{
+    NSColor *backgroundColor;
+}
 @property (weak) IBOutlet NSTextField *nameField;
 
 @property (weak) IBOutlet NSImageView *photo;
