@@ -76,31 +76,30 @@
 
 - (void)getUsersInfo:(nonnull id)ids filters:(nullable id)filters  :(OnGetUsersInfoComplete)completion {
     
-    
     [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/users.get?user_ids=%@&fields=city,domain,photo_50,photo_100,photo_200_orig,photo_200,status,last_seen,bdate,online,country,sex,about,books,contacts,site,music,schools,education,quotes,blacklisted,verified,blacklisted_by_me,relation&v=%@&access_token=%@", [ids componentsJoinedByString:@","], version, token]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *userGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        
+        NSLog(@"%@", userGetResponse);
         if(data){
             if(userGetResponse[@"error"]){
                 NSLog(@"%@:%@", userGetResponse[@"error"][@"error_code"], userGetResponse[@"error_msg"]);
             }
             else{
-                
+
                 for(NSDictionary *a in userGetResponse[@"response"]){
-                    
+
                     NSMutableDictionary *object = [self unpackUsersInfo:a];
-                    
-                   
+
+
                     if(filters == nil){
-                        
+
                         [usersListData addObject:object];
                     }
                     else{
     //
                         if([filters[@"online"] intValue]==1 && [filters[@"offline"] intValue] ==1 && [filters[@"active"] intValue] == 1){
-                          
+
                             if (!a[@"deactivated"]){
-                               
+
                                 if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
                                     if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
                                         if(filters[@"blacklist"]){
@@ -153,7 +152,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                                 else if([filters[@"women"] intValue]==0 && [filters[@"men"] intValue]==0){
                                     if([a[@"sex"] intValue]==0){
@@ -173,8 +172,8 @@
                             }
                         }
                         else if([filters[@"online"] intValue]==0 && [filters[@"offline"] intValue] ==1 && [filters[@"active"] intValue] == 1 ) {
-                            
-                            
+
+
                             if (![online  isEqual: @"1"]){
                                 if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1 ){
                                     if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
@@ -219,7 +218,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                                 else if([filters[@"women"] intValue]==0 && [filters[@"men"] intValue]==0){
                                     if([a[@"sex"] intValue]==0){
@@ -235,12 +234,12 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                             }
                         }
                         else if([filters[@"online"] intValue]==1 && [filters[@"offline"] intValue] ==0 && [filters[@"active"] intValue] == 1) {
-                            
+
                             if ([online  isEqual: @"1"]){
                                 if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
                                     if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
@@ -286,7 +285,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                                 else if([filters[@"women"] intValue]==0 && [filters[@"men"] intValue]==0){
                                     if([a[@"sex"] intValue]==0){
@@ -302,12 +301,12 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                             }
                         }
                         else if([filters[@"online"] intValue]==0 && [filters[@"offline"] intValue] == 1 && [filters[@"active"] intValue] == 0) {
-                            
+
                             if (a[@"deactivated"]){
                                 if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1){
                                     if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
@@ -353,7 +352,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                                 else if([filters[@"women"] intValue]==0 && [filters[@"men"] intValue]==0){
                                     if([a[@"sex"] intValue]==0){
@@ -369,13 +368,13 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
-                                
+
                             }
                         }
                         else if([filters[@"online"] intValue]==1 && [filters[@"offline"] intValue] == 1 && [filters[@"active"] intValue] == 0) {
-                            
+
                             if (a[@"deactivated"] && ([online intValue]==1 || [online intValue]==0)){
                                 if([filters[@"women"] intValue]==1 && [filters[@"men"] intValue]==1 ){
                                     if([a[@"sex"] intValue]==1 || [a[@"sex"] intValue] == 2 || ![a[@"sex"] intValue]){
@@ -421,7 +420,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                                 else if([filters[@"women"] intValue]==0 && [filters[@"men"] intValue]==0){
                                     if([a[@"sex"] intValue]==0){
@@ -447,6 +446,7 @@
         }
     }]resume];
 }
+
 - (void)getLikedPhotoUsersIDs:(nonnull id)data :(OnLikedListComplete)completion {
     [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/likes.getList?owner_id=%@&type=photo&item_id=%@&count=1000&access_token=%@&v=%@", data[@"owner"], data[@"id"], token, version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
@@ -475,11 +475,13 @@
     __block void (^getBannedUsersBlock)();
     getBannedUsersBlock = ^void(){
         [[session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/account.getBanned?count=200&offset=%lu&v=%@&access_token=%@", offsetBannedUsersIDs, version, token]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSDictionary *getBannedResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//            NSLog(@"%@", getBannedResponse);
             if(data){
                 NSDictionary *getBannedResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 if(getBannedResponse[@"error"]){
                     NSLog(@"%@:%@", getBannedResponse[@"error"][@"error_code"], getBannedResponse[@"error"][@"error_msg"]);
-                    
+
                     dispatch_after(10, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         //                        if (!loading)
                         NSLog(@"Trying send get banned users info request  again.");
@@ -488,11 +490,11 @@
                 }else{
                     totalCountBanned = [getBannedResponse[@"response"][@"count"] intValue];
                     NSLog(@"TOTAL BANNED %li",totalCountBanned);
-                    
+
                     NSMutableArray *userIDs = [[NSMutableArray alloc]init];
                     for(NSDictionary *i in getBannedResponse[@"response"][@"items"]){
-                        [userIDs addObject:i[@"id"]];
-                        
+                        [userIDs addObject:i];
+
                     }
                     completion(userIDs);
                 }
@@ -514,7 +516,8 @@
         [self getUsersInfo:bannedUsers filters:filters :^(NSMutableArray * _Nonnull usersFullObjectsInfo) {
             completion(usersFullObjectsInfo, offsetCounter, totalCountBanned, [usersListData count], offsetLoadBanlist);
         }];
-    
+//        NSLog(@"Banned users :%@", bannedUsers);
+
     }];
 }
 - (void)getFavoriteUsersIDs:(NSInteger)offsetFavoriteUsersIDs :(OnGetFavoriteUsersIDsComplete)completion{

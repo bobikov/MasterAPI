@@ -26,12 +26,14 @@
     stringHighlighter = [[StringHighlighter alloc]init];
     self.view.wantsLayer=YES;
     self.view.layer.backgroundColor = [[NSColor whiteColor] CGColor];
+    
     productNameLabel.textColor=[NSColor blackColor];
     copyrightsLabel.textColor=[NSColor blackColor];
     bundleVersionLabel.textColor=[NSColor blackColor];
     productNameLabel.stringValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     versionLabel.textColor=[NSColor blackColor];
     nameLabel.textColor=[NSColor blackColor];
+    
     copyrightsLabel.allowsEditingTextAttributes=YES;
     copyrightsLabel.selectable=YES;
     bundleVersionLabel.stringValue =  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
