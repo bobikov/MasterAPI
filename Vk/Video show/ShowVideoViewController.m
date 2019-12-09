@@ -60,7 +60,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
         //         albumsLabel.stringValue = @"Albums";
 //    }
     
-    [self loadGroupsPopup];
+    
 //    [self loadMembershipGroups];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeVideoAlbum:) name:@"removeVideoAlbum" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createVideoAlbumReload:) name:@"createVideoAlbumReload" object:nil];
@@ -91,10 +91,10 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     if(_loadFromFullUserInfo || _loadFromWallPost){
         self.view.window.titleVisibility=NSWindowTitleHidden;
         self.view.window.titlebarAppearsTransparent = YES;
-        self.view.window.styleMask|=NSFullSizeContentViewWindowMask;
+        self.view.window.styleMask|=NSWindowStyleMaskFullSizeContentView;
         self.view.window.movableByWindowBackground=NO;
     }
-
+    [self loadGroupsPopup];
 }
 - (void)viewDidScroll:(NSNotification *)notification{
     if([notification.object isEqual:videoAlbumsClipView]){
@@ -194,7 +194,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     [self loadAlbums:NO :nil];
 }
 - (void)loadGroupsPopup{
-    __block NSMenu *menu1 = [[NSMenu alloc]init];
+    __block NSMenu *menu1 = [[NSMenu alloc]initWithTitle:@"groups menu"];
     __block  NSMenuItem *menuItem;
     [groupsPopupList removeAllItems];
     [groupsPopupData addObject:_app.person];
@@ -204,30 +204,39 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
     viewControllerItem.nameField.stringValue=@"Personal";
     [menuItem setView:[viewControllerItem view]];
     [menu1 addItem:menuItem];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[_app.session dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.vk.com/method/groups.get?user_id=%@&filter=admin&extended=1&access_token=%@&v=%@", _app.person, _app.token, _app.version]]completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 if(data){
                     NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSLog(@"%@", groupsGetResponse);
                     for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
                         [groupsPopupData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-                        viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
-                        [viewControllerItem loadView];
-                        menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", i[@"name"]] action:nil keyEquivalent:@""];
-                        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
-                        image.size=NSMakeSize(30,30);
-                        [menuItem setImage:image];
                         dispatch_async(dispatch_get_main_queue(),^{
+                            viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
+                            [viewControllerItem loadView];
+                            viewControllerItem.view.appearance=[NSAppearance currentAppearance];
+                            
+                            menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@", i[@"name"]] action:nil keyEquivalent:@""];
+                            
+                            
+                            NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                            image.size=NSMakeSize(30,30);
+                    
+                            
+                            [menuItem setImage:image];
                             viewControllerItem.photo.wantsLayer=YES;
                             viewControllerItem.photo.layer.masksToBounds=YES;
                             viewControllerItem.photo.layer.cornerRadius=39/2;
+                            
                             [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
                             viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
                             [viewControllerItem.photo setImage:image];
+                            [menuItem setView:[viewControllerItem view]];
+                            [menu1 addItem:menuItem];
+
                         });
-                    
-                        [menuItem setView:[viewControllerItem view]];
-                        [menu1 addItem:menuItem];
+                        
+
                         
                     }
                 }
@@ -235,8 +244,7 @@ static NSString *StringFromCollectionViewIndexPath(NSIndexPath *indexPath);
                     [groupsPopupList setMenu:menu1];
                 });
             }]resume];
-        });
-    });
+//    });
 
 }
 - (void)loadFriends{

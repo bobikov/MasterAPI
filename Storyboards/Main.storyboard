@@ -2094,7 +2094,7 @@ Gw
                                                                                 <rect key="frame" x="216" y="0.0" width="18" height="13"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" id="hj5-KI-QXI">
-                                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                                    <font key="font" metaFont="label" size="9"/>
                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 </textFieldCell>
@@ -3863,12 +3863,12 @@ Gw
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZNM-N0-ytZ">
                                 <rect key="frame" x="389" y="565" width="129" height="26"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="lhD-Wc-lJr">
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LOe-F2-7RD" id="lhD-Wc-lJr">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <menu key="menu" id="aDm-Nm-R9v">
                                         <items>
-                                            <menuItem title="Item 1" id="LOe-F2-7RD"/>
+                                            <menuItem title="Item 1" state="on" id="LOe-F2-7RD"/>
                                             <menuItem title="Item 2" id="6Y6-7p-oqQ"/>
                                             <menuItem title="Item 3" id="AXc-4V-kH6"/>
                                         </items>
@@ -3946,7 +3946,7 @@ Gw
                 </viewController>
                 <customObject id="KwQ-of-XAE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="944" y="8337"/>
+            <point key="canvasLocation" x="1106" y="8313"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="k05-5N-6qo">
@@ -5457,7 +5457,7 @@ Gw
                                                                     <rect key="frame" x="216" y="0.0" width="18" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" id="ElJ-II-qxK">
-                                                                        <font key="font" metaFont="miniSystem"/>
+                                                                        <font key="font" metaFont="label" size="9"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>

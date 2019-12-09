@@ -34,7 +34,7 @@
 }
 - (void)loadGroupsByAdminPopup{
     __block NSMenuItem *menuItem;
-    __block NSMenu *menu1 = [[NSMenu alloc]init];
+    __block NSMenu *menu1 = [[NSMenu alloc]initWithTitle:@"groups menu"];
     [userGroupsByAdminPopup removeAllItems];
     [userGroupsByAdminData addObject:_app.person];
     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
@@ -48,21 +48,31 @@
             NSDictionary *groupsGetResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             for(NSDictionary *i in groupsGetResponse[@"response"][@"items"]){
                 [userGroupsByAdminData addObject:[NSString stringWithFormat:@"-%@",i[@"id"]]];
-              
+               
                 dispatch_async(dispatch_get_main_queue(),^{
                     viewControllerItem = [[ViewControllerMenuItem alloc]initWithNibName:@"ViewControllerMenuItem" bundle:nil];
                     [viewControllerItem loadView];
+//                    viewControllerItem.view.appearance=[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
+                    
                     menuItem = [[NSMenuItem alloc]initWithTitle:[NSString stringWithFormat:@"%@",i[@"name"]] action:nil keyEquivalent:@""];
+                    
+                    [menuItem.view setFrame:menuItem.view.frame];
+                    
+              
                     NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:i[@"photo_50"]]];
+                    image.size=NSMakeSize(30,30);
+                    
+                    [menuItem setImage:image];
                     viewControllerItem.photo.wantsLayer=YES;
                     viewControllerItem.photo.layer.masksToBounds=YES;
                     viewControllerItem.photo.layer.cornerRadius=39/2;
                     [viewControllerItem.photo setImageScaling:NSImageScaleProportionallyUpOrDown];
-                   
-                    image.size=NSMakeSize(30,30);
-                    [menuItem setImage:image];
+
+                  
+                    
                     viewControllerItem.nameField.stringValue=[NSString stringWithFormat:@"%@", i[@"name"]];
                     [viewControllerItem.photo setImage:image];
+                    [menuItem setView:[viewControllerItem view]];
                     [menu1 addItem:menuItem];
                  });
             }
