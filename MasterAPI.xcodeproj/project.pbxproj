@@ -527,7 +527,7 @@
 		B5548E2A2230434300C03BEE /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */; };
 		B554C0F7239EA99D0092920D /* CustomMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = B554C0F6239EA99D0092920D /* CustomMenuItemView.m */; };
 		B58368A0239C04DA00BBC5D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B41F9DC1E02D3F50013AC86 /* Main.storyboard */; };
-		B5D0B4E821D267D600C2E654 /* Pe-icon-7-stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */; };
+		B5B782DC239ECA4C00DCEB3F /* Pe-icon-7-stroke.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5B782DB239ECA4B00DCEB3F /* Pe-icon-7-stroke.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1281,11 +1281,11 @@
 		2BFB992F1F1906AD00544B75 /* VKLikesCellTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKLikesCellTableView.h; sourceTree = "<group>"; };
 		2BFB99301F1906AD00544B75 /* VKLikesCellTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKLikesCellTableView.m; sourceTree = "<group>"; };
 		65C15D6831B4A0BA735718C6 /* Pods_MasterAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MasterAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pe-icon-7-stroke.ttf"; sourceTree = "<group>"; };
 		B5548E232230209400C03BEE /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		B554C0F5239EA99D0092920D /* CustomMenuItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomMenuItemView.h; sourceTree = "<group>"; };
 		B554C0F6239EA99D0092920D /* CustomMenuItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomMenuItemView.m; sourceTree = "<group>"; };
 		B563632A239C2C65003E7ED4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B5B782DB239ECA4B00DCEB3F /* Pe-icon-7-stroke.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pe-icon-7-stroke.ttf"; sourceTree = "<group>"; };
 		B5C135B6223004680087C064 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		B5C135B8223004720087C064 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		B5C135C1223016410087C064 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
@@ -1548,6 +1548,7 @@
 		2B41FA621E02D3F50013AC86 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				B5B782DB239ECA4B00DCEB3F /* Pe-icon-7-stroke.ttf */,
 				B50FB1AE21D25F3000714875 /* superfiles */,
 				2B41FA631E02D3F50013AC86 /* css */,
 				2B41FA651E02D3F50013AC86 /* images */,
@@ -2528,7 +2529,6 @@
 		B50FB1AE21D25F3000714875 /* superfiles */ = {
 			isa = PBXGroup;
 			children = (
-				B50FB1AF21D2617600714875 /* Pe-icon-7-stroke.ttf */,
 			);
 			name = superfiles;
 			path = ..;
@@ -2688,7 +2688,7 @@
 				2B66CE0E1F0FB38D00C87D63 /* delete-user.svg in Resources */,
 				2B66CE0F1F0FB38D00C87D63 /* diamond.svg in Resources */,
 				2B41FC991E02D3F70013AC86 /* ShowPhotoViewController.xib in Resources */,
-				B5D0B4E821D267D600C2E654 /* Pe-icon-7-stroke.ttf in Resources */,
+				B5B782DC239ECA4C00DCEB3F /* Pe-icon-7-stroke.ttf in Resources */,
 				2B66CE941F0FB38E00C87D63 /* usb.svg in Resources */,
 				2B66CE311F0FB38D00C87D63 /* hourglass.svg in Resources */,
 				2B66CE081F0FB38D00C87D63 /* copy-file.svg in Resources */,

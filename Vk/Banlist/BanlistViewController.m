@@ -47,7 +47,8 @@
     banList.enclosingScrollView.wantsLayer = YES;
     banList.enclosingScrollView.layer = layer;
     [self setFlatButtonStyle];
-//    banlistStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+    banlistStatBut.font=[NSFont fontWithName:@"Pe-icon-7-stroke" size:22];
+    
 //    button = [[SYFlatButton alloc]init];
     NSString *s = @"\U0000E64B";
     banlistStatBut.title = s;
