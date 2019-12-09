@@ -342,15 +342,23 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     uploadProgress.hidden=YES;
                     NSLog(@"All the stories have uploaded");
+                    alertMessage = @"All the stories have uploaded";
                 });
                 
             }else{
                 [self startUpload];
             }
-            NSLog(@"Story is uploaded successfully");
+            
+            NSLog(@"Story has uploaded successfully");
+            alertMessage = @"Story has uploaded successfully";
         }else{
+            alertMessage = @"Something went wrong, try again!";
+            
             [backgroundSession invalidateAndCancel];
         }
+        NSAlert *alertDialog = [[NSAlert alloc] init];
+        alertDialog.informativeText=alertMessage;
+        [alertDialog runModal];
     }
 }
 

@@ -33,7 +33,7 @@ typedef enum {
     CALayer *cameraLayer;
     NSURLSessionConfiguration *backgroundConfigurationObject;
     BOOL fileSizeLimit;
-    
+    NSString *alertMessage;
     AVAssetWriterInputPixelBufferAdaptor *pixelBufferAdaptor ;
     AVAssetWriterInput *assetVideoWriterInput;
     AVAssetWriterInput *assetAudioWriterInput;
